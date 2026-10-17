@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>eUSRacing | Visor 3D de Arquitectura Eléctrica HV & LV - MotoStudent</title>
+  <style>
+    :root {
+      --bg-dark: #0b0f17;
+      --panel-bg: rgba(15, 23, 42, 0.90);
+      --border-color: rgba(255, 255, 255, 0.14);
+      --hv-color: #ff5500;
+      --hv-glow: rgba(255, 85, 0, 0.38);
+      --lv-color: #00d2ff;
+      --lv-glow: rgba(0, 210, 255, 0.38);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    #canvas-container {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    /* Barra Superior */
+    .topbar {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
+      padding: 10px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+      max-width: 96vw;
+      overflow-x: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-right: 12px;
+      border-right: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #ff5500, #d97706);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 5px 10px;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .brand-sub {
+      font-size: 0.70rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 8px 13px;
+      border-radius: 9px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .btn.active-all {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: #fff;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+    }
+
+    .btn.active-hv {
+      background: rgba(255, 85, 0, 0.24);
+      border-color: var(--hv-color);
+      color: #ff9d66;
+      box-shadow: 0 0 15px var(--hv-glow);
+    }
+
+    .btn.active-lv {
+      background: rgba(0, 210, 255, 0.22);
+      border-color: var(--lv-color);
+      color: #7ce8ff;
+      box-shadow: 0 0 15px var(--lv-glow);
+    }
+
+    /* Panel Izquierdo: Lista de Componentes y Controles */
+    .sidebar-left {
+      position: absolute;
+      top: 78px;
+      left: 14px;
+      bottom: 58px;
+      width: 300px;
+      z-index: 15;
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      transition: transform 0.25s ease;
+    }
+
+    .panel-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .comp-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .sys-section-title {
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sys-hv { color: #ff7b33; }
+    .sys-lv { color: #38bdf8; }
+
+    .comp-item {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      margin-bottom: 6px;
+    }
+
+    .comp-item:hover {
+      background: rgba(255, 255, 255, 0.09);
+      transform: translateX(3px);
+    }
+
+    .comp-item.selected-hv {
+      background: rgba(255, 85, 0, 0.18);
+      border-color: var(--hv-color);
+      box-shadow: 0 0 12px var(--hv-glow);
+    }
+
+    .comp-item.selected-lv {
+      background: rgba(0, 210, 255, 0.18);
+      border-color: var(--lv-color);
+      box-shadow: 0 0 12px var(--lv-glow);
+    }
+
+    .comp-name {
+      font-size: 0.86rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .comp-loc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .controls-box {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border-color);
+      background: rgba(0, 0, 0, 0.28);
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .slider-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .slider-row input[type="range"] {
+      width: 100%;
+      accent-color: var(--hv-color);
+      cursor: pointer;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.77rem;
+      color: var(--text-main);
+    }
+
+    /* Panel Derecho: Ficha Técnica y Conexionado */
+    .sidebar-right {
+      position: absolute;
+      top: 78px;
+      right: 14px;
+      bottom: 58px;
+      width: 350px;
+      z-index: 15;
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      transition: transform 0.25s ease;
+    }
+
+    .inspector-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .badge-system {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.71rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .badge-hv {
+      background: rgba(255, 85, 0, 0.2);
+      color: #ff8c42;
+      border: 1px solid var(--hv-color);
+    }
+
+    .badge-lv {
+      background: rgba(0, 210, 255, 0.2);
+      color: #5eead4;
+      border: 1px solid var(--lv-color);
+    }
+
+    .insp-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .insp-subtitle {
+      font-size: 0.81rem;
+      color: var(--text-muted);
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .info-card h4 {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+    }
+
+    .spec-box {
+      background: rgba(0, 0, 0, 0.28);
+      padding: 7px 8px;
+      border-radius: 7px;
+    }
+
+    .spec-label {
+      font-size: 0.67rem;
+      color: var(--text-muted);
+    }
+
+    .spec-val {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 2px;
+    }
+
+    .conn-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 0.80rem;
+      line-height: 1.42;
+    }
+
+    .conn-list li {
+      padding-left: 15px;
+      position: relative;
+    }
+
+    .conn-list li::before {
+      content: "⚡";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 0.70rem;
+    }
+
+    /* Etiquetas Flotantes 3D */
+    #labels-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .floating-label {
+      position: absolute;
+      transform: translate(-50%, -100%);
+      background: rgba(12, 18, 30, 0.88);
+      color: #fff;
+      padding: 4px 9px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      pointer-events: auto;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .floating-label:hover {
+      transform: translate(-50%, -108%) scale(1.06);
+    }
+
+    .floating-label.hv-label {
+      border-left: 3px solid var(--hv-color);
+    }
+
+    .floating-label.lv-label {
+      border-left: 3px solid var(--lv-color);
+    }
+
+    .floating-label.active-label {
+      background: #ff5500;
+      color: #fff;
+      border-color: #fff;
+      font-weight: 800;
+      box-shadow: 0 0 15px rgba(255, 85, 0, 0.85);
+      z-index: 20;
+    }
+
+    /* Leyenda Inferior */
+    .bottom-hud {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 15;
+      background: var(--panel-bg);
+      backdrop-filter: blur(10px);
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      gap: 16px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      max-width: 96vw;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    /* Botones Móviles para Ocultar/Mostrar Paneles en Pantallas Pequeñas */
+    .mobile-toggles {
+      display: none;
+      position: absolute;
+      bottom: 56px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 25;
+      gap: 10px;
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar-left {
+        width: 270px;
+        transform: translateX(-110%);
+      }
+      .sidebar-left.open {
+        transform: translateX(0);
+      }
+      .sidebar-right {
+        width: 310px;
+        transform: translateX(110%);
+      }
+      .sidebar-right.open {
+        transform: translateX(0);
+      }
+      .mobile-toggles {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Lienzo 3D WebGL -->
+  <div id="canvas-container"></div>
+  <!-- Etiquetas 2D sincronizadas con coordenadas 3D -->
+  <div id="labels-container"></div>
+
+  <!-- Barra Superior de Filtros -->
+  <div class="topbar">
+    <div class="brand">
+      <span class="brand-badge">eUSRacing</span>
+      <div>
+        <div class="brand-title">Arquitectura Eléctrica 3D</div>
+        <div class="brand-sub">MotoStudent Electric · Dpto. Electrónica</div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <button id="btn-all" class="btn active-all" onclick="setSystemFilter('ALL')">
+        🏍️ Todo el Sistema
+      </button>
+      <button id="btn-hv" class="btn" onclick="setSystemFilter('HV')">
+        ⚡ Alta Tensión (HV)
+      </button>
+      <button id="btn-lv" class="btn" onclick="setSystemFilter('LV')">
+        🔌 Baja Tensión (LV)
+      </button>
+      <button id="btn-cam" class="btn" onclick="resetCameraMatchCAD()">
+        📷 Vista CAD Original
+      </button>
+    </div>
+  </div>
+
+  <!-- Botones Flotantes para Móvil / Tablet -->
+  <div class="mobile-toggles">
+    <button class="btn" onclick="toggleMobilePanel('left')">📋 Lista / Controles</button>
+    <button class="btn" onclick="toggleMobilePanel('right')">🔍 Ficha Técnica</button>
+  </div>
+
+  <!-- Panel Izquierdo: Árbol de Componentes y Controles de Vista -->
+  <div class="sidebar-left" id="panel-left">
+    <div class="panel-header">
+      <span>Componentes del Prototipo</span>
+      <span id="comp-count">7 nodos</span>
+    </div>
+
+    <div class="comp-list">
+      <div>
+        <div class="sys-section-title sys-hv">⚡ Sistema Alta Tensión (HV)</div>
+        <div class="comp-item" id="item-battery" onclick="selectComponent('battery')">
+          <div class="comp-name"><span>Pack Baterías 30S2P (3x Módulos)</span></div>
+          <div class="comp-loc">📍 Interior Caja de Batería (Centro)</div>
+        </div>
+        <div class="comp-item" id="item-fuse" onclick="selectComponent('fuse')">
+          <div class="comp-name"><span>Fusible Principal SIBA 500A</span></div>
+          <div class="comp-loc">📍 Interior Caja Batería (Zona Trasera)</div>
+        </div>
+        <div class="comp-item" id="item-contactor" onclick="selectComponent('contactor')">
+          <div class="comp-name"><span>Contactor Kilovac 500A</span></div>
+          <div class="comp-loc">📍 Interior Caja Batería (Junto a Fusible)</div>
+        </div>
+        <div class="comp-item" id="item-bms" onclick="selectComponent('bms')">
+          <div class="comp-name"><span>BMS Orion 2</span></div>
+          <div class="comp-loc">📍 Cajón Delantero (Frente a Caja Batería)</div>
+        </div>
+        <div class="comp-item" id="item-inverter" onclick="selectComponent('inverter')">
+          <div class="comp-name"><span>Inversor HyperDrive X1</span></div>
+          <div class="comp-loc">📍 Bajo la Caja de la Batería</div>
+        </div>
+        <div class="comp-item" id="item-motor" onclick="selectComponent('motor')">
+          <div class="comp-name"><span>Motor Eléctrico de Tracción</span></div>
+          <div class="comp-loc">📍 Cuna Inferior Trasera del Chasis</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sys-section-title sys-lv">🔌 Sistema Baja Tensión (LV)</div>
+        <div class="comp-item" id="item-lvbox" onclick="selectComponent('lvbox')">
+          <div class="comp-name"><span>Caja de PCBs (Baja Tensión)</span></div>
+          <div class="comp-loc">📍 Subchasis Trasero (Zona Colín)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-box">
+      <div class="slider-row">
+        <div style="display:flex;justify-content:space-between;">
+          <span>Opacidad Chasis y Caja Batería</span>
+          <span id="val-opacity">35%</span>
+        </div>
+        <input type="range" id="slider-opacity" min="5" max="100" value="35" oninput="updateChassisOpacity(this.value)" />
+      </div>
+      <div class="slider-row">
+        <div style="display:flex;justify-content:space-between;">
+          <span>Vista Explosionada (Inspección Interna)</span>
+          <span id="val-explode">0%</span>
+        </div>
+        <input type="range" id="slider-explode" min="0" max="100" value="0" oninput="updateExplodeView(this.value)" />
+      </div>
+      <div class="toggle-row">
+        <span>Mostrar Cableado y Flujo HV</span>
+        <input type="checkbox" id="chk-wires" checked onchange="toggleWires(this.checked)" />
+      </div>
+      <div class="toggle-row">
+        <span>Mostrar Etiquetas Flotantes 3D</span>
+        <input type="checkbox" id="chk-labels" checked onchange="toggleLabels(this.checked)" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel Derecho: Especificaciones y Esquema de Conexión -->
+  <div class="sidebar-right" id="panel-right">
+    <div class="panel-header">
+      <span>Ficha Técnica y Conexionado</span>
+      <button class="btn" style="padding:3px 8px;font-size:0.7rem;" onclick="clearSelection()">Ver Todo</button>
+    </div>
+    <div class="inspector-content" id="inspector"></div>
+  </div>
+
+  <!-- Leyenda Inferior -->
+  <div class="bottom-hud">
+    <div class="legend-item"><span class="dot" style="background:#ff3b00;"></span> Cable HV+ / Serie (35 mm²)</div>
+    <div class="legend-item"><span class="dot" style="background:#334155;border:1px solid #94a3b8;"></span> Cable HV- (35 mm²)</div>
+    <div class="legend-item"><span class="dot" style="background:#f59e0b;"></span> Fases AC Motor (U, V, W)</div>
+    <div class="legend-item"><span class="dot" style="background:#10b981;"></span> Sensado / Control BMS (AWG22#)</div>
+    <div class="legend-item"><span class="dot" style="background:#00d2ff;"></span> Baja Tensión (Sin cablear)</div>
+  </div>
+
+  <!-- Librerías Three.js y OrbitControls vía CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <script>
+    // ============================================================================
+    // 1. BASE DE DATOS TÉCNICA DE COMPONENTES (eUSRacing MotoStudent)
+    // ============================================================================
+    const COMPONENTS_DB = {
+      battery: {
+        id: 'battery',
+        system: 'HV',
+        name: 'Pack de Baterías 30S2P (3 Módulos Grepow)',
+        subtitle: 'Ref. Módulo: GRP86A0260-37V-63200mAh (10S2P por módulo)',
+        location: 'Interior de la caja de la batería (sección central/delantera inclinada dentro del chasis de doble viga).',
+        specs: [
+          { label: 'Configuración Total', val: '30S2P (3x 10S2P en serie)' },
+          { label: 'Tensión Pack (Nom / Máx)', val: '111.0 V / 126.0 V DC' },
+          { label: 'Tensión Corte Pack', val: '82.5 V (27.5 V/mód.)' },
+          { label: 'Capacidad Nominal', val: '63.2 Ah (63200 mAh)' },
+          { label: 'Descarga Cont. / Pico', val: '3C (~190 A) / 500 A (≤15s)' },
+          { label: 'Celda Pouch Unitaria', val: '3.7 V · 31600 mAh (<1 mΩ)' },
+          { label: 'Dimensión por Módulo', val: '280 × 101.5 × 186 mm' },
+          { label: 'Peso Módulo / Total', val: '10.35 kg / ~31.05 kg' }
+        ],
+        connections: [
+          '<strong>Serie entre los 3 módulos (HV):</strong> El terminal positivo del Módulo 1 se conecta al negativo del Módulo 2, y el positivo del Módulo 2 al negativo del Módulo 3 mediante cable de descarga de <strong>35 mm²</strong> (salida de 150 mm).',
+          '<strong>Salida Positiva Total (HV+):</strong> Sale del polo positivo del Módulo 3 directamente hacia un extremo del <strong>Fusible SIBA 500A</strong> dentro de la caja de baterías.',
+          '<strong>Salida Negativa Total (HV-):</strong> Sale del polo negativo del Módulo 1 mediante cable de <strong>35 mm²</strong> hacia el terminal negativo DC (B-) del <strong>Inversor HyperDrive X1</strong>.',
+          '<strong>Mazos de Balanceo y Sensado:</strong> Cada módulo dispone de 1 conector inverso <strong>JST-XHR-11P (AWG22#, 85 mm)</strong> que va guiado hacia el cajón delantero del <strong>BMS Orion 2</strong>.'
+        ],
+        notes: 'Encapsulado con placas de aluminio y PVC negro. Rango térmico operativo: 10°C a 55°C en carga (máx. 0.5C) y -40°C a 60°C en descarga.'
+      },
+      fuse: {
+        id: 'fuse',
+        system: 'HV',
+        name: 'Fusible Principal HV SIBA 500A',
+        subtitle: 'Ref. SIBA 90 058 05 · Cuerpo cerámico con mirilla central',
+        location: 'Interior de la caja de la batería, en el compartimento superior trasero detrás del tercer módulo.',
+        specs: [
+          { label: 'Fabricante / Ref.', val: 'SIBA / 90 058 05' },
+          { label: 'Corriente Nominal', val: '500 A' },
+          { label: 'Encapsulado', val: 'Cerámico con ventana visual' },
+          { label: 'Terminales', val: 'Horquilla ranurada (Bolt-down)' }
+        ],
+        connections: [
+          '<strong>Entrada (Terminal 1):</strong> Conectado mediante embarrado de cobre / cable de <strong>35 mm²</strong> a la salida positiva principal (<strong>HV+</strong>) del tercer módulo de la batería.',
+          '<strong>Salida (Terminal 2):</strong> Conectado en serie directa al borne de potencia de entrada del <strong>Contactor Kilovac 500A</strong>.'
+        ],
+        notes: 'Protege el pack 30S2P ante sobrecorrientes severas o cortocircuitos superiores al pico admisible de 500 A (≤15 s).'
+      },
+      contactor: {
+        id: 'contactor',
+        system: 'HV',
+        name: 'Contactor Principal Kilovac 500A',
+        subtitle: 'Relé hermético de Alta Tensión de 500 A continuos',
+        location: 'Interior de la caja de la batería, en la esquina superior trasera junto al fusible SIBA.',
+        specs: [
+          { label: 'Modelo', val: 'Kilovac Serie 500A' },
+          { label: 'Corriente Soportada', val: '500 A' },
+          { label: 'Posición en Circuito', val: 'Línea Positiva Principal (HV+)' },
+          { label: 'Control de Bobina', val: 'Gobernado por BMS / Safety Circuit' }
+        ],
+        connections: [
+          '<strong>Borne de Potencia A1 (Entrada):</strong> Viene directamente desde la salida del <strong>Fusible SIBA 500A</strong>.',
+          '<strong>Borne de Potencia A2 (Salida):</strong> Sale de la caja de la batería hacia abajo mediante cable apantallado de alta tensión hasta la entrada positiva (B+) del <strong>Inversor HyperDrive X1</strong>.',
+          '<strong>Terminales de Bobina (Control):</strong> Conectados al circuito de seguridad comandado por el <strong>BMS Orion 2</strong> para abrir el circuito instantáneamente en caso de fallo.'
+        ],
+        notes: 'Garantiza el aislamiento galvánico de la línea HV+ fuera de la caja de baterías cuando la motocicleta está apagada o ante una apertura del lazo de seguridad.'
+      },
+      bms: {
+        id: 'bms',
+        system: 'HV',
+        name: 'BMS Orion 2 (Battery Management System)',
+        subtitle: 'Sistema de gestión y protección de celdas 30S',
+        location: 'Alojado en el cajón específico situado justo delante de la caja de la batería, tras la pipa de dirección.',
+        specs: [
+          { label: 'Modelo', val: 'Ewert Energy Orion BMS 2' },
+          { label: 'Series Monitorizadas', val: '30 Series (3 módulos × 10S)' },
+          { label: 'Conectores Módulos', val: '3× JST-XHR-11P (AWG22#)' },
+          { label: 'Límites de Tensión', val: '2.75 V mín. / 4.20 V máx. por celda' }
+        ],
+        connections: [
+          '<strong>Entradas de Sensado de Celdas:</strong> Recibe los 3 mazos de cables <strong>AWG22# (conector JST-XHR-11P inverso)</strong> procedentes de cada uno de los 3 módulos Grepow desde el interior de la caja de baterías.',
+          '<strong>Línea de Seguridad / Contactor:</strong> Envía la señal de habilitación hacia la bobina del <strong>Contactor Kilovac 500A</strong>.',
+          '<strong>Comunicación CAN Bus:</strong> Interfaz de datos con el <strong>Inversor HyperDrive X1</strong> para limitar corriente de descarga/regeneración según temperatura y estado de carga (SoC).'
+        ],
+        notes: 'Su ubicación en el cajón frontal permite aislar la electrónica de supervisión del calor de potencia y facilita el acceso para diagnóstico por puerto CAN.'
+      },
+      inverter: {
+        id: 'inverter',
+        system: 'HV',
+        name: 'Inversor HyperDrive X1',
+        subtitle: 'Controlador de motor trifásico de alta densidad de potencia',
+        location: 'Montado en la parte inferior externa de la caja de la batería (delante del motor y detrás de la rueda delantera).',
+        specs: [
+          { label: 'Modelo', val: 'HyperDrive X1' },
+          { label: 'Tensión DC Trabajo', val: '82.5 V – 126.0 V DC (Pack 30S)' },
+          { label: 'Salida a Motor', val: 'Trifásica AC (Fases U, V, W)' },
+          { label: 'Refrigeración', val: 'Líquida (racores inferiores)' }
+        ],
+        connections: [
+          '<strong>Entrada DC Positiva (HV+):</strong> Conectada desde la salida del <strong>Contactor Kilovac 500A</strong>.',
+          '<strong>Entrada DC Negativa (HV-):</strong> Conectada directamente al terminal negativo principal del pack de baterías (<strong>35 mm²</strong>).',
+          '<strong>Salida Trifásica AC (U, V, W):</strong> Tres cables de potencia que recorren la cuna inferior hasta los tres bornes de fase del <strong>Motor Eléctrico</strong>.',
+          '<strong>Circuito Hidráulico:</strong> Racores y mangueras de refrigeración visibles en la parte inferior del chasis.'
+        ],
+        notes: 'Convierte la tensión continua de la batería 30S2P en corriente alterna trifásica modulada (PWM/FOC) para controlar el par y las RPM del motor.'
+      },
+      motor: {
+        id: 'motor',
+        system: 'HV',
+        name: 'Motor Eléctrico de Tracción',
+        subtitle: 'Propulsor eléctrico principal con transmisión por cadena',
+        location: 'Ubicado en la cuna inferior trasera del chasis, justo delante del eje del basculante.',
+        specs: [
+          { label: 'Ubicación Mecánica', val: 'Cuna central/trasera del chasis' },
+          { label: 'Alimentación', val: 'Trifásica AC (desde HyperDrive X1)' },
+          { label: 'Transmisión Secundaria', val: 'Piñón y cadena (lado izquierdo)' },
+          { label: 'Sensores', val: 'Encoder/Resolver + Temp. Estator' }
+        ],
+        connections: [
+          '<strong>Fases de Potencia (U, V, W):</strong> Conectadas mediante tres líneas de alta sección directamente a la etapa de salida del <strong>Inversor HyperDrive X1</strong>.',
+          '<strong>Feedback de Posición y Temperatura:</strong> Mazo de señal conectado al inversor HyperDrive X1 para el control vectorial (FOC).'
+        ],
+        notes: 'Posicionado cerca del pivote del basculante para minimizar la variación de tensión en la cadena durante la compresión del amortiguador trasero.'
+      },
+      lvbox: {
+        id: 'lvbox',
+        system: 'LV',
+        name: 'Caja de Electrónica de Baja Tensión (PCBs)',
+        subtitle: 'Envolvente trasera con placas de circuito impreso (PCBs)',
+        location: 'Montada sobre el subchasis trasero (en el hueco donde se aloja el colín, sobre el amortiguador).',
+        specs: [
+          { label: 'Sistema', val: 'Baja Tensión (LV)' },
+          { label: 'Contenido Interno', val: 'PCBs de control / adquisición' },
+          { label: 'Ubicación', val: 'Subchasis / Colín trasero' },
+          { label: 'Estado de Conexionado', val: 'Sin cablear (Fase actual)' }
+        ],
+        connections: [
+          '<strong>Estado actual del proyecto:</strong> Las PCBs están ubicadas físicamente dentro de su caja protectora en el colín pero <strong>no tienen mazos de cableado conectados por ahora</strong>.',
+          '<strong>Preparado para expansión:</strong> Cuando defináis el arnés de baja tensión (ECU/VCU, telemetría, IMU, DC/DC 12V), se puede activar directamente en este visor.'
+        ],
+        notes: 'Al hacer clic sobre esta caja o usar el deslizador de opacidad, puedes observar las tarjetas PCB verdes apiladas en su interior.'
+      }
+    };
+
+    // ============================================================================
+    // 2. INICIALIZACIÓN DE LA ESCENA THREE.JS
+    // ============================================================================
+    const container = document.getElementById('canvas-container');
+    const labelsContainer = document.getElementById('labels-container');
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0b0f17);
+    scene.fog = new THREE.FogExp2(0x0b0f17, 0.065);
+
+    const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 100);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.maxPolarAngle = Math.PI / 2 + 0.08;
+    controls.minDistance = 1.4;
+    controls.maxDistance = 10;
+
+    // Iluminación
+    const ambientLight = new THREE.AmbientLight(0xdbeafe, 0.65);
+    scene.add(ambientLight);
+
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.95);
+    dirLight1.position.set(-4, 7, 5);
+    dirLight1.castShadow = true;
+    scene.add(dirLight1);
+
+    const dirLight2 = new THREE.DirectionalLight(0x60a5fa, 0.45);
+    dirLight2.position.set(5, 3, -5);
+    scene.add(dirLight2);
+
+    // Rejilla de taller
+    const gridHelper = new THREE.GridHelper(12, 24, 0x334155, 0x1e293b);
+    gridHelper.position.y = 0;
+    scene.add(gridHelper);
+
+    const bikeGroup = new THREE.Group();
+    scene.add(bikeGroup);
+
+    const chassisMaterials = [];
+    const interactiveMeshes = [];
+    const componentGroups = {};
+    const basePositions = {};
+    const explodeVectors = {
+      battery: new THREE.Vector3(0, 0.32, 0),
+      fuse: new THREE.Vector3(0.08, 0.48, -0.18),
+      contactor: new THREE.Vector3(0.12, 0.48, 0.18),
+      bms: new THREE.Vector3(-0.26, 0.25, 0),
+      inverter: new THREE.Vector3(-0.18, -0.25, 0),
+      motor: new THREE.Vector3(0, -0.18, 0),
+      lvbox: new THREE.Vector3(0.22, 0.28, 0)
+    };
+
+    // ============================================================================
+    // 3. CONSTRUCCIÓN DE PARTE CICLO Y CHASIS (Geometría CAD eUSRacing)
+    // ============================================================================
+    const matAluminum = new THREE.MeshStandardMaterial({
+      color: 0xcbd5e1,
+      metalness: 0.55,
+      roughness: 0.35
+    });
+
+    const matGhostChassis = new THREE.MeshPhysicalMaterial({
+      color: 0x94a3b8,
+      metalness: 0.2,
+      roughness: 0.25,
+      transparent: true,
+      opacity: 0.35,
+      depthWrite: false
+    });
+    chassisMaterials.push(matGhostChassis);
+
+    const matTire = new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.85, metalness: 0.1 });
+    const matRim = new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.4, metalness: 0.7 });
+    const matDisc = new THREE.MeshStandardMaterial({ color: 0xd4d4d8, roughness: 0.3, metalness: 0.8 });
+
+    function createWheel(x, y, tireRadius, tubeRadius, isRear) {
+      const wheelGrp = new THREE.Group();
+      wheelGrp.position.set(x, y, 0);
+
+      const tireGeo = new THREE.TorusGeometry(tireRadius, tubeRadius, 20, 48);
+      wheelGrp.add(new THREE.Mesh(tireGeo, matTire));
+
+      const rimGeo = new THREE.CylinderGeometry(tireRadius - tubeRadius * 0.8, tireRadius - tubeRadius * 0.8, tubeRadius * 1.1, 32, 1, true);
+      rimGeo.rotateX(Math.PI / 2);
+      wheelGrp.add(new THREE.Mesh(rimGeo, matRim));
+
+      const hubGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.22, 20);
+      hubGeo.rotateX(Math.PI / 2);
+      wheelGrp.add(new THREE.Mesh(hubGeo, matAluminum));
+
+      for (let i = 0; i < 6; i++) {
+        const angle = (i * Math.PI) / 3;
+        const spokeGeo = new THREE.BoxGeometry(0.03, tireRadius - 0.1, 0.025);
+        const spoke = new THREE.Mesh(spokeGeo, matRim);
+        spoke.position.set(Math.cos(angle) * (tireRadius * 0.45), Math.sin(angle) * (tireRadius * 0.45), 0);
+        spoke.rotation.z = angle + Math.PI / 2;
+        wheelGrp.add(spoke);
+      }
+
+      const discGeo = new THREE.RingGeometry(0.11, 0.25, 32);
+      const discMat = matDisc.clone();
+      discMat.side = THREE.DoubleSide;
+      const disc = new THREE.Mesh(discGeo, discMat);
+      disc.position.z = isRear ? -0.13 : 0.12;
+      wheelGrp.add(disc);
+
+      if (isRear) {
+        const sprocketGeo = new THREE.RingGeometry(0.09, 0.27, 36);
+        const sprocketMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.7, roughness: 0.3, side: THREE.DoubleSide });
+        const sprocket = new THREE.Mesh(sprocketGeo, sprocketMat);
+        sprocket.position.z = 0.14;
+        wheelGrp.add(sprocket);
+
+        const stripeGeo = new THREE.RingGeometry(tireRadius - tubeRadius * 0.75, tireRadius - tubeRadius * 0.65, 40);
+        const stripeMat = new THREE.MeshBasicMaterial({ color: 0xff6600, side: THREE.DoubleSide });
+        const stripe = new THREE.Mesh(stripeGeo, stripeMat);
+        stripe.position.z = 0.08;
+        wheelGrp.add(stripe);
+      }
+
+      bikeGroup.add(wheelGrp);
+    }
+
+    createWheel(-1.38, 0.50, 0.38, 0.12, false);
+    createWheel(1.42, 0.50, 0.38, 0.13, true);
+
+    // Horquilla delantera y manillar
+    const forkGroup = new THREE.Group();
+    [-0.14, 0.14].forEach(zPos => {
+      const tubeGeo = new THREE.CylinderGeometry(0.032, 0.028, 1.18, 16);
+      const tube = new THREE.Mesh(tubeGeo, matAluminum);
+      tube.position.set(-1.14, 0.98, zPos);
+      tube.rotation.z = -0.42;
+      forkGroup.add(tube);
+    });
+    const stemGeo = new THREE.CylinderGeometry(0.045, 0.045, 0.34, 16);
+    const stem = new THREE.Mesh(stemGeo, matAluminum);
+    stem.position.set(-0.92, 1.38, 0);
+    stem.rotation.z = -0.42;
+    forkGroup.add(stem);
+
+    const barGeo = new THREE.CylinderGeometry(0.016, 0.016, 0.62, 12);
+    barGeo.rotateX(Math.PI / 2);
+    const handlebar = new THREE.Mesh(barGeo, matRim);
+    handlebar.position.set(-0.84, 1.56, 0);
+    forkGroup.add(handlebar);
+    bikeGroup.add(forkGroup);
+
+    // Chasis de doble viga
+    const frameGroup = new THREE.Group();
+    [-0.22, 0.22].forEach(zSide => {
+      const mainBeamGeo = new THREE.BoxGeometry(1.25, 0.16, 0.035);
+      const mainBeam = new THREE.Mesh(mainBeamGeo, matGhostChassis);
+      mainBeam.position.set(-0.32, 1.02, zSide);
+      mainBeam.rotation.z = -0.46;
+      frameGroup.add(mainBeam);
+
+      const pivotPlateGeo = new THREE.BoxGeometry(0.32, 0.58, 0.035);
+      const pivotPlate = new THREE.Mesh(pivotPlateGeo, matGhostChassis);
+      pivotPlate.position.set(0.24, 0.68, zSide);
+      frameGroup.add(pivotPlate);
+    });
+    bikeGroup.add(frameGroup);
+
+    // Basculante trasero
+    const swingarmGroup = new THREE.Group();
+    [-0.19, 0.19].forEach(zSide => {
+      const armGeo = new THREE.BoxGeometry(1.18, 0.09, 0.03);
+      const arm = new THREE.Mesh(armGeo, matAluminum);
+      arm.position.set(0.84, 0.56, zSide);
+      arm.rotation.z = -0.08;
+      swingarmGroup.add(arm);
+
+      const braceGeo = new THREE.BoxGeometry(0.65, 0.045, 0.025);
+      const brace = new THREE.Mesh(braceGeo, matAluminum);
+      brace.position.set(0.75, 0.68, zSide);
+      brace.rotation.z = -0.32;
+      swingarmGroup.add(brace);
+    });
+    bikeGroup.add(swingarmGroup);
+
+    // Amortiguador trasero
+    const shockGroup = new THREE.Group();
+    shockGroup.position.set(0.55, 0.88, 0);
+    shockGroup.rotation.z = -0.78;
+    const damperGeo = new THREE.CylinderGeometry(0.03, 0.03, 0.46, 12);
+    shockGroup.add(new THREE.Mesh(damperGeo, matAluminum));
+    for (let i = -0.14; i <= 0.14; i += 0.035) {
+      const coilGeo = new THREE.TorusGeometry(0.048, 0.009, 8, 20);
+      coilGeo.rotateX(Math.PI / 2);
+      const coil = new THREE.Mesh(coilGeo, matDisc);
+      coil.position.y = i;
+      shockGroup.add(coil);
+    }
+    bikeGroup.add(shockGroup);
+
+    // Cadena de transmisión
+    const chainCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0.22, 0.65, 0.14),
+      new THREE.Vector3(0.82, 0.69, 0.14),
+      new THREE.Vector3(1.42, 0.75, 0.14),
+      new THREE.Vector3(1.67, 0.50, 0.14),
+      new THREE.Vector3(1.42, 0.25, 0.14),
+      new THREE.Vector3(0.82, 0.41, 0.14),
+      new THREE.Vector3(0.22, 0.55, 0.14)
+    ], true);
+    const chainGeo = new THREE.TubeGeometry(chainCurve, 60, 0.012, 6, true);
+    const chainMat = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.8, roughness: 0.3 });
+    bikeGroup.add(new THREE.Mesh(chainGeo, chainMat));
+
+    // Caja Exterior de la Batería
+    const batteryBoxShell = new THREE.Group();
+    batteryBoxShell.position.set(-0.22, 1.24, 0);
+    batteryBoxShell.rotation.z = -0.45;
+    bikeGroup.add(batteryBoxShell);
+
+    const boxW = 0.82, boxH = 0.34, boxD = 0.40, wallT = 0.015;
+    const bottomPlate = new THREE.Mesh(new THREE.BoxGeometry(boxW, wallT, boxD), matGhostChassis);
+    bottomPlate.position.y = -boxH / 2;
+    batteryBoxShell.add(bottomPlate);
+
+    const frontWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, boxH, boxD), matGhostChassis);
+    frontWall.position.x = -boxW / 2;
+    batteryBoxShell.add(frontWall);
+
+    const rearWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, boxH, boxD), matGhostChassis);
+    rearWall.position.x = boxW / 2;
+    batteryBoxShell.add(rearWall);
+
+    [-boxD / 2, boxD / 2].forEach(zW => {
+      const sideWall = new THREE.Mesh(new THREE.BoxGeometry(boxW, boxH, wallT), matGhostChassis);
+      sideWall.position.z = zW;
+      batteryBoxShell.add(sideWall);
+    });
+
+    // Subchasis trasero
+    const subframeGroup = new THREE.Group();
+    subframeGroup.position.set(0.62, 1.08, 0);
+    subframeGroup.rotation.z = 0.22;
+    const subTray = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.05, 0.30), matGhostChassis);
+    subframeGroup.add(subTray);
+    bikeGroup.add(subframeGroup);
+
+    // ============================================================================
+    // 4. CONSTRUCCIÓN DE LOS 7 COMPONENTES ELECTRÓNICOS (HV y LV)
+    // ============================================================================
+    function registerComponent(id, group, labelOffset = new THREE.Vector3(0, 0.2, 0)) {
+      group.userData.compId = id;
+      group.userData.system = COMPONENTS_DB[id].system;
+      group.userData.labelOffset = labelOffset;
+      componentGroups[id] = group;
+      basePositions[id] = group.position.clone();
+
+      group.traverse(child => {
+        if (child.isMesh) {
+          child.userData.compId = id;
+          child.userData.origColor = child.material.color.clone();
+          interactiveMeshes.push(child);
+        }
+      });
+      bikeGroup.add(group);
+    }
+
+    // --- 4.1 PACK BATERÍAS 30S2P (3x Módulos Grepow GRP86A0260-10S2P) ---
+    const batGroup = new THREE.Group();
+    batGroup.position.set(-0.28, 1.26, 0);
+    batGroup.rotation.z = -0.45;
+
+    const matGrepowPVC = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.35, metalness: 0.2 });
+    const matAluPlate = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.3, metalness: 0.7 });
+    const matRedTerm = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.3 });
+    const matBlkTerm = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.3 });
+
+    [-0.19, 0.0, 0.19].forEach((xOffset, idx) => {
+      const modGrp = new THREE.Group();
+      modGrp.position.set(xOffset - 0.05, 0, 0);
+
+      const modBody = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.26, 0.31), matGrepowPVC.clone());
+      modGrp.add(modBody);
+
+      const aluEnd = new THREE.Mesh(new THREE.BoxGeometry(0.165, 0.25, 0.015), matAluPlate.clone());
+      aluEnd.position.z = 0.155;
+      modGrp.add(aluEnd);
+
+      const posPost = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.05, 12), matRedTerm.clone());
+      posPost.position.set(0.035, 0.145, (idx % 2 === 0) ? 0.09 : -0.09);
+      modGrp.add(posPost);
+
+      const negPost = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.05, 12), matBlkTerm.clone());
+      negPost.position.set(-0.035, 0.145, (idx % 2 === 0) ? -0.09 : 0.09);
+      modGrp.add(negPost);
+
+      const jst = new THREE.Mesh(
+        new THREE.BoxGeometry(0.03, 0.025, 0.045),
+        new THREE.MeshStandardMaterial({ color: 0xf8fafc })
+      );
+      jst.position.set(0, 0.14, 0);
+      modGrp.add(jst);
+
+      batGroup.add(modGrp);
+    });
+
+    const busbarMat = new THREE.MeshStandardMaterial({ color: 0xff5500, roughness: 0.3, metalness: 0.4 });
+    const bridge1 = new THREE.Mesh(new THREE.BoxGeometry(0.19, 0.018, 0.028), busbarMat.clone());
+    bridge1.position.set(-0.14, 0.16, 0.09);
+    batGroup.add(bridge1);
+
+    const bridge2 = new THREE.Mesh(new THREE.BoxGeometry(0.19, 0.018, 0.028), busbarMat.clone());
+    bridge2.position.set(0.05, 0.16, -0.09);
+    batGroup.add(bridge2);
+
+    registerComponent('battery', batGroup, new THREE.Vector3(0, 0.25, 0));
+
+    // --- 4.2 FUSIBLE SIBA 500A (Ref. 90 058 05) ---
+    const fuseGroup = new THREE.Group();
+    fuseGroup.position.set(0.03, 1.13, -0.09);
+    fuseGroup.rotation.z = -0.45;
+
+    const ceramicMat = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, roughness: 0.25, metalness: 0.1 });
+    const fuseBody = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.045, 0.055), ceramicMat);
+    fuseGroup.add(fuseBody);
+
+    const windowMesh = new THREE.Mesh(
+      new THREE.BoxGeometry(0.048, 0.048, 0.022),
+      new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.8, roughness: 0.2 })
+    );
+    fuseGroup.add(windowMesh);
+
+    const lugMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.85, roughness: 0.2 });
+    [-0.065, 0.065].forEach(xLug => {
+      const lug = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.008, 0.038), lugMat.clone());
+      lug.position.x = xLug;
+      fuseGroup.add(lug);
+    });
+
+    registerComponent('fuse', fuseGroup, new THREE.Vector3(0, 0.12, -0.05));
+
+    // --- 4.3 CONTACTOR KILOVAC 500A ---
+    const contactorGroup = new THREE.Group();
+    contactorGroup.position.set(0.05, 1.12, 0.09);
+    contactorGroup.rotation.z = -0.45;
+
+    const kilovacBody = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.055, 0.055, 0.11, 24),
+      new THREE.MeshStandardMaterial({ color: 0xfafaf9, roughness: 0.35, metalness: 0.2 })
+    );
+    contactorGroup.add(kilovacBody);
+
+    const copperMat = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.8, roughness: 0.25 });
+    [-0.024, 0.024].forEach(xStud => {
+      const stud = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.035, 12), copperMat.clone());
+      stud.position.set(xStud, 0.068, 0);
+      contactorGroup.add(stud);
+    });
+
+    registerComponent('contactor', contactorGroup, new THREE.Vector3(0, 0.14, 0.06));
+
+    // --- 4.4 BMS ORION 2 ---
+    const bmsGroup = new THREE.Group();
+    bmsGroup.position.set(-0.68, 1.38, 0);
+    bmsGroup.rotation.z = -0.45;
+
+    const bmsDrawer = new THREE.Mesh(
+      new THREE.BoxGeometry(0.18, 0.22, 0.30),
+      new THREE.MeshPhysicalMaterial({ color: 0x64748b, transparent: true, opacity: 0.45 })
+    );
+    chassisMaterials.push(bmsDrawer.material);
+    bmsGroup.add(bmsDrawer);
+
+    const orionCase = new THREE.Mesh(
+      new THREE.BoxGeometry(0.13, 0.18, 0.25),
+      new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.6, roughness: 0.35 })
+    );
+    bmsGroup.add(orionCase);
+
+    const orionStripe = new THREE.Mesh(
+      new THREE.BoxGeometry(0.135, 0.04, 0.22),
+      new THREE.MeshStandardMaterial({ color: 0xea580c, roughness: 0.3 })
+    );
+    bmsGroup.add(orionStripe);
+
+    registerComponent('bms', bmsGroup, new THREE.Vector3(-0.08, 0.18, 0));
+
+    // --- 4.5 INVERSOR HYPERDRIVE X1 ---
+    const invGroup = new THREE.Group();
+    invGroup.position.set(-0.48, 0.74, 0);
+    invGroup.rotation.z = -0.12;
+
+    const invBody = new THREE.Mesh(
+      new THREE.BoxGeometry(0.16, 0.32, 0.26),
+      new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.7, roughness: 0.28 })
+    );
+    invGroup.add(invBody);
+
+    const invCover = new THREE.Mesh(
+      new THREE.BoxGeometry(0.168, 0.26, 0.21),
+      new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.5, roughness: 0.4 })
+    );
+    invGroup.add(invCover);
+
+    const pipeCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0, -0.15, 0.08),
+      new THREE.Vector3(0.18, -0.22, 0.10),
+      new THREE.Vector3(0.45, -0.26, 0.08)
+    ]);
+    const coolingPipe = new THREE.Mesh(
+      new THREE.TubeGeometry(pipeCurve, 24, 0.015, 10, false),
+      new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.6, roughness: 0.3 })
+    );
+    invGroup.add(coolingPipe);
+
+    registerComponent('inverter', invGroup, new THREE.Vector3(-0.1, -0.15, 0));
+
+    // --- 4.6 MOTOR ELÉCTRICO ---
+    const motorGroup = new THREE.Group();
+    motorGroup.position.set(0.16, 0.62, 0);
+
+    const motorCyl = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.15, 0.15, 0.26, 28),
+      new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.75, roughness: 0.3 })
+    );
+    motorCyl.rotation.x = Math.PI / 2;
+    motorGroup.add(motorCyl);
+
+    for (let zRing = -0.09; zRing <= 0.09; zRing += 0.045) {
+      const ring = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.158, 0.158, 0.018, 28),
+        new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.8, roughness: 0.25 })
+      );
+      ring.rotation.x = Math.PI / 2;
+      ring.position.z = zRing;
+      motorGroup.add(ring);
+    }
+
+    const pinion = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.055, 0.055, 0.04, 18),
+      new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.8, roughness: 0.2 })
+    );
+    pinion.rotation.x = Math.PI / 2;
+    pinion.position.z = 0.15;
+    motorGroup.add(pinion);
+
+    registerComponent('motor', motorGroup, new THREE.Vector3(0, -0.22, 0));
+
+    // --- 4.7 CAJA DE BAJA TENSIÓN CON PCBs (Subchasis / Colín) ---
+    const lvGroup = new THREE.Group();
+    lvGroup.position.set(0.64, 1.16, 0);
+    lvGroup.rotation.z = 0.22;
+
+    const lvBoxShell = new THREE.Mesh(
+      new THREE.BoxGeometry(0.46, 0.14, 0.25),
+      new THREE.MeshPhysicalMaterial({
+        color: 0x0ea5e9,
+        transparent: true,
+        opacity: 0.38,
+        roughness: 0.2,
+        metalness: 0.1
+      })
+    );
+    lvGroup.add(lvBoxShell);
+
+    const pcbMat = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.35, metalness: 0.3 });
+    const icMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 });
+
+    [-0.12, 0.02, 0.14].forEach((xPcb, idx) => {
+      const pcb = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.008, 0.19), pcbMat.clone());
+      pcb.position.set(xPcb, -0.02 + (idx % 2) * 0.03, 0);
+      lvGroup.add(pcb);
+
+      const chip = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.012, 0.035), icMat.clone());
+      chip.position.set(xPcb, pcb.position.y + 0.01, 0.02);
+      lvGroup.add(chip);
+    });
+
+    registerComponent('lvbox', lvGroup, new THREE.Vector3(0, 0.15, 0));
+
+    // ============================================================================
+    // 5. CABLEADO Y ANIMACIÓN DE FLUJO DE POTENCIA / DATOS (Alta Tensión)
+    // ============================================================================
+    const wiresGroup = new THREE.Group();
+    bikeGroup.add(wiresGroup);
+    const flowParticles = [];
+
+    function createWire(points, colorHex, radius, compIds) {
+      const curve = new THREE.CatmullRomCurve3(points);
+      const geo = new THREE.TubeGeometry(curve, 40, radius, 8, false);
+      const mat = new THREE.MeshStandardMaterial({
+        color: colorHex,
+        roughness: 0.3,
+        metalness: 0.3,
+        emissive: colorHex,
+        emissiveIntensity: 0.2
+      });
+      const wireMesh = new THREE.Mesh(geo, mat);
+      wireMesh.userData.compIds = compIds;
+      wiresGroup.add(wireMesh);
+
+      const dotGeo = new THREE.SphereGeometry(radius * 1.9, 10, 10);
+      const dotMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const dot = new THREE.Mesh(dotGeo, dotMat);
+      wiresGroup.add(dot);
+      flowParticles.push({ mesh: dot, curve: curve, progress: Math.random(), speed: 0.0045 });
+    }
+
+    // 1. Batería HV+ (Módulo 3) -> Fusible SIBA 500A (35 mm²)
+    createWire([
+      new THREE.Vector3(-0.14, 1.32, 0.08),
+      new THREE.Vector3(-0.04, 1.24, 0.0),
+      new THREE.Vector3(0.01, 1.15, -0.09)
+    ], 0xff3b00, 0.012, ['battery', 'fuse']);
+
+    // 2. Fusible SIBA 500A -> Contactor Kilovac 500A
+    createWire([
+      new THREE.Vector3(0.06, 1.13, -0.07),
+      new THREE.Vector3(0.08, 1.16, 0.0),
+      new THREE.Vector3(0.05, 1.16, 0.08)
+    ], 0xff3b00, 0.012, ['fuse', 'contactor']);
+
+    // 3. Contactor Kilovac 500A -> Inversor HyperDrive X1 (HV+ Principal)
+    createWire([
+      new THREE.Vector3(0.06, 1.15, 0.11),
+      new THREE.Vector3(-0.12, 0.98, 0.15),
+      new THREE.Vector3(-0.36, 0.85, 0.11),
+      new THREE.Vector3(-0.46, 0.82, 0.06)
+    ], 0xff3b00, 0.013, ['contactor', 'inverter']);
+
+    // 4. Batería HV- (Módulo 1) -> Inversor HyperDrive X1 (HV- 35 mm²)
+    createWire([
+      new THREE.Vector3(-0.46, 1.42, -0.08),
+      new THREE.Vector3(-0.56, 1.18, -0.14),
+      new THREE.Vector3(-0.54, 0.92, -0.10),
+      new THREE.Vector3(-0.48, 0.82, -0.06)
+    ], 0x334155, 0.013, ['battery', 'inverter']);
+
+    // 5. Inversor HyperDrive X1 -> Motor Eléctrico (3 Fases U, V, W)
+    [-0.04, 0.0, 0.04].forEach(zPhase => {
+      createWire([
+        new THREE.Vector3(-0.42, 0.65, zPhase),
+        new THREE.Vector3(-0.15, 0.58, zPhase * 1.6),
+        new THREE.Vector3(0.08, 0.60, zPhase * 1.5)
+      ], 0xf59e0b, 0.010, ['inverter', 'motor']);
+    });
+
+    // 6. Módulos Grepow (JST-XHR-11P AWG22#) -> BMS Orion 2
+    createWire([
+      new THREE.Vector3(-0.26, 1.38, 0),
+      new THREE.Vector3(-0.48, 1.46, 0),
+      new THREE.Vector3(-0.64, 1.42, 0)
+    ], 0x10b981, 0.007, ['battery', 'bms']);
+
+    // 7. BMS Orion 2 -> Bobina del Contactor Kilovac 500A
+    createWire([
+      new THREE.Vector3(-0.62, 1.34, 0.10),
+      new THREE.Vector3(-0.25, 1.18, 0.17),
+      new THREE.Vector3(0.04, 1.11, 0.12)
+    ], 0x10b981, 0.006, ['bms', 'contactor']);
+
+    // ============================================================================
+    // 6. ETIQUETAS 3D E INTERFAZ DE INSPECCIÓN
+    // ============================================================================
+    const labelElements = {};
+    Object.keys(COMPONENTS_DB).forEach(id => {
+      const comp = COMPONENTS_DB[id];
+      const div = document.createElement('div');
+      div.className = `floating-label ${comp.system === 'HV' ? 'hv-label' : 'lv-label'}`;
+      div.innerHTML = `${comp.system === 'HV' ? '⚡' : '🔌'} ${comp.name.split('(')[0].trim()}`;
+      div.onclick = (e) => {
+        e.stopPropagation();
+        selectComponent(id);
+      };
+      labelsContainer.appendChild(div);
+      labelElements[id] = div;
+    });
+
+    let currentFilter = 'ALL';
+    let selectedCompId = null;
+
+    function toggleMobilePanel(side) {
+      const left = document.getElementById('panel-left');
+      const right = document.getElementById('panel-right');
+      if (side === 'left') {
+        left.classList.toggle('open');
+        right.classList.remove('open');
+      } else {
+        right.classList.toggle('open');
+        left.classList.remove('open');
+      }
+    }
+
+    function renderInspectorDefault() {
+      const insp = document.getElementById('inspector');
+      insp.innerHTML = `
+        <span class="badge-system badge-hv">Vista General Interactiva</span>
+        <div class="insp-title">Prototipo MotoStudent eUSRacing</div>
+        <div class="insp-subtitle">Haz clic sobre cualquier componente en el modelo 3D o en la lista izquierda para iluminarlo y ver cómo está conectado.</div>
+
+        <div class="info-card">
+          <h4>⚡ Resumen Alta Tensión (HV)</h4>
+          <div class="spec-grid">
+            <div class="spec-box">
+              <div class="spec-label">Configuración Pack</div>
+              <div class="spec-val">30S2P (3 Módulos)</div>
+            </div>
+            <div class="spec-box">
+              <div class="spec-label">Tensión Nominal / Máx</div>
+              <div class="spec-val">111.0 V / 126.0 V</div>
+            </div>
+            <div class="spec-box">
+              <div class="spec-label">Capacidad / Pico</div>
+              <div class="spec-val">63.2 Ah / 500 A</div>
+            </div>
+            <div class="spec-box">
+              <div class="spec-label">Protección HV</div>
+              <div class="spec-val">SIBA 500A + Kilovac</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h4>🔗 Esquema Rápido de Potencia HV</h4>
+          <ul class="conn-list">
+            <li><strong>3x Módulos Grepow (10S2P c/u):</strong> Conectados en serie (30S2P) dentro de la caja de baterías con cable de 35 mm².</li>
+            <li><strong>Fusible SIBA 500A + Contactor Kilovac 500A:</strong> En serie en la salida positiva dentro de la caja de la batería.</li>
+            <li><strong>BMS Orion 2:</strong> En el cajón frontal delante de la caja de baterías; supervisa las 30 series (JST-XHR-11P) y gobierna el contactor.</li>
+            <li><strong>Inversor HyperDrive X1:</strong> Debajo de la caja de la batería; transforma HV DC en trifásica AC hacia el <strong>Motor</strong>.</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <h4>🔌 Estado Baja Tensión (LV)</h4>
+          <div style="font-size:0.80rem;color:var(--text-muted);line-height:1.45;">
+            La <strong>Caja de PCBs</strong> se encuentra alojada en el subchasis trasero (colín), con las placas electrónicas posicionadas y sin cableado conectado en esta fase.
+          </div>
+        </div>
+      `;
+    }
+
+    function selectComponent(id) {
+      selectedCompId = id;
+      const comp = COMPONENTS_DB[id];
+
+      document.querySelectorAll('.comp-item').forEach(el => {
+        el.classList.remove('selected-hv', 'selected-lv');
+      });
+      const activeItem = document.getElementById(`item-${id}`);
+      if (activeItem) {
+        activeItem.classList.add(comp.system === 'HV' ? 'selected-hv' : 'selected-lv');
+      }
+
+      Object.keys(labelElements).forEach(k => {
+        labelElements[k].classList.toggle('active-label', k === id);
+      });
+
+      const insp = document.getElementById('inspector');
+      insp.innerHTML = `
+        <span class="badge-system ${comp.system === 'HV' ? 'badge-hv' : 'badge-lv'}">
+          ${comp.system === 'HV' ? '⚡ Sistema Alta Tensión (HV)' : '🔌 Sistema Baja Tensión (LV)'}
+        </span>
+        <div class="insp-title">${comp.name}</div>
+        <div class="insp-subtitle">${comp.subtitle}</div>
+
+        <div class="info-card">
+          <h4>📍 Ubicación en la Moto</h4>
+          <div style="font-size:0.82rem;line-height:1.45;">${comp.location}</div>
+        </div>
+
+        <div class="info-card">
+          <h4>📊 Especificaciones Técnicas</h4>
+          <div class="spec-grid">
+            ${comp.specs.map(s => `
+              <div class="spec-box">
+                <div class="spec-label">${s.label}</div>
+                <div class="spec-val">${s.val}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h4>🔌 Cómo va Conexionado</h4>
+          <ul class="conn-list">
+            ${comp.connections.map(c => `<li>${c}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <h4>💡 Nota de Ingeniería</h4>
+          <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.45;">${comp.notes}</div>
+        </div>
+      `;
+
+      // En pantallas móviles, abrir automáticamente la ficha técnica al tocar una pieza
+      if (window.innerWidth <= 1024) {
+        document.getElementById('panel-right').classList.add('open');
+        document.getElementById('panel-left').classList.remove('open');
+      }
+
+      applyHighlighting();
+    }
+
+    function clearSelection() {
+      selectedCompId = null;
+      document.querySelectorAll('.comp-item').forEach(el => {
+        el.classList.remove('selected-hv', 'selected-lv');
+      });
+      Object.keys(labelElements).forEach(k => {
+        labelElements[k].classList.remove('active-label');
+      });
+      renderInspectorDefault();
+      applyHighlighting();
+    }
+
+    function setSystemFilter(mode) {
+      currentFilter = mode;
+      document.getElementById('btn-all').className = 'btn ' + (mode === 'ALL' ? 'active-all' : '');
+      document.getElementById('btn-hv').className = 'btn ' + (mode === 'HV' ? 'active-hv' : '');
+      document.getElementById('btn-lv').className = 'btn ' + (mode === 'LV' ? 'active-lv' : '');
+
+      if (selectedCompId && mode !== 'ALL' && COMPONENTS_DB[selectedCompId].system !== mode) {
+        clearSelection();
+      } else {
+        applyHighlighting();
+      }
+    }
+
+    function applyHighlighting() {
+      Object.keys(componentGroups).forEach(id => {
+        const grp = componentGroups[id];
+        const sys = grp.userData.system;
+        const isSelected = (selectedCompId === id);
+        const matchesFilter = (currentFilter === 'ALL' || currentFilter === sys);
+
+        grp.traverse(child => {
+          if (child.isMesh) {
+            child.material.transparent = true;
+            if (selectedCompId) {
+              if (isSelected) {
+                child.material.opacity = 1.0;
+                child.material.emissive = new THREE.Color(sys === 'HV' ? 0xff5500 : 0x00d2ff);
+                child.material.emissiveIntensity = 0.55;
+              } else {
+                child.material.opacity = 0.18;
+                child.material.emissive = new THREE.Color(0x000000);
+                child.material.emissiveIntensity = 0;
+              }
+            } else {
+              if (matchesFilter) {
+                child.material.opacity = (id === 'lvbox' && child === grp.children[0]) ? 0.42 : 1.0;
+                child.material.emissive = new THREE.Color(
+                  currentFilter === 'ALL' ? 0x000000 : (sys === 'HV' ? 0xff4400 : 0x00b4d8)
+                );
+                child.material.emissiveIntensity = currentFilter === 'ALL' ? 0 : 0.32;
+              } else {
+                child.material.opacity = 0.12;
+                child.material.emissive = new THREE.Color(0x000000);
+                child.material.emissiveIntensity = 0;
+              }
+            }
+          }
+        });
+      });
+
+      const wiresChecked = document.getElementById('chk-wires').checked;
+      wiresGroup.visible = wiresChecked && (currentFilter !== 'LV');
+    }
+
+    function updateChassisOpacity(val) {
+      document.getElementById('val-opacity').innerText = val + '%';
+      const op = parseFloat(val) / 100;
+      chassisMaterials.forEach(mat => {
+        mat.opacity = op;
+      });
+    }
+
+    function updateExplodeView(val) {
+      document.getElementById('val-explode').innerText = val + '%';
+      const factor = parseFloat(val) / 100;
+      Object.keys(componentGroups).forEach(id => {
+        const base = basePositions[id];
+        const offset = explodeVectors[id];
+        componentGroups[id].position.set(
+          base.x + offset.x * factor,
+          base.y + offset.y * factor,
+          base.z + offset.z * factor
+        );
+      });
+    }
+
+    function toggleWires(show) {
+      wiresGroup.visible = show && (currentFilter !== 'LV');
+    }
+
+    function toggleLabels(show) {
+      labelsContainer.style.display = show ? 'block' : 'none';
+    }
+
+    function resetCameraMatchCAD() {
+      camera.position.set(-1.35, 1.85, 3.65);
+      controls.target.set(0.05, 0.90, 0);
+      controls.update();
+    }
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let pointerDownPos = { x: 0, y: 0 };
+
+    renderer.domElement.addEventListener('pointerdown', (e) => {
+      pointerDownPos = { x: e.clientX, y: e.clientY };
+    });
+
+    renderer.domElement.addEventListener('pointerup', (e) => {
+      const dist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
+      if (dist > 6) return;
+
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+
+      const intersects = raycaster.intersectObjects(interactiveMeshes, false);
+      if (intersects.length > 0) {
+        const hitCompId = intersects[0].object.userData.compId;
+        if (hitCompId) selectComponent(hitCompId);
+      }
+    });
+
+    // ============================================================================
+    // 7. BUCLE DE RENDERIZADO Y PROYECCIÓN DE ETIQUETAS
+    // ============================================================================
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const elapsed = clock.getElapsedTime();
+      controls.update();
+
+      if (selectedCompId && componentGroups[selectedCompId]) {
+        const pulse = 0.45 + Math.sin(elapsed * 5) * 0.25;
+        componentGroups[selectedCompId].traverse(child => {
+          if (child.isMesh) child.material.emissiveIntensity = pulse;
+        });
+      }
+
+      if (wiresGroup.visible) {
+        flowParticles.forEach(p => {
+          p.progress = (p.progress + p.speed) % 1;
+          const pos = p.curve.getPointAt(p.progress);
+          p.mesh.position.copy(pos);
+        });
+      }
+
+      Object.keys(componentGroups).forEach(id => {
+        const grp = componentGroups[id];
+        const labelEl = labelElements[id];
+        const sys = grp.userData.system;
+
+        if (currentFilter !== 'ALL' && currentFilter !== sys) {
+          labelEl.style.display = 'none';
+          return;
+        }
+        labelEl.style.display = 'block';
+
+        const worldPos = grp.position.clone().add(grp.userData.labelOffset);
+        worldPos.project(camera);
+
+        const x = (worldPos.x * 0.5 + 0.5) * window.innerWidth;
+        const y = (-(worldPos.y * 0.5) + 0.5) * window.innerHeight;
+
+        labelEl.style.left = `${x}px`;
+        labelEl.style.top = `${y}px`;
+      });
+
+      renderer.render(scene, camera);
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    resetCameraMatchCAD();
+    renderInspectorDefault();
+    animate();
+  </script>
+</body>
+</html>
