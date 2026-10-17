@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>eUSRacing | Visor 3D de Arquitectura Eléctrica HV & LV - MotoStudent</title>
+  <title>eUSRacing | Visor 3D de Arquitectura Eléctrica HV &amp; LV - MotoStudent</title>
   <style>
     :root {
       --bg-dark: #090d14;
@@ -45,7 +45,6 @@
       cursor: grabbing;
     }
 
-    /* Barra Superior */
     .topbar {
       position: absolute;
       top: 12px;
@@ -142,7 +141,6 @@
       box-shadow: 0 0 15px var(--lv-glow);
     }
 
-    /* Paneles Laterales Plegables */
     .sidebar {
       position: absolute;
       top: 74px;
@@ -172,7 +170,7 @@
       bottom: 14px;
     }
 
-    /* Las letras de título SOLO aparecen en modo Full Screen (state-max) */
+    /* Títulos ocultos salvo cuando se activa Full Screen (state-max) */
     .sidebar .panel-title-wrap {
       display: none;
       align-items: center;
@@ -185,7 +183,6 @@
       display: flex;
     }
 
-    /* Estado Minimizado: pestaña compacta en el borde */
     .sidebar.state-min {
       width: auto !important;
       bottom: auto !important;
@@ -205,7 +202,6 @@
       justify-content: center;
     }
 
-    /* Estado Tamaño Medio Lateral (Sin títulos de cabecera) */
     .sidebar-left.state-half {
       width: 300px;
       bottom: 14px;
@@ -220,7 +216,6 @@
       justify-content: flex-end;
     }
 
-    /* Estado Full Screen / Agrandado (Muestra los títulos) */
     .sidebar-left.state-max {
       width: min(480px, 92vw);
       bottom: 14px;
@@ -399,7 +394,6 @@
       color: var(--text-main);
     }
 
-    /* Inspector Derecho */
     .inspector-content {
       flex: 1;
       overflow-y: auto;
@@ -538,7 +532,6 @@
       font-weight: bold;
     }
 
-    /* Etiquetas Flotantes 3D */
     #labels-container, #terminals-container {
       position: absolute;
       inset: 0;
@@ -583,7 +576,6 @@
       z-index: 25;
     }
 
-    /* Etiquetas de Polaridad, Conectores Amphenol y Fases */
     .term-badge {
       position: absolute;
       transform: translate(-50%, -50%);
@@ -624,11 +616,8 @@
 </head>
 <body>
 
-  <!-- Contenedor WebGL 3D -->
   <div id="canvas-container"></div>
-  <!-- Etiquetas de Componentes 3D -->
   <div id="labels-container"></div>
-  <!-- Etiquetas de Bornas (+ / - / Amphenol / Fases U,V,W) -->
   <div id="terminals-container"></div>
 
   <!-- Barra Superior -->
@@ -656,7 +645,7 @@
     </div>
   </div>
 
-  <!-- Panel Izquierdo: Título visible solo en modo Full Screen (⛶) -->
+  <!-- Panel Izquierdo -->
   <div class="sidebar sidebar-left state-half" id="panel-left">
     <div class="panel-header">
       <div class="panel-title-wrap">
@@ -740,7 +729,7 @@
     </div>
   </div>
 
-  <!-- Panel Derecho: Título visible solo en modo Full Screen (⛶) -->
+  <!-- Panel Derecho -->
   <div class="sidebar sidebar-right state-half" id="panel-right">
     <div class="panel-header">
       <div class="panel-title-wrap">
@@ -758,15 +747,14 @@
     </div>
   </div>
 
-  <!-- Three.js y OrbitControls -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <script>
     // ============================================================================
-    // 1. BASE DE DATOS TÉCNICA DE COMPONENTES (eUSRacing MotoStudent)
+    // 1. BASE DE DATOS E INTERFAZ (SIN COMILLAS INVERTIDAS PARA EVITAR SYNTAX ERROR)
     // ============================================================================
-    const COMPONENTS_DB = {
+    var COMPONENTS_DB = {
       battery: {
         id: 'battery',
         system: 'HV',
@@ -777,16 +765,16 @@
           { label: 'Configuración Pack', val: '30S2P (3x 10S2P en serie)' },
           { label: 'Disposición Interna', val: '2 Vert. delante + 1 Horiz. detrás' },
           { label: 'Tensión Nom / Máx', val: '111.0 V / 126.0 V DC' },
-          { label: 'Conectores Traseros', val: '2× Amphenol Rectos 0° (35 mm²)' },
-          { label: 'Capacidad / Pico', val: '63.2 Ah / 500 A (≤15s)' },
+          { label: 'Conectores Traseros', val: '2x Amphenol Rectos 0° (35 mm²)' },
+          { label: 'Capacidad / Pico', val: '63.2 Ah / 500 A (<=15s)' },
           { label: 'Destino Salida HV', val: 'Conector + y - del Inversor' }
         ],
         connections: [
-          '<strong>Serie M1 ➔ M2 (Cable Naranja 35 mm²):</strong> Une el borne positivo del Módulo 1 (delantero izquierdo) con el negativo del Módulo 2 (delantero derecho).',
-          '<strong>Serie M2 ➔ Sensor Hall ➔ Fusible SIBA ➔ M3:</strong> El cable naranja sale del positivo del Módulo 2, atraviesa al principio el <strong>Sensor Hall</strong> antes de llegar al <strong>Fusible SIBA 500A</strong>, y de la salida del fusible entra al negativo del Módulo 3 (trasero horizontal).',
+          '<strong>Serie M1 a M2 (Cable Naranja 35 mm²):</strong> Une el borne positivo del Módulo 1 (delantero izquierdo) con el negativo del Módulo 2 (delantero derecho).',
+          '<strong>Serie M2 a Sensor Hall a Fusible SIBA a M3:</strong> El cable naranja sale del positivo del Módulo 2, atraviesa al principio el <strong>Sensor Hall</strong> antes de llegar al <strong>Fusible SIBA 500A</strong>, y de la salida del fusible entra al negativo del Módulo 3 (trasero horizontal).',
           '<strong>Salida + General:</strong> Sale del positivo del Módulo 3 hacia el <strong>Contactor Kilovac 500A</strong> y de ahí al <strong>Conector Recto 0° Amphenol (+)</strong> en la cara trasera.',
           '<strong>Salida - General:</strong> Sale del negativo del Módulo 1 directo al <strong>Conector Recto 0° Amphenol (-)</strong> en la cara trasera.',
-          '<strong>Recorrido Exterior hasta el Inversor:</strong> Al salir por la cara trasera de la caja, el + y - hacen un giro curvado hacia abajo, pasan entre el muelle de la suspensión y las placas del motor (sujetos con vías al chasis), <strong>rodean al motor por encima de él</strong> y acaban en los conectores <strong>+ (`INV DC+`) y - (`INV DC-`) del Inversor HyperDrive X1</strong>.'
+          '<strong>Recorrido Exterior hasta el Inversor:</strong> Al salir por la cara trasera de la caja, el + y - hacen un giro curvado hacia abajo, pasan entre el muelle de la suspensión y las placas del motor (sujetos con vías al chasis), <strong>rodean al motor por encima de él</strong> y acaban en los conectores <strong>+ (INV DC+) y - (INV DC-) del Inversor HyperDrive X1</strong>.'
         ],
         notes: 'Los 3 módulos y su Thermal Pad están separados geométricamente para evitar cualquier parpadeo de texturas desde cualquier ángulo de cámara.'
       },
@@ -919,1069 +907,88 @@
       }
     };
 
-    // ============================================================================
-    // 2. INICIALIZACIÓN DE THREE.JS Y SISTEMA DE COORDENADAS DE LA CAJA
-    // ============================================================================
-    const container = document.getElementById('canvas-container');
-    const labelsContainer = document.getElementById('labels-container');
-    const terminalsContainer = document.getElementById('terminals-container');
-
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x090d14);
-    scene.fog = new THREE.FogExp2(0x090d14, 0.055);
-
-    const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    container.appendChild(renderer.domElement);
-
-    let controls;
-    if (typeof THREE.OrbitControls !== 'undefined') {
-      controls = new THREE.OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true;
-      controls.dampingFactor = 0.06;
-      controls.maxPolarAngle = Math.PI / 2 + 0.1;
-      controls.minDistance = 1.1;
-      controls.maxDistance = 9.5;
-    } else {
-      controls = {
-        target: new THREE.Vector3(0.05, 0.90, 0),
-        update: function() { camera.lookAt(this.target); }
-      };
-    }
-
-    const ambientLight = new THREE.AmbientLight(0xe2e8f0, 0.78);
-    scene.add(ambientLight);
-
-    const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.05);
-    dirLight1.position.set(-3.5, 6.5, 5.5);
-    dirLight1.castShadow = true;
-    scene.add(dirLight1);
-
-    const dirLight2 = new THREE.DirectionalLight(0x93c5fd, 0.50);
-    dirLight2.position.set(4.5, 3.0, -5.0);
-    scene.add(dirLight2);
-
-    const gridHelper = new THREE.GridHelper(12, 24, 0x334155, 0x1e293b);
-    gridHelper.position.y = 0;
-    scene.add(gridHelper);
-
-    const bikeGroup = new THREE.Group();
-    scene.add(bikeGroup);
-
-    const chassisMaterials = [];
-    const interactiveMeshes = [];
-    const componentGroups = {};
-    const basePositions = {};
-    const terminalPoints = [];
-
-    const BOX_ORIGIN = new THREE.Vector3(-0.26, 1.18, 0);
-    const BOX_ROT_Z = -0.42;
-
-    function boxToWorld(lx, ly, lz) {
-      const v = new THREE.Vector3(lx, ly, lz);
-      v.applyAxisAngle(new THREE.Vector3(0, 0, 1), BOX_ROT_Z);
-      v.add(BOX_ORIGIN);
-      return v;
-    }
-
-    const explodeVectors = {
-      battery: new THREE.Vector3(0, 0.28, 0),
-      hall: new THREE.Vector3(-0.10, 0.44, -0.14),
-      fuse: new THREE.Vector3(-0.04, 0.44, -0.14),
-      contactor: new THREE.Vector3(0.12, 0.44, -0.18),
-      bms: new THREE.Vector3(-0.28, 0.20, 0),
-      inverter: new THREE.Vector3(-0.16, -0.24, 0),
-      motor: new THREE.Vector3(0, -0.18, 0),
-      lvbox: new THREE.Vector3(0.20, 0.25, 0)
-    };
-
-    function addTerminalPoint(label, type, worldVec, compIds) {
-      const div = document.createElement('div');
-      div.className = `term-badge ${type}`;
-      div.innerText = label;
-      terminalsContainer.appendChild(div);
-      terminalPoints.push({
-        el: div,
-        pos: worldVec.clone(),
-        compIds: compIds
-      });
-    }
-
-    // ============================================================================
-    // 3. CAPA MECÁNICA PURA (NUNCA SE MARCA AL PULSAR ALTA O BAJA TENSIÓN)
-    // ============================================================================
-    const mechanicalGroup = new THREE.Group();
-    bikeGroup.add(mechanicalGroup);
-
-    const matAluminum = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.65, roughness: 0.30 });
-    const matSteel = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.88, roughness: 0.20 });
-    const matDarkSteel = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.82, roughness: 0.32 });
-    const matGubelliniGold = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.78, roughness: 0.25 });
-    const matGubelliniRed = new THREE.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.70, roughness: 0.25 });
-    const matGubelliniBlue = new THREE.MeshStandardMaterial({ color: 0x2563eb, metalness: 0.70, roughness: 0.25 });
-
-    const matGhostChassis = new THREE.MeshPhysicalMaterial({
-      color: 0x94a3b8,
-      metalness: 0.22,
-      roughness: 0.28,
-      transparent: true,
-      opacity: 0.35,
-      depthWrite: false,
-      polygonOffset: true,
-      polygonOffsetFactor: 1,
-      polygonOffsetUnits: 1
-    });
-    chassisMaterials.push(matGhostChassis);
-
-    const matTire = new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.85, metalness: 0.1 });
-    const matRim = new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.4, metalness: 0.7 });
-
-    function createToothedSprocket(innerR, outerR, teethCount, thickness, mat) {
-      const grp = new THREE.Group();
-      const ringGeo = new THREE.RingGeometry(innerR, outerR, 40);
-      const ringMat = mat.clone();
-      ringMat.side = THREE.DoubleSide;
-      grp.add(new THREE.Mesh(ringGeo, ringMat));
-
-      const bodyGeo = new THREE.CylinderGeometry(outerR, outerR, thickness, 36, 1, true).rotateX(Math.PI / 2);
-      grp.add(new THREE.Mesh(bodyGeo, mat));
-
-      for (let i = 0; i < teethCount; i++) {
-        const a = (i / teethCount) * Math.PI * 2;
-        const tooth = new THREE.Mesh(new THREE.BoxGeometry(0.014, 0.022, thickness), mat);
-        tooth.position.set(Math.cos(a) * (outerR + 0.006), Math.sin(a) * (outerR + 0.006), 0);
-        tooth.rotation.z = a - Math.PI / 2;
-        grp.add(tooth);
-      }
-      return grp;
-    }
-
-    function createWheel(x, y, tireRadius, tubeRadius, isRear) {
-      const wheelGrp = new THREE.Group();
-      wheelGrp.position.set(x, y, 0);
-
-      wheelGrp.add(new THREE.Mesh(new THREE.TorusGeometry(tireRadius, tubeRadius, 20, 48), matTire));
-
-      const rimGeo = new THREE.CylinderGeometry(tireRadius - tubeRadius * 0.8, tireRadius - tubeRadius * 0.8, tubeRadius * 1.1, 32, 1, true).rotateX(Math.PI / 2);
-      wheelGrp.add(new THREE.Mesh(rimGeo, matRim));
-
-      const hubGeo = new THREE.CylinderGeometry(0.075, 0.075, 0.22, 20).rotateX(Math.PI / 2);
-      wheelGrp.add(new THREE.Mesh(hubGeo, matAluminum));
-
-      for (let i = 0; i < 5; i++) {
-        const angle = (i * Math.PI * 2) / 5;
-        const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.028, tireRadius - 0.1, 0.022), matRim);
-        spoke.position.set(Math.cos(angle) * (tireRadius * 0.45), Math.sin(angle) * (tireRadius * 0.45), 0);
-        spoke.rotation.z = angle + Math.PI / 2;
-        wheelGrp.add(spoke);
-      }
-
-      const disc = createToothedSprocket(0.11, 0.24, 12, 0.006, matSteel);
-      disc.position.z = isRear ? -0.13 : 0.12;
-      wheelGrp.add(disc);
-
-      if (isRear) {
-        const rearSprocket = createToothedSprocket(0.08, 0.265, 42, 0.010, matSteel);
-        rearSprocket.position.z = 0.145;
-        wheelGrp.add(rearSprocket);
-
-        for (let k = 0; k < 6; k++) {
-          const ka = (k * Math.PI) / 3;
-          const hole = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.014, 16).rotateX(Math.PI / 2), matDarkSteel);
-          hole.position.set(Math.cos(ka) * 0.17, Math.sin(ka) * 0.17, 0.145);
-          wheelGrp.add(hole);
-        }
-
-        const stripeGeo = new THREE.RingGeometry(tireRadius - tubeRadius * 0.75, tireRadius - tubeRadius * 0.65, 40);
-        const stripeMat = new THREE.MeshBasicMaterial({ color: 0xff6600, side: THREE.DoubleSide });
-        const stripe = new THREE.Mesh(stripeGeo, stripeMat);
-        stripe.position.z = 0.08;
-        wheelGrp.add(stripe);
-      }
-
-      mechanicalGroup.add(wheelGrp);
-    }
-
-    createWheel(-1.38, 0.50, 0.38, 0.12, false);
-    createWheel(1.42, 0.50, 0.38, 0.13, true);
-
-    // SUSPENSIÓN DELANTERA FG GUBELLINI
-    const forkGroup = new THREE.Group();
-    [-0.14, 0.14].forEach(zPos => {
-      const outerTube = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.034, 0.65, 18), matAluminum);
-      outerTube.position.set(-1.02, 1.22, zPos);
-      outerTube.rotation.z = -0.42;
-      forkGroup.add(outerTube);
-
-      const innerTube = new THREE.Mesh(new THREE.CylinderGeometry(0.027, 0.027, 0.62, 18), matSteel);
-      innerTube.position.set(-1.24, 0.74, zPos);
-      innerTube.rotation.z = -0.42;
-      forkGroup.add(innerTube);
-
-      const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 0.03, 16), zPos > 0 ? matGubelliniRed : matGubelliniBlue);
-      cap.position.set(-0.88, 1.51, zPos);
-      cap.rotation.z = -0.42;
-      forkGroup.add(cap);
-
-      const foot = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.09, 0.05), matAluminum);
-      foot.position.set(-1.37, 0.50, zPos);
-      forkGroup.add(foot);
-    });
-
-    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.042, 0.34, 16), matAluminum);
-    stem.position.set(-0.92, 1.36, 0);
-    stem.rotation.z = -0.42;
-    forkGroup.add(stem);
-
-    const handlebar = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.64, 12).rotateX(Math.PI / 2), matDarkSteel);
-    handlebar.position.set(-0.85, 1.54, 0);
-    forkGroup.add(handlebar);
-    mechanicalGroup.add(forkGroup);
-
-    // CHASIS DE DOBLE VIGA Y PLACAS DEL MOTOR
-    const frameGroup = new THREE.Group();
-    [-0.205, 0.205].forEach(zSide => {
-      const mainBeam = new THREE.Mesh(new THREE.BoxGeometry(1.20, 0.16, 0.028), matGhostChassis);
-      mainBeam.position.set(-0.32, 1.00, zSide);
-      mainBeam.rotation.z = -0.42;
-      frameGroup.add(mainBeam);
-
-      const lowerStrut = new THREE.Mesh(new THREE.BoxGeometry(0.92, 0.055, 0.024), matGhostChassis);
-      lowerStrut.position.set(-0.28, 0.72, zSide + (zSide > 0 ? 0.002 : -0.002));
-      lowerStrut.rotation.z = -0.62;
-      frameGroup.add(lowerStrut);
-
-      const pivotPlate = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.56, 0.028), matGhostChassis);
-      pivotPlate.position.set(0.24, 0.68, zSide + (zSide > 0 ? 0.004 : -0.004));
-      frameGroup.add(pivotPlate);
-    });
-
-    // Radiador inferior y manguito de agua (en capa mecánica)
-    const radBox = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.25, 0.22), matAluminum);
-    radBox.position.set(-0.46, 0.68, 0);
-    frameGroup.add(radBox);
-
-    const hoseCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-0.46, 0.58, 0.09),
-      new THREE.Vector3(-0.22, 0.48, 0.12),
-      new THREE.Vector3( 0.08, 0.48, 0.09)
-    ]);
-    frameGroup.add(new THREE.Mesh(new THREE.TubeGeometry(hoseCurve, 28, 0.013, 10, false), matAluminum));
-    mechanicalGroup.add(frameGroup);
-
-    // BASCULANTE TRASERO
-    const swingarmGroup = new THREE.Group();
-    [-0.19, 0.19].forEach(zSide => {
-      const arm = new THREE.Mesh(new THREE.BoxGeometry(1.18, 0.085, 0.03), matAluminum);
-      arm.position.set(0.84, 0.55, zSide);
-      arm.rotation.z = -0.07;
-      swingarmGroup.add(arm);
-
-      const brace = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.045, 0.025), matAluminum);
-      brace.position.set(0.75, 0.67, zSide);
-      brace.rotation.z = -0.32;
-      swingarmGroup.add(brace);
-    });
-    mechanicalGroup.add(swingarmGroup);
-
-    // AMORTIGUADOR TRASERO FG GUBELLINI
-    const shockGroup = new THREE.Group();
-    shockGroup.position.set(0.54, 0.88, 0);
-    shockGroup.rotation.z = -0.76;
-
-    shockGroup.add(new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.024, 0.48, 16), matGubelliniGold));
-    for (let i = -0.14; i <= 0.14; i += 0.032) {
-      const coil = new THREE.Mesh(new THREE.TorusGeometry(0.048, 0.0085, 10, 24).rotateX(Math.PI / 2), matSteel);
-      coil.position.y = i;
-      shockGroup.add(coil);
-    }
-    const preloadRing = new THREE.Mesh(new THREE.CylinderGeometry(0.052, 0.052, 0.02, 20), matGubelliniRed);
-    preloadRing.position.y = 0.16;
-    shockGroup.add(preloadRing);
-
-    const piggyback = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.16, 18), matAluminum);
-    piggyback.position.set(0.09, 0.14, 0);
-    piggyback.rotation.z = 0.35;
-    shockGroup.add(piggyback);
-
-    const piggyCap = new THREE.Mesh(new THREE.CylinderGeometry(0.029, 0.029, 0.022, 18), matGubelliniBlue);
-    piggyCap.position.set(0.115, 0.21, 0);
-    piggyCap.rotation.z = 0.35;
-    shockGroup.add(piggyCap);
-    mechanicalGroup.add(shockGroup);
-
-    // PIÑÓN DEL MOTOR Y CADENA DE TRANSMISIÓN (En capa mecánica)
-    const chainGroup = new THREE.Group();
-    const motorPinion = createToothedSprocket(0.022, 0.065, 15, 0.016, matSteel);
-    motorPinion.position.set(0.12, 0.62, 0.145);
-    chainGroup.add(motorPinion);
-
-    const motorShaft = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.06, 16).rotateX(Math.PI / 2), matSteel);
-    motorShaft.position.set(0.12, 0.62, 0.13);
-    chainGroup.add(motorShaft);
-
-    const chainCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0.12, 0.69, 0.145),
-      new THREE.Vector3(0.76, 0.73, 0.145),
-      new THREE.Vector3(1.42, 0.765, 0.145),
-      new THREE.Vector3(1.685, 0.50, 0.145),
-      new THREE.Vector3(1.42, 0.235, 0.145),
-      new THREE.Vector3(0.76, 0.39, 0.145),
-      new THREE.Vector3(0.12, 0.55, 0.145),
-      new THREE.Vector3(0.05, 0.62, 0.145)
-    ], true);
-
-    const numLinks = 92;
-    const plateGeo = new THREE.BoxGeometry(0.026, 0.012, 0.003);
-    const rollerGeo = new THREE.CylinderGeometry(0.0055, 0.0055, 0.016, 10).rotateX(Math.PI / 2);
-
-    for (let i = 0; i < numLinks; i++) {
-      const u = i / numLinks;
-      const pt = chainCurve.getPointAt(u);
-      const tangent = chainCurve.getTangentAt(u);
-      const angle = Math.atan2(tangent.y, tangent.x);
-
-      const linkHolder = new THREE.Group();
-      linkHolder.position.copy(pt);
-      linkHolder.rotation.z = angle;
-
-      const zOff = (i % 2 === 0) ? 0.008 : 0.0055;
-      const pMat = (i % 2 === 0) ? matSteel : matAluminum;
-
-      const plateL = new THREE.Mesh(plateGeo, pMat);
-      plateL.position.z = zOff;
-      linkHolder.add(plateL);
-
-      const plateR = new THREE.Mesh(plateGeo, pMat);
-      plateR.position.z = -zOff;
-      linkHolder.add(plateR);
-
-      const roller = new THREE.Mesh(rollerGeo, matDarkSteel);
-      linkHolder.add(roller);
-
-      chainGroup.add(linkHolder);
-    }
-    mechanicalGroup.add(chainGroup);
-
-    // CAJA DE LA BATERÍA ESCALONADA Y CAJÓN DE LA BMS (Menos ancho y de altura completa hasta abajo)
-    const batteryBoxShell = new THREE.Group();
-    batteryBoxShell.position.copy(BOX_ORIGIN);
-    batteryBoxShell.rotation.z = BOX_ROT_Z;
-    mechanicalGroup.add(batteryBoxShell);
-
-    const lowW = 0.72, lowH = 0.20, lowD = 0.36, wallT = 0.012;
-    const upW = 0.72, upH = 0.18, upD = 0.48;
-    const totalBoxH = lowH + upH; // 0.38 m (Desde ly = -0.14 hasta ly = +0.24)
-
-    const boxBottom = new THREE.Mesh(new THREE.BoxGeometry(lowW, wallT, lowD), matGhostChassis);
-    boxBottom.position.set(0, -0.14, 0);
-    batteryBoxShell.add(boxBottom);
-
-    [-lowD / 2, lowD / 2].forEach(zSide => {
-      const lowWall = new THREE.Mesh(new THREE.BoxGeometry(lowW - wallT * 2, lowH - wallT, wallT), matGhostChassis);
-      lowWall.position.set(0, -0.042, zSide);
-      batteryBoxShell.add(lowWall);
-    });
-
-    [-upD / 2, upD / 2].forEach(zSide => {
-      const upWall = new THREE.Mesh(new THREE.BoxGeometry(upW - wallT * 2, upH, wallT), matGhostChassis);
-      upWall.position.set(0, 0.145, zSide);
-      batteryBoxShell.add(upWall);
-
-      const stepW = (upD - lowD) / 2;
-      const stepLedge = new THREE.Mesh(new THREE.BoxGeometry(upW - wallT * 2, wallT, stepW), matGhostChassis);
-      stepLedge.position.set(0, 0.05, zSide > 0 ? (lowD / 2 + stepW / 2) : -(lowD / 2 + stepW / 2));
-      batteryBoxShell.add(stepLedge);
-    });
-
-    const frontBoxWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, totalBoxH, lowD), matGhostChassis);
-    frontBoxWall.position.set(-upW / 2, 0.05, 0);
-    batteryBoxShell.add(frontBoxWall);
-
-    const rearBoxWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, totalBoxH, upD), matGhostChassis);
-    rearBoxWall.position.set(upW / 2, 0.05, 0);
-    batteryBoxShell.add(rearBoxWall);
-
-    const bmsW = 0.15, bmsD = 0.30;
-    const bmsBottom = new THREE.Mesh(new THREE.BoxGeometry(bmsW, wallT, bmsD), matGhostChassis);
-    bmsBottom.position.set(-upW / 2 - bmsW / 2, -0.14, 0);
-    batteryBoxShell.add(bmsBottom);
-
-    const bmsFrontWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, totalBoxH, bmsD), matGhostChassis);
-    bmsFrontWall.position.set(-upW / 2 - bmsW, 0.05, 0);
-    batteryBoxShell.add(bmsFrontWall);
-
-    [-bmsD / 2, bmsD / 2].forEach(zBms => {
-      const bmsSideWall = new THREE.Mesh(new THREE.BoxGeometry(bmsW - wallT, totalBoxH, wallT), matGhostChassis);
-      bmsSideWall.position.set(-upW / 2 - bmsW / 2, 0.05, zBms);
-      batteryBoxShell.add(bmsSideWall);
-    });
-
-    // Subchasis trasero
-    const subframeGroup = new THREE.Group();
-    subframeGroup.position.set(0.62, 1.08, 0);
-    subframeGroup.rotation.z = 0.22;
-    subframeGroup.add(new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.045, 0.28), matGhostChassis));
-    mechanicalGroup.add(subframeGroup);
-
-    // Vías / abrazaderas mecánicas de sujeción de cables al chasis (entre muelle y placas + paso superior sobre el motor)
-    [
-      new THREE.Vector3(0.32, 0.92, -0.150),
-      new THREE.Vector3(0.26, 0.84, -0.145),
-      new THREE.Vector3(0.11, 0.85, -0.135),
-      new THREE.Vector3(0.32, 0.92,  0.150),
-      new THREE.Vector3(0.26, 0.84,  0.145),
-      new THREE.Vector3(0.11, 0.85,  0.135)
-    ].forEach(clampPos => {
-      const clampGrp = new THREE.Group();
-      clampGrp.position.copy(clampPos);
-      clampGrp.add(new THREE.Mesh(new THREE.BoxGeometry(0.032, 0.022, 0.058), matDarkSteel));
-      clampGrp.add(new THREE.Mesh(new THREE.CylinderGeometry(0.0045, 0.0045, 0.065, 10).rotateX(Math.PI / 2), matSteel));
-      mechanicalGroup.add(clampGrp);
-    });
-
-    // ============================================================================
-    // 4. CONSTRUCCIÓN DE LOS COMPONENTES ELECTRÓNICOS
-    // ============================================================================
-    function registerComponent(id, group, labelOffset = new THREE.Vector3(0, 0.2, 0)) {
-      group.userData.compId = id;
-      group.userData.system = COMPONENTS_DB[id].system;
-      group.userData.labelOffset = labelOffset;
-      componentGroups[id] = group;
-      basePositions[id] = group.position.clone();
-
-      group.traverse(child => {
-        if (child.isMesh) {
-          child.userData.compId = id;
-          interactiveMeshes.push(child);
-        }
-      });
-      bikeGroup.add(group);
-    }
-
-    function matCopperMaterial() {
-      return new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.85, roughness: 0.22 });
-    }
-
-    // --- 4.1 PACK BATERÍAS 30S2P + THERMAL PAD PERIMETRAL + CONECTORES AMPHENOL 0° ---
-    const batGroup = new THREE.Group();
-    batGroup.position.copy(BOX_ORIGIN);
-    batGroup.rotation.z = BOX_ROT_Z;
-
-    const matThermalPad = new THREE.MeshStandardMaterial({
-      color: 0x38bdf8,
-      roughness: 0.65,
-      metalness: 0.05,
-      transparent: true,
-      opacity: 0.45,
-      depthWrite: false
-    });
-
-    const padBottom = new THREE.Mesh(new THREE.BoxGeometry(0.64, 0.010, 0.33), matThermalPad);
-    padBottom.position.set(-0.02, -0.128, 0);
-    padBottom.renderOrder = 8;
-    batGroup.add(padBottom);
-
-    [-0.162, 0.162].forEach(zPad => {
-      const padSide = new THREE.Mesh(new THREE.BoxGeometry(0.64, 0.15, 0.008), matThermalPad);
-      padSide.position.set(-0.02, -0.05, zPad);
-      padSide.renderOrder = 8;
-      batGroup.add(padSide);
-    });
-
-    [-0.335, 0.295].forEach(xPad => {
-      const padEnd = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.15, 0.32), matThermalPad);
-      padEnd.position.set(xPad, -0.05, 0);
-      padEnd.renderOrder = 8;
-      batGroup.add(padEnd);
-    });
-
-    const matModuleBlue = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.30, metalness: 0.25 });
-    const matRedPost = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.3 });
-    const matBlkPost = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.3 });
-    const matJST = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2 });
-    const matHVOrange = new THREE.MeshStandardMaterial({ color: 0xff5500, roughness: 0.28, metalness: 0.25 });
-
-    // Módulo 1 (Delantero Izquierdo, Vertical: +Z)
-    const mod1 = new THREE.Mesh(new THREE.BoxGeometry(0.33, 0.15, 0.138), matModuleBlue.clone());
-    mod1.position.set(-0.14, -0.048, 0.080);
-    batGroup.add(mod1);
-    const m1Neg = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matBlkPost.clone());
-    m1Neg.position.set(-0.26, 0.042, 0.105);
-    batGroup.add(m1Neg);
-    const m1Pos = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matRedPost.clone());
-    m1Pos.position.set(-0.02, 0.042, 0.085);
-    batGroup.add(m1Pos);
-    const jst1 = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.016, 0.034), matJST.clone());
-    jst1.position.set(-0.18, 0.035, 0.05);
-    batGroup.add(jst1);
-
-    // Módulo 2 (Delantero Derecho, Vertical: -Z)
-    const mod2 = new THREE.Mesh(new THREE.BoxGeometry(0.33, 0.15, 0.138), matModuleBlue.clone());
-    mod2.position.set(-0.14, -0.048, -0.080);
-    batGroup.add(mod2);
-    const m2Neg = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matBlkPost.clone());
-    m2Neg.position.set(-0.02, 0.042, -0.055);
-    batGroup.add(m2Neg);
-    const m2Pos = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matRedPost.clone());
-    m2Pos.position.set(-0.26, 0.042, -0.125);
-    batGroup.add(m2Pos);
-    const jst2 = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.016, 0.034), matJST.clone());
-    jst2.position.set(-0.18, 0.035, -0.05);
-    batGroup.add(jst2);
-
-    // Módulo 3 (Trasero, Horizontal/Transversal)
-    const mod3 = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.298), matModuleBlue.clone());
-    mod3.position.set(0.14, -0.048, 0.0);
-    batGroup.add(mod3);
-    const m3Neg = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matBlkPost.clone());
-    m3Neg.position.set(0.08, 0.042, -0.115);
-    batGroup.add(m3Neg);
-    const m3Pos = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matRedPost.clone());
-    m3Pos.position.set(0.10, 0.042, 0.06);
-    batGroup.add(m3Pos);
-    const jst3 = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.016, 0.034), matJST.clone());
-    jst3.position.set(0.09, 0.035, -0.02);
-    batGroup.add(jst3);
-
-    // CONECTORES RECTOS DE 0° DE AMPHENOL PARA 35 mm² EN LA CARA TRASERA DE LA CAJA
-    [-0.105, 0.105].forEach((zAmp, idx) => {
-      const ampGrp = new THREE.Group();
-      ampGrp.position.set(0.366, 0.065, zAmp);
-
-      const ampFlange = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.044, 0.044), matDarkSteel.clone());
-      ampGrp.add(ampFlange);
-
-      const ampBody = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.016, 0.016, 0.052, 18).rotateZ(Math.PI / 2),
-        idx === 0 ? matHVOrange.clone() : matBlkPost.clone()
-      );
-      ampBody.position.x = 0.026;
-      ampGrp.add(ampBody);
-
-      const gland = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.013, 0.013, 0.022, 14).rotateZ(Math.PI / 2),
-        matAluminum.clone()
-      );
-      gland.position.x = 0.055;
-      ampGrp.add(gland);
-
-      batGroup.add(ampGrp);
-    });
-
-    registerComponent('battery', batGroup, new THREE.Vector3(-0.08, 0.28, 0.12));
-
-    addTerminalPoint('AMPHENOL + (0°)', 'term-pos', boxToWorld(0.41, 0.08, -0.105), ['battery', 'contactor', 'inverter']);
-    addTerminalPoint('AMPHENOL - (0°)', 'term-neg', boxToWorld(0.41, 0.08,  0.105), ['battery', 'inverter']);
-    addTerminalPoint('BAT +', 'term-pos', boxToWorld(0.10, 0.08, 0.06), ['battery', 'contactor']);
-    addTerminalPoint('BAT -', 'term-neg', boxToWorld(-0.26, 0.08, 0.105), ['battery']);
-
-    // --- 4.2 SENSOR HALL DE CORRIENTE (En el cable del fusible al principio, ANTES del fusible) ---
-    const hallGroup = new THREE.Group();
-    hallGroup.position.copy(boxToWorld(-0.205, 0.095, -0.135));
-    hallGroup.rotation.z = BOX_ROT_Z;
-
-    const hallRing = new THREE.Mesh(
-      new THREE.TorusGeometry(0.022, 0.006, 16, 32).rotateY(Math.PI / 2),
-      new THREE.MeshStandardMaterial({ color: 0x090d14, roughness: 0.25, metalness: 0.4 })
-    );
-    hallGroup.add(hallRing);
-
-    const hallHeader = new THREE.Mesh(
-      new THREE.BoxGeometry(0.014, 0.015, 0.014),
-      new THREE.MeshStandardMaterial({ color: 0x7c3aed, roughness: 0.3 })
-    );
-    hallHeader.position.set(0, 0.024, 0);
-    hallGroup.add(hallHeader);
-
-    registerComponent('hall', hallGroup, new THREE.Vector3(-0.08, 0.16, -0.06));
-
-    // --- 4.3 FUSIBLE SIBA 500A (En el lateral superior derecho, después del Sensor Hall y delante del Contactor) ---
-    const fuseGroup = new THREE.Group();
-    fuseGroup.position.copy(boxToWorld(-0.085, 0.095, -0.135));
-    fuseGroup.rotation.z = BOX_ROT_Z;
-
-    const fuseBody = new THREE.Mesh(
-      new THREE.BoxGeometry(0.080, 0.036, 0.034),
-      new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.25, metalness: 0.1 })
-    );
-    fuseGroup.add(fuseBody);
-
-    const fuseWindow = new THREE.Mesh(
-      new THREE.BoxGeometry(0.038, 0.020, 0.036),
-      new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.8, roughness: 0.2 })
-    );
-    fuseGroup.add(fuseWindow);
-
-    [-0.052, 0.052].forEach(xLug => {
-      const lug = new THREE.Mesh(new THREE.BoxGeometry(0.034, 0.012, 0.010), matCopperMaterial());
-      lug.position.x = xLug;
-      fuseGroup.add(lug);
-
-      const post = new THREE.Mesh(new THREE.BoxGeometry(0.014, 0.052, 0.012), matCopperMaterial());
-      post.position.set(xLug, -0.024, 0);
-      fuseGroup.add(post);
-    });
-
-    registerComponent('fuse', fuseGroup, new THREE.Vector3(-0.02, 0.18, -0.08));
-
-    // --- 4.4 CONTACTOR KILOVAC 500A (Elevado en la pared derecha, bornas hacia la izquierda) ---
-    const contactorGroup = new THREE.Group();
-    contactorGroup.position.copy(boxToWorld(0.20, 0.125, -0.165));
-    contactorGroup.rotation.z = BOX_ROT_Z;
-
-    const contactorBase = new THREE.Mesh(
-      new THREE.BoxGeometry(0.090, 0.082, 0.014),
-      new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.6, roughness: 0.3 })
-    );
-    contactorBase.position.z = -0.052;
-    contactorGroup.add(contactorBase);
-
-    const kilovacCyl = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.043, 0.043, 0.098, 24).rotateX(Math.PI / 2),
-      new THREE.MeshStandardMaterial({ color: 0xf5f5f4, roughness: 0.32, metalness: 0.15 })
-    );
-    contactorGroup.add(kilovacCyl);
-
-    [-0.022, 0.022].forEach(xStud => {
-      const stud = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.009, 0.009, 0.035, 12).rotateX(Math.PI / 2),
-        matCopperMaterial()
-      );
-      stud.position.set(xStud, 0, 0.060);
-      contactorGroup.add(stud);
-    });
-
-    registerComponent('contactor', contactorGroup, new THREE.Vector3(0.10, 0.18, -0.10));
-
-    // --- 4.5 BMS ORION 2 (Dentro del cajón frontal más estrecho) ---
-    const bmsGroup = new THREE.Group();
-    bmsGroup.position.copy(boxToWorld(-0.395, 0.04, 0));
-    bmsGroup.rotation.z = BOX_ROT_Z;
-
-    const orionBody = new THREE.Mesh(
-      new THREE.BoxGeometry(0.032, 0.19, 0.23),
-      new THREE.MeshStandardMaterial({ color: 0x111827, metalness: 0.65, roughness: 0.30 })
-    );
-    bmsGroup.add(orionBody);
-
-    const flange = new THREE.Mesh(
-      new THREE.BoxGeometry(0.006, 0.22, 0.25),
-      new THREE.MeshStandardMaterial({ color: 0x1f2937, metalness: 0.7, roughness: 0.3 })
-    );
-    flange.position.x = 0.015;
-    bmsGroup.add(flange);
-
-    const labelOrion = new THREE.Mesh(
-      new THREE.BoxGeometry(0.034, 0.055, 0.15),
-      new THREE.MeshStandardMaterial({ color: 0xea580c, roughness: 0.3 })
-    );
-    bmsGroup.add(labelOrion);
-
-    [-0.065, 0.0, 0.065].forEach(zConn => {
-      const conn = new THREE.Mesh(
-        new THREE.BoxGeometry(0.020, 0.018, 0.038),
-        new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.3 })
-      );
-      conn.position.set(0, 0.102, zConn);
-      bmsGroup.add(conn);
-    });
-
-    registerComponent('bms', bmsGroup, new THREE.Vector3(-0.14, 0.22, 0));
-
-    // --- 4.6 INVERSOR HYPERDRIVE X1 + COLD PLATE + CONECTORES DC+ Y DC- TRASEROS/LATERALES ---
-    const invGroup = new THREE.Group();
-    invGroup.position.copy(boxToWorld(-0.04, -0.205, 0));
-    invGroup.rotation.z = BOX_ROT_Z;
-
-    const coldPlate = new THREE.Mesh(
-      new THREE.BoxGeometry(0.33, 0.022, 0.24),
-      new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.20 })
-    );
-    coldPlate.position.set(0, 0.050, 0);
-    invGroup.add(coldPlate);
-
-    const invCasing = new THREE.Mesh(
-      new THREE.BoxGeometry(0.31, 0.078, 0.22),
-      new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.72, roughness: 0.28 })
-    );
-    invGroup.add(invCasing);
-
-    const invCap = new THREE.Mesh(
-      new THREE.BoxGeometry(0.27, 0.014, 0.18),
-      new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.5, roughness: 0.4 })
-    );
-    invCap.position.set(0, -0.044, 0);
-    invGroup.add(invCap);
-
-    // CONECTORES + (INV DC+) Y - (INV DC-) EN EL INVERSOR (Reciben los cables que rodean al motor por encima)
-    const invPosConn = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.014, 0.014, 0.042, 16).rotateZ(Math.PI / 2),
-      matRedPost.clone()
-    );
-    invPosConn.position.set(0.165, 0.012, -0.092);
-    invGroup.add(invPosConn);
-
-    const invNegConn = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.014, 0.014, 0.042, 16).rotateZ(Math.PI / 2),
-      matBlkPost.clone()
-    );
-    invNegConn.position.set(0.165, 0.012, 0.092);
-    invGroup.add(invNegConn);
-
-    // 3 Bornas centrales inferiores de salida de Fases U, V, W hacia el motor CIRCE
-    [-0.045, 0.0, 0.045].forEach(zPh => {
-      const phConn = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.009, 0.009, 0.032, 12).rotateZ(Math.PI / 2),
-        matCopperMaterial()
-      );
-      phConn.position.set(0.16, -0.018, zPh);
-      invGroup.add(phConn);
-    });
-
-    registerComponent('inverter', invGroup, new THREE.Vector3(-0.18, -0.14, 0));
-
-    // Etiquetas exactas de los conectores + y - del Inversor donde terminan los cables tras rodear el motor
-    addTerminalPoint('INV DC+', 'term-pos', boxToWorld(0.135, -0.185, -0.092), ['inverter', 'battery']);
-    addTerminalPoint('INV DC-', 'term-neg', boxToWorld(0.135, -0.185,  0.092), ['inverter', 'battery']);
-
-    // --- 4.7 MOTOR ELÉCTRICO CIRCE (Solo con su regleta de 3 Fases U, V, W; los cables + y - lo rodean por encima) ---
-    const motorGroup = new THREE.Group();
-    motorGroup.position.set(0.12, 0.62, 0);
-
-    const circeStator = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.145, 0.145, 0.24, 32).rotateX(Math.PI / 2),
-      new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.78, roughness: 0.28 })
-    );
-    motorGroup.add(circeStator);
-
-    for (let zFin = -0.095; zFin <= 0.095; zFin += 0.024) {
-      const fin = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.156, 0.156, 0.010, 32).rotateX(Math.PI / 2),
-        new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.85, roughness: 0.22 })
-      );
-      fin.position.z = zFin;
-      motorGroup.add(fin);
-    }
-
-    [-0.125, 0.125].forEach(zBell => {
-      const bell = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.135, 0.135, 0.016, 28).rotateX(Math.PI / 2),
-        matAluminum.clone()
-      );
-      bell.position.z = zBell;
-      motorGroup.add(bell);
-    });
-
-    // Regleta delantera de 3 fases (U, V, W)
-    const terminalBlock = new THREE.Mesh(
-      new THREE.BoxGeometry(0.055, 0.032, 0.14),
-      new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 })
-    );
-    terminalBlock.position.set(-0.08, 0.135, 0);
-    motorGroup.add(terminalBlock);
-
-    [-0.045, 0.0, 0.045].forEach(zTerm => {
-      const stud = new THREE.Mesh(new THREE.CylinderGeometry(0.009, 0.009, 0.028, 12), matCopperMaterial());
-      stud.position.set(-0.08, 0.158, zTerm);
-      motorGroup.add(stud);
-    });
-
-    registerComponent('motor', motorGroup, new THREE.Vector3(0.05, -0.24, 0));
-
-    addTerminalPoint('U / V / W', 'term-phase', new THREE.Vector3(0.03, 0.79, 0.0), ['motor', 'inverter']);
-
-    // --- 4.8 CAJA DE BAJA TENSIÓN CON 3 PCBs (Sin parpadeo de texturas desde ningún ángulo) ---
-    const lvGroup = new THREE.Group();
-    lvGroup.position.set(0.64, 1.15, 0);
-    lvGroup.rotation.z = 0.22;
-
-    const pcbMat = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.35, metalness: 0.3 });
-    const icMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 });
-
-    [-0.12, 0.0, 0.12].forEach((xPcb, idx) => {
-      const pcb = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.010, 0.17), pcbMat.clone());
-      pcb.position.set(xPcb, -0.015 + (idx % 2) * 0.026, 0);
-      pcb.renderOrder = 1;
-      lvGroup.add(pcb);
-
-      const chip = new THREE.Mesh(new THREE.BoxGeometry(0.032, 0.012, 0.032), icMat.clone());
-      chip.position.set(xPcb, pcb.position.y + 0.011, 0.015);
-      chip.renderOrder = 1;
-      lvGroup.add(chip);
-    });
-
-    const lvBoxShell = new THREE.Mesh(
-      new THREE.BoxGeometry(0.42, 0.12, 0.23),
-      new THREE.MeshPhysicalMaterial({
-        color: 0x0ea5e9,
-        transparent: true,
-        opacity: 0.34,
-        depthWrite: false,
-        roughness: 0.2,
-        metalness: 0.1
-      })
-    );
-    lvBoxShell.userData.isTranslucentShell = true;
-    lvBoxShell.renderOrder = 12;
-    lvGroup.add(lvBoxShell);
-
-    registerComponent('lvbox', lvGroup, new THREE.Vector3(0.12, 0.16, 0));
-
-    // ============================================================================
-    // 5. CABLEADO INTERNO Y EXTERNO
-    // ============================================================================
-    const wiresGroup = new THREE.Group();
-    bikeGroup.add(wiresGroup);
-    const flowParticles = [];
-    const HV_ORANGE = 0xff5500;
-
-    function createWire(points, colorHex, radius, sysType) {
-      const curve = new THREE.CatmullRomCurve3(points);
-      const geo = new THREE.TubeGeometry(curve, 52, radius, 8, false);
-      const mat = new THREE.MeshStandardMaterial({
-        color: colorHex,
-        roughness: 0.28,
-        metalness: 0.25,
-        emissive: colorHex,
-        emissiveIntensity: 0.22
-      });
-      const wireMesh = new THREE.Mesh(geo, mat);
-      wireMesh.userData.sysType = sysType;
-      wiresGroup.add(wireMesh);
-
-      const dotGeo = new THREE.SphereGeometry(radius * 1.65, 10, 10);
-      const dotMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      const dot = new THREE.Mesh(dotGeo, dotMat);
-      wiresGroup.add(dot);
-      flowParticles.push({ mesh: dot, curve: curve, progress: Math.random(), speed: 0.0042 });
-    }
-
-    // --- A) CABLES INTERNOS DE LA BATERÍA (NARANJAS > 60 V) ---
-    // 1. Puente Serie Módulo 1 (M1+) -> Módulo 2 (M2-)
-    createWire([
-      boxToWorld(-0.02, 0.052,  0.085),
-      boxToWorld(-0.02, 0.080,  0.015),
-      boxToWorld(-0.02, 0.052, -0.055)
-    ], HV_ORANGE, 0.0095, 'HV');
-
-    // 2. Cable del Fusible: Sale de M2+ -> Pasa al principio por el SENSOR HALL -> Entra al Fusible SIBA 500A
-    createWire([
-      boxToWorld(-0.26,  0.052, -0.125),
-      boxToWorld(-0.24,  0.095, -0.135),
-      boxToWorld(-0.205, 0.095, -0.135),
-      boxToWorld(-0.137, 0.095, -0.135)
-    ], HV_ORANGE, 0.0095, 'HV');
-
-    // 3. Salida del Fusible SIBA 500A -> Entrada Módulo 3 Horizontal (M3-)
-    createWire([
-      boxToWorld(-0.033, 0.095, -0.135),
-      boxToWorld( 0.03,  0.082, -0.125),
-      boxToWorld( 0.08,  0.052, -0.115)
-    ], HV_ORANGE, 0.0095, 'HV');
-
-    // 4. Salida Positiva Módulo 3 (M3+) -> Borna de entrada del Contactor Kilovac 500A
-    createWire([
-      boxToWorld(0.10,  0.052,  0.06),
-      boxToWorld(0.14,  0.110, -0.02),
-      boxToWorld(0.178, 0.125, -0.105)
-    ], HV_ORANGE, 0.0105, 'HV');
-
-    // 5. Borna de salida del Contactor Kilovac 500A -> Conector Recto 0° Amphenol (+) en cara trasera
-    createWire([
-      boxToWorld(0.222, 0.125, -0.105),
-      boxToWorld(0.29,  0.095, -0.105),
-      boxToWorld(0.355, 0.065, -0.105)
-    ], HV_ORANGE, 0.0105, 'HV');
-
-    // 6. Línea - General: Sale de M1- -> Va directo al Conector Recto 0° Amphenol (-) en cara trasera
-    createWire([
-      boxToWorld(-0.26,  0.052, 0.105),
-      boxToWorld(-0.05,  0.065, 0.105),
-      boxToWorld( 0.18,  0.065, 0.105),
-      boxToWorld( 0.355, 0.065, 0.105)
-    ], HV_ORANGE, 0.0105, 'HV');
-
-    // --- B) SALIDA TRASERA EXTERIOR DESDE AMPHENOL 0°: RODEAN EL MOTOR POR ENCIMA Y ACABAN EN EL + Y - DEL INVERSOR ---
-    // Cable + Exterior (Derecha, z < 0): Sale del Amphenol 0° (+), baja entre muelle y placas, RODEA AL MOTOR POR ENCIMA y entra en el conector + del Inversor (INV DC+)
-    createWire([
-      boxToWorld(0.42, 0.065, -0.105),      // Salida recta conector Amphenol 0° (+)
-      new THREE.Vector3(0.31, 0.99, -0.125),// Curva hacia abajo al salir de la caja
-      new THREE.Vector3(0.32, 0.92, -0.135),// Paso entre muelle de suspensión y placas (Vía 1)
-      new THREE.Vector3(0.26, 0.84, -0.130),// Giro suave acercándose por arriba del motor (Vía 2)
-      new THREE.Vector3(0.12, 0.85, -0.118),// Rodea al motor CIRCE por encima de él sin tocarlo (Vía 3)
-      new THREE.Vector3(-0.02, 0.88, -0.102),// Enfila hacia la parte trasera del inversor
-      boxToWorld(0.145, -0.193, -0.092)     // Termina en el conector + del Inversor (INV DC+)
-    ], HV_ORANGE, 0.0105, 'HV');
-
-    // Cable - Exterior (Izquierda, z > 0): Sale del Amphenol 0° (-), baja entre muelle y placas, RODEA AL MOTOR POR ENCIMA y entra en el conector - del Inversor (INV DC-)
-    createWire([
-      boxToWorld(0.42, 0.065, 0.105),       // Salida recta conector Amphenol 0° (-)
-      new THREE.Vector3(0.31, 0.99, 0.125), // Curva hacia abajo al salir de la caja
-      new THREE.Vector3(0.32, 0.92, 0.135), // Paso entre muelle de suspensión y placas (Vía 1)
-      new THREE.Vector3(0.26, 0.84, 0.130), // Giro suave acercándose por arriba del motor (Vía 2)
-      new THREE.Vector3(0.12, 0.85, 0.118), // Rodea al motor CIRCE por encima de él sin tocarlo (Vía 3)
-      new THREE.Vector3(-0.02, 0.88, 0.102),// Enfila hacia la parte trasera del inversor
-      boxToWorld(0.145, -0.193, 0.092)      // Termina en el conector - del Inversor (INV DC-)
-    ], HV_ORANGE, 0.0105, 'HV');
-
-    // --- C) FASES TRIFÁSICAS U, V, W ENTRE INVERSOR Y MOTOR CIRCE (NARANJAS) ---
-    [-0.045, 0.0, 0.045].forEach(zPh => {
-      createWire([
-        boxToWorld(0.12, -0.223, zPh),
-        new THREE.Vector3(-0.04, 0.81, zPh * 1.05),
-        new THREE.Vector3( 0.04, 0.778, zPh)
-      ], HV_ORANGE, 0.009, 'HV');
-    });
-
-    // --- D) CABLES DE BAJA TENSIÓN Y SEÑAL (< 60 V) -> COLORES NO NARANJAS ---
-    // 3 Mazos de Cell-Tabs (JST-XHR-11P) -> BMS Orion 2 (Color Cian: 0x06b6d4)
-    createWire([
-      boxToWorld(-0.18, 0.045, 0.05),
-      boxToWorld(-0.29, 0.11,  0.06),
-      boxToWorld(-0.39, 0.14,  0.065)
-    ], 0x06b6d4, 0.0048, 'LV');
-
-    createWire([
-      boxToWorld(-0.18, 0.045, -0.05),
-      boxToWorld(-0.29, 0.11,  -0.06),
-      boxToWorld(-0.39, 0.14,  -0.065)
-    ], 0x06b6d4, 0.0048, 'LV');
-
-    createWire([
-      boxToWorld( 0.09, 0.045, -0.02),
-      boxToWorld(-0.14, 0.11,   0.0),
-      boxToWorld(-0.39, 0.14,   0.0)
-    ], 0x06b6d4, 0.0048, 'LV');
-
-    // Cable de Señal del Sensor Hall (desde antes del fusible) -> BMS Orion 2 (Color Violeta: 0xa855f7)
-    createWire([
-      boxToWorld(-0.205, 0.118, -0.135),
-      boxToWorld(-0.30,  0.14,  -0.08),
-      boxToWorld(-0.39,  0.14,  -0.03)
-    ], 0xa855f7, 0.0048, 'LV');
-
-    // Cable de Bobina del Contactor Kilovac -> BMS Orion 2 (Color Verde: 0x10b981)
-    createWire([
-      boxToWorld( 0.20, 0.14, -0.175),
-      boxToWorld(-0.10, 0.15, -0.14),
-      boxToWorld(-0.39, 0.13, -0.10)
-    ], 0x10b981, 0.0048, 'LV');
-
-    // Cable de Encoder/Temperatura del Motor CIRCE -> Inversor (Color Azul: 0x3b82f6)
-    createWire([
-      new THREE.Vector3(0.05, 0.68, -0.11),
-      new THREE.Vector3(-0.08, 0.76, -0.115),
-      boxToWorld(0.05, -0.22, -0.10)
-    ], 0x3b82f6, 0.0048, 'LV');
-
-    // ============================================================================
-    // 6. INTERFAZ: VENTANAS, TÍTULOS SOLO EN FULL SCREEN Y FILTROS
-    // ============================================================================
-    const labelElements = {};
-    Object.keys(COMPONENTS_DB).forEach(id => {
-      const comp = COMPONENTS_DB[id];
-      const div = document.createElement('div');
-      div.className = `floating-label ${comp.system === 'HV' ? 'hv-label' : 'lv-label'}`;
-      div.innerHTML = `${comp.system === 'HV' ? '⚡' : '🔌'} ${comp.name.split('+')[0].split('(')[0].trim()}`;
-      div.onclick = (e) => {
-        e.stopPropagation();
-        selectComponent(id);
-      };
-      labelsContainer.appendChild(div);
-      labelElements[id] = div;
-    });
-
-    let currentFilter = 'ALL';
-    let selectedCompId = null;
+    var currentFilter = 'ALL';
+    var selectedCompId = null;
+    var componentGroups = {};
+    var basePositions = {};
+    var chassisMaterials = [];
+    var labelElements = {};
+    var terminalPoints = [];
+    var wiresGroup = null;
 
     function setPanelSize(side, sizeMode) {
-      const panel = document.getElementById(`panel-${side}`);
+      var panel = document.getElementById('panel-' + side);
+      if (!panel) return;
       panel.classList.remove('state-min', 'state-half', 'state-max');
-      panel.classList.add(`state-${sizeMode}`);
+      panel.classList.add('state-' + sizeMode);
 
-      ['min', 'half', 'max'].forEach(m => {
-        const btn = document.getElementById(`${side}-btn-${m}`);
-        if (btn) btn.classList.toggle('active-size', m === sizeMode);
-      });
+      var modes = ['min', 'half', 'max'];
+      for (var i = 0; i < modes.length; i++) {
+        var m = modes[i];
+        var btn = document.getElementById(side + '-btn-' + m);
+        if (btn) {
+          if (m === sizeMode) btn.classList.add('active-size');
+          else btn.classList.remove('active-size');
+        }
+      }
     }
 
     function scrollToSection(secId) {
-      const el = document.getElementById(secId);
+      var el = document.getElementById(secId);
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function renderInspectorDefault() {
-      const insp = document.getElementById('inspector');
-      insp.innerHTML = `
-        <div class="sec-nav">
-          <button class="sec-pill" onclick="scrollToSection('sec-resumen')">1. Resumen HV/LV</button>
-          <button class="sec-pill" onclick="scrollToSection('sec-pack')">2. Pack y Amphenol 0°</button>
-          <button class="sec-pill" onclick="scrollToSection('sec-prot')">3. Hall en Fusible y BMS</button>
-          <button class="sec-pill" onclick="scrollToSection('sec-trac')">4. Rodeando Motor ➔ Inversor</button>
-          <button class="sec-pill" onclick="scrollToSection('sec-lv')">5. Caja PCBs (3 Placas)</button>
-        </div>
-
-        <div id="sec-resumen" class="info-card">
-          <h4>⚡ 1. Resumen General y Separación Eléctrica / Mecánica</h4>
-          <div class="spec-grid" style="margin-bottom:10px;">
-            <div class="spec-box">
-              <div class="spec-label">Configuración Pack</div>
-              <div class="spec-val">30S2P (111 V nom / 126 V máx)</div>
-            </div>
-            <div class="spec-box">
-              <div class="spec-label">Salida Trasera Caja</div>
-              <div class="spec-val">2× Amphenol 0° (35 mm²)</div>
-            </div>
-            <div class="spec-box">
-              <div class="spec-label">Cables &gt; 60 V (HV)</div>
-              <div class="spec-val" style="color:#ff7b33;">Siempre Naranjas</div>
-            </div>
-            <div class="spec-box">
-              <div class="spec-label">Cables &lt; 60 V (LV/Señal)</div>
-              <div class="spec-val" style="color:#38bdf8;">Cian, Violeta, Verde</div>
-            </div>
-          </div>
-          <div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">
-            Al seleccionar <strong>Alta Tensión (HV &gt; 60V)</strong> se iluminan exclusivamente los componentes eléctricos de potencia, dejando sin marcar toda la mecánica (chasis, cadena, piñón, corona, suspensiones y placas del motor).
-          </div>
-        </div>
-
-        <div id="sec-pack" class="info-card">
-          <h4>🔋 2. Pack 30S2P y Conectores Rectos de 0° Amphenol</h4>
-          <ul class="conn-list">
-            <li><strong>Disposición Interna sin Parpadeos:</strong> 2 módulos verticales delante y 1 módulo horizontal detrás rodeados por la bandeja de Thermal Pad con separación física real.</li>
-            <li><strong>Conectores Amphenol 0° (35 mm²):</strong> Montados en la cara trasera exterior de la caja uno al lado del otro a la cota de salida de los módulos.</li>
-          </ul>
-        </div>
-
-        <div id="sec-prot" class="info-card">
-          <h4>🛡️ 3. Sensor Hall antes del Fusible, Contactor y Cajón BMS</h4>
-          <ul class="conn-list">
-            <li><strong>Sensor Hall en el Cable del Fusible:</strong> Ubicado al principio del cable naranja que sale del módulo derecho hacia el fusible SIBA 500A, justo antes de entrar en él.</li>
-            <li><strong>Cajón de la BMS Orion 2:</strong> Más estrecho que la caja de la batería y con longitud vertical completa hasta abajo de la caja de la batería (misma altura total).</li>
-          </ul>
-        </div>
-
-        <div id="sec-trac" class="info-card">
-          <h4>🚀 4. Recorrido del + y - por Encima del Motor hasta el Inversor</h4>
-          <ul class="conn-list">
-            <li><strong>Rodeando el Motor hasta INV DC+ e INV DC-:</strong> Los dos cables naranjas salen de los conectores Amphenol 0° traseros, hacen el giro hacia abajo entre el muelle FG Gubellini y las placas del motor (sujetos con vías al chasis), <strong>rodean por encima al motor CIRCE</strong> y terminan en los conectores <strong>+ (`INV DC+`) y - (`INV DC-`) del Inversor HyperDrive X1</strong>.</li>
-            <li><strong>Fases U, V, W al Motor:</strong> Desde el inversor salen los 3 cables naranjas trifásicos hacia el bloque de fases del motor CIRCE.</li>
-          </ul>
-        </div>
-
-        <div id="sec-lv" class="info-card">
-          <h4>🔌 5. Caja de Baja Tensión (3 PCBs Visibles en Todo Ángulo)</h4>
-          <ul class="conn-list">
-            <li><strong>Caja de PCBs en el Subchasis:</strong> Las 3 tarjetas PCB interiores se renderizan en pase opaco prioritario para verse completas desde cualquier ángulo de cámara.</li>
-          </ul>
-        </div>
-      `;
+      var insp = document.getElementById('inspector');
+      if (!insp) return;
+      insp.innerHTML = [
+        '<div class="sec-nav">',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-resumen\')">1. Resumen HV/LV</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-pack\')">2. Pack y Amphenol 0°</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-prot\')">3. Hall en Fusible y BMS</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-trac\')">4. Rodeando Motor a Inversor</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-lv\')">5. Caja PCBs (3 Placas)</button>',
+        '</div>',
+        '<div id="sec-resumen" class="info-card">',
+          '<h4>⚡ 1. Resumen General y Separación Eléctrica / Mecánica</h4>',
+          '<div class="spec-grid" style="margin-bottom:10px;">',
+            '<div class="spec-box"><div class="spec-label">Configuración Pack</div><div class="spec-val">30S2P (111 V nom / 126 V máx)</div></div>',
+            '<div class="spec-box"><div class="spec-label">Salida Trasera Caja</div><div class="spec-val">2x Amphenol 0° (35 mm²)</div></div>',
+            '<div class="spec-box"><div class="spec-label">Cables &gt; 60 V (HV)</div><div class="spec-val" style="color:#ff7b33;">Siempre Naranjas</div></div>',
+            '<div class="spec-box"><div class="spec-label">Cables &lt; 60 V (LV/Señal)</div><div class="spec-val" style="color:#38bdf8;">Cian, Violeta, Verde</div></div>',
+          '</div>',
+          '<div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">',
+            'Al seleccionar <strong>Alta Tensión (HV &gt; 60V)</strong> se iluminan exclusivamente los componentes eléctricos de potencia, dejando sin marcar toda la mecánica (chasis, cadena, piñón, corona, suspensiones y placas del motor).',
+          '</div>',
+        '</div>',
+        '<div id="sec-pack" class="info-card">',
+          '<h4>🔋 2. Pack 30S2P y Conectores Rectos de 0° Amphenol</h4>',
+          '<ul class="conn-list">',
+            '<li><strong>Disposición Interna sin Parpadeos:</strong> 2 módulos verticales delante y 1 módulo horizontal detrás rodeados por la bandeja de Thermal Pad con separación física real.</li>',
+            '<li><strong>Conectores Amphenol 0° (35 mm²):</strong> Montados en la cara trasera exterior de la caja uno al lado del otro a la cota de salida de los módulos.</li>',
+          '</ul>',
+        '</div>',
+        '<div id="sec-prot" class="info-card">',
+          '<h4>🛡️ 3. Sensor Hall antes del Fusible, Contactor y Cajón BMS</h4>',
+          '<ul class="conn-list">',
+            '<li><strong>Sensor Hall en el Cable del Fusible:</strong> Ubicado al principio del cable naranja que sale del módulo derecho hacia el fusible SIBA 500A, justo antes de entrar en él.</li>',
+            '<li><strong>Cajón de la BMS Orion 2:</strong> Más estrecho que la caja de la batería y con longitud vertical completa hasta abajo de la caja de la batería (misma altura total).</li>',
+          '</ul>',
+        '</div>',
+        '<div id="sec-trac" class="info-card">',
+          '<h4>🚀 4. Recorrido del + y - por Encima del Motor hasta el Inversor</h4>',
+          '<ul class="conn-list">',
+            '<li><strong>Rodeando el Motor hasta INV DC+ e INV DC-:</strong> Los dos cables naranjas salen de los conectores Amphenol 0° traseros, hacen el giro hacia abajo entre el muelle FG Gubellini y las placas del motor (sujetos con vías al chasis), <strong>rodean por encima al motor CIRCE</strong> y terminan en los conectores <strong>+ (INV DC+) y - (INV DC-) del Inversor HyperDrive X1</strong>.</li>',
+            '<li><strong>Fases U, V, W al Motor:</strong> Desde el inversor salen los 3 cables naranjas trifásicos hacia el bloque de fases del motor CIRCE.</li>',
+          '</ul>',
+        '</div>',
+        '<div id="sec-lv" class="info-card">',
+          '<h4>🔌 5. Caja de Baja Tensión (3 PCBs Visibles en Todo Ángulo)</h4>',
+          '<ul class="conn-list">',
+            '<li><strong>Caja de PCBs en el Subchasis:</strong> Las 3 tarjetas PCB interiores se renderizan en pase opaco prioritario para verse completas desde cualquier ángulo de cámara.</li>',
+          '</ul>',
+        '</div>'
+      ].join('');
     }
 
     function openFullOverview() {
@@ -1995,81 +1002,76 @@
       document.getElementById('btn-hv').className = 'btn';
       document.getElementById('btn-lv').className = 'btn';
       clearSelection();
-      if (document.getElementById('panel-right').classList.contains('state-max')) {
+      var rightPanel = document.getElementById('panel-right');
+      if (rightPanel && rightPanel.classList.contains('state-max')) {
         setPanelSize('right', 'half');
       }
     }
 
     function selectComponent(id) {
       selectedCompId = id;
-      const comp = COMPONENTS_DB[id];
+      var comp = COMPONENTS_DB[id];
+      if (!comp) return;
 
-      document.querySelectorAll('.comp-item').forEach(el => {
-        el.classList.remove('selected-hv', 'selected-lv');
-      });
-      const activeItem = document.getElementById(`item-${id}`);
+      var items = document.querySelectorAll('.comp-item');
+      for (var i = 0; i < items.length; i++) {
+        items[i].classList.remove('selected-hv', 'selected-lv');
+      }
+      var activeItem = document.getElementById('item-' + id);
       if (activeItem) {
         activeItem.classList.add(comp.system === 'HV' ? 'selected-hv' : 'selected-lv');
       }
 
-      Object.keys(labelElements).forEach(k => {
-        labelElements[k].classList.toggle('active-label', k === id);
-      });
+      var keys = Object.keys(labelElements);
+      for (var j = 0; j < keys.length; j++) {
+        var k = keys[j];
+        if (k === id) labelElements[k].classList.add('active-label');
+        else labelElements[k].classList.remove('active-label');
+      }
 
-      const rightPanel = document.getElementById('panel-right');
-      if (rightPanel.classList.contains('state-min')) {
+      var rightPanel = document.getElementById('panel-right');
+      if (rightPanel && rightPanel.classList.contains('state-min')) {
         setPanelSize('right', 'half');
       }
 
-      const insp = document.getElementById('inspector');
-      insp.innerHTML = `
-        <span class="badge-system ${comp.system === 'HV' ? 'badge-hv' : 'badge-lv'}">
-          ${comp.system === 'HV' ? '⚡ Sistema Alta Tensión (HV)' : '🔌 Sistema Baja Tensión (LV)'}
-        </span>
-        <div class="insp-title">${comp.name}</div>
-        <div class="insp-subtitle">${comp.subtitle}</div>
+      var specsHtml = '';
+      for (var s = 0; s < comp.specs.length; s++) {
+        specsHtml += '<div class="spec-box"><div class="spec-label">' + comp.specs[s].label + '</div><div class="spec-val">' + comp.specs[s].val + '</div></div>';
+      }
 
-        <div class="info-card">
-          <h4>📍 Ubicación Exacta en la Moto</h4>
-          <div style="font-size:0.81rem;line-height:1.45;">${comp.location}</div>
-        </div>
+      var connHtml = '';
+      for (var c = 0; c < comp.connections.length; c++) {
+        connHtml += '<li>' + comp.connections[c] + '</li>';
+      }
 
-        <div class="info-card">
-          <h4>📊 Especificaciones Técnicas</h4>
-          <div class="spec-grid">
-            ${comp.specs.map(s => `
-              <div class="spec-box">
-                <div class="spec-label">${s.label}</div>
-                <div class="spec-val">${s.val}</div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-
-        <div class="info-card">
-          <h4>🔌 Conexionado y Recorrido de Cables</h4>
-          <ul class="conn-list">
-            ${comp.connections.map(c => `<li>${c}</li>`).join('')}
-          </ul>
-        </div>
-
-        <div class="info-card">
-          <h4>💡 Detalle de Montaje</h4>
-          <div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">${comp.notes}</div>
-        </div>
-      `;
+      var insp = document.getElementById('inspector');
+      if (insp) {
+        insp.innerHTML = [
+          '<span class="badge-system ' + (comp.system === 'HV' ? 'badge-hv' : 'badge-lv') + '">',
+            (comp.system === 'HV' ? '⚡ Sistema Alta Tensión (HV)' : '🔌 Sistema Baja Tensión (LV)'),
+          '</span>',
+          '<div class="insp-title">' + comp.name + '</div>',
+          '<div class="insp-subtitle">' + comp.subtitle + '</div>',
+          '<div class="info-card"><h4>📍 Ubicación Exacta en la Moto</h4><div style="font-size:0.81rem;line-height:1.45;">' + comp.location + '</div></div>',
+          '<div class="info-card"><h4>📊 Especificaciones Técnicas</h4><div class="spec-grid">' + specsHtml + '</div></div>',
+          '<div class="info-card"><h4>🔌 Conexionado y Recorrido de Cables</h4><ul class="conn-list">' + connHtml + '</ul></div>',
+          '<div class="info-card"><h4>💡 Detalle de Montaje</h4><div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">' + comp.notes + '</div></div>'
+        ].join('');
+      }
 
       applyHighlighting();
     }
 
     function clearSelection() {
       selectedCompId = null;
-      document.querySelectorAll('.comp-item').forEach(el => {
-        el.classList.remove('selected-hv', 'selected-lv');
-      });
-      Object.keys(labelElements).forEach(k => {
-        labelElements[k].classList.remove('active-label');
-      });
+      var items = document.querySelectorAll('.comp-item');
+      for (var i = 0; i < items.length; i++) {
+        items[i].classList.remove('selected-hv', 'selected-lv');
+      }
+      var keys = Object.keys(labelElements);
+      for (var j = 0; j < keys.length; j++) {
+        labelElements[keys[j]].classList.remove('active-label');
+      }
       renderInspectorDefault();
       applyHighlighting();
     }
@@ -2088,16 +1090,19 @@
     }
 
     function applyHighlighting() {
-      Object.keys(componentGroups).forEach(id => {
-        const grp = componentGroups[id];
-        const sys = grp.userData.system;
-        const isSelected = (selectedCompId === id);
-        const matchesFilter = (currentFilter === 'ALL' || currentFilter === sys);
+      if (typeof THREE === 'undefined') return;
+      var ids = Object.keys(componentGroups);
+      for (var i = 0; i < ids.length; i++) {
+        var id = ids[i];
+        var grp = componentGroups[id];
+        var sys = grp.userData.system;
+        var isSelected = (selectedCompId === id);
+        var matchesFilter = (currentFilter === 'ALL' || currentFilter === sys);
 
-        grp.traverse(child => {
-          if (child.isMesh) {
-            const isThermalPad = (child.material === matThermalPad);
-            const isShell = child.userData.isTranslucentShell === true;
+        grp.traverse(function(child) {
+          if (child.isMesh && child.material) {
+            var isThermalPad = child.userData.isThermalPad === true;
+            var isShell = child.userData.isTranslucentShell === true;
 
             if (selectedCompId) {
               if (isSelected) {
@@ -2113,15 +1118,17 @@
                   child.material.transparent = false;
                   child.material.depthWrite = true;
                   child.material.opacity = 1.0;
-                  child.material.emissive = new THREE.Color(sys === 'HV' ? 0xff5500 : 0x00d2ff);
-                  child.material.emissiveIntensity = 0.48;
+                  if (child.material.emissive) {
+                    child.material.emissive.setHex(sys === 'HV' ? 0xff5500 : 0x00d2ff);
+                    child.material.emissiveIntensity = 0.48;
+                  }
                 }
               } else {
                 child.material.transparent = true;
                 child.material.depthWrite = false;
                 child.material.opacity = 0.14;
                 if (child.material.emissive) {
-                  child.material.emissive = new THREE.Color(0x000000);
+                  child.material.emissive.setHex(0x000000);
                   child.material.emissiveIntensity = 0;
                 }
               }
@@ -2139,181 +1146,1218 @@
                   child.material.transparent = false;
                   child.material.depthWrite = true;
                   child.material.opacity = 1.0;
-                  child.material.emissive = new THREE.Color(
-                    currentFilter === 'ALL' ? 0x000000 : (sys === 'HV' ? 0xff4400 : 0x00b4d8)
-                  );
-                  child.material.emissiveIntensity = currentFilter === 'ALL' ? 0 : 0.28;
+                  if (child.material.emissive) {
+                    child.material.emissive.setHex(
+                      currentFilter === 'ALL' ? 0x000000 : (sys === 'HV' ? 0xff4400 : 0x00b4d8)
+                    );
+                    child.material.emissiveIntensity = currentFilter === 'ALL' ? 0 : 0.28;
+                  }
                 }
               } else {
                 child.material.transparent = true;
                 child.material.depthWrite = false;
                 child.material.opacity = 0.12;
                 if (child.material.emissive) {
-                  child.material.emissive = new THREE.Color(0x000000);
+                  child.material.emissive.setHex(0x000000);
                   child.material.emissiveIntensity = 0;
                 }
               }
             }
           }
         });
-      });
+      }
 
-      const wiresChecked = document.getElementById('chk-wires').checked;
-      wiresGroup.visible = wiresChecked && (currentFilter !== 'LV');
+      if (wiresGroup) {
+        var wiresChecked = document.getElementById('chk-wires').checked;
+        wiresGroup.visible = wiresChecked && (currentFilter !== 'LV');
+      }
     }
 
     function updateChassisOpacity(val) {
       document.getElementById('val-opacity').innerText = val + '%';
-      const op = parseFloat(val) / 100;
-      const isSolid = (op >= 0.98);
-      chassisMaterials.forEach(mat => {
+      var op = parseFloat(val) / 100;
+      var isSolid = (op >= 0.98);
+      for (var i = 0; i < chassisMaterials.length; i++) {
+        var mat = chassisMaterials[i];
         mat.opacity = isSolid ? 1.0 : op;
         mat.transparent = !isSolid;
         mat.depthWrite = isSolid;
         mat.needsUpdate = true;
-      });
+      }
     }
+
+    var explodeVectors = {
+      battery: { x: 0, y: 0.28, z: 0 },
+      hall: { x: -0.10, y: 0.44, z: -0.14 },
+      fuse: { x: -0.04, y: 0.44, z: -0.14 },
+      contactor: { x: 0.12, y: 0.44, z: -0.18 },
+      bms: { x: -0.28, y: 0.20, z: 0 },
+      inverter: { x: -0.16, y: -0.24, z: 0 },
+      motor: { x: 0, y: -0.18, z: 0 },
+      lvbox: { x: 0.20, y: 0.25, z: 0 }
+    };
 
     function updateExplodeView(val) {
       document.getElementById('val-explode').innerText = val + '%';
-      const factor = parseFloat(val) / 100;
-      Object.keys(componentGroups).forEach(id => {
-        const base = basePositions[id];
-        const offset = explodeVectors[id];
-        componentGroups[id].position.set(
-          base.x + offset.x * factor,
-          base.y + offset.y * factor,
-          base.z + offset.z * factor
-        );
-      });
+      var factor = parseFloat(val) / 100;
+      var ids = Object.keys(componentGroups);
+      for (var i = 0; i < ids.length; i++) {
+        var id = ids[i];
+        var base = basePositions[id];
+        var offset = explodeVectors[id];
+        if (base && offset) {
+          componentGroups[id].position.set(
+            base.x + offset.x * factor,
+            base.y + offset.y * factor,
+            base.z + offset.z * factor
+          );
+        }
+      }
     }
 
     function toggleWires(show) {
-      wiresGroup.visible = show && (currentFilter !== 'LV');
+      if (wiresGroup) {
+        wiresGroup.visible = show && (currentFilter !== 'LV');
+      }
     }
 
     function toggleLabels(show) {
-      labelsContainer.style.display = show ? 'block' : 'none';
-      terminalsContainer.style.display = show ? 'block' : 'none';
+      document.getElementById('labels-container').style.display = show ? 'block' : 'none';
+      document.getElementById('terminals-container').style.display = show ? 'block' : 'none';
     }
+
+    // Poblar ficha técnica inicial inmediatamente
+    renderInspectorDefault();
+
+    // ============================================================================
+    // 2. ESCENA 3D CON CONTROL ORBITAL INTEGRADO (SIN DEPENDENCIAS EXTERNAS FALLIDAS)
+    // ============================================================================
+    var camera, renderer, scene, camCtrl;
 
     function resetCameraMatchCAD() {
-      camera.position.set(-1.35, 1.85, 3.60);
-      controls.target.set(0.05, 0.90, 0);
-      controls.update();
+      if (!camCtrl) return;
+      camCtrl.target.set(0.05, 0.90, 0);
+      camCtrl.theta = -0.36;
+      camCtrl.phi = 1.32;
+      camCtrl.radius = 3.95;
+      camCtrl.update();
     }
 
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-    let pointerDownPos = { x: 0, y: 0 };
+    function init3DScene() {
+      if (typeof THREE === 'undefined') return;
 
-    renderer.domElement.addEventListener('pointerdown', (e) => {
-      pointerDownPos = { x: e.clientX, y: e.clientY };
-    });
+      var container = document.getElementById('canvas-container');
+      var labelsContainer = document.getElementById('labels-container');
+      var terminalsContainer = document.getElementById('terminals-container');
 
-    renderer.domElement.addEventListener('pointerup', (e) => {
-      const dist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
-      if (dist > 6) return;
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x090d14);
+      scene.fog = new THREE.FogExp2(0x090d14, 0.055);
 
-      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-      raycaster.setFromCamera(mouse, camera);
+      camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
+      renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.shadowMap.enabled = true;
+      container.appendChild(renderer.domElement);
 
-      const intersects = raycaster.intersectObjects(interactiveMeshes, false);
-      if (intersects.length > 0) {
-        const hitCompId = intersects[0].object.userData.compId;
-        if (hitCompId) selectComponent(hitCompId);
+      // Control orbital integrado 100% nativo (Rotación, Pan y Zoom con ratón y pantalla táctil)
+      camCtrl = {
+        target: new THREE.Vector3(0.05, 0.90, 0),
+        theta: -0.36,
+        phi: 1.32,
+        radius: 3.95,
+        isDragging: false,
+        isPanning: false,
+        prevX: 0,
+        prevY: 0,
+        update: function() {
+          this.phi = Math.max(0.15, Math.min(Math.PI / 2 + 0.12, this.phi));
+          this.radius = Math.max(1.1, Math.min(9.5, this.radius));
+          camera.position.x = this.target.x + this.radius * Math.sin(this.phi) * Math.sin(this.theta);
+          camera.position.y = this.target.y + this.radius * Math.cos(this.phi);
+          camera.position.z = this.target.z + this.radius * Math.sin(this.phi) * Math.cos(this.theta);
+          camera.lookAt(this.target);
+        }
+      };
+      camCtrl.update();
+
+      var domEl = renderer.domElement;
+      domEl.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+      domEl.addEventListener('pointerdown', function(e) {
+        camCtrl.isDragging = true;
+        camCtrl.isPanning = (e.button === 2 || e.shiftKey);
+        camCtrl.prevX = e.clientX;
+        camCtrl.prevY = e.clientY;
+      });
+      window.addEventListener('pointermove', function(e) {
+        if (!camCtrl.isDragging) return;
+        var dx = e.clientX - camCtrl.prevX;
+        var dy = e.clientY - camCtrl.prevY;
+        camCtrl.prevX = e.clientX;
+        camCtrl.prevY = e.clientY;
+
+        if (camCtrl.isPanning) {
+          var panSpeed = camCtrl.radius * 0.0012;
+          camCtrl.target.x -= dx * panSpeed * Math.cos(camCtrl.theta);
+          camCtrl.target.z += dx * panSpeed * Math.sin(camCtrl.theta);
+          camCtrl.target.y += dy * panSpeed;
+        } else {
+          camCtrl.theta -= dx * 0.007;
+          camCtrl.phi -= dy * 0.007;
+        }
+        camCtrl.update();
+      });
+      window.addEventListener('pointerup', function() {
+        camCtrl.isDragging = false;
+      });
+      domEl.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        camCtrl.radius += e.deltaY * 0.0025;
+        camCtrl.update();
+      }, { passive: false });
+
+      // Iluminación
+      scene.add(new THREE.AmbientLight(0xe2e8f0, 0.80));
+      var dirLight1 = new THREE.DirectionalLight(0xffffff, 1.05);
+      dirLight1.position.set(-3.5, 6.5, 5.5);
+      scene.add(dirLight1);
+
+      var dirLight2 = new THREE.DirectionalLight(0x93c5fd, 0.50);
+      dirLight2.position.set(4.5, 3.0, -5.0);
+      scene.add(dirLight2);
+
+      var gridHelper = new THREE.GridHelper(12, 24, 0x334155, 0x1e293b);
+      scene.add(gridHelper);
+
+      var bikeGroup = new THREE.Group();
+      scene.add(bikeGroup);
+
+      var interactiveMeshes = [];
+      var BOX_ORIGIN = new THREE.Vector3(-0.26, 1.18, 0);
+      var BOX_ROT_Z = -0.42;
+
+      function boxToWorld(lx, ly, lz) {
+        var v = new THREE.Vector3(lx, ly, lz);
+        v.applyAxisAngle(new THREE.Vector3(0, 0, 1), BOX_ROT_Z);
+        v.add(BOX_ORIGIN);
+        return v;
       }
-    });
 
-    // ============================================================================
-    // 7. BUCLE DE ANIMACIÓN Y PROYECCIÓN DE ETIQUETAS Y BORNAS
-    // ============================================================================
-    const clock = new THREE.Clock();
+      function addTerminalPoint(label, type, worldVec, compIds) {
+        var div = document.createElement('div');
+        div.className = 'term-badge ' + type;
+        div.innerText = label;
+        terminalsContainer.appendChild(div);
+        terminalPoints.push({
+          el: div,
+          pos: worldVec.clone(),
+          compIds: compIds
+        });
+      }
 
-    function animate() {
-      requestAnimationFrame(animate);
-      const elapsed = clock.getElapsedTime();
-      controls.update();
+      // ========================================================================
+      // 3. CAPA MECÁNICA PURA (NO SE MARCA AL SELECCIONAR ALTA TENSIÓN)
+      // ========================================================================
+      var mechanicalGroup = new THREE.Group();
+      bikeGroup.add(mechanicalGroup);
 
-      if (selectedCompId && componentGroups[selectedCompId]) {
-        const pulse = 0.42 + Math.sin(elapsed * 5) * 0.20;
-        componentGroups[selectedCompId].traverse(child => {
-          if (child.isMesh && !child.userData.isTranslucentShell && child.material !== matThermalPad) {
-            child.material.emissiveIntensity = pulse;
+      var matAluminum = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.65, roughness: 0.30 });
+      var matSteel = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.88, roughness: 0.20 });
+      var matDarkSteel = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.82, roughness: 0.32 });
+      var matGubelliniGold = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.78, roughness: 0.25 });
+      var matGubelliniRed = new THREE.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.70, roughness: 0.25 });
+      var matGubelliniBlue = new THREE.MeshStandardMaterial({ color: 0x2563eb, metalness: 0.70, roughness: 0.25 });
+
+      var matGhostChassis = new THREE.MeshPhysicalMaterial({
+        color: 0x94a3b8,
+        metalness: 0.22,
+        roughness: 0.28,
+        transparent: true,
+        opacity: 0.35,
+        depthWrite: false,
+        polygonOffset: true,
+        polygonOffsetFactor: 1,
+        polygonOffsetUnits: 1
+      });
+      chassisMaterials.push(matGhostChassis);
+
+      var matTire = new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.85, metalness: 0.1 });
+      var matRim = new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.4, metalness: 0.7 });
+
+      function createToothedSprocket(innerR, outerR, teethCount, thickness, mat) {
+        var grp = new THREE.Group();
+        var ringGeo = new THREE.RingGeometry(innerR, outerR, 40);
+        var ringMat = mat.clone();
+        ringMat.side = THREE.DoubleSide;
+        grp.add(new THREE.Mesh(ringGeo, ringMat));
+
+        var bodyGeo = new THREE.CylinderGeometry(outerR, outerR, thickness, 36, 1, true);
+        bodyGeo.rotateX(Math.PI / 2);
+        grp.add(new THREE.Mesh(bodyGeo, mat));
+
+        for (var i = 0; i < teethCount; i++) {
+          var a = (i / teethCount) * Math.PI * 2;
+          var tooth = new THREE.Mesh(new THREE.BoxGeometry(0.014, 0.022, thickness), mat);
+          tooth.position.set(Math.cos(a) * (outerR + 0.006), Math.sin(a) * (outerR + 0.006), 0);
+          tooth.rotation.z = a - Math.PI / 2;
+          grp.add(tooth);
+        }
+        return grp;
+      }
+
+      function createWheel(x, y, tireRadius, tubeRadius, isRear) {
+        var wheelGrp = new THREE.Group();
+        wheelGrp.position.set(x, y, 0);
+
+        wheelGrp.add(new THREE.Mesh(new THREE.TorusGeometry(tireRadius, tubeRadius, 20, 48), matTire));
+
+        var rimGeo = new THREE.CylinderGeometry(tireRadius - tubeRadius * 0.8, tireRadius - tubeRadius * 0.8, tubeRadius * 1.1, 32, 1, true);
+        rimGeo.rotateX(Math.PI / 2);
+        wheelGrp.add(new THREE.Mesh(rimGeo, matRim));
+
+        var hubGeo = new THREE.CylinderGeometry(0.075, 0.075, 0.22, 20);
+        hubGeo.rotateX(Math.PI / 2);
+        wheelGrp.add(new THREE.Mesh(hubGeo, matAluminum));
+
+        for (var i = 0; i < 5; i++) {
+          var angle = (i * Math.PI * 2) / 5;
+          var spoke = new THREE.Mesh(new THREE.BoxGeometry(0.028, tireRadius - 0.1, 0.022), matRim);
+          spoke.position.set(Math.cos(angle) * (tireRadius * 0.45), Math.sin(angle) * (tireRadius * 0.45), 0);
+          spoke.rotation.z = angle + Math.PI / 2;
+          wheelGrp.add(spoke);
+        }
+
+        var disc = createToothedSprocket(0.11, 0.24, 12, 0.006, matSteel);
+        disc.position.z = isRear ? -0.13 : 0.12;
+        wheelGrp.add(disc);
+
+        if (isRear) {
+          var rearSprocket = createToothedSprocket(0.08, 0.265, 42, 0.010, matSteel);
+          rearSprocket.position.z = 0.145;
+          wheelGrp.add(rearSprocket);
+
+          for (var k = 0; k < 6; k++) {
+            var ka = (k * Math.PI) / 3;
+            var holeGeo = new THREE.CylinderGeometry(0.028, 0.028, 0.014, 16);
+            holeGeo.rotateX(Math.PI / 2);
+            var hole = new THREE.Mesh(holeGeo, matDarkSteel);
+            hole.position.set(Math.cos(ka) * 0.17, Math.sin(ka) * 0.17, 0.145);
+            wheelGrp.add(hole);
+          }
+
+          var stripeGeo = new THREE.RingGeometry(tireRadius - tubeRadius * 0.75, tireRadius - tubeRadius * 0.65, 40);
+          var stripeMat = new THREE.MeshBasicMaterial({ color: 0xff6600, side: THREE.DoubleSide });
+          var stripe = new THREE.Mesh(stripeGeo, stripeMat);
+          stripe.position.z = 0.08;
+          wheelGrp.add(stripe);
+        }
+
+        mechanicalGroup.add(wheelGrp);
+      }
+
+      createWheel(-1.38, 0.50, 0.38, 0.12, false);
+      createWheel(1.42, 0.50, 0.38, 0.13, true);
+
+      // Suspensión delantera FG Gubellini
+      var forkGroup = new THREE.Group();
+      [-0.14, 0.14].forEach(function(zPos) {
+        var outerTube = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.034, 0.65, 18), matAluminum);
+        outerTube.position.set(-1.02, 1.22, zPos);
+        outerTube.rotation.z = -0.42;
+        forkGroup.add(outerTube);
+
+        var innerTube = new THREE.Mesh(new THREE.CylinderGeometry(0.027, 0.027, 0.62, 18), matSteel);
+        innerTube.position.set(-1.24, 0.74, zPos);
+        innerTube.rotation.z = -0.42;
+        forkGroup.add(innerTube);
+
+        var cap = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 0.03, 16), zPos > 0 ? matGubelliniRed : matGubelliniBlue);
+        cap.position.set(-0.88, 1.51, zPos);
+        cap.rotation.z = -0.42;
+        forkGroup.add(cap);
+
+        var foot = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.09, 0.05), matAluminum);
+        foot.position.set(-1.37, 0.50, zPos);
+        forkGroup.add(foot);
+      });
+
+      var stem = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.042, 0.34, 16), matAluminum);
+      stem.position.set(-0.92, 1.36, 0);
+      stem.rotation.z = -0.42;
+      forkGroup.add(stem);
+
+      var barGeo = new THREE.CylinderGeometry(0.015, 0.015, 0.64, 12);
+      barGeo.rotateX(Math.PI / 2);
+      var handlebar = new THREE.Mesh(barGeo, matDarkSteel);
+      handlebar.position.set(-0.85, 1.54, 0);
+      forkGroup.add(handlebar);
+      mechanicalGroup.add(forkGroup);
+
+      // Chasis y Placas del Motor
+      var frameGroup = new THREE.Group();
+      [-0.205, 0.205].forEach(function(zSide) {
+        var mainBeam = new THREE.Mesh(new THREE.BoxGeometry(1.20, 0.16, 0.028), matGhostChassis);
+        mainBeam.position.set(-0.32, 1.00, zSide);
+        mainBeam.rotation.z = -0.42;
+        frameGroup.add(mainBeam);
+
+        var lowerStrut = new THREE.Mesh(new THREE.BoxGeometry(0.92, 0.055, 0.024), matGhostChassis);
+        lowerStrut.position.set(-0.28, 0.72, zSide + (zSide > 0 ? 0.002 : -0.002));
+        lowerStrut.rotation.z = -0.62;
+        frameGroup.add(lowerStrut);
+
+        var pivotPlate = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.56, 0.028), matGhostChassis);
+        pivotPlate.position.set(0.24, 0.68, zSide + (zSide > 0 ? 0.004 : -0.004));
+        frameGroup.add(pivotPlate);
+      });
+
+      var radBox = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.25, 0.22), matAluminum);
+      radBox.position.set(-0.46, 0.68, 0);
+      frameGroup.add(radBox);
+
+      var hoseCurve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-0.46, 0.58, 0.09),
+        new THREE.Vector3(-0.22, 0.48, 0.12),
+        new THREE.Vector3( 0.08, 0.48, 0.09)
+      ]);
+      frameGroup.add(new THREE.Mesh(new THREE.TubeGeometry(hoseCurve, 28, 0.013, 10, false), matAluminum));
+      mechanicalGroup.add(frameGroup);
+
+      // Basculante trasero
+      var swingarmGroup = new THREE.Group();
+      [-0.19, 0.19].forEach(function(zSide) {
+        var arm = new THREE.Mesh(new THREE.BoxGeometry(1.18, 0.085, 0.03), matAluminum);
+        arm.position.set(0.84, 0.55, zSide);
+        arm.rotation.z = -0.07;
+        swingarmGroup.add(arm);
+
+        var brace = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.045, 0.025), matAluminum);
+        brace.position.set(0.75, 0.67, zSide);
+        brace.rotation.z = -0.32;
+        swingarmGroup.add(brace);
+      });
+      mechanicalGroup.add(swingarmGroup);
+
+      // Amortiguador trasero FG Gubellini
+      var shockGroup = new THREE.Group();
+      shockGroup.position.set(0.54, 0.88, 0);
+      shockGroup.rotation.z = -0.76;
+
+      shockGroup.add(new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.024, 0.48, 16), matGubelliniGold));
+      for (var sc = -0.14; sc <= 0.14; sc += 0.032) {
+        var coilGeo = new THREE.TorusGeometry(0.048, 0.0085, 10, 24);
+        coilGeo.rotateX(Math.PI / 2);
+        var coil = new THREE.Mesh(coilGeo, matSteel);
+        coil.position.y = sc;
+        shockGroup.add(coil);
+      }
+      var preloadRing = new THREE.Mesh(new THREE.CylinderGeometry(0.052, 0.052, 0.02, 20), matGubelliniRed);
+      preloadRing.position.y = 0.16;
+      shockGroup.add(preloadRing);
+
+      var piggyback = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.16, 18), matAluminum);
+      piggyback.position.set(0.09, 0.14, 0);
+      piggyback.rotation.z = 0.35;
+      shockGroup.add(piggyback);
+
+      var piggyCap = new THREE.Mesh(new THREE.CylinderGeometry(0.029, 0.029, 0.022, 18), matGubelliniBlue);
+      piggyCap.position.set(0.115, 0.21, 0);
+      piggyCap.rotation.z = 0.35;
+      shockGroup.add(piggyCap);
+      mechanicalGroup.add(shockGroup);
+
+      // Piñón y Cadena de Eslabones Metálicos
+      var chainGroup = new THREE.Group();
+      var motorPinion = createToothedSprocket(0.022, 0.065, 15, 0.016, matSteel);
+      motorPinion.position.set(0.12, 0.62, 0.145);
+      chainGroup.add(motorPinion);
+
+      var shaftGeo = new THREE.CylinderGeometry(0.022, 0.022, 0.06, 16);
+      shaftGeo.rotateX(Math.PI / 2);
+      var motorShaft = new THREE.Mesh(shaftGeo, matSteel);
+      motorShaft.position.set(0.12, 0.62, 0.13);
+      chainGroup.add(motorShaft);
+
+      var chainCurve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(0.12, 0.69, 0.145),
+        new THREE.Vector3(0.76, 0.73, 0.145),
+        new THREE.Vector3(1.42, 0.765, 0.145),
+        new THREE.Vector3(1.685, 0.50, 0.145),
+        new THREE.Vector3(1.42, 0.235, 0.145),
+        new THREE.Vector3(0.76, 0.39, 0.145),
+        new THREE.Vector3(0.12, 0.55, 0.145),
+        new THREE.Vector3(0.05, 0.62, 0.145)
+      ], true);
+
+      var numLinks = 92;
+      var plateGeo = new THREE.BoxGeometry(0.026, 0.012, 0.003);
+      var rollerGeo = new THREE.CylinderGeometry(0.0055, 0.0055, 0.016, 10);
+      rollerGeo.rotateX(Math.PI / 2);
+
+      for (var li = 0; li < numLinks; li++) {
+        var u = li / numLinks;
+        var pt = chainCurve.getPointAt(u);
+        var tangent = chainCurve.getTangentAt(u);
+        var angle = Math.atan2(tangent.y, tangent.x);
+
+        var linkHolder = new THREE.Group();
+        linkHolder.position.copy(pt);
+        linkHolder.rotation.z = angle;
+
+        var zOff = (li % 2 === 0) ? 0.008 : 0.0055;
+        var pMat = (li % 2 === 0) ? matSteel : matAluminum;
+
+        var plateL = new THREE.Mesh(plateGeo, pMat);
+        plateL.position.z = zOff;
+        linkHolder.add(plateL);
+
+        var plateR = new THREE.Mesh(plateGeo, pMat);
+        plateR.position.z = -zOff;
+        linkHolder.add(plateR);
+
+        var roller = new THREE.Mesh(rollerGeo, matDarkSteel);
+        linkHolder.add(roller);
+
+        chainGroup.add(linkHolder);
+      }
+      mechanicalGroup.add(chainGroup);
+
+      // Caja de la Batería Escalonada y Cajón de la BMS de Altura Completa
+      var batteryBoxShell = new THREE.Group();
+      batteryBoxShell.position.copy(BOX_ORIGIN);
+      batteryBoxShell.rotation.z = BOX_ROT_Z;
+      mechanicalGroup.add(batteryBoxShell);
+
+      var lowW = 0.72, lowH = 0.20, lowD = 0.36, wallT = 0.012;
+      var upW = 0.72, upH = 0.18, upD = 0.48;
+      var totalBoxH = lowH + upH;
+
+      var boxBottom = new THREE.Mesh(new THREE.BoxGeometry(lowW, wallT, lowD), matGhostChassis);
+      boxBottom.position.set(0, -0.14, 0);
+      batteryBoxShell.add(boxBottom);
+
+      [-lowD / 2, lowD / 2].forEach(function(zSide) {
+        var lowWall = new THREE.Mesh(new THREE.BoxGeometry(lowW - wallT * 2, lowH - wallT, wallT), matGhostChassis);
+        lowWall.position.set(0, -0.042, zSide);
+        batteryBoxShell.add(lowWall);
+      });
+
+      [-upD / 2, upD / 2].forEach(function(zSide) {
+        var upWall = new THREE.Mesh(new THREE.BoxGeometry(upW - wallT * 2, upH, wallT), matGhostChassis);
+        upWall.position.set(0, 0.145, zSide);
+        batteryBoxShell.add(upWall);
+
+        var stepW = (upD - lowD) / 2;
+        var stepLedge = new THREE.Mesh(new THREE.BoxGeometry(upW - wallT * 2, wallT, stepW), matGhostChassis);
+        stepLedge.position.set(0, 0.05, zSide > 0 ? (lowD / 2 + stepW / 2) : -(lowD / 2 + stepW / 2));
+        batteryBoxShell.add(stepLedge);
+      });
+
+      var frontBoxWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, totalBoxH, lowD), matGhostChassis);
+      frontBoxWall.position.set(-upW / 2, 0.05, 0);
+      batteryBoxShell.add(frontBoxWall);
+
+      var rearBoxWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, totalBoxH, upD), matGhostChassis);
+      rearBoxWall.position.set(upW / 2, 0.05, 0);
+      batteryBoxShell.add(rearBoxWall);
+
+      var bmsW = 0.15, bmsD = 0.30;
+      var bmsBottom = new THREE.Mesh(new THREE.BoxGeometry(bmsW, wallT, bmsD), matGhostChassis);
+      bmsBottom.position.set(-upW / 2 - bmsW / 2, -0.14, 0);
+      batteryBoxShell.add(bmsBottom);
+
+      var bmsFrontWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, totalBoxH, bmsD), matGhostChassis);
+      bmsFrontWall.position.set(-upW / 2 - bmsW, 0.05, 0);
+      batteryBoxShell.add(bmsFrontWall);
+
+      [-bmsD / 2, bmsD / 2].forEach(function(zBms) {
+        var bmsSideWall = new THREE.Mesh(new THREE.BoxGeometry(bmsW - wallT, totalBoxH, wallT), matGhostChassis);
+        bmsSideWall.position.set(-upW / 2 - bmsW / 2, 0.05, zBms);
+        batteryBoxShell.add(bmsSideWall);
+      });
+
+      var subframeGroup = new THREE.Group();
+      subframeGroup.position.set(0.62, 1.08, 0);
+      subframeGroup.rotation.z = 0.22;
+      subframeGroup.add(new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.045, 0.28), matGhostChassis));
+      mechanicalGroup.add(subframeGroup);
+
+      // Vías de sujeción de cables al chasis
+      [
+        new THREE.Vector3(0.32, 0.92, -0.150),
+        new THREE.Vector3(0.26, 0.84, -0.145),
+        new THREE.Vector3(0.11, 0.85, -0.135),
+        new THREE.Vector3(0.32, 0.92,  0.150),
+        new THREE.Vector3(0.26, 0.84,  0.145),
+        new THREE.Vector3(0.11, 0.85,  0.135)
+      ].forEach(function(clampPos) {
+        var clampGrp = new THREE.Group();
+        clampGrp.position.copy(clampPos);
+        clampGrp.add(new THREE.Mesh(new THREE.BoxGeometry(0.032, 0.022, 0.058), matDarkSteel));
+        var boltGeo = new THREE.CylinderGeometry(0.0045, 0.0045, 0.065, 10);
+        boltGeo.rotateX(Math.PI / 2);
+        clampGrp.add(new THREE.Mesh(boltGeo, matSteel));
+        mechanicalGroup.add(clampGrp);
+      });
+
+      // ========================================================================
+      // 4. COMPONENTES ELECTRÓNICOS
+      // ========================================================================
+      function registerComponent(id, group, labelOffset) {
+        group.userData.compId = id;
+        group.userData.system = COMPONENTS_DB[id].system;
+        group.userData.labelOffset = labelOffset;
+        componentGroups[id] = group;
+        basePositions[id] = group.position.clone();
+
+        group.traverse(function(child) {
+          if (child.isMesh) {
+            child.userData.compId = id;
+            child.material = child.material.clone();
+            interactiveMeshes.push(child);
           }
         });
+        bikeGroup.add(group);
       }
 
-      if (wiresGroup.visible) {
-        flowParticles.forEach(p => {
-          p.progress = (p.progress + p.speed) % 1;
-          const pos = p.curve.getPointAt(p.progress);
-          p.mesh.position.copy(pos);
+      function matCopperMaterial() {
+        return new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.85, roughness: 0.22 });
+      }
+
+      // 4.1 Pack Baterías 30S2P + Thermal Pad + Conectores Amphenol 0°
+      var batGroup = new THREE.Group();
+      batGroup.position.copy(BOX_ORIGIN);
+      batGroup.rotation.z = BOX_ROT_Z;
+
+      var matThermalPad = new THREE.MeshStandardMaterial({
+        color: 0x38bdf8,
+        roughness: 0.65,
+        metalness: 0.05,
+        transparent: true,
+        opacity: 0.45,
+        depthWrite: false
+      });
+
+      var padBottom = new THREE.Mesh(new THREE.BoxGeometry(0.64, 0.010, 0.33), matThermalPad);
+      padBottom.position.set(-0.02, -0.128, 0);
+      padBottom.userData.isThermalPad = true;
+      padBottom.renderOrder = 8;
+      batGroup.add(padBottom);
+
+      [-0.162, 0.162].forEach(function(zPad) {
+        var padSide = new THREE.Mesh(new THREE.BoxGeometry(0.64, 0.15, 0.008), matThermalPad);
+        padSide.position.set(-0.02, -0.05, zPad);
+        padSide.userData.isThermalPad = true;
+        padSide.renderOrder = 8;
+        batGroup.add(padSide);
+      });
+
+      [-0.335, 0.295].forEach(function(xPad) {
+        var padEnd = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.15, 0.32), matThermalPad);
+        padEnd.position.set(xPad, -0.05, 0);
+        padEnd.userData.isThermalPad = true;
+        padEnd.renderOrder = 8;
+        batGroup.add(padEnd);
+      });
+
+      var matModuleBlue = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.30, metalness: 0.25 });
+      var matRedPost = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.3 });
+      var matBlkPost = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.3 });
+      var matJST = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2 });
+      var matHVOrange = new THREE.MeshStandardMaterial({ color: 0xff5500, roughness: 0.28, metalness: 0.25 });
+
+      // Módulo 1 (Delantero Izquierdo, Vertical)
+      var mod1 = new THREE.Mesh(new THREE.BoxGeometry(0.33, 0.15, 0.138), matModuleBlue);
+      mod1.position.set(-0.14, -0.048, 0.080);
+      batGroup.add(mod1);
+      var m1Neg = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matBlkPost);
+      m1Neg.position.set(-0.26, 0.042, 0.105);
+      batGroup.add(m1Neg);
+      var m1Pos = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matRedPost);
+      m1Pos.position.set(-0.02, 0.042, 0.085);
+      batGroup.add(m1Pos);
+      var jst1 = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.016, 0.034), matJST);
+      jst1.position.set(-0.18, 0.035, 0.05);
+      batGroup.add(jst1);
+
+      // Módulo 2 (Delantero Derecho, Vertical)
+      var mod2 = new THREE.Mesh(new THREE.BoxGeometry(0.33, 0.15, 0.138), matModuleBlue);
+      mod2.position.set(-0.14, -0.048, -0.080);
+      batGroup.add(mod2);
+      var m2Neg = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matBlkPost);
+      m2Neg.position.set(-0.02, 0.042, -0.055);
+      batGroup.add(m2Neg);
+      var m2Pos = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matRedPost);
+      m2Pos.position.set(-0.26, 0.042, -0.125);
+      batGroup.add(m2Pos);
+      var jst2 = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.016, 0.034), matJST);
+      jst2.position.set(-0.18, 0.035, -0.05);
+      batGroup.add(jst2);
+
+      // Módulo 3 (Trasero, Horizontal)
+      var mod3 = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.298), matModuleBlue);
+      mod3.position.set(0.14, -0.048, 0.0);
+      batGroup.add(mod3);
+      var m3Neg = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matBlkPost);
+      m3Neg.position.set(0.08, 0.042, -0.115);
+      batGroup.add(m3Neg);
+      var m3Pos = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matRedPost);
+      m3Pos.position.set(0.10, 0.042, 0.06);
+      batGroup.add(m3Pos);
+      var jst3 = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.016, 0.034), matJST);
+      jst3.position.set(0.09, 0.035, -0.02);
+      batGroup.add(jst3);
+
+      // Conectores Rectos de 0° de Amphenol para 35 mm² en la cara trasera de la caja
+      [-0.105, 0.105].forEach(function(zAmp, idx) {
+        var ampGrp = new THREE.Group();
+        ampGrp.position.set(0.366, 0.065, zAmp);
+
+        var ampFlange = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.044, 0.044), matDarkSteel);
+        ampGrp.add(ampFlange);
+
+        var bodyCyl = new THREE.CylinderGeometry(0.016, 0.016, 0.052, 18);
+        bodyCyl.rotateZ(Math.PI / 2);
+        var ampBody = new THREE.Mesh(bodyCyl, idx === 0 ? matHVOrange : matBlkPost);
+        ampBody.position.x = 0.026;
+        ampGrp.add(ampBody);
+
+        var glandCyl = new THREE.CylinderGeometry(0.013, 0.013, 0.022, 14);
+        glandCyl.rotateZ(Math.PI / 2);
+        var gland = new THREE.Mesh(glandCyl, matAluminum);
+        gland.position.x = 0.055;
+        ampGrp.add(gland);
+
+        batGroup.add(ampGrp);
+      });
+
+      registerComponent('battery', batGroup, new THREE.Vector3(-0.08, 0.28, 0.12));
+
+      addTerminalPoint('AMPHENOL + (0°)', 'term-pos', boxToWorld(0.41, 0.08, -0.105), ['battery', 'contactor', 'inverter']);
+      addTerminalPoint('AMPHENOL - (0°)', 'term-neg', boxToWorld(0.41, 0.08,  0.105), ['battery', 'inverter']);
+      addTerminalPoint('BAT +', 'term-pos', boxToWorld(0.10, 0.08, 0.06), ['battery', 'contactor']);
+      addTerminalPoint('BAT -', 'term-neg', boxToWorld(-0.26, 0.08, 0.105), ['battery']);
+
+      // 4.2 Sensor Hall de Corriente (Al principio del cable del fusible, antes del fusible)
+      var hallGroup = new THREE.Group();
+      hallGroup.position.copy(boxToWorld(-0.205, 0.095, -0.135));
+      hallGroup.rotation.z = BOX_ROT_Z;
+
+      var hallTorus = new THREE.TorusGeometry(0.022, 0.006, 16, 32);
+      hallTorus.rotateY(Math.PI / 2);
+      var hallRing = new THREE.Mesh(
+        hallTorus,
+        new THREE.MeshStandardMaterial({ color: 0x090d14, roughness: 0.25, metalness: 0.4 })
+      );
+      hallGroup.add(hallRing);
+
+      var hallHeader = new THREE.Mesh(
+        new THREE.BoxGeometry(0.014, 0.015, 0.014),
+        new THREE.MeshStandardMaterial({ color: 0x7c3aed, roughness: 0.3 })
+      );
+      hallHeader.position.set(0, 0.024, 0);
+      hallGroup.add(hallHeader);
+
+      registerComponent('hall', hallGroup, new THREE.Vector3(-0.08, 0.16, -0.06));
+
+      // 4.3 Fusible SIBA 500A
+      var fuseGroup = new THREE.Group();
+      fuseGroup.position.copy(boxToWorld(-0.085, 0.095, -0.135));
+      fuseGroup.rotation.z = BOX_ROT_Z;
+
+      var fuseBody = new THREE.Mesh(
+        new THREE.BoxGeometry(0.080, 0.036, 0.034),
+        new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.25, metalness: 0.1 })
+      );
+      fuseGroup.add(fuseBody);
+
+      var fuseWindow = new THREE.Mesh(
+        new THREE.BoxGeometry(0.038, 0.020, 0.036),
+        new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.8, roughness: 0.2 })
+      );
+      fuseGroup.add(fuseWindow);
+
+      [-0.052, 0.052].forEach(function(xLug) {
+        var lug = new THREE.Mesh(new THREE.BoxGeometry(0.034, 0.012, 0.010), matCopperMaterial());
+        lug.position.x = xLug;
+        fuseGroup.add(lug);
+
+        var post = new THREE.Mesh(new THREE.BoxGeometry(0.014, 0.052, 0.012), matCopperMaterial());
+        post.position.set(xLug, -0.024, 0);
+        fuseGroup.add(post);
+      });
+
+      registerComponent('fuse', fuseGroup, new THREE.Vector3(-0.02, 0.18, -0.08));
+
+      // 4.4 Contactor Kilovac 500A (Elevado en pared derecha, bornas hacia la izquierda)
+      var contactorGroup = new THREE.Group();
+      contactorGroup.position.copy(boxToWorld(0.20, 0.125, -0.165));
+      contactorGroup.rotation.z = BOX_ROT_Z;
+
+      var contactorBase = new THREE.Mesh(
+        new THREE.BoxGeometry(0.090, 0.082, 0.014),
+        new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.6, roughness: 0.3 })
+      );
+      contactorBase.position.z = -0.052;
+      contactorGroup.add(contactorBase);
+
+      var kiloGeo = new THREE.CylinderGeometry(0.043, 0.043, 0.098, 24);
+      kiloGeo.rotateX(Math.PI / 2);
+      var kilovacCyl = new THREE.Mesh(
+        kiloGeo,
+        new THREE.MeshStandardMaterial({ color: 0xf5f5f4, roughness: 0.32, metalness: 0.15 })
+      );
+      contactorGroup.add(kilovacCyl);
+
+      [-0.022, 0.022].forEach(function(xStud) {
+        var studGeo = new THREE.CylinderGeometry(0.009, 0.009, 0.035, 12);
+        studGeo.rotateX(Math.PI / 2);
+        var stud = new THREE.Mesh(studGeo, matCopperMaterial());
+        stud.position.set(xStud, 0, 0.060);
+        contactorGroup.add(stud);
+      });
+
+      registerComponent('contactor', contactorGroup, new THREE.Vector3(0.10, 0.18, -0.10));
+
+      // 4.5 BMS Orion 2
+      var bmsGroup = new THREE.Group();
+      bmsGroup.position.copy(boxToWorld(-0.395, 0.04, 0));
+      bmsGroup.rotation.z = BOX_ROT_Z;
+
+      var orionBody = new THREE.Mesh(
+        new THREE.BoxGeometry(0.032, 0.19, 0.23),
+        new THREE.MeshStandardMaterial({ color: 0x111827, metalness: 0.65, roughness: 0.30 })
+      );
+      bmsGroup.add(orionBody);
+
+      var flange = new THREE.Mesh(
+        new THREE.BoxGeometry(0.006, 0.22, 0.25),
+        new THREE.MeshStandardMaterial({ color: 0x1f2937, metalness: 0.7, roughness: 0.3 })
+      );
+      flange.position.x = 0.015;
+      bmsGroup.add(flange);
+
+      var labelOrion = new THREE.Mesh(
+        new THREE.BoxGeometry(0.034, 0.055, 0.15),
+        new THREE.MeshStandardMaterial({ color: 0xea580c, roughness: 0.3 })
+      );
+      bmsGroup.add(labelOrion);
+
+      [-0.065, 0.0, 0.065].forEach(function(zConn) {
+        var conn = new THREE.Mesh(
+          new THREE.BoxGeometry(0.020, 0.018, 0.038),
+          new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.3 })
+        );
+        conn.position.set(0, 0.102, zConn);
+        bmsGroup.add(conn);
+      });
+
+      registerComponent('bms', bmsGroup, new THREE.Vector3(-0.14, 0.22, 0));
+
+      // 4.6 Inversor HyperDrive X1 + Cold Plate + Conectores DC+ y DC-
+      var invGroup = new THREE.Group();
+      invGroup.position.copy(boxToWorld(-0.04, -0.205, 0));
+      invGroup.rotation.z = BOX_ROT_Z;
+
+      var coldPlate = new THREE.Mesh(
+        new THREE.BoxGeometry(0.33, 0.022, 0.24),
+        new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.20 })
+      );
+      coldPlate.position.set(0, 0.050, 0);
+      invGroup.add(coldPlate);
+
+      var invCasing = new THREE.Mesh(
+        new THREE.BoxGeometry(0.31, 0.078, 0.22),
+        new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.72, roughness: 0.28 })
+      );
+      invGroup.add(invCasing);
+
+      var invCap = new THREE.Mesh(
+        new THREE.BoxGeometry(0.27, 0.014, 0.18),
+        new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.5, roughness: 0.4 })
+      );
+      invCap.position.set(0, -0.044, 0);
+      invGroup.add(invCap);
+
+      var posCyl = new THREE.CylinderGeometry(0.014, 0.014, 0.042, 16);
+      posCyl.rotateZ(Math.PI / 2);
+      var invPosConn = new THREE.Mesh(posCyl, matRedPost);
+      invPosConn.position.set(0.165, 0.012, -0.092);
+      invGroup.add(invPosConn);
+
+      var negCyl = new THREE.CylinderGeometry(0.014, 0.014, 0.042, 16);
+      negCyl.rotateZ(Math.PI / 2);
+      var invNegConn = new THREE.Mesh(negCyl, matBlkPost);
+      invNegConn.position.set(0.165, 0.012, 0.092);
+      invGroup.add(invNegConn);
+
+      [-0.045, 0.0, 0.045].forEach(function(zPh) {
+        var phGeo = new THREE.CylinderGeometry(0.009, 0.009, 0.032, 12);
+        phGeo.rotateZ(Math.PI / 2);
+        var phConn = new THREE.Mesh(phGeo, matCopperMaterial());
+        phConn.position.set(0.16, -0.018, zPh);
+        invGroup.add(phConn);
+      });
+
+      registerComponent('inverter', invGroup, new THREE.Vector3(-0.18, -0.14, 0));
+
+      addTerminalPoint('INV DC+', 'term-pos', boxToWorld(0.135, -0.185, -0.092), ['inverter', 'battery']);
+      addTerminalPoint('INV DC-', 'term-neg', boxToWorld(0.135, -0.185,  0.092), ['inverter', 'battery']);
+
+      // 4.7 Motor Eléctrico CIRCE
+      var motorGroup = new THREE.Group();
+      motorGroup.position.set(0.12, 0.62, 0);
+
+      var statorGeo = new THREE.CylinderGeometry(0.145, 0.145, 0.24, 32);
+      statorGeo.rotateX(Math.PI / 2);
+      var circeStator = new THREE.Mesh(
+        statorGeo,
+        new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.78, roughness: 0.28 })
+      );
+      motorGroup.add(circeStator);
+
+      for (var zFin = -0.095; zFin <= 0.095; zFin += 0.024) {
+        var finGeo = new THREE.CylinderGeometry(0.156, 0.156, 0.010, 32);
+        finGeo.rotateX(Math.PI / 2);
+        var fin = new THREE.Mesh(
+          finGeo,
+          new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.85, roughness: 0.22 })
+        );
+        fin.position.z = zFin;
+        motorGroup.add(fin);
+      }
+
+      [-0.125, 0.125].forEach(function(zBell) {
+        var bellGeo = new THREE.CylinderGeometry(0.135, 0.135, 0.016, 28);
+        bellGeo.rotateX(Math.PI / 2);
+        var bell = new THREE.Mesh(bellGeo, matAluminum);
+        bell.position.z = zBell;
+        motorGroup.add(bell);
+      });
+
+      var terminalBlock = new THREE.Mesh(
+        new THREE.BoxGeometry(0.055, 0.032, 0.14),
+        new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 })
+      );
+      terminalBlock.position.set(-0.08, 0.135, 0);
+      motorGroup.add(terminalBlock);
+
+      [-0.045, 0.0, 0.045].forEach(function(zTerm) {
+        var stud = new THREE.Mesh(new THREE.CylinderGeometry(0.009, 0.009, 0.028, 12), matCopperMaterial());
+        stud.position.set(-0.08, 0.158, zTerm);
+        motorGroup.add(stud);
+      });
+
+      registerComponent('motor', motorGroup, new THREE.Vector3(0.05, -0.24, 0));
+
+      addTerminalPoint('U / V / W', 'term-phase', new THREE.Vector3(0.03, 0.79, 0.0), ['motor', 'inverter']);
+
+      // 4.8 Caja de Baja Tensión con 3 PCBs
+      var lvGroup = new THREE.Group();
+      lvGroup.position.set(0.64, 1.15, 0);
+      lvGroup.rotation.z = 0.22;
+
+      var pcbMat = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.35, metalness: 0.3 });
+      var icMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 });
+
+      [-0.12, 0.0, 0.12].forEach(function(xPcb, idx) {
+        var pcb = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.010, 0.17), pcbMat);
+        pcb.position.set(xPcb, -0.015 + (idx % 2) * 0.026, 0);
+        pcb.renderOrder = 1;
+        lvGroup.add(pcb);
+
+        var chip = new THREE.Mesh(new THREE.BoxGeometry(0.032, 0.012, 0.032), icMat);
+        chip.position.set(xPcb, pcb.position.y + 0.011, 0.015);
+        chip.renderOrder = 1;
+        lvGroup.add(chip);
+      });
+
+      var lvBoxShell = new THREE.Mesh(
+        new THREE.BoxGeometry(0.42, 0.12, 0.23),
+        new THREE.MeshPhysicalMaterial({
+          color: 0x0ea5e9,
+          transparent: true,
+          opacity: 0.34,
+          depthWrite: false,
+          roughness: 0.2,
+          metalness: 0.1
+        })
+      );
+      lvBoxShell.userData.isTranslucentShell = true;
+      lvBoxShell.renderOrder = 12;
+      lvGroup.add(lvBoxShell);
+
+      registerComponent('lvbox', lvGroup, new THREE.Vector3(0.12, 0.16, 0));
+
+      // ========================================================================
+      // 5. CABLEADO INTERNO Y EXTERNO
+      // ========================================================================
+      wiresGroup = new THREE.Group();
+      bikeGroup.add(wiresGroup);
+      var flowParticles = [];
+      var HV_ORANGE = 0xff5500;
+
+      function createWire(points, colorHex, radius, sysType) {
+        var curve = new THREE.CatmullRomCurve3(points);
+        var geo = new THREE.TubeGeometry(curve, 52, radius, 8, false);
+        var mat = new THREE.MeshStandardMaterial({
+          color: colorHex,
+          roughness: 0.28,
+          metalness: 0.25,
+          emissive: colorHex,
+          emissiveIntensity: 0.22
         });
+        var wireMesh = new THREE.Mesh(geo, mat);
+        wireMesh.userData.sysType = sysType;
+        wiresGroup.add(wireMesh);
+
+        var dotGeo = new THREE.SphereGeometry(radius * 1.65, 10, 10);
+        var dotMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        var dot = new THREE.Mesh(dotGeo, dotMat);
+        wiresGroup.add(dot);
+        flowParticles.push({ mesh: dot, curve: curve, progress: Math.random(), speed: 0.0042 });
       }
 
-      Object.keys(componentGroups).forEach(id => {
-        const grp = componentGroups[id];
-        const labelEl = labelElements[id];
-        const sys = grp.userData.system;
+      // A) Cables Internos de la Batería (Naranjas > 60 V)
+      createWire([
+        boxToWorld(-0.02, 0.052,  0.085),
+        boxToWorld(-0.02, 0.080,  0.015),
+        boxToWorld(-0.02, 0.052, -0.055)
+      ], HV_ORANGE, 0.0095, 'HV');
 
-        if (currentFilter !== 'ALL' && currentFilter !== sys) {
-          labelEl.style.display = 'none';
-          return;
-        }
-        labelEl.style.display = 'block';
+      createWire([
+        boxToWorld(-0.26,  0.052, -0.125),
+        boxToWorld(-0.24,  0.095, -0.135),
+        boxToWorld(-0.205, 0.095, -0.135),
+        boxToWorld(-0.137, 0.095, -0.135)
+      ], HV_ORANGE, 0.0095, 'HV');
 
-        const worldPos = grp.position.clone().add(grp.userData.labelOffset);
-        worldPos.project(camera);
+      createWire([
+        boxToWorld(-0.033, 0.095, -0.135),
+        boxToWorld( 0.03,  0.082, -0.125),
+        boxToWorld( 0.08,  0.052, -0.115)
+      ], HV_ORANGE, 0.0095, 'HV');
 
-        if (worldPos.z > 1) {
-          labelEl.style.display = 'none';
-          return;
-        }
+      createWire([
+        boxToWorld(0.10,  0.052,  0.06),
+        boxToWorld(0.14,  0.110, -0.02),
+        boxToWorld(0.178, 0.125, -0.105)
+      ], HV_ORANGE, 0.0105, 'HV');
 
-        const x = (worldPos.x * 0.5 + 0.5) * window.innerWidth;
-        const y = (-(worldPos.y * 0.5) + 0.5) * window.innerHeight;
+      createWire([
+        boxToWorld(0.222, 0.125, -0.105),
+        boxToWorld(0.29,  0.095, -0.105),
+        boxToWorld(0.355, 0.065, -0.105)
+      ], HV_ORANGE, 0.0105, 'HV');
 
-        labelEl.style.left = `${x}px`;
-        labelEl.style.top = `${y}px`;
+      createWire([
+        boxToWorld(-0.26,  0.052, 0.105),
+        boxToWorld(-0.05,  0.065, 0.105),
+        boxToWorld( 0.18,  0.065, 0.105),
+        boxToWorld( 0.355, 0.065, 0.105)
+      ], HV_ORANGE, 0.0105, 'HV');
+
+      // B) Salida Trasera Exterior desde Amphenol 0°: Rodean el Motor por encima y acaban en el + y - del Inversor
+      createWire([
+        boxToWorld(0.42, 0.065, -0.105),
+        new THREE.Vector3(0.31, 0.99, -0.125),
+        new THREE.Vector3(0.32, 0.92, -0.135),
+        new THREE.Vector3(0.26, 0.84, -0.130),
+        new THREE.Vector3(0.12, 0.85, -0.118),
+        new THREE.Vector3(-0.02, 0.88, -0.102),
+        boxToWorld(0.145, -0.193, -0.092)
+      ], HV_ORANGE, 0.0105, 'HV');
+
+      createWire([
+        boxToWorld(0.42, 0.065, 0.105),
+        new THREE.Vector3(0.31, 0.99, 0.125),
+        new THREE.Vector3(0.32, 0.92, 0.135),
+        new THREE.Vector3(0.26, 0.84, 0.130),
+        new THREE.Vector3(0.12, 0.85, 0.118),
+        new THREE.Vector3(-0.02, 0.88, 0.102),
+        boxToWorld(0.145, -0.193, 0.092)
+      ], HV_ORANGE, 0.0105, 'HV');
+
+      // C) Fases Trifásicas U, V, W entre Inversor y Motor CIRCE
+      [-0.045, 0.0, 0.045].forEach(function(zPh) {
+        createWire([
+          boxToWorld(0.12, -0.223, zPh),
+          new THREE.Vector3(-0.04, 0.81, zPh * 1.05),
+          new THREE.Vector3( 0.04, 0.778, zPh)
+        ], HV_ORANGE, 0.009, 'HV');
       });
 
-      terminalPoints.forEach(tp => {
-        if (currentFilter === 'LV') {
-          tp.el.style.display = 'none';
-          return;
-        }
-        if (selectedCompId && !tp.compIds.includes(selectedCompId)) {
-          tp.el.style.opacity = '0.25';
-        } else {
-          tp.el.style.opacity = '1.0';
-        }
-        tp.el.style.display = 'block';
+      // D) Cables de Baja Tensión y Señal (< 60 V)
+      createWire([
+        boxToWorld(-0.18, 0.045, 0.05),
+        boxToWorld(-0.29, 0.11,  0.06),
+        boxToWorld(-0.39, 0.14,  0.065)
+      ], 0x06b6d4, 0.0048, 'LV');
 
-        const proj = tp.pos.clone().project(camera);
-        if (proj.z > 1) {
-          tp.el.style.display = 'none';
-          return;
-        }
-        const tx = (proj.x * 0.5 + 0.5) * window.innerWidth;
-        const ty = (-(proj.y * 0.5) + 0.5) * window.innerHeight;
-        tp.el.style.left = `${tx}px`;
-        tp.el.style.top = `${ty}px`;
+      createWire([
+        boxToWorld(-0.18, 0.045, -0.05),
+        boxToWorld(-0.29, 0.11,  -0.06),
+        boxToWorld(-0.39, 0.14,  -0.065)
+      ], 0x06b6d4, 0.0048, 'LV');
+
+      createWire([
+        boxToWorld( 0.09, 0.045, -0.02),
+        boxToWorld(-0.14, 0.11,   0.0),
+        boxToWorld(-0.39, 0.14,   0.0)
+      ], 0x06b6d4, 0.0048, 'LV');
+
+      createWire([
+        boxToWorld(-0.205, 0.118, -0.135),
+        boxToWorld(-0.30,  0.14,  -0.08),
+        boxToWorld(-0.39,  0.14,  -0.03)
+      ], 0xa855f7, 0.0048, 'LV');
+
+      createWire([
+        boxToWorld( 0.20, 0.14, -0.175),
+        boxToWorld(-0.10, 0.15, -0.14),
+        boxToWorld(-0.39, 0.13, -0.10)
+      ], 0x10b981, 0.0048, 'LV');
+
+      createWire([
+        new THREE.Vector3(0.05, 0.68, -0.11),
+        new THREE.Vector3(-0.08, 0.76, -0.115),
+        boxToWorld(0.05, -0.22, -0.10)
+      ], 0x3b82f6, 0.0048, 'LV');
+
+      // Etiquetas flotantes 3D
+      Object.keys(COMPONENTS_DB).forEach(function(id) {
+        var comp = COMPONENTS_DB[id];
+        var div = document.createElement('div');
+        div.className = 'floating-label ' + (comp.system === 'HV' ? 'hv-label' : 'lv-label');
+        div.innerHTML = (comp.system === 'HV' ? '⚡ ' : '🔌 ') + comp.name.split('+')[0].split('(')[0].trim();
+        div.onclick = function(e) {
+          e.stopPropagation();
+          selectComponent(id);
+        };
+        labelsContainer.appendChild(div);
+        labelElements[id] = div;
       });
 
-      renderer.render(scene, camera);
+      // Selección mediante clic en el modelo 3D
+      var raycaster = new THREE.Raycaster();
+      var mouse = new THREE.Vector2();
+      var pointerDownPos = { x: 0, y: 0 };
+
+      domEl.addEventListener('pointerdown', function(e) {
+        pointerDownPos.x = e.clientX;
+        pointerDownPos.y = e.clientY;
+      });
+
+      domEl.addEventListener('pointerup', function(e) {
+        var dist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
+        if (dist > 6) return;
+
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+
+        var intersects = raycaster.intersectObjects(interactiveMeshes, false);
+        if (intersects.length > 0) {
+          var hitCompId = intersects[0].object.userData.compId;
+          if (hitCompId) selectComponent(hitCompId);
+        }
+      });
+
+      // Bucle de renderizado
+      var clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        var elapsed = clock.getElapsedTime();
+
+        if (selectedCompId && componentGroups[selectedCompId]) {
+          var pulse = 0.42 + Math.sin(elapsed * 5) * 0.20;
+          componentGroups[selectedCompId].traverse(function(child) {
+            if (child.isMesh && child.material && !child.userData.isTranslucentShell && !child.userData.isThermalPad) {
+              child.material.emissiveIntensity = pulse;
+            }
+          });
+        }
+
+        if (wiresGroup && wiresGroup.visible) {
+          for (var p = 0; p < flowParticles.length; p++) {
+            var fp = flowParticles[p];
+            fp.progress = (fp.progress + fp.speed) % 1;
+            var pos = fp.curve.getPointAt(fp.progress);
+            fp.mesh.position.copy(pos);
+          }
+        }
+
+        var ids = Object.keys(componentGroups);
+        for (var i = 0; i < ids.length; i++) {
+          var id = ids[i];
+          var grp = componentGroups[id];
+          var labelEl = labelElements[id];
+          if (!labelEl) continue;
+          var sys = grp.userData.system;
+
+          if (currentFilter !== 'ALL' && currentFilter !== sys) {
+            labelEl.style.display = 'none';
+            continue;
+          }
+          labelEl.style.display = 'block';
+
+          var worldPos = grp.position.clone().add(grp.userData.labelOffset);
+          worldPos.project(camera);
+
+          if (worldPos.z > 1) {
+            labelEl.style.display = 'none';
+            continue;
+          }
+
+          var lx = (worldPos.x * 0.5 + 0.5) * window.innerWidth;
+          var ly = (-(worldPos.y * 0.5) + 0.5) * window.innerHeight;
+          labelEl.style.left = lx + 'px';
+          labelEl.style.top = ly + 'px';
+        }
+
+        for (var t = 0; t < terminalPoints.length; t++) {
+          var tp = terminalPoints[t];
+          if (currentFilter === 'LV') {
+            tp.el.style.display = 'none';
+            continue;
+          }
+          if (selectedCompId && tp.compIds.indexOf(selectedCompId) === -1) {
+            tp.el.style.opacity = '0.25';
+          } else {
+            tp.el.style.opacity = '1.0';
+          }
+          tp.el.style.display = 'block';
+
+          var proj = tp.pos.clone().project(camera);
+          if (proj.z > 1) {
+            tp.el.style.display = 'none';
+            continue;
+          }
+          var tx = (proj.x * 0.5 + 0.5) * window.innerWidth;
+          var ty = (-(proj.y * 0.5) + 0.5) * window.innerHeight;
+          tp.el.style.left = tx + 'px';
+          tp.el.style.top = ty + 'px';
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      window.addEventListener('resize', function() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      animate();
     }
 
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    resetCameraMatchCAD();
-    renderInspectorDefault();
-    animate();
+    if (typeof THREE !== 'undefined') {
+      init3DScene();
+    } else {
+      window.addEventListener('load', init3DScene);
+    }
   </script>
 </body>
 </html>
