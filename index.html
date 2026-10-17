@@ -142,7 +142,7 @@
       box-shadow: 0 0 15px var(--lv-glow);
     }
 
-    /* Paneles Laterales con 3 Estados: Minimizado (min), Medio (half), Agrandado (max) */
+    /* Paneles Laterales Plegables */
     .sidebar {
       position: absolute;
       top: 74px;
@@ -161,28 +161,38 @@
     }
 
     .sidebar-left {
-      left: 14px;
+      left: 10px;
       width: 315px;
       bottom: 14px;
     }
 
     .sidebar-right {
-      right: 14px;
+      right: 10px;
       width: 375px;
       bottom: 14px;
     }
 
-    /* Estado Minimizado */
+    /* Estado Minimizado: Recoge también todas las letras y se pliega al borde */
     .sidebar.state-min {
+      width: auto !important;
       bottom: auto !important;
-      height: 46px !important;
+      height: 42px !important;
+      border-radius: 10px;
     }
 
+    .sidebar.state-min .panel-title-wrap,
+    .sidebar.state-min .btn-ver-todo,
     .sidebar.state-min .panel-body {
-      display: none;
+      display: none !important;
     }
 
-    /* Estado Medio (Tamaño por defecto en los laterales) */
+    .sidebar.state-min .panel-header {
+      height: 42px;
+      padding: 0 7px;
+      border-bottom: none;
+    }
+
+    /* Estado Tamaño Medio Lateral */
     .sidebar-left.state-half {
       width: 315px;
       bottom: 14px;
@@ -210,7 +220,7 @@
       height: 46px;
       padding: 0 12px;
       border-bottom: 1px solid var(--border-color);
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.6px;
@@ -236,7 +246,7 @@
       border: 1px solid rgba(255, 85, 0, 0.4);
       padding: 2px 7px;
       border-radius: 99px;
-      font-size: 0.67rem;
+      font-size: 0.66rem;
       font-weight: 800;
     }
 
@@ -251,10 +261,10 @@
       background: rgba(255, 255, 255, 0.07);
       color: var(--text-main);
       border: 1px solid var(--border-color);
-      width: 25px;
-      height: 25px;
+      width: 26px;
+      height: 26px;
       border-radius: 6px;
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -291,7 +301,7 @@
     }
 
     .sys-section-title {
-      font-size: 0.73rem;
+      font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.7px;
@@ -332,7 +342,7 @@
     }
 
     .comp-name {
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       font-weight: 600;
       display: flex;
       justify-content: space-between;
@@ -340,7 +350,7 @@
     }
 
     .comp-loc {
-      font-size: 0.71rem;
+      font-size: 0.70rem;
       color: var(--text-muted);
       margin-top: 3px;
     }
@@ -377,7 +387,7 @@
       color: var(--text-main);
     }
 
-    /* Inspector Derecho y Navegación Interna por Secciones */
+    /* Inspector Derecho */
     .inspector-content {
       flex: 1;
       overflow-y: auto;
@@ -441,7 +451,7 @@
     }
 
     .insp-title {
-      font-size: 1.15rem;
+      font-size: 1.14rem;
       font-weight: 800;
       line-height: 1.25;
     }
@@ -529,9 +539,9 @@
       transform: translate(-50%, -100%);
       background: rgba(10, 15, 26, 0.90);
       color: #fff;
-      padding: 4px 9px;
+      padding: 3px 8px;
       border-radius: 6px;
-      font-size: 0.71rem;
+      font-size: 0.69rem;
       font-weight: 600;
       white-space: nowrap;
       border: 1px solid rgba(255, 255, 255, 0.22);
@@ -561,13 +571,13 @@
       z-index: 25;
     }
 
-    /* Etiquetas de Polaridad y Fases (+ / - / U, V, W) */
+    /* Etiquetas de Polaridad, Conectores Amphenol y Fases */
     .term-badge {
       position: absolute;
       transform: translate(-50%, -50%);
-      padding: 2px 6px;
+      padding: 2px 5px;
       border-radius: 4px;
-      font-size: 0.63rem;
+      font-size: 0.61rem;
       font-weight: 800;
       letter-spacing: 0.3px;
       white-space: nowrap;
@@ -606,7 +616,7 @@
   <div id="canvas-container"></div>
   <!-- Etiquetas de Componentes 3D -->
   <div id="labels-container"></div>
-  <!-- Etiquetas de Bornas (+ / - / Fases U,V,W) -->
+  <!-- Etiquetas de Bornas (+ / - / Amphenol / Fases U,V,W) -->
   <div id="terminals-container"></div>
 
   <!-- Barra Superior -->
@@ -634,17 +644,17 @@
     </div>
   </div>
 
-  <!-- Panel Izquierdo: Componentes del Equipo 7 NODOS (+ Sensor Hall) -->
+  <!-- Panel Izquierdo: Se pliega totalmente a la izquierda ocultando el texto -->
   <div class="sidebar sidebar-left state-half" id="panel-left">
     <div class="panel-header">
       <div class="panel-title-wrap">
-        <span>Componentes del Equipo</span>
-        <span class="node-badge">7 NODOS + HALL</span>
+        <span>COMPONENTES DEL EQUIPO</span>
+        <span class="node-badge">7 NODOS</span>
       </div>
       <div class="win-controls">
-        <button class="win-btn" id="left-btn-min" title="Minimizar" onclick="setPanelSize('left', 'min')">_</button>
-        <button class="win-btn active-size" id="left-btn-half" title="Tamaño Medio Lateral" onclick="setPanelSize('left', 'half')">◫</button>
-        <button class="win-btn" id="left-btn-max" title="Agrandar" onclick="setPanelSize('left', 'max')">⛶</button>
+        <button class="win-btn" id="left-btn-min" title="Plegar del todo a la izquierda" onclick="setPanelSize('left', 'min')">◀</button>
+        <button class="win-btn active-size" id="left-btn-half" title="Desplegar Tamaño Medio" onclick="setPanelSize('left', 'half')">◫</button>
+        <button class="win-btn" id="left-btn-max" title="Agrandar Panel" onclick="setPanelSize('left', 'max')">⛶</button>
       </div>
     </div>
 
@@ -653,20 +663,20 @@
         <div>
           <div class="sys-section-title sys-hv">⚡ Sistema Alta Tensión (HV)</div>
           <div class="comp-item" id="item-battery" onclick="selectComponent('battery')">
-            <div class="comp-name"><span>Pack 30S2P (1 Horiz. + 2 Vert.)</span></div>
-            <div class="comp-loc">📍 Caja Batería con Thermal Pad</div>
+            <div class="comp-name"><span>Pack 30S2P + Conectores Amphenol 0°</span></div>
+            <div class="comp-loc">📍 1 Horiz. + 2 Vert. · Salida Trasera</div>
           </div>
           <div class="comp-item" id="item-hall" onclick="selectComponent('hall')">
             <div class="comp-name"><span>Sensor Hall de Corriente</span></div>
-            <div class="comp-loc">📍 1er cable delantero del Battery Pack</div>
+            <div class="comp-loc">📍 Inicio del cable + General (Interior caja)</div>
           </div>
           <div class="comp-item" id="item-fuse" onclick="selectComponent('fuse')">
             <div class="comp-name"><span>Fusible Principal SIBA 500A</span></div>
-            <div class="comp-loc">📍 Parte superior sobre módulos</div>
+            <div class="comp-loc">📍 Lateral superior derecho sobre módulo</div>
           </div>
           <div class="comp-item" id="item-contactor" onclick="selectComponent('contactor')">
             <div class="comp-name"><span>Contactor Kilovac 500A</span></div>
-            <div class="comp-loc">📍 Pared lateral derecha (Bornas a izq.)</div>
+            <div class="comp-loc">📍 Parte alta pared derecha (Bornas a izq.)</div>
           </div>
           <div class="comp-item" id="item-bms" onclick="selectComponent('bms')">
             <div class="comp-name"><span>BMS Orion 2</span></div>
@@ -678,7 +688,7 @@
           </div>
           <div class="comp-item" id="item-motor" onclick="selectComponent('motor')">
             <div class="comp-name"><span>Motor Eléctrico CIRCE</span></div>
-            <div class="comp-loc">📍 Cuna inferior + Piñón y cadena</div>
+            <div class="comp-loc">📍 Cuna inferior + Cables con vías al chasis</div>
           </div>
         </div>
 
@@ -707,7 +717,7 @@
           <input type="range" id="slider-explode" min="0" max="100" value="0" oninput="updateExplodeView(this.value)" />
         </div>
         <div class="toggle-row">
-          <span>Mostrar Cableado (HV Naranja / LV)</span>
+          <span>Mostrar Cableado y Vías al Chasis</span>
           <input type="checkbox" id="chk-wires" checked onchange="toggleWires(this.checked)" />
         </div>
         <div class="toggle-row">
@@ -718,17 +728,17 @@
     </div>
   </div>
 
-  <!-- Panel Derecho: FICHA TÉCNICA Y CONEXIONADO -->
+  <!-- Panel Derecho: Se pliega totalmente a la derecha ocultando el texto -->
   <div class="sidebar sidebar-right state-half" id="panel-right">
     <div class="panel-header">
       <div class="panel-title-wrap">
         <span>FICHA TÉCNICA Y CONEXIONADO</span>
       </div>
       <div class="win-controls">
-        <button class="btn" style="padding:3px 9px;font-size:0.70rem;background:rgba(255,85,0,0.24);border-color:var(--hv-color);" onclick="openFullOverview()">📖 Ver Todo</button>
-        <button class="win-btn" id="right-btn-min" title="Minimizar" onclick="setPanelSize('right', 'min')">_</button>
-        <button class="win-btn active-size" id="right-btn-half" title="Tamaño Medio Lateral" onclick="setPanelSize('right', 'half')">◫</button>
-        <button class="win-btn" id="right-btn-max" title="Agrandar" onclick="setPanelSize('right', 'max')">⛶</button>
+        <button class="btn btn-ver-todo" style="padding:3px 9px;font-size:0.70rem;background:rgba(255,85,0,0.24);border-color:var(--hv-color);" onclick="openFullOverview()">📖 Ver Todo</button>
+        <button class="win-btn" id="right-btn-max" title="Agrandar Panel" onclick="setPanelSize('right', 'max')">⛶</button>
+        <button class="win-btn active-size" id="right-btn-half" title="Desplegar Tamaño Medio" onclick="setPanelSize('right', 'half')">◫</button>
+        <button class="win-btn" id="right-btn-min" title="Plegar del todo a la derecha" onclick="setPanelSize('right', 'min')">▶</button>
       </div>
     </div>
     <div class="panel-body">
@@ -748,160 +758,156 @@
       battery: {
         id: 'battery',
         system: 'HV',
-        name: 'Pack de Baterías 30S2P (3 Módulos Grepow)',
-        subtitle: 'Ref. GRP86A0260-37V-63200mAh · 1 Módulo Horizontal + 2 Verticales con Thermal Pad',
-        location: 'Interior de la caja de baterías escalonada (rodeada por el chasis en la zona inferior y ensanchada por encima de las vigas en los laterales). Asentados a baja altura y rodeados de Thermal Pad.',
+        name: 'Pack de Baterías 30S2P + Conectores Amphenol 0°',
+        subtitle: 'Ref. GRP86A0260-37V-63200mAh · Salida trasera por conectores rectos de 0° Amphenol (35 mm²)',
+        location: 'Interior de la caja de baterías escalonada con Thermal Pad. En la cara trasera exterior incorpora los 2 conectores rectos de 0° de Amphenol uno al lado del otro.',
         specs: [
           { label: 'Configuración Pack', val: '30S2P (3x 10S2P en serie)' },
-          { label: 'Disposición Vista Sup.', val: '1 Horiz. detrás + 2 Vert. delante' },
+          { label: 'Disposición Interna', val: '2 Vert. delante + 1 Horiz. detrás' },
           { label: 'Tensión Nom / Máx', val: '111.0 V / 126.0 V DC' },
-          { label: 'Tensión de Corte', val: '82.5 V (27.5 V/mód.)' },
-          { label: 'Capacidad Nominal', val: '63.2 Ah (63200 mAh)' },
-          { label: 'Corriente Cont. / Pico', val: '3C (~190 A) / 500 A (≤15s)' },
-          { label: 'Dimensiones Módulo', val: '280 × 101.5 × 186 mm (10.35 kg)' },
-          { label: 'Envolvente Térmica', val: 'Thermal Pad perimetral' }
+          { label: 'Conectores Salida Caja', val: '2× Amphenol Rectos 0° (35 mm²)' },
+          { label: 'Capacidad / Pico', val: '63.2 Ah / 500 A (≤15s)' },
+          { label: 'Guiado Exterior HV', val: 'Curvado con vías fijas al chasis' }
         ],
         connections: [
-          '<strong>Puentes Serie HV (Naranjas, 35 mm²):</strong> Conectan en serie los 3 módulos (Módulo Frontal Izq. ➔ Módulo Frontal Der. ➔ Módulo Trasero Horizontal).',
-          '<strong>Salida Negativa Principal (BAT -):</strong> Sale por el primer cable delantero del pack (atravesando el <strong>Sensor Hall</strong>) mediante cable naranja de <strong>35 mm²</strong> hacia la borna <strong>INV DC-</strong> del Inversor HyperDrive X1.',
-          '<strong>Salida Positiva Principal (BAT +):</strong> Conecta con el <strong>Fusible SIBA 500A</strong> en la parte superior y de ahí pasa al <strong>Contactor Kilovac 500A</strong>.',
-          '<strong>Conectores Cell-Tabs (Cables Cian - Baja Tensión):</strong> Cada uno de los 3 módulos incorpora su conector <strong>JST-XHR-11P (AWG22#)</strong> de sensado individual cuyos mazos viajan hasta el conector multipin de la <strong>BMS Orion 2</strong>.'
+          '<strong>Conexión Serie entre Módulos (Cables Naranjas 35 mm²):</strong> El Módulo 1 (delantero izquierdo) se une en serie con el Módulo 2 (delantero derecho); la salida del Módulo 2 pasa por el <strong>Fusible SIBA 500A</strong> hacia la entrada del Módulo 3 (trasero horizontal).',
+          '<strong>Línea + General (BAT +):</strong> Arranca en la borna positiva del Módulo 3, atraviesa inmediatamente el <strong>Sensor Hall</strong> circular negro, entra al <strong>Contactor Kilovac 500A</strong> (arriba a la derecha) y sale hacia el <strong>Conector Recto 0° Amphenol (+)</strong> en la cara trasera de la caja.',
+          '<strong>Línea - General (BAT -):</strong> Arranca en la borna negativa del Módulo 1 y va directa al <strong>Conector Recto 0° Amphenol (-)</strong> situado al lado en la cara trasera de la caja.',
+          '<strong>Salida Exterior al Motor con Vías al Chasis:</strong> Desde los dos conectores Amphenol traseros, los cables naranjas + y - hacen un giro curvado hacia abajo y pasan entre el muelle del amortiguador FG Gubellini y las placas del motor sujetos con <strong>vías al chasis</strong>.'
         ],
-        notes: 'Visto desde arriba y desde la parte trasera de la moto (quedando arriba el manillar): va 1 módulo en horizontal abajo (detrás) y 2 módulos arriba (delante) en vertical, rodeados por el Thermal Pad.'
+        notes: 'Los conectores rectos de 0° de Amphenol para 35 mm² están situados en la pared trasera de la caja con separación de seguridad entre ellos y a la misma cota de salida de los cables de los módulos.'
       },
       hall: {
         id: 'hall',
         system: 'HV',
         name: 'Sensor Hall de Corriente',
-        subtitle: 'Transductor toroidal negro circular fino de efecto Hall',
-        location: 'Situado en el primer cable adelante del todo del battery pack, rodeando al conductor naranja principal.',
+        subtitle: 'Anillo circular negro fino al inicio del cable + General',
+        location: 'Ubicado dentro de la caja de la batería nada más empezar el cable del + general (a la salida positiva de los módulos), mucho antes del conector Amphenol de salida de la caja.',
         specs: [
-          { label: 'Geometría', val: 'Circular negro fino (Toroidal)' },
-          { label: 'Ubicación', val: '1er cable frontal del Battery Pack' },
+          { label: 'Geometría', val: 'Anillo circular negro fino' },
+          { label: 'Posición en Circuito', val: 'Inicio del + General (interior caja)' },
           { label: 'Rango Medida', val: '±500 A DC bidireccional' },
-          { label: 'Señal Salida', val: 'Cable Violeta (LV) hacia BMS' }
+          { label: 'Cable de Señal', val: 'Violeta (LV) hacia BMS Orion 2' }
         ],
         connections: [
-          '<strong>Conductor Primario HV (Naranja):</strong> El primer cable de alta tensión (<strong>35 mm²</strong>) del pack pasa por el interior del anillo circular negro sin contacto galvánico.',
-          '<strong>Línea de Señal (Cable Violeta - Baja Tensión):</strong> Envía la medida de corriente instantánea directamente a la <strong>BMS Orion 2</strong> situada en el cajón frontal.'
+          '<strong>Paso del Cable + General (Naranja 35 mm²):</strong> El conductor positivo principal atraviesa el centro del anillo negro justo al salir del módulo antes de llegar al contactor Kilovac y al conector trasero de la caja.',
+          '<strong>Señal de Medición (Cable Violeta - LV):</strong> Viaja hasta el conector de supervisión de la <strong>BMS Orion 2</strong> en el cajón delantero.'
         ],
-        notes: 'Permite monitorizar en tiempo real la corriente de descarga y regeneración para el cálculo del SoC y la protección frente a sobrecorrientes.'
+        notes: 'Su colocación al comienzo del + general permite medir toda la corriente que entrega o recibe el pack con aislamiento galvánico total.'
       },
       fuse: {
         id: 'fuse',
         system: 'HV',
         name: 'Fusible Principal HV SIBA 500A',
-        subtitle: 'Ref. SIBA 90 058 05 · Cuerpo cerámico blanco con mirilla central',
-        location: 'Montado en la zona superior sobre los módulos dentro de la caja de la batería, exactamente donde aparece en el CAD.',
+        subtitle: 'Ref. SIBA 90 058 05 · Montado sobre pletinas de cobre en el lateral derecho',
+        location: 'Situado en la zona superior derecha dentro de la caja de la batería (delante del contactor Kilovac), atornillado entre dos soportes de cobre sobre el módulo derecho tal como se ve en el ensamblaje CAD.',
         specs: [
           { label: 'Fabricante / Ref.', val: 'SIBA / 90 058 05' },
           { label: 'Corriente Nominal', val: '500 A' },
-          { label: 'Cuerpo', val: 'Cerámico con ventana visual' },
-          { label: 'Terminales', val: 'Horquillas ranuradas M8' }
+          { label: 'Ubicación Real', val: 'Arriba a la derecha, delante del Kilovac' },
+          { label: 'Fijación', val: 'Pletinas verticales de cobre M8' }
         ],
         connections: [
-          '<strong>Entrada (Borna 1):</strong> Conectada mediante embarrado/cable naranja al terminal positivo del pack (<strong>BAT +</strong>).',
-          '<strong>Salida (Borna 2):</strong> Conectada mediante cable naranja de alta tensión hacia la borna de entrada del <strong>Contactor Kilovac 500A</strong>.'
+          '<strong>Pletina Delantera de Cobre:</strong> Conectada a la salida positiva del módulo delantero derecho.',
+          '<strong>Pletina Trasera de Cobre:</strong> Conectada mediante puente naranja hacia la entrada del módulo trasero horizontal.'
         ],
-        notes: 'Actúa como corte físico de seguridad ante picos de cortocircuito superiores a los 500 A admisibles.'
+        notes: 'Queda elevado sobre la cara superior azul del módulo derecho mediante sus dos postes de cobre, idéntico a la vista del ensamblaje CAD.'
       },
       contactor: {
         id: 'contactor',
         system: 'HV',
         name: 'Contactor Principal Kilovac 500A',
-        subtitle: 'Relé hermético de alta tensión de 500 A',
-        location: 'Base pegada a la pared lateral derecha de la caja de la batería, con las bornas apuntando horizontalmente hacia la cara opuesta (izquierda).',
+        subtitle: 'Relé hermético HV elevado en la pared lateral derecha',
+        location: 'Fijado en la parte alta de la pared lateral derecha (esquina trasera derecha), quedando completamente por encima de los módulos sin atravesarlos, con las bornas apuntando hacia la cara izquierda.',
         specs: [
-          { label: 'Modelo', val: 'Kilovac 500A HV' },
-          { label: 'Fijación Mecánica', val: 'Base en pared lateral derecha' },
-          { label: 'Orientación Bornas', val: 'Apuntando a la cara opuesta (izq.)' },
-          { label: 'Capacidad de Corte', val: '500 A (> 60 V DC)' }
+          { label: 'Modelo', val: 'Kilovac Serie 500A' },
+          { label: 'Fijación Mecánica', val: 'Parte alta de pared lateral derecha' },
+          { label: 'Orientación Bornas', val: 'Hacia la pared opuesta (izquierda)' },
+          { label: 'Línea Cortada', val: '+ General antes del Amphenol trasero' }
         ],
         connections: [
-          '<strong>Borna Potencia Entrada:</strong> Recibe el cable naranja desde la salida del <strong>Fusible SIBA 500A</strong>.',
-          '<strong>Borna Potencia Salida:</strong> Sale con cable naranja hacia el terminal positivo <strong>INV DC+</strong> del <strong>Inversor HyperDrive X1</strong>.',
-          '<strong>Bobina de Actuación (Cable Verde - Baja Tensión):</strong> Alimentada a través del circuito de seguridad comandado por la <strong>BMS Orion 2</strong>.'
+          '<strong>Borna Entrada (Izquierda):</strong> Recibe el cable naranja del <strong>+ General</strong> justo después de pasar por el <strong>Sensor Hall</strong>.',
+          '<strong>Borna Salida (Izquierda):</strong> Sale con cable naranja corto directo hacia el <strong>Conector Recto 0° Amphenol (+)</strong> de la pared trasera de la caja.',
+          '<strong>Bobina de Control (Cable Verde - LV):</strong> Gobernada por la <strong>BMS Orion 2</strong>.'
         ],
-        notes: 'Su disposición horizontal anclada al lateral derecho aprovecha el ensanchamiento superior de la caja de baterías y orienta las bornas hacia el centro para facilitar el tendido del cable naranja.'
+        notes: 'Al ir montado en la parte superior ensanchada de la pared derecha, libra por completo la altura del módulo horizontal trasero.'
       },
       bms: {
         id: 'bms',
         system: 'HV',
         name: 'BMS Orion 2 (Battery Management System)',
-        subtitle: 'Unidad electrónica de supervisión de perfil fino',
-        location: 'Dentro del cajón delantero situado delante de la caja de la batería, montada de forma plana y pegada a la pared frontal de la caja.',
+        subtitle: 'Unidad electrónica fina montada plana contra la caja de la batería',
+        location: 'Dentro del cajón delantero, pegada de forma plana contra la pared frontal exterior de la caja de la batería.',
         specs: [
-          { label: 'Modelo', val: 'Orion BMS 2' },
-          { label: 'Montaje', val: 'Plana y pegada a caja de batería' },
-          { label: 'Entradas Cell-Tabs', val: '3 conectores JST-XHR-11P (30S)' },
-          { label: 'Tensión por Celda', val: '2.75 V mín. / 4.20 V máx.' }
+          { label: 'Modelo', val: 'Ewert Energy Orion BMS 2' },
+          { label: 'Montaje', val: 'Plana y pegada a pared frontal' },
+          { label: 'Entradas Cell-Tabs', val: '3 mazos JST-XHR-11P (Cian)' },
+          { label: 'Entrada Corriente', val: 'Sensor Hall (Cable Violeta)' }
         ],
         connections: [
-          '<strong>Mazos de Cell-Tabs (Cables Cian - LV):</strong> Recibe los 3 mazos procedentes de los conectores de <em>cell-tabs</em> (<strong>JST-XHR-11P</strong>) de cada uno de los 3 módulos Grepow.',
-          '<strong>Señal Sensor Hall (Cable Violeta - LV):</strong> Recibe la medición del sensor Hall situado en el primer cable frontal del pack.',
-          '<strong>Gobierno del Contactor (Cable Verde - LV):</strong> Controla el cierre/apertura de la bobina del <strong>Contactor Kilovac 500A</strong>.'
+          '<strong>Conectores Cell-Tabs (Cables Cian - LV):</strong> Los 3 conectores blancos de los módulos van guiados hasta el conector multipin superior de la BMS.',
+          '<strong>Entrada Sensor Hall (Cable Violeta - LV):</strong> Recibe la señal desde el anillo negro situado al inicio del + general.',
+          '<strong>Control Contactor (Cable Verde - LV):</strong> Activa la bobina del <strong>Contactor Kilovac 500A</strong>.'
         ],
-        notes: 'Al trabajar con señales de sensado y control, ninguno de sus mazos utiliza el color naranja reservado a tensiones mayores de 60 V.'
+        notes: 'Todos los cables que llegan a la BMS son de señal/baja tensión y utilizan colores distintos al naranja.'
       },
       inverter: {
         id: 'inverter',
         system: 'HV',
         name: 'Inversor HyperDrive X1 + Cold Plate',
-        subtitle: 'Controlador trifásico refrigerado por líquido adosado bajo la caja de batería',
-        location: 'Montado con su Cold Plate pegado directamente a la cara inferior inclinada de la caja de la batería (sin flotar), conectado al radiador inferior.',
+        subtitle: 'Controlador con Cold Plate pegado a la cara inferior de la caja de la batería',
+        location: 'Adosado directamente con su Cold Plate contra la cara inferior inclinada de la caja de la batería (sin flotar), conectado al radiador inferior.',
         specs: [
           { label: 'Modelo', val: 'HyperDrive X1' },
-          { label: 'Montaje Térmico', val: 'Cold Plate pegado bajo caja bat.' },
-          { label: 'Entrada DC', val: 'Bornas INV DC+ y INV DC- (Naranjas)' },
-          { label: 'Salida Trifásica', val: 'Bornas Fase U, V, W (Naranjas)' }
+          { label: 'Disipación', val: 'Cold Plate pegado bajo caja bat.' },
+          { label: 'Alimentación HV', val: 'Bornas DC+ y DC- (> 60 V Naranjas)' },
+          { label: 'Fases Salida', val: 'U, V, W hacia Motor CIRCE' }
         ],
         connections: [
-          '<strong>Borna INV DC+ (Cable Naranja):</strong> Conectada a la salida de potencia del <strong>Contactor Kilovac 500A</strong>.',
-          '<strong>Borna INV DC- (Cable Naranja):</strong> Conectada al borne negativo del pack (<strong>BAT -</strong>) tras pasar por el sensor Hall.',
-          '<strong>Bornas Fase U, Fase V y Fase W (3 Cables Naranjas):</strong> Conectadas directamente a las 3 bornas de fase del <strong>Motor Eléctrico CIRCE</strong>.',
-          '<strong>Refrigeración Líquida:</strong> El Cold Plate superior se comunica mediante los conductos inferiores con el radiador delantero.'
+          '<strong>Bornas DC+ y DC- (Naranjas):</strong> Conectadas al bus de alta tensión procedente de los conectores Amphenol de la batería.',
+          '<strong>Bornas Trifásicas U, V, W (Naranjas):</strong> Conectadas a las 3 fases del <strong>Motor Eléctrico CIRCE</strong>.'
         ],
-        notes: 'Las etiquetas 3D identifican claramente cuáles son las bornas INV DC+ e INV DC- en la entrada y las fases U, V, W en la salida.'
+        notes: 'Integrado bajo la panza de la caja de baterías para minimizar la longitud de los conductores y optimizar la refrigeración líquida.'
       },
       motor: {
         id: 'motor',
         system: 'HV',
         name: 'Motor Eléctrico CIRCE (MotoStudent)',
-        subtitle: 'Motor oficial de competición con piñón, cadena metálica de eslabones y corona',
-        location: 'Ubicado en la cuna inferior trasera del chasis, delante del basculante y del amortiguador trasero FG Gubellini.',
+        subtitle: 'Propulsor de competición con llegada de cables guiados por vías al chasis',
+        location: 'Alojado en la cuna inferior entre las placas de soporte del chasis, delante del muelle del amortiguador FG Gubellini.',
         specs: [
-          { label: 'Modelo', val: 'CIRCE MotoStudent Electric' },
-          { label: 'Alimentación (>60V)', val: 'Trifásica AC (Fases U, V, W Naranjas)' },
-          { label: 'Transmisión', val: 'Piñón + Cadena eslabones + Corona' },
-          { label: 'Suspensiones', val: 'FG Gubellini (Del. y Tras.)' }
+          { label: 'Modelo', val: 'CIRCE MotoStudent' },
+          { label: 'Llegada HV + / -', val: 'Cables curvados entre muelle y placas' },
+          { label: 'Fijación Cables', val: 'Vías / abrazaderas ancladas al chasis' },
+          { label: 'Transmisión', val: 'Piñón + Cadena eslabones + Corona' }
         ],
         connections: [
-          '<strong>Bornas Fase U, Fase V, Fase W (3 Cables Naranjas):</strong> Reciben las tres líneas de potencia de más de 60 V desde el <strong>Inversor HyperDrive X1</strong>.',
-          '<strong>Cable de Encoder y Temperatura (Azul - LV):</strong> Conecta los sensores internos del estator/rotor con el inversor.'
+          '<strong>Llegada de + y - desde la Batería (Cables Naranjas 35 mm²):</strong> Salen de los conectores rectos 0° Amphenol en la cara trasera de la caja, giran hacia abajo describiendo una curva suave y bajan <strong>entre el muelle de la suspensión FG Gubellini y las placas del motor</strong> sujetos por <strong>vías al chasis</strong> hasta las bornas + y - del conjunto motor.',
+          '<strong>Fases U, V, W (Cables Naranjas):</strong> Conectadas a la etapa de potencia del <strong>Inversor HyperDrive X1</strong>.'
         ],
-        notes: 'El eje del motor CIRCE monta el piñón dentado que transmite el par a la corona trasera mediante una cadena metálica con eslabones individuales visibles.'
+        notes: 'Las vías de sujeción al chasis impiden que los cables de 35 mm² oscilen o rocen con el muelle del amortiguador trasero ante las vibraciones en pista.'
       },
       lvbox: {
         id: 'lvbox',
         system: 'LV',
         name: 'Caja de Electrónica de Baja Tensión (PCBs)',
-        subtitle: 'Caja en el subchasis trasero con placas PCB internas',
-        location: 'Instalada en el subchasis donde va el colín, por encima del amortiguador FG Gubellini.',
+        subtitle: 'Módulo trasero con placas PCB en el subchasis',
+        location: 'Situada en el subchasis trasero (colín), por encima del amortiguador FG Gubellini.',
         specs: [
           { label: 'Sistema', val: 'Baja Tensión (< 60 V)' },
           { label: 'Ubicación', val: 'Subchasis / Colín trasero' },
-          { label: 'Contenido', val: 'PCBs electrónicas de control' },
+          { label: 'Interior', val: 'PCBs electrónicas' },
           { label: 'Estado Actual', val: 'Presentadas (Sin cablear)' }
         ],
         connections: [
-          '<strong>Sin conexiones activas por ahora:</strong> Las PCBs están ubicadas dentro de su caja en el subchasis listas para la siguiente fase del proyecto.'
+          '<strong>Sin conexionado activo por ahora:</strong> Las placas PCB están ubicadas dentro de su caja en el subchasis.'
         ],
-        notes: 'Puedes hacer clic sobre la caja o usar la vista explosionada para inspeccionar las tarjetas PCB verdes alojadas en su interior.'
+        notes: 'Aislada en la parte superior trasera lejos del recorrido de los cables de alta tensión.'
       }
     };
 
     // ============================================================================
-    // 2. INICIALIZACIÓN DE LA ESCENA THREE.JS
+    // 2. INICIALIZACIÓN DE THREE.JS Y COORDENADAS LOCALES DE LA CAJA DE BATERÍA
     // ============================================================================
     const container = document.getElementById('canvas-container');
     const labelsContainer = document.getElementById('labels-container');
@@ -925,7 +931,7 @@
       controls.enableDamping = true;
       controls.dampingFactor = 0.06;
       controls.maxPolarAngle = Math.PI / 2 + 0.1;
-      controls.minDistance = 1.2;
+      controls.minDistance = 1.1;
       controls.maxDistance = 9.5;
     } else {
       controls = {
@@ -934,7 +940,7 @@
       };
     }
 
-    const ambientLight = new THREE.AmbientLight(0xe2e8f0, 0.72);
+    const ambientLight = new THREE.AmbientLight(0xe2e8f0, 0.75);
     scene.add(ambientLight);
 
     const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.05);
@@ -959,35 +965,46 @@
     const basePositions = {};
     const terminalPoints = [];
 
+    // Transformación exacta del sistema local de la caja de baterías al mundo
+    const BOX_ORIGIN = new THREE.Vector3(-0.26, 1.18, 0);
+    const BOX_ROT_Z = -0.42;
+
+    function boxToWorld(lx, ly, lz) {
+      const v = new THREE.Vector3(lx, ly, lz);
+      v.applyAxisAngle(new THREE.Vector3(0, 0, 1), BOX_ROT_Z);
+      v.add(BOX_ORIGIN);
+      return v;
+    }
+
     const explodeVectors = {
-      battery: new THREE.Vector3(0, 0.30, 0),
-      hall: new THREE.Vector3(-0.14, 0.42, 0.12),
-      fuse: new THREE.Vector3(0.05, 0.46, 0),
-      contactor: new THREE.Vector3(0.10, 0.44, -0.22),
-      bms: new THREE.Vector3(-0.30, 0.22, 0),
-      inverter: new THREE.Vector3(-0.16, -0.26, 0),
+      battery: new THREE.Vector3(0, 0.28, 0),
+      hall: new THREE.Vector3(0.05, 0.42, 0.08),
+      fuse: new THREE.Vector3(-0.05, 0.44, -0.14),
+      contactor: new THREE.Vector3(0.12, 0.44, -0.18),
+      bms: new THREE.Vector3(-0.28, 0.20, 0),
+      inverter: new THREE.Vector3(-0.16, -0.24, 0),
       motor: new THREE.Vector3(0, -0.18, 0),
       lvbox: new THREE.Vector3(0.20, 0.25, 0)
     };
 
-    function addTerminalPoint(label, type, x, y, z, compIds) {
+    function addTerminalPoint(label, type, worldVec, compIds) {
       const div = document.createElement('div');
       div.className = `term-badge ${type}`;
       div.innerText = label;
       terminalsContainer.appendChild(div);
       terminalPoints.push({
         el: div,
-        pos: new THREE.Vector3(x, y, z),
+        pos: worldVec.clone(),
         compIds: compIds
       });
     }
 
     // ============================================================================
-    // 3. PARTE CICLO: CHASIS, PIÑÓN, CORONA, CADENA DE ESLABONES Y SUSPENSIONES GUBELLINI
+    // 3. PARTE CICLO: CHASIS, PIÑÓN, CORONA, CADENA ESLABONES Y SUSPENSIONES GUBELLINI
     // ============================================================================
     const matAluminum = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.65, roughness: 0.30 });
     const matSteel = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.88, roughness: 0.20 });
-    const matDarkSteel = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.82, roughness: 0.32 });
+    const matDarkSteel = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.82, roughness: 0.32 });
     const matGubelliniGold = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.78, roughness: 0.25 });
     const matGubelliniRed = new THREE.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.70, roughness: 0.25 });
     const matGubelliniBlue = new THREE.MeshStandardMaterial({ color: 0x2563eb, metalness: 0.70, roughness: 0.25 });
@@ -1012,14 +1029,12 @@
       ringMat.side = THREE.DoubleSide;
       grp.add(new THREE.Mesh(ringGeo, ringMat));
 
-      const bodyGeo = new THREE.CylinderGeometry(outerR, outerR, thickness, 36, 1, true);
-      bodyGeo.rotateX(Math.PI / 2);
+      const bodyGeo = new THREE.CylinderGeometry(outerR, outerR, thickness, 36, 1, true).rotateX(Math.PI / 2);
       grp.add(new THREE.Mesh(bodyGeo, mat));
 
       for (let i = 0; i < teethCount; i++) {
         const a = (i / teethCount) * Math.PI * 2;
-        const toothGeo = new THREE.BoxGeometry(0.014, 0.022, thickness);
-        const tooth = new THREE.Mesh(toothGeo, mat);
+        const tooth = new THREE.Mesh(new THREE.BoxGeometry(0.014, 0.022, thickness), mat);
         tooth.position.set(Math.cos(a) * (outerR + 0.006), Math.sin(a) * (outerR + 0.006), 0);
         tooth.rotation.z = a - Math.PI / 2;
         grp.add(tooth);
@@ -1033,12 +1048,10 @@
 
       wheelGrp.add(new THREE.Mesh(new THREE.TorusGeometry(tireRadius, tubeRadius, 20, 48), matTire));
 
-      const rimGeo = new THREE.CylinderGeometry(tireRadius - tubeRadius * 0.8, tireRadius - tubeRadius * 0.8, tubeRadius * 1.1, 32, 1, true);
-      rimGeo.rotateX(Math.PI / 2);
+      const rimGeo = new THREE.CylinderGeometry(tireRadius - tubeRadius * 0.8, tireRadius - tubeRadius * 0.8, tubeRadius * 1.1, 32, 1, true).rotateX(Math.PI / 2);
       wheelGrp.add(new THREE.Mesh(rimGeo, matRim));
 
-      const hubGeo = new THREE.CylinderGeometry(0.075, 0.075, 0.22, 20);
-      hubGeo.rotateX(Math.PI / 2);
+      const hubGeo = new THREE.CylinderGeometry(0.075, 0.075, 0.22, 20).rotateX(Math.PI / 2);
       wheelGrp.add(new THREE.Mesh(hubGeo, matAluminum));
 
       for (let i = 0; i < 5; i++) {
@@ -1054,15 +1067,13 @@
       wheelGrp.add(disc);
 
       if (isRear) {
-        // Corona dentada trasera metálica (en z = +0.145)
         const rearSprocket = createToothedSprocket(0.08, 0.265, 42, 0.010, matSteel);
         rearSprocket.position.z = 0.145;
         wheelGrp.add(rearSprocket);
 
         for (let k = 0; k < 6; k++) {
           const ka = (k * Math.PI) / 3;
-          const hole = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.014, 16), matDarkSteel);
-          hole.rotation.x = Math.PI / 2;
+          const hole = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.014, 16).rotateX(Math.PI / 2), matDarkSteel);
           hole.position.set(Math.cos(ka) * 0.17, Math.sin(ka) * 0.17, 0.145);
           wheelGrp.add(hole);
         }
@@ -1113,7 +1124,7 @@
     forkGroup.add(handlebar);
     bikeGroup.add(forkGroup);
 
-    // CHASIS DE DOBLE VIGA
+    // CHASIS DE DOBLE VIGA Y PLACAS DEL MOTOR
     const frameGroup = new THREE.Group();
     [-0.20, 0.20].forEach(zSide => {
       const mainBeam = new THREE.Mesh(new THREE.BoxGeometry(1.22, 0.17, 0.032), matGhostChassis);
@@ -1126,6 +1137,7 @@
       lowerStrut.rotation.z = -0.62;
       frameGroup.add(lowerStrut);
 
+      // Placas verticales de soporte del motor / pivote basculante
       const pivotPlate = new THREE.Mesh(new THREE.BoxGeometry(0.30, 0.58, 0.032), matGhostChassis);
       pivotPlate.position.set(0.24, 0.68, zSide);
       frameGroup.add(pivotPlate);
@@ -1147,7 +1159,7 @@
     });
     bikeGroup.add(swingarmGroup);
 
-    // AMORTIGUADOR TRASERO FG GUBELLINI (Con muelle y botella separada Piggyback)
+    // AMORTIGUADOR TRASERO FG GUBELLINI (Ubicado detrás de las placas del motor)
     const shockGroup = new THREE.Group();
     shockGroup.position.set(0.54, 0.88, 0);
     shockGroup.rotation.z = -0.76;
@@ -1173,7 +1185,7 @@
     shockGroup.add(piggyCap);
     bikeGroup.add(shockGroup);
 
-    // CADENA DE TRANSMISIÓN COLOR METÁLICO CON ESLABONES VISIBLES (Placas externas, internas y rodillos)
+    // CADENA DE TRANSMISIÓN COLOR METÁLICO CON ESLABONES VISIBLES
     const chainGroup = new THREE.Group();
     const chainCurve = new THREE.CatmullRomCurve3([
       new THREE.Vector3(0.12, 0.69, 0.145),
@@ -1218,10 +1230,10 @@
     }
     bikeGroup.add(chainGroup);
 
-    // CAJA DE LA BATERÍA ESCALONADA (Rodeada por el chasis abajo y ensanchada por encima en los laterales)
+    // CAJA DE LA BATERÍA ESCALONADA
     const batteryBoxShell = new THREE.Group();
-    batteryBoxShell.position.set(-0.26, 1.18, 0);
-    batteryBoxShell.rotation.z = -0.42;
+    batteryBoxShell.position.copy(BOX_ORIGIN);
+    batteryBoxShell.rotation.z = BOX_ROT_Z;
     bikeGroup.add(batteryBoxShell);
 
     const lowW = 0.72, lowH = 0.20, lowD = 0.36, wallT = 0.012;
@@ -1254,7 +1266,6 @@
     rearBoxWall.position.set(upW / 2, 0.05, 0);
     batteryBoxShell.add(rearBoxWall);
 
-    // Cajón frontal delante de la caja de la batería
     const frontDrawer = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.24, 0.46), matGhostChassis);
     frontDrawer.position.set(-upW / 2 - 0.08, 0.10, 0);
     batteryBoxShell.add(frontDrawer);
@@ -1267,7 +1278,7 @@
     bikeGroup.add(subframeGroup);
 
     // ============================================================================
-    // 4. CONSTRUCCIÓN DE LOS COMPONENTES ELECTRÓNICOS
+    // 4. CONSTRUCCIÓN DE LOS COMPONENTES ELECTRÓNICOS (Alineados en Coordenadas Reales)
     // ============================================================================
     function registerComponent(id, group, labelOffset = new THREE.Vector3(0, 0.2, 0)) {
       group.userData.compId = id;
@@ -1289,259 +1300,284 @@
       return new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.85, roughness: 0.22 });
     }
 
-    // --- 4.1 PACK BATERÍAS 30S2P (1 Horizontal detrás + 2 Verticales delante + Thermal Pad) ---
+    // --- 4.1 PACK BATERÍAS 30S2P + CONECTORES AMPHENOL RECTOS 0° EN CARA TRASERA ---
     const batGroup = new THREE.Group();
-    batGroup.position.set(-0.26, 1.15, 0);
-    batGroup.rotation.z = -0.42;
+    batGroup.position.copy(BOX_ORIGIN);
+    batGroup.rotation.z = BOX_ROT_Z;
 
+    // Thermal Pad perimetral que rodea los 3 módulos en la parte inferior de la caja
     const matThermalPad = new THREE.MeshStandardMaterial({
       color: 0x38bdf8,
       roughness: 0.65,
       metalness: 0.05,
       transparent: true,
-      opacity: 0.55
+      opacity: 0.50
     });
-    const thermalPadWrap = new THREE.Mesh(new THREE.BoxGeometry(0.64, 0.18, 0.34), matThermalPad);
-    thermalPadWrap.position.set(-0.02, -0.02, 0);
+    const thermalPadWrap = new THREE.Mesh(new THREE.BoxGeometry(0.64, 0.16, 0.34), matThermalPad);
+    thermalPadWrap.position.set(-0.02, -0.05, 0);
     batGroup.add(thermalPadWrap);
 
     const matModuleBlue = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.30, metalness: 0.25 });
     const matRedPost = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.3 });
     const matBlkPost = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.3 });
     const matJST = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2 });
-
-    function createGrepowModule(lenX, heightY, widthZ, posX, posY, posZ) {
-      const mGrp = new THREE.Group();
-      mGrp.position.set(posX, posY, posZ);
-
-      const body = new THREE.Mesh(new THREE.BoxGeometry(lenX, heightY, widthZ), matModuleBlue.clone());
-      mGrp.add(body);
-
-      const pPost = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.035, 12), matRedPost.clone());
-      pPost.position.set(lenX * 0.28, heightY / 2 + 0.015, widthZ * 0.25);
-      mGrp.add(pPost);
-
-      const nPost = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.035, 12), matBlkPost.clone());
-      nPost.position.set(-lenX * 0.28, heightY / 2 + 0.015, -widthZ * 0.25);
-      mGrp.add(nPost);
-
-      // Conector de cell-tabs (JST-XHR-11P)
-      const cellTabConn = new THREE.Mesh(new THREE.BoxGeometry(0.026, 0.018, 0.036), matJST.clone());
-      cellTabConn.position.set(0, heightY / 2 + 0.009, 0);
-      mGrp.add(cellTabConn);
-
-      batGroup.add(mGrp);
-    }
-
-    // 2 Módulos en VERTICAL (delante, hacia el manillar -X)
-    createGrepowModule(0.34, 0.19, 0.14, -0.14, 0.01, -0.085);
-    createGrepowModule(0.34, 0.19, 0.14, -0.14, 0.01,  0.085);
-
-    // 1 Módulo en HORIZONTAL (detrás, hacia el colín +X)
-    createGrepowModule(0.15, 0.19, 0.31,  0.14, 0.01,  0.0);
-
     const matHVOrange = new THREE.MeshStandardMaterial({ color: 0xff5500, roughness: 0.28, metalness: 0.25 });
-    const bus1 = new THREE.Mesh(new THREE.BoxGeometry(0.022, 0.012, 0.16), matHVOrange.clone());
-    bus1.position.set(-0.06, 0.115, 0);
-    batGroup.add(bus1);
 
-    const bus2 = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.012, 0.022), matHVOrange.clone());
-    bus2.position.set(0.04, 0.115, -0.07);
-    batGroup.add(bus2);
+    // Módulo 1 (Delantero Izquierdo, Vertical: +Z)
+    const mod1 = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.16, 0.145), matModuleBlue.clone());
+    mod1.position.set(-0.14, -0.05, 0.082);
+    batGroup.add(mod1);
+    // Bornes M1: M1- (delante izq) y M1+ (detrás izq)
+    const m1Neg = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matBlkPost);
+    m1Neg.position.set(-0.26, 0.045, 0.11);
+    batGroup.add(m1Neg);
+    const m1Pos = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matRedPost);
+    m1Pos.position.set(-0.02, 0.045, 0.11);
+    batGroup.add(m1Pos);
+    // Conector Cell-Tabs M1
+    const jst1 = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.016, 0.034), matJST);
+    jst1.position.set(-0.18, 0.038, 0.05);
+    batGroup.add(jst1);
 
-    registerComponent('battery', batGroup, new THREE.Vector3(-0.05, 0.24, 0));
+    // Módulo 2 (Delantero Derecho, Vertical: -Z)
+    const mod2 = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.16, 0.145), matModuleBlue.clone());
+    mod2.position.set(-0.14, -0.05, -0.082);
+    batGroup.add(mod2);
+    // Bornes M2: M2- (detrás centro-der) y M2+ (delante der, hacia el fusible SIBA)
+    const m2Neg = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matBlkPost);
+    m2Neg.position.set(-0.02, 0.045, -0.05);
+    batGroup.add(m2Neg);
+    const m2Pos = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matRedPost);
+    m2Pos.position.set(-0.22, 0.045, -0.12);
+    batGroup.add(m2Pos);
+    // Conector Cell-Tabs M2
+    const jst2 = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.016, 0.034), matJST);
+    jst2.position.set(-0.18, 0.038, -0.05);
+    batGroup.add(jst2);
 
-    addTerminalPoint('BAT -', 'term-neg', -0.44, 1.34, 0.10, ['battery', 'hall']);
-    addTerminalPoint('BAT +', 'term-pos', -0.10, 1.18, 0.06, ['battery', 'fuse']);
+    // Módulo 3 (Trasero, Horizontal/Transversal)
+    const mod3 = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.16, 0.31), matModuleBlue.clone());
+    mod3.position.set(0.14, -0.05, 0.0);
+    batGroup.add(mod3);
+    // Bornes M3: M3- (derecha -Z, recibe salida del fusible) y M3+ (izquierda +Z, inicio del + General)
+    const m3Neg = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matBlkPost);
+    m3Neg.position.set(0.10, 0.045, -0.11);
+    batGroup.add(m3Neg);
+    const m3Pos = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matRedPost);
+    m3Pos.position.set(0.10, 0.045, 0.10);
+    batGroup.add(m3Pos);
+    // Conector Cell-Tabs M3
+    const jst3 = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.016, 0.034), matJST);
+    jst3.position.set(0.09, 0.038, 0.0);
+    batGroup.add(jst3);
 
-    // --- 4.2 SENSOR HALL DE CORRIENTE (Circular negro fino en el 1er cable adelante del todo) ---
+    // CONECTORES RECTOS DE 0° DE AMPHENOL PARA 35 mm² EN LA CARA TRASERA DE LA CAJA
+    // Uno al lado del otro con separación suficiente (z = -0.105 para + y z = +0.105 para -) y a la altura de salida (ly = 0.065)
+    [-0.105, 0.105].forEach((zAmp, idx) => {
+      const ampGrp = new THREE.Group();
+      ampGrp.position.set(0.365, 0.065, zAmp); // Cara trasera exterior de la caja (lx = +0.365)
+
+      // Brida cuadrada de montaje Amphenol sobre la pared trasera
+      const ampFlange = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.044, 0.044), matDarkSteel);
+      ampGrp.add(ampFlange);
+
+      // Cuerpo recto de 0° de Amphenol SurLok/HVSL (apuntando recto hacia atrás +X)
+      const ampBody = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.016, 0.016, 0.052, 18).rotateZ(Math.PI / 2),
+        idx === 0 ? matHVOrange : matBlkPost
+      );
+      ampBody.position.x = 0.026;
+      ampGrp.add(ampBody);
+
+      // Prensaestopas metálico trasero para cable de 35 mm²
+      const gland = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.013, 0.013, 0.022, 14).rotateZ(Math.PI / 2),
+        matAluminum
+      );
+      gland.position.x = 0.055;
+      ampGrp.add(gland);
+
+      batGroup.add(ampGrp);
+    });
+
+    registerComponent('battery', batGroup, new THREE.Vector3(-0.08, 0.28, 0.12));
+
+    // Etiquetas de los Conectores Amphenol 0° y Bornas + / -
+    addTerminalPoint('AMPHENOL + (0°)', 'term-pos', boxToWorld(0.41, 0.08, -0.105), ['battery', 'contactor', 'motor']);
+    addTerminalPoint('AMPHENOL - (0°)', 'term-neg', boxToWorld(0.41, 0.08,  0.105), ['battery', 'motor']);
+    addTerminalPoint('BAT +', 'term-pos', boxToWorld(0.10, 0.08, 0.10), ['battery', 'hall']);
+    addTerminalPoint('BAT -', 'term-neg', boxToWorld(-0.26, 0.08, 0.11), ['battery']);
+
+    // --- 4.2 SENSOR HALL DE CORRIENTE (Anillo negro circular fino nada más empezar el + General) ---
     const hallGroup = new THREE.Group();
-    hallGroup.position.set(-0.46, 1.33, 0.09);
-    hallGroup.rotation.z = -0.42;
+    // Colocado justo al inicio del cable + General que sale de M3+ (lx = 0.12, ly = 0.095, lz = 0.05)
+    hallGroup.position.copy(boxToWorld(0.12, 0.095, 0.05));
+    hallGroup.rotation.z = BOX_ROT_Z;
 
     const hallRing = new THREE.Mesh(
-      new THREE.TorusGeometry(0.026, 0.007, 16, 32),
-      new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.3, metalness: 0.4 })
+      new THREE.TorusGeometry(0.024, 0.0065, 16, 32),
+      new THREE.MeshStandardMaterial({ color: 0x090d14, roughness: 0.25, metalness: 0.4 })
     );
-    hallRing.rotation.y = Math.PI / 2;
+    hallRing.rotation.x = Math.PI / 2;
+    hallRing.rotation.y = 0.35;
     hallGroup.add(hallRing);
 
     const hallHeader = new THREE.Mesh(
-      new THREE.BoxGeometry(0.016, 0.018, 0.016),
+      new THREE.BoxGeometry(0.015, 0.016, 0.015),
       new THREE.MeshStandardMaterial({ color: 0x7c3aed, roughness: 0.3 })
     );
-    hallHeader.position.set(0, 0.028, 0);
+    hallHeader.position.set(0, 0.026, 0);
     hallGroup.add(hallHeader);
 
-    registerComponent('hall', hallGroup, new THREE.Vector3(-0.06, 0.12, 0.05));
+    registerComponent('hall', hallGroup, new THREE.Vector3(0.04, 0.16, 0.08));
 
-    // --- 4.3 FUSIBLE SIBA 500A (Sobre los módulos como en la foto CAD) ---
+    // --- 4.3 FUSIBLE SIBA 500A (En el lateral superior derecho delante del contactor, como en el ensamblaje CAD) ---
     const fuseGroup = new THREE.Group();
-    fuseGroup.position.set(-0.20, 1.29, 0.03);
-    fuseGroup.rotation.z = -0.42;
-    fuseGroup.rotation.y = 0.25;
+    // En la foto del ensamblaje real (image_4eca21.png), el fusible está en la parte superior derecha (lz = -0.145),
+    // delante del contactor Kilovac (lx = -0.11) y elevado (ly = 0.095) sobre dos pletinas verticales de cobre.
+    fuseGroup.position.copy(boxToWorld(-0.11, 0.095, -0.145));
+    fuseGroup.rotation.z = BOX_ROT_Z;
 
     const fuseBody = new THREE.Mesh(
-      new THREE.BoxGeometry(0.085, 0.040, 0.048),
+      new THREE.BoxGeometry(0.082, 0.038, 0.036),
       new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.25, metalness: 0.1 })
     );
     fuseGroup.add(fuseBody);
 
     const fuseWindow = new THREE.Mesh(
-      new THREE.BoxGeometry(0.042, 0.043, 0.020),
-      new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.8, roughness: 0.2 })
+      new THREE.BoxGeometry(0.040, 0.022, 0.038),
+      new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.8, roughness: 0.2 })
     );
     fuseGroup.add(fuseWindow);
 
-    [-0.06, 0.06].forEach(xLug => {
-      const lug = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.007, 0.032), matCopperMaterial());
+    // Terminales y pletinas verticales de cobre que lo sujetan como en el CAD real
+    [-0.055, 0.055].forEach(xLug => {
+      const lug = new THREE.Mesh(new THREE.BoxGeometry(0.036, 0.012, 0.010), matCopperMaterial());
       lug.position.x = xLug;
       fuseGroup.add(lug);
+
+      const post = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.055, 0.012), matCopperMaterial());
+      post.position.set(xLug, -0.025, 0);
+      fuseGroup.add(post);
     });
 
-    registerComponent('fuse', fuseGroup, new THREE.Vector3(0, 0.14, 0));
+    registerComponent('fuse', fuseGroup, new THREE.Vector3(-0.06, 0.18, -0.08));
 
-    // --- 4.4 CONTACTOR KILOVAC 500A (Base pegada a pared lateral derecha -Z, bornas hacia cara opuesta +Z) ---
+    // --- 4.4 CONTACTOR KILOVAC 500A (Elevado en la pared derecha para NO atravesar los módulos, bornas hacia la izquierda) ---
     const contactorGroup = new THREE.Group();
-    contactorGroup.position.set(-0.04, 1.15, -0.16);
-    contactorGroup.rotation.z = -0.42;
+    // Elevado a ly = +0.125 (los módulos terminan en ly = +0.030, por lo que queda totalmente por encima sin tocarlos)
+    contactorGroup.position.copy(boxToWorld(0.20, 0.125, -0.165));
+    contactorGroup.rotation.z = BOX_ROT_Z;
 
+    // Base fijada a la pared lateral derecha (-Z)
     const contactorBase = new THREE.Mesh(
-      new THREE.BoxGeometry(0.095, 0.095, 0.016),
+      new THREE.BoxGeometry(0.092, 0.085, 0.014),
       new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.6, roughness: 0.3 })
     );
     contactorBase.position.z = -0.055;
     contactorGroup.add(contactorBase);
 
+    // Cuerpo cilíndrico blanco/crema del Kilovac
     const kilovacCyl = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.048, 0.048, 0.105, 24).rotateX(Math.PI / 2),
-      new THREE.MeshStandardMaterial({ color: 0xf5f5f4, roughness: 0.35, metalness: 0.15 })
+      new THREE.CylinderGeometry(0.044, 0.044, 0.10, 24).rotateX(Math.PI / 2),
+      new THREE.MeshStandardMaterial({ color: 0xf5f5f4, roughness: 0.32, metalness: 0.15 })
     );
     contactorGroup.add(kilovacCyl);
 
+    // Dos bornas de cobre apuntando hacia la cara opuesta izquierda (+Z)
     [-0.022, 0.022].forEach(xStud => {
       const stud = new THREE.Mesh(
         new THREE.CylinderGeometry(0.009, 0.009, 0.036, 12).rotateX(Math.PI / 2),
         matCopperMaterial()
       );
-      stud.position.set(xStud, 0, 0.065);
+      stud.position.set(xStud, 0, 0.062);
       contactorGroup.add(stud);
     });
 
-    registerComponent('contactor', contactorGroup, new THREE.Vector3(0.05, 0.14, -0.05));
+    registerComponent('contactor', contactorGroup, new THREE.Vector3(0.10, 0.18, -0.10));
 
-    // --- 4.5 BMS ORION 2 (En el cajón delantero, plana, finita y pegada a la caja de la batería) ---
+    // --- 4.5 BMS ORION 2 (En el cajón delantero, plana y pegada a la pared frontal de la caja de la batería) ---
     const bmsGroup = new THREE.Group();
-    bmsGroup.position.set(-0.62, 1.36, 0);
-    bmsGroup.rotation.z = -0.42;
+    bmsGroup.position.copy(boxToWorld(-0.39, 0.08, 0));
+    bmsGroup.rotation.z = BOX_ROT_Z;
 
     const orionBody = new THREE.Mesh(
-      new THREE.BoxGeometry(0.036, 0.19, 0.29),
+      new THREE.BoxGeometry(0.034, 0.18, 0.28),
       new THREE.MeshStandardMaterial({ color: 0x111827, metalness: 0.65, roughness: 0.30 })
     );
     bmsGroup.add(orionBody);
 
     const flange = new THREE.Mesh(
-      new THREE.BoxGeometry(0.008, 0.22, 0.32),
+      new THREE.BoxGeometry(0.008, 0.21, 0.31),
       new THREE.MeshStandardMaterial({ color: 0x1f2937, metalness: 0.7, roughness: 0.3 })
     );
-    flange.position.x = 0.018;
+    flange.position.x = 0.016;
     bmsGroup.add(flange);
 
     const labelOrion = new THREE.Mesh(
-      new THREE.BoxGeometry(0.038, 0.06, 0.18),
+      new THREE.BoxGeometry(0.036, 0.055, 0.17),
       new THREE.MeshStandardMaterial({ color: 0xea580c, roughness: 0.3 })
     );
     bmsGroup.add(labelOrion);
 
     [-0.08, 0.0, 0.08].forEach(zConn => {
       const conn = new THREE.Mesh(
-        new THREE.BoxGeometry(0.024, 0.022, 0.052),
+        new THREE.BoxGeometry(0.022, 0.020, 0.048),
         new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.3 })
       );
-      conn.position.set(0, 0.102, zConn);
+      conn.position.set(0, 0.098, zConn);
       bmsGroup.add(conn);
     });
 
-    registerComponent('bms', bmsGroup, new THREE.Vector3(-0.08, 0.18, 0));
+    registerComponent('bms', bmsGroup, new THREE.Vector3(-0.14, 0.18, 0));
 
     // --- 4.6 INVERSOR HYPERDRIVE X1 + COLD PLATE (Pegado a la cara inferior de la caja de la batería) ---
     const invGroup = new THREE.Group();
-    invGroup.position.set(-0.34, 0.96, 0);
-    invGroup.rotation.z = -0.42;
+    invGroup.position.copy(boxToWorld(-0.04, -0.21, 0));
+    invGroup.rotation.z = BOX_ROT_Z;
 
     const coldPlate = new THREE.Mesh(
       new THREE.BoxGeometry(0.34, 0.024, 0.25),
       new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.20 })
     );
-    coldPlate.position.set(0, 0.055, 0);
+    coldPlate.position.set(0, 0.052, 0);
     invGroup.add(coldPlate);
 
-    [-0.08, 0.08].forEach(zFitting => {
-      const fitting = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.010, 0.010, 0.03, 12).rotateZ(Math.PI / 2),
-        matGubelliniBlue
-      );
-      fitting.position.set(-0.18, 0.055, zFitting);
-      invGroup.add(fitting);
-    });
-
     const invCasing = new THREE.Mesh(
-      new THREE.BoxGeometry(0.32, 0.085, 0.23),
+      new THREE.BoxGeometry(0.32, 0.082, 0.23),
       new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.72, roughness: 0.28 })
     );
-    invCasing.position.set(0, 0.0, 0);
     invGroup.add(invCasing);
 
     const invCap = new THREE.Mesh(
-      new THREE.BoxGeometry(0.28, 0.018, 0.19),
+      new THREE.BoxGeometry(0.28, 0.016, 0.19),
       new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.5, roughness: 0.4 })
     );
-    invCap.position.set(0, -0.048, 0);
+    invCap.position.set(0, -0.046, 0);
     invGroup.add(invCap);
 
-    const invDcPos = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.03, 12), matRedPost);
-    invDcPos.position.set(-0.12, -0.02, -0.09);
-    invGroup.add(invDcPos);
-
-    const invDcNeg = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.03, 12), matBlkPost);
-    invDcNeg.position.set(-0.12, -0.02, 0.09);
-    invGroup.add(invDcNeg);
-
-    [-0.06, 0.0, 0.06].forEach(zPh => {
-      const phStud = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.010, 0.010, 0.03, 12).rotateZ(Math.PI / 2),
-        matCopperMaterial()
-      );
-      phStud.position.set(0.17, -0.01, zPh);
-      invGroup.add(phStud);
-    });
-
+    // Radiador inferior y mangueras
     const radBox = new THREE.Mesh(
-      new THREE.BoxGeometry(0.07, 0.26, 0.22),
+      new THREE.BoxGeometry(0.07, 0.25, 0.22),
       new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.65, roughness: 0.35 })
     );
-    radBox.position.set(-0.08, -0.34, 0);
-    radBox.rotation.z = 0.42;
+    radBox.position.set(-0.08, -0.32, 0);
+    radBox.rotation.z = -BOX_ROT_Z;
     invGroup.add(radBox);
 
     const hoseCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-0.12, -0.36, 0.09),
-      new THREE.Vector3(0.10, -0.42, 0.12),
-      new THREE.Vector3(0.45, -0.38, 0.09)
+      new THREE.Vector3(-0.12, -0.34, 0.09),
+      new THREE.Vector3(0.10, -0.40, 0.12),
+      new THREE.Vector3(0.42, -0.36, 0.09)
     ]);
-    const coolingHose = new THREE.Mesh(
-      new THREE.TubeGeometry(hoseCurve, 28, 0.014, 10, false),
-      matAluminum
-    );
-    invGroup.add(coolingHose);
+    invGroup.add(new THREE.Mesh(new THREE.TubeGeometry(hoseCurve, 28, 0.013, 10, false), matAluminum));
 
-    registerComponent('inverter', invGroup, new THREE.Vector3(-0.14, -0.14, 0));
+    registerComponent('inverter', invGroup, new THREE.Vector3(-0.18, -0.14, 0));
 
-    addTerminalPoint('INV DC+', 'term-pos', -0.45, 0.99, -0.09, ['inverter', 'contactor']);
-    addTerminalPoint('INV DC-', 'term-neg', -0.45, 0.99,  0.09, ['inverter', 'battery']);
+    addTerminalPoint('INV DC+', 'term-pos', boxToWorld(-0.16, -0.22, -0.09), ['inverter']);
+    addTerminalPoint('INV DC-', 'term-neg', boxToWorld(-0.16, -0.22,  0.09), ['inverter']);
 
-    // --- 4.7 MOTOR ELÉCTRICO CIRCE (MotoStudent) + PIÑÓN + BORNAS FASES U, V, W ---
+    // --- 4.7 MOTOR ELÉCTRICO CIRCE (MotoStudent) + BORNAS + / - Y FASES U, V, W ---
     const motorGroup = new THREE.Group();
     motorGroup.position.set(0.12, 0.62, 0);
 
@@ -1569,16 +1605,26 @@
       motorGroup.add(bell);
     });
 
+    // Bornas traseras superiores del motor (+ y - donde llegan los cables de la batería tras pasar entre muelle y placas)
+    const motPosStud = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.032, 12), matRedPost);
+    motPosStud.position.set(0.07, 0.135, -0.085);
+    motorGroup.add(motPosStud);
+
+    const motNegStud = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.032, 12), matBlkPost);
+    motNegStud.position.set(0.07, 0.135, 0.085);
+    motorGroup.add(motNegStud);
+
+    // Regleta delantera de 3 fases (U, V, W)
     const terminalBlock = new THREE.Mesh(
-      new THREE.BoxGeometry(0.065, 0.035, 0.15),
+      new THREE.BoxGeometry(0.055, 0.032, 0.14),
       new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 })
     );
-    terminalBlock.position.set(-0.08, 0.14, 0);
+    terminalBlock.position.set(-0.08, 0.135, 0);
     motorGroup.add(terminalBlock);
 
-    [-0.048, 0.0, 0.048].forEach(zTerm => {
-      const stud = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matCopperMaterial());
-      stud.position.set(-0.08, 0.165, zTerm);
+    [-0.045, 0.0, 0.045].forEach(zTerm => {
+      const stud = new THREE.Mesh(new THREE.CylinderGeometry(0.009, 0.009, 0.028, 12), matCopperMaterial());
+      stud.position.set(-0.08, 0.158, zTerm);
       motorGroup.add(stud);
     });
 
@@ -1593,11 +1639,11 @@
     motorShaft.position.z = 0.13;
     motorGroup.add(motorShaft);
 
-    registerComponent('motor', motorGroup, new THREE.Vector3(0.04, -0.22, 0));
+    registerComponent('motor', motorGroup, new THREE.Vector3(0.05, -0.24, 0));
 
-    addTerminalPoint('Fase U', 'term-phase', 0.04, 0.80, -0.05, ['motor', 'inverter']);
-    addTerminalPoint('Fase V', 'term-phase', 0.04, 0.80,  0.00, ['motor', 'inverter']);
-    addTerminalPoint('Fase W', 'term-phase', 0.04, 0.80,  0.05, ['motor', 'inverter']);
+    addTerminalPoint('MOTOR +', 'term-pos', new THREE.Vector3(0.19, 0.77, -0.085), ['motor', 'battery']);
+    addTerminalPoint('MOTOR -', 'term-neg', new THREE.Vector3(0.19, 0.77,  0.085), ['motor', 'battery']);
+    addTerminalPoint('U / V / W', 'term-phase', new THREE.Vector3(0.03, 0.80, 0.0), ['motor', 'inverter']);
 
     // --- 4.8 CAJA DE BAJA TENSIÓN CON PCBs (Subchasis / Colín) ---
     const lvGroup = new THREE.Group();
@@ -1629,12 +1675,10 @@
       lvGroup.add(chip);
     });
 
-    registerComponent('lvbox', lvGroup, new THREE.Vector3(0, 0.15, 0));
+    registerComponent('lvbox', lvGroup, new THREE.Vector3(0.12, 0.16, 0));
 
     // ============================================================================
-    // 5. CABLEADO:
-    //    - ALTA TENSIÓN (> 60 V): SIEMPRE NARANJA (0xff5500)
-    //    - BAJA TENSIÓN / SEÑAL (< 60 V): COLORES DISTINTOS AL NARANJA
+    // 5. CABLEADO INTERNO SENTIDO LÓGICO + SALIDA TRASERA AMPHENOL + VÍAS AL CHASIS
     // ============================================================================
     const wiresGroup = new THREE.Group();
     bikeGroup.add(wiresGroup);
@@ -1643,7 +1687,7 @@
 
     function createWire(points, colorHex, radius, sysType) {
       const curve = new THREE.CatmullRomCurve3(points);
-      const geo = new THREE.TubeGeometry(curve, 44, radius, 8, false);
+      const geo = new THREE.TubeGeometry(curve, 48, radius, 8, false);
       const mat = new THREE.MeshStandardMaterial({
         color: colorHex,
         roughness: 0.28,
@@ -1655,103 +1699,149 @@
       wireMesh.userData.sysType = sysType;
       wiresGroup.add(wireMesh);
 
-      const dotGeo = new THREE.SphereGeometry(radius * 1.85, 10, 10);
+      const dotGeo = new THREE.SphereGeometry(radius * 1.8, 10, 10);
       const dotMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const dot = new THREE.Mesh(dotGeo, dotMat);
       wiresGroup.add(dot);
       flowParticles.push({ mesh: dot, curve: curve, progress: Math.random(), speed: 0.0042 });
     }
 
-    // --- ALTA TENSIÓN (> 60 V): TODOS NARANJAS ---
-    // 1. Primer cable delantero del Pack (BAT -) rodeado por el Sensor Hall -> INV DC-
-    createWire([
-      new THREE.Vector3(-0.38, 1.29, 0.09),
-      new THREE.Vector3(-0.46, 1.33, 0.09),
-      new THREE.Vector3(-0.53, 1.22, 0.12),
-      new THREE.Vector3(-0.45, 0.99, 0.09)
-    ], HV_ORANGE, 0.011, 'HV');
+    // Función para crear las VÍAS / ABRAZADERAS DE FIJACIÓN AL CHASIS (antivibración)
+    function createChassisCableGuide(worldPos) {
+      const clampGrp = new THREE.Group();
+      clampGrp.position.copy(worldPos);
+      // Bloque de sujeción atornillado a las placas del chasis/motor
+      const bracket = new THREE.Mesh(new THREE.BoxGeometry(0.034, 0.022, 0.065), matDarkSteel);
+      clampGrp.add(bracket);
+      const bolt = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, 0.072, 10).rotateX(Math.PI / 2), matSteel);
+      clampGrp.add(bolt);
+      wiresGroup.add(clampGrp);
+    }
 
-    // 2. Salida Positiva Pack (BAT +) -> Fusible SIBA 500A
+    // --- A) CONEXIONES INTERNAS DENTRO DE LA CAJA DE LA BATERÍA (NARANJAS > 60 V) ---
+    // 1. Puente Serie Módulo 1 (M1+) -> Módulo 2 (M2-)
     createWire([
-      new THREE.Vector3(-0.10, 1.18, 0.05),
-      new THREE.Vector3(-0.15, 1.26, 0.04),
-      new THREE.Vector3(-0.20, 1.29, 0.03)
-    ], HV_ORANGE, 0.011, 'HV');
+      boxToWorld(-0.02, 0.055,  0.11),
+      boxToWorld(-0.02, 0.085,  0.03),
+      boxToWorld(-0.02, 0.055, -0.05)
+    ], HV_ORANGE, 0.0095, 'HV');
 
-    // 3. Salida Fusible SIBA 500A -> Borna Entrada Contactor Kilovac
+    // 2. Puente Serie Módulo 2 (M2+) -> Pletina Delantera del Fusible SIBA 500A
     createWire([
-      new THREE.Vector3(-0.15, 1.28, 0.01),
-      new THREE.Vector3(-0.08, 1.22, -0.05),
-      new THREE.Vector3(-0.06, 1.15, -0.09)
-    ], HV_ORANGE, 0.011, 'HV');
+      boxToWorld(-0.22, 0.055, -0.12),
+      boxToWorld(-0.19, 0.090, -0.145),
+      boxToWorld(-0.165, 0.095, -0.145)
+    ], HV_ORANGE, 0.0095, 'HV');
 
-    // 4. Salida Contactor Kilovac -> Borna INV DC+ del Inversor HyperDrive X1
+    // 3. Puente Serie Salida Fusible SIBA 500A -> Entrada Módulo 3 Horizontal (M3-)
     createWire([
-      new THREE.Vector3(-0.02, 1.14, -0.09),
-      new THREE.Vector3(-0.18, 1.06, -0.14),
-      new THREE.Vector3(-0.34, 1.00, -0.12),
-      new THREE.Vector3(-0.45, 0.99, -0.09)
-    ], HV_ORANGE, 0.011, 'HV');
+      boxToWorld(-0.055, 0.095, -0.145),
+      boxToWorld( 0.03,  0.085, -0.13),
+      boxToWorld( 0.10,  0.055, -0.11)
+    ], HV_ORANGE, 0.0095, 'HV');
 
-    // 5. Fases U, V, W desde Inversor HyperDrive X1 -> Motor CIRCE (NARANJAS)
-    [-0.048, 0.0, 0.048].forEach(zPh => {
+    // 4. Línea + GENERAL (Interior): Sale de M3+ -> Atraviesa inmediatamente el SENSOR HALL -> Entra a Borna 1 del Contactor Kilovac
+    createWire([
+      boxToWorld(0.10, 0.055,  0.10),  // Borna M3+ (Inicio del + General)
+      boxToWorld(0.12, 0.095,  0.05),  // Pasa exactamente por el interior del Anillo Negro del Sensor Hall
+      boxToWorld(0.15, 0.120, -0.03),
+      boxToWorld(0.178, 0.125, -0.103) // Borna de entrada del Contactor Kilovac (apuntando a la izquierda)
+    ], HV_ORANGE, 0.0105, 'HV');
+
+    // 5. Salida del Contactor Kilovac (Borna 2) -> Conector Recto 0° Amphenol (+) en la cara trasera de la caja
+    createWire([
+      boxToWorld(0.222, 0.125, -0.103),
+      boxToWorld(0.29,  0.095, -0.105),
+      boxToWorld(0.355, 0.065, -0.105) // Interior del conector Amphenol 0° (+)
+    ], HV_ORANGE, 0.0105, 'HV');
+
+    // 6. Línea - GENERAL (Interior): Sale de M1- -> Va directo al Conector Recto 0° Amphenol (-) en la cara trasera de la caja
+    createWire([
+      boxToWorld(-0.26, 0.055, 0.11),
+      boxToWorld(-0.05, 0.065, 0.125),
+      boxToWorld( 0.18, 0.065, 0.115),
+      boxToWorld( 0.355, 0.065, 0.105) // Interior del conector Amphenol 0° (-)
+    ], HV_ORANGE, 0.0105, 'HV');
+
+    // --- B) SALIDA TRASERA EXTERIOR DESDE CONECTORES AMPHENOL 0° (ENTRE MUELLE Y PLACAS MOTOR CON VÍAS AL CHASIS) ---
+    // Cable + Exterior (Derecha, z < 0): Sale recto del Amphenol 0° (+), gira hacia abajo curvado, pasa entre el muelle FG Gubellini y la placa derecha del motor hasta el + del motor
+    const extPlusPoints = [
+      boxToWorld(0.42, 0.065, -0.105),     // Salida recta 0° del conector Amphenol (+)
+      new THREE.Vector3(0.28, 1.02, -0.12), // Giro curvado hacia abajo tras salir de la caja
+      new THREE.Vector3(0.33, 0.91, -0.135),// Vía de fijación superior al chasis (entre muelle z=0 y placa z=-0.20)
+      new THREE.Vector3(0.30, 0.80, -0.130),// Vía de fijación inferior al chasis
+      new THREE.Vector3(0.19, 0.75, -0.085) // Llegada al borne + del motor CIRCE
+    ];
+    createWire(extPlusPoints, HV_ORANGE, 0.011, 'HV');
+
+    // Cable - Exterior (Izquierda, z > 0): Sale recto del Amphenol 0° (-), gira hacia abajo curvado, pasa entre el muelle FG Gubellini y la placa izquierda del motor hasta el - del motor
+    const extMinusPoints = [
+      boxToWorld(0.42, 0.065, 0.105),      // Salida recta 0° del conector Amphenol (-)
+      new THREE.Vector3(0.28, 1.02, 0.12),  // Giro curvado hacia abajo tras salir de la caja
+      new THREE.Vector3(0.33, 0.91, 0.135), // Vía de fijación superior al chasis (entre muelle z=0 y placa z=+0.20)
+      new THREE.Vector3(0.30, 0.80, 0.130), // Vía de fijación inferior al chasis
+      new THREE.Vector3(0.19, 0.75, 0.085)  // Llegada al borne - del motor CIRCE
+    ];
+    createWire(extMinusPoints, HV_ORANGE, 0.011, 'HV');
+
+    // Colocar las 4 VÍAS / GUIADOS MECÁNICOS AL CHASIS que sujetan ambos cables contra las vibraciones
+    createChassisCableGuide(new THREE.Vector3(0.33, 0.91, -0.155));
+    createChassisCableGuide(new THREE.Vector3(0.30, 0.80, -0.150));
+    createChassisCableGuide(new THREE.Vector3(0.33, 0.91,  0.155));
+    createChassisCableGuide(new THREE.Vector3(0.30, 0.80,  0.150));
+
+    // --- C) FASES TRIFÁSICAS U, V, W ENTRE INVERSOR Y MOTOR CIRCE (NARANJAS) ---
+    [-0.045, 0.0, 0.045].forEach(zPh => {
       createWire([
-        new THREE.Vector3(-0.19, 0.88, zPh),
-        new THREE.Vector3(-0.08, 0.82, zPh * 1.1),
-        new THREE.Vector3(0.04, 0.78, zPh)
-      ], HV_ORANGE, 0.0095, 'HV');
+        boxToWorld(0.12, -0.22, zPh),
+        new THREE.Vector3(-0.04, 0.82, zPh * 1.1),
+        new THREE.Vector3( 0.04, 0.77, zPh)
+      ], HV_ORANGE, 0.009, 'HV');
     });
 
-    // --- BAJA TENSIÓN Y SEÑAL (< 60 V): COLORES VARIADOS (NO NARANJAS) ---
-    // 6. Mazos Cell-Tabs (3x JST-XHR-11P) de los 3 módulos -> BMS Orion 2 (Cian)
+    // --- D) CABLES DE BAJA TENSIÓN Y SEÑAL (< 60 V) -> COLORES NO NARANJAS ---
+    // 3 Mazos de Cell-Tabs (JST-XHR-11P) desde cada módulo hacia el conector de la BMS Orion 2 (Color Cian: 0x06b6d4)
     createWire([
-      new THREE.Vector3(-0.35, 1.31, -0.085),
-      new THREE.Vector3(-0.48, 1.40, -0.08),
-      new THREE.Vector3(-0.57, 1.45, -0.08)
-    ], 0x06b6d4, 0.0055, 'LV');
+      boxToWorld(-0.18, 0.045, 0.05),
+      boxToWorld(-0.29, 0.12,  0.07),
+      boxToWorld(-0.38, 0.17,  0.08)
+    ], 0x06b6d4, 0.005, 'LV');
 
     createWire([
-      new THREE.Vector3(-0.35, 1.31, 0.085),
-      new THREE.Vector3(-0.48, 1.40, 0.08),
-      new THREE.Vector3(-0.57, 1.45, 0.08)
-    ], 0x06b6d4, 0.0055, 'LV');
+      boxToWorld(-0.18, 0.045, -0.05),
+      boxToWorld(-0.29, 0.12,  -0.07),
+      boxToWorld(-0.38, 0.17,  -0.08)
+    ], 0x06b6d4, 0.005, 'LV');
 
     createWire([
-      new THREE.Vector3(-0.10, 1.20, 0.0),
-      new THREE.Vector3(-0.36, 1.36, 0.0),
-      new THREE.Vector3(-0.57, 1.45, 0.0)
-    ], 0x06b6d4, 0.0055, 'LV');
+      boxToWorld( 0.09, 0.045, 0.0),
+      boxToWorld(-0.14, 0.12,  0.0),
+      boxToWorld(-0.38, 0.17,  0.0)
+    ], 0x06b6d4, 0.005, 'LV');
 
-    // 7. Señal Sensor Hall -> BMS Orion 2 (Violeta)
+    // Cable de Señal del Sensor Hall -> BMS Orion 2 (Color Violeta: 0xa855f7)
     createWire([
-      new THREE.Vector3(-0.45, 1.36, 0.09),
-      new THREE.Vector3(-0.53, 1.42, 0.06),
-      new THREE.Vector3(-0.59, 1.44, 0.04)
-    ], 0xa855f7, 0.005, 'LV');
+      boxToWorld( 0.12, 0.12, 0.05),
+      boxToWorld(-0.12, 0.16, 0.04),
+      boxToWorld(-0.38, 0.17, 0.03)
+    ], 0xa855f7, 0.0048, 'LV');
 
-    // 8. Control Bobina Contactor Kilovac desde BMS Orion 2 (Verde)
+    // Cable de Bobina del Contactor Kilovac -> BMS Orion 2 (Color Verde: 0x10b981)
     createWire([
-      new THREE.Vector3(-0.60, 1.34, -0.12),
-      new THREE.Vector3(-0.32, 1.24, -0.17),
-      new THREE.Vector3(-0.04, 1.15, -0.15)
-    ], 0x10b981, 0.005, 'LV');
-
-    // 9. Encoder / Sensor Térmico Motor CIRCE -> Inversor (Azul)
-    createWire([
-      new THREE.Vector3(0.05, 0.68, -0.11),
-      new THREE.Vector3(-0.10, 0.76, -0.12),
-      new THREE.Vector3(-0.24, 0.86, -0.10)
-    ], 0x3b82f6, 0.005, 'LV');
+      boxToWorld( 0.20, 0.14, -0.18),
+      boxToWorld(-0.10, 0.16, -0.18),
+      boxToWorld(-0.38, 0.15, -0.12)
+    ], 0x10b981, 0.0048, 'LV');
 
     // ============================================================================
-    // 6. INTERFAZ: VENTANAS, VER TODO Y SELECCIÓN
+    // 6. INTERFAZ: VENTANAS PLEGABLES, VER TODO Y SELECCIÓN
     // ============================================================================
     const labelElements = {};
     Object.keys(COMPONENTS_DB).forEach(id => {
       const comp = COMPONENTS_DB[id];
       const div = document.createElement('div');
       div.className = `floating-label ${comp.system === 'HV' ? 'hv-label' : 'lv-label'}`;
-      div.innerHTML = `${comp.system === 'HV' ? '⚡' : '🔌'} ${comp.name.split('(')[0].trim()}`;
+      div.innerHTML = `${comp.system === 'HV' ? '⚡' : '🔌'} ${comp.name.split('+')[0].split('(')[0].trim()}`;
       div.onclick = (e) => {
         e.stopPropagation();
         selectComponent(id);
@@ -1784,10 +1874,10 @@
       insp.innerHTML = `
         <div class="sec-nav">
           <button class="sec-pill" onclick="scrollToSection('sec-resumen')">1. Resumen HV/LV</button>
-          <button class="sec-pill" onclick="scrollToSection('sec-pack')">2. Pack 30S2P y Térmica</button>
-          <button class="sec-pill" onclick="scrollToSection('sec-prot')">3. Hall, Fusible, Contactor y BMS</button>
-          <button class="sec-pill" onclick="scrollToSection('sec-trac')">4. Inversor y Motor CIRCE</button>
-          <button class="sec-pill" onclick="scrollToSection('sec-lv')">5. Parte Ciclo y Baja Tensión</button>
+          <button class="sec-pill" onclick="scrollToSection('sec-pack')">2. Pack y Amphenol 0°</button>
+          <button class="sec-pill" onclick="scrollToSection('sec-prot')">3. Hall, Fusible y Kilovac</button>
+          <button class="sec-pill" onclick="scrollToSection('sec-trac')">4. Vías al Chasis y Motor</button>
+          <button class="sec-pill" onclick="scrollToSection('sec-lv')">5. Parte Ciclo y LV</button>
         </div>
 
         <div id="sec-resumen" class="info-card">
@@ -1798,68 +1888,63 @@
               <div class="spec-val">30S2P (111 V nom / 126 V máx)</div>
             </div>
             <div class="spec-box">
-              <div class="spec-label">Capacidad / Corriente Pico</div>
-              <div class="spec-val">63.2 Ah / 500 A (≤15s)</div>
+              <div class="spec-label">Salida Trasera Caja</div>
+              <div class="spec-val">2× Amphenol 0° (35 mm²)</div>
             </div>
             <div class="spec-box">
               <div class="spec-label">Cables &gt; 60 V (HV)</div>
-              <div class="spec-val" style="color:#ff7b33;">Siempre Naranjas (35 mm²)</div>
+              <div class="spec-val" style="color:#ff7b33;">Siempre Naranjas</div>
             </div>
             <div class="spec-box">
               <div class="spec-label">Cables &lt; 60 V (LV/Señal)</div>
-              <div class="spec-val" style="color:#38bdf8;">Cian, Violeta, Verde, Azul</div>
+              <div class="spec-val" style="color:#38bdf8;">Cian, Violeta, Verde</div>
             </div>
           </div>
           <div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">
-            Todos los cables de más de 60 V (batería, inversor y fases del motor) son naranjas e incorporan etiquetas flotantes en el modelo 3D para distinguir <strong>BAT +</strong>, <strong>BAT -</strong>, <strong>INV DC+</strong>, <strong>INV DC-</strong> y las fases <strong>U, V, W</strong>.
+            Puedes plegar del todo cualquiera de los dos paneles laterales pulsando <strong>◀</strong> o <strong>▶</strong> para ocultar también sus títulos y dejar el visor 3D completamente despejado.
           </div>
         </div>
 
         <div id="sec-pack" class="info-card">
-          <h4>🔋 2. Disposición del Pack 30S2P, Caja Escalonada y Thermal Pad</h4>
+          <h4>🔋 2. Conexiones entre Módulos y Conectores Amphenol Rectos de 0°</h4>
           <ul class="conn-list">
-            <li><strong>Caja de Batería Escalonada:</strong> Queda abrazada por el chasis en la parte inferior y se ensancha por encima del bastidor en los laterales superiores como en el CAD.</li>
-            <li><strong>Disposición 1 Horizontal + 2 Verticales:</strong> Visto desde arriba y desde atrás (con el manillar arriba), se sitúa <strong>1 módulo en horizontal</strong> detrás y <strong>2 módulos en vertical</strong> delante, a menor altura y rodeados de un <strong>Thermal Pad</strong>.</li>
-            <li><strong>Módulos Grepow (GRP86A0260-37V-63200mAh):</strong> Cada módulo 10S2P incluye su conector superior de <em>cell-tabs</em> (<strong>JST-XHR-11P</strong>) conectado directamente a la BMS Orion 2.</li>
+            <li><strong>Disposición Interna (2 Verticales + 1 Horizontal):</strong> Los dos módulos delanteros van en vertical y el trasero en horizontal sobre el Thermal Pad azul.</li>
+            <li><strong>Conectores Rectos de 0° Amphenol (35 mm²):</strong> Situados en la cara trasera de la caja uno al lado del otro, con separación entre ellos y a la altura exacta donde salen los cables del + y - general de los módulos.</li>
           </ul>
         </div>
 
         <div id="sec-prot" class="info-card">
-          <h4>🛡️ 3. Sensor Hall, Fusible SIBA, Contactor Kilovac y BMS Orion 2</h4>
+          <h4>🛡️ 3. Sensor Hall al Inicio del +, Fusible SIBA y Contactor Kilovac</h4>
           <ul class="conn-list">
-            <li><strong>Sensor Hall Frontal:</strong> Anillo circular negro fino colocado en el primer cable adelante del todo del <em>battery pack</em>.</li>
-            <li><strong>Fusible SIBA 500A (Ref. 90 058 05):</strong> Situado sobre los módulos donde se observa en el CAD.</li>
-            <li><strong>Contactor Kilovac 500A:</strong> Base pegada a la <strong>pared lateral derecha</strong> de la caja con las bornas apuntando hacia la cara opuesta (izquierda).</li>
-            <li><strong>BMS Orion 2:</strong> Más fina, alojada en el cajón frontal y pegada de forma plana contra la pared de la caja de la batería; recibe los 3 mazos de <em>cell-tabs</em>.</li>
+            <li><strong>Sensor Hall de Corriente:</strong> Anillo negro circular fino situado nada más empezar el cable del <strong>+ general</strong>, mucho antes de llegar al conector Amphenol de salida de la caja.</li>
+            <li><strong>Fusible SIBA 500A:</strong> Montado en la parte superior derecha delante del contactor sobre sus pletinas de cobre, tal como se ve en el ensamblaje CAD real.</li>
+            <li><strong>Contactor Kilovac 500A Elevado:</strong> Fijado en la parte alta de la pared lateral derecha (por encima de los módulos sin atravesarlos) con sus dos bornas apuntando hacia la cara izquierda.</li>
           </ul>
         </div>
 
         <div id="sec-trac" class="info-card">
-          <h4>🚀 4. Inversor HyperDrive X1 (Cold Plate) y Motor CIRCE</h4>
+          <h4>🚀 4. Guiado Curvo entre Muelle y Placas con Vías al Chasis</h4>
           <ul class="conn-list">
-            <li><strong>Inversor HyperDrive X1 + Cold Plate:</strong> Va con su <em>Cold Plate</em> pegado directamente a la cara inferior de la caja de la batería (sin flotar), con las fases y el positivo/negativo identificados.</li>
-            <li><strong>Motor Eléctrico CIRCE:</strong> Motor de competición MotoStudent conectado mediante las 3 fases naranjas (<strong>U, V, W</strong>) al inversor.</li>
+            <li><strong>Recorrido del + y - General hacia el Motor:</strong> Al salir por la cara trasera de la caja a través de los conectores Amphenol de 0°, los cables naranjas hacen un giro curvado hacia abajo y pasan <strong>entre el muelle del amortiguador FG Gubellini y las placas del motor</strong> hasta el + y - del motor CIRCE.</li>
+            <li><strong>Vías de Fijación al Chasis:</strong> Los cables van amarrados mediante guías/abrazaderas al chasis para que no se muevan con las vibraciones.</li>
           </ul>
         </div>
 
         <div id="sec-lv" class="info-card">
-          <h4>⚙️ 5. Transmisión, Suspensiones FG Gubellini y Baja Tensión</h4>
+          <h4>⚙️ 5. Inversor Cold Plate, Transmisión y Baja Tensión</h4>
           <ul class="conn-list">
-            <li><strong>Piñón, Cadena y Corona:</strong> Piñón en el eje del motor CIRCE, corona dentada trasera y cadena metálica con eslabones individuales visibles.</li>
-            <li><strong>Suspensiones FG Gubellini:</strong> Horquilla delantera y amortiguador trasero FG Gubellini con botella separada.</li>
-            <li><strong>Caja de PCBs (Baja Tensión):</strong> Situada en el subchasis trasero (colín) con las placas electrónicas en su interior.</li>
+            <li><strong>Inversor HyperDrive X1:</strong> Con el <em>Cold Plate</em> pegado directamente a la cara inferior de la caja de la batería.</li>
+            <li><strong>Transmisión y Suspensiones:</strong> Piñón, cadena metálica con eslabones visibles, corona trasera y suspensiones FG Gubellini.</li>
           </ul>
         </div>
       `;
     }
 
-    // Botón "📖 Ver Todo": deselecciona cualquier pieza y despliega el panel derecho para navegar por secciones
     function openFullOverview() {
       clearSelection();
       setPanelSize('right', 'max');
     }
 
-    // Botón "🏍️ Todo el Sistema": deselecciona la pieza activa, restaura tamaño lateral medio y muestra todas las piezas bien
     function resetAllSystemView() {
       currentFilter = 'ALL';
       document.getElementById('btn-all').className = 'btn active-all';
@@ -1918,14 +2003,14 @@
         </div>
 
         <div class="info-card">
-          <h4>🔌 Conexionado y Colores de Cable</h4>
+          <h4>🔌 Conexionado y Recorrido de Cables</h4>
           <ul class="conn-list">
             ${comp.connections.map(c => `<li>${c}</li>`).join('')}
           </ul>
         </div>
 
         <div class="info-card">
-          <h4>💡 Detalle de Diseño Mecánico / Eléctrico</h4>
+          <h4>💡 Detalle de Montaje</h4>
           <div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">${comp.notes}</div>
         </div>
       `;
@@ -1970,7 +2055,7 @@
             child.material.transparent = true;
             if (selectedCompId) {
               if (isSelected) {
-                child.material.opacity = (child.material === matThermalPad) ? 0.65 : 1.0;
+                child.material.opacity = (child.material === matThermalPad) ? 0.60 : 1.0;
                 child.material.emissive = new THREE.Color(sys === 'HV' ? 0xff5500 : 0x00d2ff);
                 child.material.emissiveIntensity = 0.50;
               } else {
@@ -1981,7 +2066,7 @@
             } else {
               if (matchesFilter) {
                 if (child.material === matThermalPad) {
-                  child.material.opacity = 0.55;
+                  child.material.opacity = 0.50;
                 } else if (id === 'lvbox' && child === grp.children[0]) {
                   child.material.opacity = 0.40;
                 } else {
