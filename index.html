@@ -6,13 +6,13 @@
   <title>eUSRacing | Visor 3D de Arquitectura Eléctrica HV & LV - MotoStudent</title>
   <style>
     :root {
-      --bg-dark: #0b0f17;
-      --panel-bg: rgba(15, 23, 42, 0.90);
+      --bg-dark: #090d14;
+      --panel-bg: rgba(15, 22, 36, 0.92);
       --border-color: rgba(255, 255, 255, 0.14);
       --hv-color: #ff5500;
-      --hv-glow: rgba(255, 85, 0, 0.38);
+      --hv-glow: rgba(255, 85, 0, 0.40);
       --lv-color: #00d2ff;
-      --lv-glow: rgba(0, 210, 255, 0.38);
+      --lv-glow: rgba(0, 210, 255, 0.40);
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
     }
@@ -51,16 +51,16 @@
       top: 12px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 20;
+      z-index: 30;
       display: flex;
       align-items: center;
       gap: 12px;
       background: var(--panel-bg);
-      backdrop-filter: blur(12px);
-      padding: 10px 18px;
+      backdrop-filter: blur(14px);
+      padding: 9px 16px;
       border-radius: 14px;
       border: 1px solid var(--border-color);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
       max-width: 96vw;
       overflow-x: auto;
     }
@@ -78,20 +78,20 @@
       background: linear-gradient(135deg, #ff5500, #d97706);
       color: #fff;
       font-weight: 800;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       padding: 5px 10px;
       border-radius: 8px;
       letter-spacing: 0.5px;
     }
 
     .brand-title {
-      font-size: 0.92rem;
+      font-size: 0.90rem;
       font-weight: 700;
       white-space: nowrap;
     }
 
     .brand-sub {
-      font-size: 0.70rem;
+      font-size: 0.69rem;
       color: var(--text-muted);
       white-space: nowrap;
     }
@@ -106,9 +106,9 @@
       background: rgba(255, 255, 255, 0.06);
       color: var(--text-main);
       border: 1px solid var(--border-color);
-      padding: 8px 13px;
+      padding: 7px 12px;
       border-radius: 9px;
-      font-size: 0.80rem;
+      font-size: 0.79rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -119,7 +119,7 @@
     }
 
     .btn:hover {
-      background: rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.15);
     }
 
     .btn.active-all {
@@ -129,7 +129,7 @@
     }
 
     .btn.active-hv {
-      background: rgba(255, 85, 0, 0.24);
+      background: rgba(255, 85, 0, 0.25);
       border-color: var(--hv-color);
       color: #ff9d66;
       box-shadow: 0 0 15px var(--hv-glow);
@@ -142,36 +142,143 @@
       box-shadow: 0 0 15px var(--lv-glow);
     }
 
-    /* Panel Izquierdo */
-    .sidebar-left {
+    /* Paneles Laterales con 3 Estados: Minimizado (min), Medio (half), Agrandado (max) */
+    .sidebar {
       position: absolute;
-      top: 78px;
-      left: 14px;
-      bottom: 58px;
-      width: 300px;
-      z-index: 15;
+      top: 74px;
+      z-index: 20;
       background: var(--panel-bg);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
       border-radius: 14px;
       border: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-      transition: transform 0.25s ease;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+      transition: width 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+                  height 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+                  bottom 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .sidebar-left {
+      left: 14px;
+      width: 315px;
+      bottom: 14px;
+    }
+
+    .sidebar-right {
+      right: 14px;
+      width: 375px;
+      bottom: 14px;
+    }
+
+    /* Estado Minimizado */
+    .sidebar.state-min {
+      bottom: auto !important;
+      height: 46px !important;
+    }
+
+    .sidebar.state-min .panel-body {
+      display: none;
+    }
+
+    /* Estado Medio (Tamaño por defecto en los laterales) */
+    .sidebar-left.state-half {
+      width: 315px;
+      bottom: 14px;
+    }
+
+    .sidebar-right.state-half {
+      width: 375px;
+      bottom: 14px;
+    }
+
+    /* Estado Agrandado */
+    .sidebar-left.state-max {
+      width: min(470px, 92vw);
+      bottom: 14px;
+      z-index: 28;
+    }
+
+    .sidebar-right.state-max {
+      width: min(650px, 94vw);
+      bottom: 14px;
+      z-index: 28;
     }
 
     .panel-header {
-      padding: 12px 16px;
+      height: 46px;
+      padding: 0 12px;
       border-bottom: 1px solid var(--border-color);
-      font-size: 0.82rem;
+      font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.6px;
       color: var(--text-muted);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-shrink: 0;
+      background: rgba(0, 0, 0, 0.22);
+    }
+
+    .panel-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .node-badge {
+      background: rgba(255, 85, 0, 0.2);
+      color: #ff9d66;
+      border: 1px solid rgba(255, 85, 0, 0.4);
+      padding: 2px 7px;
+      border-radius: 99px;
+      font-size: 0.67rem;
+      font-weight: 800;
+    }
+
+    .win-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .win-btn {
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      width: 25px;
+      height: 25px;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .win-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #fff;
+    }
+
+    .win-btn.active-size {
+      background: rgba(255, 85, 0, 0.28);
+      border-color: var(--hv-color);
+      color: #fff;
+    }
+
+    .panel-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
 
     .comp-list {
@@ -184,7 +291,7 @@
     }
 
     .sys-section-title {
-      font-size: 0.74rem;
+      font-size: 0.73rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.7px;
@@ -198,7 +305,7 @@
     .sys-lv { color: #38bdf8; }
 
     .comp-item {
-      padding: 10px 12px;
+      padding: 9px 11px;
       border-radius: 10px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid transparent;
@@ -213,19 +320,19 @@
     }
 
     .comp-item.selected-hv {
-      background: rgba(255, 85, 0, 0.18);
+      background: rgba(255, 85, 0, 0.20);
       border-color: var(--hv-color);
       box-shadow: 0 0 12px var(--hv-glow);
     }
 
     .comp-item.selected-lv {
-      background: rgba(0, 210, 255, 0.18);
+      background: rgba(0, 210, 255, 0.20);
       border-color: var(--lv-color);
       box-shadow: 0 0 12px var(--lv-glow);
     }
 
     .comp-name {
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       font-weight: 600;
       display: flex;
       justify-content: space-between;
@@ -233,25 +340,26 @@
     }
 
     .comp-loc {
-      font-size: 0.72rem;
+      font-size: 0.71rem;
       color: var(--text-muted);
       margin-top: 3px;
     }
 
     .controls-box {
-      padding: 12px 16px;
+      padding: 11px 14px;
       border-top: 1px solid var(--border-color);
       background: rgba(0, 0, 0, 0.28);
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     .slider-row {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      font-size: 0.75rem;
+      gap: 3px;
+      font-size: 0.73rem;
       color: var(--text-muted);
     }
 
@@ -265,29 +373,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.77rem;
+      font-size: 0.75rem;
       color: var(--text-main);
     }
 
-    /* Panel Derecho */
-    .sidebar-right {
-      position: absolute;
-      top: 78px;
-      right: 14px;
-      bottom: 58px;
-      width: 350px;
-      z-index: 15;
-      background: var(--panel-bg);
-      backdrop-filter: blur(12px);
-      border-radius: 14px;
-      border: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-      transition: transform 0.25s ease;
-    }
-
+    /* Inspector Derecho y Navegación Interna por Secciones */
     .inspector-content {
       flex: 1;
       overflow-y: auto;
@@ -295,13 +385,44 @@
       display: flex;
       flex-direction: column;
       gap: 13px;
+      scroll-behavior: smooth;
+    }
+
+    .sec-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: -15px;
+      background: rgba(15, 22, 36, 0.96);
+      z-index: 10;
+      padding-top: 4px;
+    }
+
+    .sec-pill {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 0.71rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .sec-pill:hover {
+      background: rgba(255, 85, 0, 0.25);
+      border-color: var(--hv-color);
     }
 
     .badge-system {
       display: inline-block;
       padding: 4px 10px;
       border-radius: 6px;
-      font-size: 0.71rem;
+      font-size: 0.70rem;
       font-weight: 700;
       text-transform: uppercase;
       width: fit-content;
@@ -326,7 +447,7 @@
     }
 
     .insp-subtitle {
-      font-size: 0.81rem;
+      font-size: 0.80rem;
       color: var(--text-muted);
     }
 
@@ -338,22 +459,25 @@
     }
 
     .info-card h4 {
-      font-size: 0.74rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      color: var(--text-muted);
+      color: #ff9d66;
       margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .spec-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
       gap: 7px;
     }
 
     .spec-box {
-      background: rgba(0, 0, 0, 0.28);
-      padding: 7px 8px;
+      background: rgba(0, 0, 0, 0.30);
+      padding: 7px 9px;
       border-radius: 7px;
     }
 
@@ -363,7 +487,7 @@
     }
 
     .spec-val {
-      font-size: 0.82rem;
+      font-size: 0.81rem;
       font-weight: 700;
       color: #fff;
       margin-top: 2px;
@@ -375,24 +499,25 @@
       flex-direction: column;
       gap: 7px;
       font-size: 0.80rem;
-      line-height: 1.42;
+      line-height: 1.45;
     }
 
     .conn-list li {
-      padding-left: 15px;
+      padding-left: 16px;
       position: relative;
     }
 
     .conn-list li::before {
-      content: "⚡";
+      content: "▸";
+      color: var(--hv-color);
       position: absolute;
-      left: 0;
+      left: 2px;
       top: 0;
-      font-size: 0.70rem;
+      font-weight: bold;
     }
 
     /* Etiquetas Flotantes 3D */
-    #labels-container {
+    #labels-container, #terminals-container {
       position: absolute;
       inset: 0;
       pointer-events: none;
@@ -402,11 +527,11 @@
     .floating-label {
       position: absolute;
       transform: translate(-50%, -100%);
-      background: rgba(12, 18, 30, 0.88);
+      background: rgba(10, 15, 26, 0.90);
       color: #fff;
       padding: 4px 9px;
       border-radius: 6px;
-      font-size: 0.72rem;
+      font-size: 0.71rem;
       font-weight: 600;
       white-space: nowrap;
       border: 1px solid rgba(255, 255, 255, 0.22);
@@ -433,71 +558,44 @@
       border-color: #fff;
       font-weight: 800;
       box-shadow: 0 0 15px rgba(255, 85, 0, 0.85);
-      z-index: 20;
-    }
-
-    /* Leyenda Inferior */
-    .bottom-hud {
-      position: absolute;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 15;
-      background: var(--panel-bg);
-      backdrop-filter: blur(10px);
-      padding: 8px 16px;
-      border-radius: 999px;
-      border: 1px solid var(--border-color);
-      display: flex;
-      gap: 16px;
-      font-size: 0.74rem;
-      color: var(--text-muted);
-      max-width: 96vw;
-      overflow-x: auto;
-      white-space: nowrap;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      display: inline-block;
-      flex-shrink: 0;
-    }
-
-    .mobile-toggles {
-      display: none;
-      position: absolute;
-      bottom: 56px;
-      left: 50%;
-      transform: translateX(-50%);
       z-index: 25;
-      gap: 10px;
     }
 
-    @media (max-width: 1024px) {
-      .sidebar-left {
-        width: 270px;
-        transform: translateX(-110%);
-      }
-      .sidebar-left.open {
-        transform: translateX(0);
-      }
-      .sidebar-right {
-        width: 310px;
-        transform: translateX(110%);
-      }
-      .sidebar-right.open {
-        transform: translateX(0);
-      }
-      .mobile-toggles {
-        display: flex;
+    /* Etiquetas de Polaridad y Fases (+ / - / U, V, W) */
+    .term-badge {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.63rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.65);
+    }
+
+    .term-pos {
+      background: rgba(220, 38, 38, 0.94);
+      color: #fff;
+      border: 1px solid #fca5a5;
+    }
+
+    .term-neg {
+      background: rgba(15, 23, 42, 0.94);
+      color: #e2e8f0;
+      border: 1px solid #64748b;
+    }
+
+    .term-phase {
+      background: rgba(245, 158, 11, 0.94);
+      color: #090d14;
+      border: 1px solid #fde68a;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar-left.state-half, .sidebar-right.state-half {
+        width: 265px;
       }
     }
   </style>
@@ -506,8 +604,10 @@
 
   <!-- Contenedor WebGL 3D -->
   <div id="canvas-container"></div>
-  <!-- Etiquetas 2D sincronizadas con coordenadas 3D -->
+  <!-- Etiquetas de Componentes 3D -->
   <div id="labels-container"></div>
+  <!-- Etiquetas de Bornas (+ / - / Fases U,V,W) -->
+  <div id="terminals-container"></div>
 
   <!-- Barra Superior -->
   <div class="topbar">
@@ -519,11 +619,11 @@
       </div>
     </div>
     <div class="filter-group">
-      <button id="btn-all" class="btn active-all" onclick="setSystemFilter('ALL')">
+      <button id="btn-all" class="btn active-all" onclick="resetAllSystemView()">
         🏍️ Todo el Sistema
       </button>
       <button id="btn-hv" class="btn" onclick="setSystemFilter('HV')">
-        ⚡ Alta Tensión (HV)
+        ⚡ Alta Tensión (HV &gt; 60V)
       </button>
       <button id="btn-lv" class="btn" onclick="setSystemFilter('LV')">
         🔌 Baja Tensión (LV)
@@ -534,102 +634,109 @@
     </div>
   </div>
 
-  <!-- Botones Móviles -->
-  <div class="mobile-toggles">
-    <button class="btn" onclick="toggleMobilePanel('left')">📋 Lista / Controles</button>
-    <button class="btn" onclick="toggleMobilePanel('right')">🔍 Ficha Técnica</button>
-  </div>
-
-  <!-- Panel Izquierdo -->
-  <div class="sidebar-left" id="panel-left">
+  <!-- Panel Izquierdo: Componentes del Equipo 7 NODOS (+ Sensor Hall) -->
+  <div class="sidebar sidebar-left state-half" id="panel-left">
     <div class="panel-header">
-      <span>Componentes del Prototipo</span>
-      <span id="comp-count">7 nodos</span>
-    </div>
-
-    <div class="comp-list">
-      <div>
-        <div class="sys-section-title sys-hv">⚡ Sistema Alta Tensión (HV)</div>
-        <div class="comp-item" id="item-battery" onclick="selectComponent('battery')">
-          <div class="comp-name"><span>Pack Baterías 30S2P (3x Módulos)</span></div>
-          <div class="comp-loc">📍 Interior Caja de Batería (Centro)</div>
-        </div>
-        <div class="comp-item" id="item-fuse" onclick="selectComponent('fuse')">
-          <div class="comp-name"><span>Fusible Principal SIBA 500A</span></div>
-          <div class="comp-loc">📍 Interior Caja Batería (Zona Trasera)</div>
-        </div>
-        <div class="comp-item" id="item-contactor" onclick="selectComponent('contactor')">
-          <div class="comp-name"><span>Contactor Kilovac 500A</span></div>
-          <div class="comp-loc">📍 Interior Caja Batería (Junto a Fusible)</div>
-        </div>
-        <div class="comp-item" id="item-bms" onclick="selectComponent('bms')">
-          <div class="comp-name"><span>BMS Orion 2</span></div>
-          <div class="comp-loc">📍 Cajón Delantero (Frente a Caja Batería)</div>
-        </div>
-        <div class="comp-item" id="item-inverter" onclick="selectComponent('inverter')">
-          <div class="comp-name"><span>Inversor HyperDrive X1</span></div>
-          <div class="comp-loc">📍 Bajo la Caja de la Batería</div>
-        </div>
-        <div class="comp-item" id="item-motor" onclick="selectComponent('motor')">
-          <div class="comp-name"><span>Motor Eléctrico de Tracción</span></div>
-          <div class="comp-loc">📍 Cuna Inferior Trasera del Chasis</div>
-        </div>
+      <div class="panel-title-wrap">
+        <span>Componentes del Equipo</span>
+        <span class="node-badge">7 NODOS + HALL</span>
       </div>
-
-      <div>
-        <div class="sys-section-title sys-lv">🔌 Sistema Baja Tensión (LV)</div>
-        <div class="comp-item" id="item-lvbox" onclick="selectComponent('lvbox')">
-          <div class="comp-name"><span>Caja de PCBs (Baja Tensión)</span></div>
-          <div class="comp-loc">📍 Subchasis Trasero (Zona Colín)</div>
-        </div>
+      <div class="win-controls">
+        <button class="win-btn" id="left-btn-min" title="Minimizar" onclick="setPanelSize('left', 'min')">_</button>
+        <button class="win-btn active-size" id="left-btn-half" title="Tamaño Medio Lateral" onclick="setPanelSize('left', 'half')">◫</button>
+        <button class="win-btn" id="left-btn-max" title="Agrandar" onclick="setPanelSize('left', 'max')">⛶</button>
       </div>
     </div>
 
-    <div class="controls-box">
-      <div class="slider-row">
-        <div style="display:flex;justify-content:space-between;">
-          <span>Opacidad Chasis y Caja Batería</span>
-          <span id="val-opacity">35%</span>
+    <div class="panel-body">
+      <div class="comp-list">
+        <div>
+          <div class="sys-section-title sys-hv">⚡ Sistema Alta Tensión (HV)</div>
+          <div class="comp-item" id="item-battery" onclick="selectComponent('battery')">
+            <div class="comp-name"><span>Pack 30S2P (1 Horiz. + 2 Vert.)</span></div>
+            <div class="comp-loc">📍 Caja Batería con Thermal Pad</div>
+          </div>
+          <div class="comp-item" id="item-hall" onclick="selectComponent('hall')">
+            <div class="comp-name"><span>Sensor Hall de Corriente</span></div>
+            <div class="comp-loc">📍 1er cable delantero del Battery Pack</div>
+          </div>
+          <div class="comp-item" id="item-fuse" onclick="selectComponent('fuse')">
+            <div class="comp-name"><span>Fusible Principal SIBA 500A</span></div>
+            <div class="comp-loc">📍 Parte superior sobre módulos</div>
+          </div>
+          <div class="comp-item" id="item-contactor" onclick="selectComponent('contactor')">
+            <div class="comp-name"><span>Contactor Kilovac 500A</span></div>
+            <div class="comp-loc">📍 Pared lateral derecha (Bornas a izq.)</div>
+          </div>
+          <div class="comp-item" id="item-bms" onclick="selectComponent('bms')">
+            <div class="comp-name"><span>BMS Orion 2</span></div>
+            <div class="comp-loc">📍 Cajón frontal (Pegada plana a caja)</div>
+          </div>
+          <div class="comp-item" id="item-inverter" onclick="selectComponent('inverter')">
+            <div class="comp-name"><span>Inversor HyperDrive X1 + Cold Plate</span></div>
+            <div class="comp-loc">📍 Pegado bajo la caja de la batería</div>
+          </div>
+          <div class="comp-item" id="item-motor" onclick="selectComponent('motor')">
+            <div class="comp-name"><span>Motor Eléctrico CIRCE</span></div>
+            <div class="comp-loc">📍 Cuna inferior + Piñón y cadena</div>
+          </div>
         </div>
-        <input type="range" id="slider-opacity" min="5" max="100" value="35" oninput="updateChassisOpacity(this.value)" />
-      </div>
-      <div class="slider-row">
-        <div style="display:flex;justify-content:space-between;">
-          <span>Vista Explosionada (Inspección Interna)</span>
-          <span id="val-explode">0%</span>
+
+        <div>
+          <div class="sys-section-title sys-lv">🔌 Sistema Baja Tensión (LV)</div>
+          <div class="comp-item" id="item-lvbox" onclick="selectComponent('lvbox')">
+            <div class="comp-name"><span>Caja de PCBs (Baja Tensión)</span></div>
+            <div class="comp-loc">📍 Subchasis Trasero (Colín)</div>
+          </div>
         </div>
-        <input type="range" id="slider-explode" min="0" max="100" value="0" oninput="updateExplodeView(this.value)" />
       </div>
-      <div class="toggle-row">
-        <span>Mostrar Cableado y Flujo HV</span>
-        <input type="checkbox" id="chk-wires" checked onchange="toggleWires(this.checked)" />
-      </div>
-      <div class="toggle-row">
-        <span>Mostrar Etiquetas Flotantes 3D</span>
-        <input type="checkbox" id="chk-labels" checked onchange="toggleLabels(this.checked)" />
+
+      <div class="controls-box">
+        <div class="slider-row">
+          <div style="display:flex;justify-content:space-between;">
+            <span>Opacidad Chasis y Caja Batería</span>
+            <span id="val-opacity">35%</span>
+          </div>
+          <input type="range" id="slider-opacity" min="5" max="100" value="35" oninput="updateChassisOpacity(this.value)" />
+        </div>
+        <div class="slider-row">
+          <div style="display:flex;justify-content:space-between;">
+            <span>Vista Explosionada (Inspección)</span>
+            <span id="val-explode">0%</span>
+          </div>
+          <input type="range" id="slider-explode" min="0" max="100" value="0" oninput="updateExplodeView(this.value)" />
+        </div>
+        <div class="toggle-row">
+          <span>Mostrar Cableado (HV Naranja / LV)</span>
+          <input type="checkbox" id="chk-wires" checked onchange="toggleWires(this.checked)" />
+        </div>
+        <div class="toggle-row">
+          <span>Mostrar Etiquetas y Bornas (+/-)</span>
+          <input type="checkbox" id="chk-labels" checked onchange="toggleLabels(this.checked)" />
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Panel Derecho -->
-  <div class="sidebar-right" id="panel-right">
+  <!-- Panel Derecho: FICHA TÉCNICA Y CONEXIONADO -->
+  <div class="sidebar sidebar-right state-half" id="panel-right">
     <div class="panel-header">
-      <span>Ficha Técnica y Conexionado</span>
-      <button class="btn" style="padding:3px 8px;font-size:0.7rem;" onclick="clearSelection()">Ver Todo</button>
+      <div class="panel-title-wrap">
+        <span>FICHA TÉCNICA Y CONEXIONADO</span>
+      </div>
+      <div class="win-controls">
+        <button class="btn" style="padding:3px 9px;font-size:0.70rem;background:rgba(255,85,0,0.24);border-color:var(--hv-color);" onclick="openFullOverview()">📖 Ver Todo</button>
+        <button class="win-btn" id="right-btn-min" title="Minimizar" onclick="setPanelSize('right', 'min')">_</button>
+        <button class="win-btn active-size" id="right-btn-half" title="Tamaño Medio Lateral" onclick="setPanelSize('right', 'half')">◫</button>
+        <button class="win-btn" id="right-btn-max" title="Agrandar" onclick="setPanelSize('right', 'max')">⛶</button>
+      </div>
     </div>
-    <div class="inspector-content" id="inspector"></div>
+    <div class="panel-body">
+      <div class="inspector-content" id="inspector"></div>
+    </div>
   </div>
 
-  <!-- Leyenda Inferior -->
-  <div class="bottom-hud">
-    <div class="legend-item"><span class="dot" style="background:#ff3b00;"></span> Cable HV+ / Serie (35 mm²)</div>
-    <div class="legend-item"><span class="dot" style="background:#334155;border:1px solid #94a3b8;"></span> Cable HV- (35 mm²)</div>
-    <div class="legend-item"><span class="dot" style="background:#f59e0b;"></span> Fases AC Motor (U, V, W)</div>
-    <div class="legend-item"><span class="dot" style="background:#10b981;"></span> Sensado / Control BMS (AWG22#)</div>
-    <div class="legend-item"><span class="dot" style="background:#00d2ff;"></span> Baja Tensión (Sin cablear)</div>
-  </div>
-
-  <!-- Three.js y OrbitControls desde el mismo CDN oficial -->
+  <!-- Three.js y OrbitControls -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
@@ -642,151 +749,169 @@
         id: 'battery',
         system: 'HV',
         name: 'Pack de Baterías 30S2P (3 Módulos Grepow)',
-        subtitle: 'Ref. Módulo: GRP86A0260-37V-63200mAh (10S2P por módulo)',
-        location: 'Interior de la caja de la batería (sección central/delantera inclinada dentro del chasis de doble viga).',
+        subtitle: 'Ref. GRP86A0260-37V-63200mAh · 1 Módulo Horizontal + 2 Verticales con Thermal Pad',
+        location: 'Interior de la caja de baterías escalonada (rodeada por el chasis en la zona inferior y ensanchada por encima de las vigas en los laterales). Asentados a baja altura y rodeados de Thermal Pad.',
         specs: [
-          { label: 'Configuración Total', val: '30S2P (3x 10S2P en serie)' },
-          { label: 'Tensión Pack (Nom / Máx)', val: '111.0 V / 126.0 V DC' },
-          { label: 'Tensión Corte Pack', val: '82.5 V (27.5 V/mód.)' },
+          { label: 'Configuración Pack', val: '30S2P (3x 10S2P en serie)' },
+          { label: 'Disposición Vista Sup.', val: '1 Horiz. detrás + 2 Vert. delante' },
+          { label: 'Tensión Nom / Máx', val: '111.0 V / 126.0 V DC' },
+          { label: 'Tensión de Corte', val: '82.5 V (27.5 V/mód.)' },
           { label: 'Capacidad Nominal', val: '63.2 Ah (63200 mAh)' },
-          { label: 'Descarga Cont. / Pico', val: '3C (~190 A) / 500 A (≤15s)' },
-          { label: 'Celda Pouch Unitaria', val: '3.7 V · 31600 mAh (<1 mΩ)' },
-          { label: 'Dimensión por Módulo', val: '280 × 101.5 × 186 mm' },
-          { label: 'Peso Módulo / Total', val: '10.35 kg / ~31.05 kg' }
+          { label: 'Corriente Cont. / Pico', val: '3C (~190 A) / 500 A (≤15s)' },
+          { label: 'Dimensiones Módulo', val: '280 × 101.5 × 186 mm (10.35 kg)' },
+          { label: 'Envolvente Térmica', val: 'Thermal Pad perimetral' }
         ],
         connections: [
-          '<strong>Serie entre los 3 módulos (HV):</strong> El terminal positivo del Módulo 1 se conecta al negativo del Módulo 2, y el positivo del Módulo 2 al negativo del Módulo 3 mediante cable de descarga de <strong>35 mm²</strong> (salida de 150 mm).',
-          '<strong>Salida Positiva Total (HV+):</strong> Sale del polo positivo del Módulo 3 directamente hacia un extremo del <strong>Fusible SIBA 500A</strong> dentro de la caja de baterías.',
-          '<strong>Salida Negativa Total (HV-):</strong> Sale del polo negativo del Módulo 1 mediante cable de <strong>35 mm²</strong> hacia el terminal negativo DC (B-) del <strong>Inversor HyperDrive X1</strong>.',
-          '<strong>Mazos de Balanceo y Sensado:</strong> Cada módulo dispone de 1 conector inverso <strong>JST-XHR-11P (AWG22#, 85 mm)</strong> que va guiado hacia el cajón delantero del <strong>BMS Orion 2</strong>.'
+          '<strong>Puentes Serie HV (Naranjas, 35 mm²):</strong> Conectan en serie los 3 módulos (Módulo Frontal Izq. ➔ Módulo Frontal Der. ➔ Módulo Trasero Horizontal).',
+          '<strong>Salida Negativa Principal (BAT -):</strong> Sale por el primer cable delantero del pack (atravesando el <strong>Sensor Hall</strong>) mediante cable naranja de <strong>35 mm²</strong> hacia la borna <strong>INV DC-</strong> del Inversor HyperDrive X1.',
+          '<strong>Salida Positiva Principal (BAT +):</strong> Conecta con el <strong>Fusible SIBA 500A</strong> en la parte superior y de ahí pasa al <strong>Contactor Kilovac 500A</strong>.',
+          '<strong>Conectores Cell-Tabs (Cables Cian - Baja Tensión):</strong> Cada uno de los 3 módulos incorpora su conector <strong>JST-XHR-11P (AWG22#)</strong> de sensado individual cuyos mazos viajan hasta el conector multipin de la <strong>BMS Orion 2</strong>.'
         ],
-        notes: 'Encapsulado con placas de aluminio y PVC negro. Rango térmico operativo: 10°C a 55°C en carga (máx. 0.5C) y -40°C a 60°C en descarga.'
+        notes: 'Visto desde arriba y desde la parte trasera de la moto (quedando arriba el manillar): va 1 módulo en horizontal abajo (detrás) y 2 módulos arriba (delante) en vertical, rodeados por el Thermal Pad.'
+      },
+      hall: {
+        id: 'hall',
+        system: 'HV',
+        name: 'Sensor Hall de Corriente',
+        subtitle: 'Transductor toroidal negro circular fino de efecto Hall',
+        location: 'Situado en el primer cable adelante del todo del battery pack, rodeando al conductor naranja principal.',
+        specs: [
+          { label: 'Geometría', val: 'Circular negro fino (Toroidal)' },
+          { label: 'Ubicación', val: '1er cable frontal del Battery Pack' },
+          { label: 'Rango Medida', val: '±500 A DC bidireccional' },
+          { label: 'Señal Salida', val: 'Cable Violeta (LV) hacia BMS' }
+        ],
+        connections: [
+          '<strong>Conductor Primario HV (Naranja):</strong> El primer cable de alta tensión (<strong>35 mm²</strong>) del pack pasa por el interior del anillo circular negro sin contacto galvánico.',
+          '<strong>Línea de Señal (Cable Violeta - Baja Tensión):</strong> Envía la medida de corriente instantánea directamente a la <strong>BMS Orion 2</strong> situada en el cajón frontal.'
+        ],
+        notes: 'Permite monitorizar en tiempo real la corriente de descarga y regeneración para el cálculo del SoC y la protección frente a sobrecorrientes.'
       },
       fuse: {
         id: 'fuse',
         system: 'HV',
         name: 'Fusible Principal HV SIBA 500A',
-        subtitle: 'Ref. SIBA 90 058 05 · Cuerpo cerámico con mirilla central',
-        location: 'Interior de la caja de la batería, en el compartimento superior trasero detrás del tercer módulo.',
+        subtitle: 'Ref. SIBA 90 058 05 · Cuerpo cerámico blanco con mirilla central',
+        location: 'Montado en la zona superior sobre los módulos dentro de la caja de la batería, exactamente donde aparece en el CAD.',
         specs: [
           { label: 'Fabricante / Ref.', val: 'SIBA / 90 058 05' },
           { label: 'Corriente Nominal', val: '500 A' },
-          { label: 'Encapsulado', val: 'Cerámico con ventana visual' },
-          { label: 'Terminales', val: 'Horquilla ranurada (Bolt-down)' }
+          { label: 'Cuerpo', val: 'Cerámico con ventana visual' },
+          { label: 'Terminales', val: 'Horquillas ranuradas M8' }
         ],
         connections: [
-          '<strong>Entrada (Terminal 1):</strong> Conectado mediante embarrado de cobre / cable de <strong>35 mm²</strong> a la salida positiva principal (<strong>HV+</strong>) del tercer módulo de la batería.',
-          '<strong>Salida (Terminal 2):</strong> Conectado en serie directa al borne de potencia de entrada del <strong>Contactor Kilovac 500A</strong>.'
+          '<strong>Entrada (Borna 1):</strong> Conectada mediante embarrado/cable naranja al terminal positivo del pack (<strong>BAT +</strong>).',
+          '<strong>Salida (Borna 2):</strong> Conectada mediante cable naranja de alta tensión hacia la borna de entrada del <strong>Contactor Kilovac 500A</strong>.'
         ],
-        notes: 'Protege el pack 30S2P ante sobrecorrientes severas o cortocircuitos superiores al pico admisible de 500 A (≤15 s).'
+        notes: 'Actúa como corte físico de seguridad ante picos de cortocircuito superiores a los 500 A admisibles.'
       },
       contactor: {
         id: 'contactor',
         system: 'HV',
         name: 'Contactor Principal Kilovac 500A',
-        subtitle: 'Relé hermético de Alta Tensión de 500 A continuos',
-        location: 'Interior de la caja de la batería, en la esquina superior trasera junto al fusible SIBA.',
+        subtitle: 'Relé hermético de alta tensión de 500 A',
+        location: 'Base pegada a la pared lateral derecha de la caja de la batería, con las bornas apuntando horizontalmente hacia la cara opuesta (izquierda).',
         specs: [
-          { label: 'Modelo', val: 'Kilovac Serie 500A' },
-          { label: 'Corriente Soportada', val: '500 A' },
-          { label: 'Posición en Circuito', val: 'Línea Positiva Principal (HV+)' },
-          { label: 'Control de Bobina', val: 'Gobernado por BMS / Safety Circuit' }
+          { label: 'Modelo', val: 'Kilovac 500A HV' },
+          { label: 'Fijación Mecánica', val: 'Base en pared lateral derecha' },
+          { label: 'Orientación Bornas', val: 'Apuntando a la cara opuesta (izq.)' },
+          { label: 'Capacidad de Corte', val: '500 A (> 60 V DC)' }
         ],
         connections: [
-          '<strong>Borne de Potencia A1 (Entrada):</strong> Viene directamente desde la salida del <strong>Fusible SIBA 500A</strong>.',
-          '<strong>Borne de Potencia A2 (Salida):</strong> Sale de la caja de la batería hacia abajo mediante cable apantallado de alta tensión hasta la entrada positiva (B+) del <strong>Inversor HyperDrive X1</strong>.',
-          '<strong>Terminales de Bobina (Control):</strong> Conectados al circuito de seguridad comandado por el <strong>BMS Orion 2</strong> para abrir el circuito instantáneamente en caso de fallo.'
+          '<strong>Borna Potencia Entrada:</strong> Recibe el cable naranja desde la salida del <strong>Fusible SIBA 500A</strong>.',
+          '<strong>Borna Potencia Salida:</strong> Sale con cable naranja hacia el terminal positivo <strong>INV DC+</strong> del <strong>Inversor HyperDrive X1</strong>.',
+          '<strong>Bobina de Actuación (Cable Verde - Baja Tensión):</strong> Alimentada a través del circuito de seguridad comandado por la <strong>BMS Orion 2</strong>.'
         ],
-        notes: 'Garantiza el aislamiento galvánico de la línea HV+ fuera de la caja de baterías cuando la motocicleta está apagada o ante una apertura del lazo de seguridad.'
+        notes: 'Su disposición horizontal anclada al lateral derecho aprovecha el ensanchamiento superior de la caja de baterías y orienta las bornas hacia el centro para facilitar el tendido del cable naranja.'
       },
       bms: {
         id: 'bms',
         system: 'HV',
         name: 'BMS Orion 2 (Battery Management System)',
-        subtitle: 'Sistema de gestión y protección de celdas 30S',
-        location: 'Alojado en el cajón específico situado justo delante de la caja de la batería, tras la pipa de dirección.',
+        subtitle: 'Unidad electrónica de supervisión de perfil fino',
+        location: 'Dentro del cajón delantero situado delante de la caja de la batería, montada de forma plana y pegada a la pared frontal de la caja.',
         specs: [
-          { label: 'Modelo', val: 'Ewert Energy Orion BMS 2' },
-          { label: 'Series Monitorizadas', val: '30 Series (3 módulos × 10S)' },
-          { label: 'Conectores Módulos', val: '3× JST-XHR-11P (AWG22#)' },
-          { label: 'Límites de Tensión', val: '2.75 V mín. / 4.20 V máx. por celda' }
+          { label: 'Modelo', val: 'Orion BMS 2' },
+          { label: 'Montaje', val: 'Plana y pegada a caja de batería' },
+          { label: 'Entradas Cell-Tabs', val: '3 conectores JST-XHR-11P (30S)' },
+          { label: 'Tensión por Celda', val: '2.75 V mín. / 4.20 V máx.' }
         ],
         connections: [
-          '<strong>Entradas de Sensado de Celdas:</strong> Recibe los 3 mazos de cables <strong>AWG22# (conector JST-XHR-11P inverso)</strong> procedentes de cada uno de los 3 módulos Grepow desde el interior de la caja de baterías.',
-          '<strong>Línea de Seguridad / Contactor:</strong> Envía la señal de habilitación hacia la bobina del <strong>Contactor Kilovac 500A</strong>.',
-          '<strong>Comunicación CAN Bus:</strong> Interfaz de datos con el <strong>Inversor HyperDrive X1</strong> para limitar corriente de descarga/regeneración según temperatura y estado de carga (SoC).'
+          '<strong>Mazos de Cell-Tabs (Cables Cian - LV):</strong> Recibe los 3 mazos procedentes de los conectores de <em>cell-tabs</em> (<strong>JST-XHR-11P</strong>) de cada uno de los 3 módulos Grepow.',
+          '<strong>Señal Sensor Hall (Cable Violeta - LV):</strong> Recibe la medición del sensor Hall situado en el primer cable frontal del pack.',
+          '<strong>Gobierno del Contactor (Cable Verde - LV):</strong> Controla el cierre/apertura de la bobina del <strong>Contactor Kilovac 500A</strong>.'
         ],
-        notes: 'Su ubicación en el cajón frontal permite aislar la electrónica de supervisión del calor de potencia y facilita el acceso para diagnóstico por puerto CAN.'
+        notes: 'Al trabajar con señales de sensado y control, ninguno de sus mazos utiliza el color naranja reservado a tensiones mayores de 60 V.'
       },
       inverter: {
         id: 'inverter',
         system: 'HV',
-        name: 'Inversor HyperDrive X1',
-        subtitle: 'Controlador de motor trifásico de alta densidad de potencia',
-        location: 'Montado en la parte inferior externa de la caja de la batería (delante del motor y detrás de la rueda delantera).',
+        name: 'Inversor HyperDrive X1 + Cold Plate',
+        subtitle: 'Controlador trifásico refrigerado por líquido adosado bajo la caja de batería',
+        location: 'Montado con su Cold Plate pegado directamente a la cara inferior inclinada de la caja de la batería (sin flotar), conectado al radiador inferior.',
         specs: [
           { label: 'Modelo', val: 'HyperDrive X1' },
-          { label: 'Tensión DC Trabajo', val: '82.5 V – 126.0 V DC (Pack 30S)' },
-          { label: 'Salida a Motor', val: 'Trifásica AC (Fases U, V, W)' },
-          { label: 'Refrigeración', val: 'Líquida (racores inferiores)' }
+          { label: 'Montaje Térmico', val: 'Cold Plate pegado bajo caja bat.' },
+          { label: 'Entrada DC', val: 'Bornas INV DC+ y INV DC- (Naranjas)' },
+          { label: 'Salida Trifásica', val: 'Bornas Fase U, V, W (Naranjas)' }
         ],
         connections: [
-          '<strong>Entrada DC Positiva (HV+):</strong> Conectada desde la salida del <strong>Contactor Kilovac 500A</strong>.',
-          '<strong>Entrada DC Negativa (HV-):</strong> Conectada directamente al terminal negativo principal del pack de baterías (<strong>35 mm²</strong>).',
-          '<strong>Salida Trifásica AC (U, V, W):</strong> Tres cables de potencia que recorren la cuna inferior hasta los tres bornes de fase del <strong>Motor Eléctrico</strong>.',
-          '<strong>Circuito Hidráulico:</strong> Racores y mangueras de refrigeración visibles en la parte inferior del chasis.'
+          '<strong>Borna INV DC+ (Cable Naranja):</strong> Conectada a la salida de potencia del <strong>Contactor Kilovac 500A</strong>.',
+          '<strong>Borna INV DC- (Cable Naranja):</strong> Conectada al borne negativo del pack (<strong>BAT -</strong>) tras pasar por el sensor Hall.',
+          '<strong>Bornas Fase U, Fase V y Fase W (3 Cables Naranjas):</strong> Conectadas directamente a las 3 bornas de fase del <strong>Motor Eléctrico CIRCE</strong>.',
+          '<strong>Refrigeración Líquida:</strong> El Cold Plate superior se comunica mediante los conductos inferiores con el radiador delantero.'
         ],
-        notes: 'Convierte la tensión continua de la batería 30S2P en corriente alterna trifásica modulada (PWM/FOC) para controlar el par y las RPM del motor.'
+        notes: 'Las etiquetas 3D identifican claramente cuáles son las bornas INV DC+ e INV DC- en la entrada y las fases U, V, W en la salida.'
       },
       motor: {
         id: 'motor',
         system: 'HV',
-        name: 'Motor Eléctrico de Tracción',
-        subtitle: 'Propulsor eléctrico principal con transmisión por cadena',
-        location: 'Ubicado en la cuna inferior trasera del chasis, justo delante del eje del basculante.',
+        name: 'Motor Eléctrico CIRCE (MotoStudent)',
+        subtitle: 'Motor oficial de competición con piñón, cadena metálica de eslabones y corona',
+        location: 'Ubicado en la cuna inferior trasera del chasis, delante del basculante y del amortiguador trasero FG Gubellini.',
         specs: [
-          { label: 'Ubicación Mecánica', val: 'Cuna central/trasera del chasis' },
-          { label: 'Alimentación', val: 'Trifásica AC (desde HyperDrive X1)' },
-          { label: 'Transmisión Secundaria', val: 'Piñón y cadena (lado izquierdo)' },
-          { label: 'Sensores', val: 'Encoder/Resolver + Temp. Estator' }
+          { label: 'Modelo', val: 'CIRCE MotoStudent Electric' },
+          { label: 'Alimentación (>60V)', val: 'Trifásica AC (Fases U, V, W Naranjas)' },
+          { label: 'Transmisión', val: 'Piñón + Cadena eslabones + Corona' },
+          { label: 'Suspensiones', val: 'FG Gubellini (Del. y Tras.)' }
         ],
         connections: [
-          '<strong>Fases de Potencia (U, V, W):</strong> Conectadas mediante tres líneas de alta sección directamente a la etapa de salida del <strong>Inversor HyperDrive X1</strong>.',
-          '<strong>Feedback de Posición y Temperatura:</strong> Mazo de señal conectado al inversor HyperDrive X1 para el control vectorial (FOC).'
+          '<strong>Bornas Fase U, Fase V, Fase W (3 Cables Naranjas):</strong> Reciben las tres líneas de potencia de más de 60 V desde el <strong>Inversor HyperDrive X1</strong>.',
+          '<strong>Cable de Encoder y Temperatura (Azul - LV):</strong> Conecta los sensores internos del estator/rotor con el inversor.'
         ],
-        notes: 'Posicionado cerca del pivote del basculante para minimizar la variación de tensión en la cadena durante la compresión del amortiguador trasero.'
+        notes: 'El eje del motor CIRCE monta el piñón dentado que transmite el par a la corona trasera mediante una cadena metálica con eslabones individuales visibles.'
       },
       lvbox: {
         id: 'lvbox',
         system: 'LV',
         name: 'Caja de Electrónica de Baja Tensión (PCBs)',
-        subtitle: 'Envolvente trasera con placas de circuito impreso (PCBs)',
-        location: 'Montada sobre el subchasis trasero (en el hueco donde se aloja el colín, sobre el amortiguador).',
+        subtitle: 'Caja en el subchasis trasero con placas PCB internas',
+        location: 'Instalada en el subchasis donde va el colín, por encima del amortiguador FG Gubellini.',
         specs: [
-          { label: 'Sistema', val: 'Baja Tensión (LV)' },
-          { label: 'Contenido Interno', val: 'PCBs de control / adquisición' },
+          { label: 'Sistema', val: 'Baja Tensión (< 60 V)' },
           { label: 'Ubicación', val: 'Subchasis / Colín trasero' },
-          { label: 'Estado de Conexionado', val: 'Sin cablear (Fase actual)' }
+          { label: 'Contenido', val: 'PCBs electrónicas de control' },
+          { label: 'Estado Actual', val: 'Presentadas (Sin cablear)' }
         ],
         connections: [
-          '<strong>Estado actual del proyecto:</strong> Las PCBs están ubicadas físicamente dentro de su caja protectora en el colín pero <strong>no tienen mazos de cableado conectados por ahora</strong>.',
-          '<strong>Preparado para expansión:</strong> Cuando defináis el arnés de baja tensión (ECU/VCU, telemetría, IMU, DC/DC 12V), se puede activar directamente en este visor.'
+          '<strong>Sin conexiones activas por ahora:</strong> Las PCBs están ubicadas dentro de su caja en el subchasis listas para la siguiente fase del proyecto.'
         ],
-        notes: 'Al hacer clic sobre esta caja o usar el deslizador de opacidad, puedes observar las tarjetas PCB verdes apiladas en su interior.'
+        notes: 'Puedes hacer clic sobre la caja o usar la vista explosionada para inspeccionar las tarjetas PCB verdes alojadas en su interior.'
       }
     };
 
     // ============================================================================
-    // 2. INICIALIZACIÓN DE THREE.JS Y CONTROL DE CÁMARA
+    // 2. INICIALIZACIÓN DE LA ESCENA THREE.JS
     // ============================================================================
     const container = document.getElementById('canvas-container');
     const labelsContainer = document.getElementById('labels-container');
+    const terminalsContainer = document.getElementById('terminals-container');
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0b0f17);
-    scene.fog = new THREE.FogExp2(0x0b0f17, 0.065);
+    scene.background = new THREE.Color(0x090d14);
+    scene.fog = new THREE.FogExp2(0x090d14, 0.055);
 
-    const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 100);
+    const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
     const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -794,15 +919,14 @@
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
-    // Usar OrbitControls si está disponible, o control orbital nativo de respaldo
     let controls;
     if (typeof THREE.OrbitControls !== 'undefined') {
       controls = new THREE.OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.06;
-      controls.maxPolarAngle = Math.PI / 2 + 0.08;
-      controls.minDistance = 1.4;
-      controls.maxDistance = 10;
+      controls.maxPolarAngle = Math.PI / 2 + 0.1;
+      controls.minDistance = 1.2;
+      controls.maxDistance = 9.5;
     } else {
       controls = {
         target: new THREE.Vector3(0.05, 0.90, 0),
@@ -810,17 +934,16 @@
       };
     }
 
-    // Iluminación
-    const ambientLight = new THREE.AmbientLight(0xdbeafe, 0.65);
+    const ambientLight = new THREE.AmbientLight(0xe2e8f0, 0.72);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.95);
-    dirLight1.position.set(-4, 7, 5);
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.05);
+    dirLight1.position.set(-3.5, 6.5, 5.5);
     dirLight1.castShadow = true;
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x60a5fa, 0.45);
-    dirLight2.position.set(5, 3, -5);
+    const dirLight2 = new THREE.DirectionalLight(0x93c5fd, 0.50);
+    dirLight2.position.set(4.5, 3.0, -5.0);
     scene.add(dirLight2);
 
     const gridHelper = new THREE.GridHelper(12, 24, 0x334155, 0x1e293b);
@@ -834,24 +957,40 @@
     const interactiveMeshes = [];
     const componentGroups = {};
     const basePositions = {};
+    const terminalPoints = [];
+
     const explodeVectors = {
-      battery: new THREE.Vector3(0, 0.32, 0),
-      fuse: new THREE.Vector3(0.08, 0.48, -0.18),
-      contactor: new THREE.Vector3(0.12, 0.48, 0.18),
-      bms: new THREE.Vector3(-0.26, 0.25, 0),
-      inverter: new THREE.Vector3(-0.18, -0.25, 0),
+      battery: new THREE.Vector3(0, 0.30, 0),
+      hall: new THREE.Vector3(-0.14, 0.42, 0.12),
+      fuse: new THREE.Vector3(0.05, 0.46, 0),
+      contactor: new THREE.Vector3(0.10, 0.44, -0.22),
+      bms: new THREE.Vector3(-0.30, 0.22, 0),
+      inverter: new THREE.Vector3(-0.16, -0.26, 0),
       motor: new THREE.Vector3(0, -0.18, 0),
-      lvbox: new THREE.Vector3(0.22, 0.28, 0)
+      lvbox: new THREE.Vector3(0.20, 0.25, 0)
     };
 
+    function addTerminalPoint(label, type, x, y, z, compIds) {
+      const div = document.createElement('div');
+      div.className = `term-badge ${type}`;
+      div.innerText = label;
+      terminalsContainer.appendChild(div);
+      terminalPoints.push({
+        el: div,
+        pos: new THREE.Vector3(x, y, z),
+        compIds: compIds
+      });
+    }
+
     // ============================================================================
-    // 3. CONSTRUCCIÓN DE PARTE CICLO Y CHASIS (Geometría CAD eUSRacing)
+    // 3. PARTE CICLO: CHASIS, PIÑÓN, CORONA, CADENA DE ESLABONES Y SUSPENSIONES GUBELLINI
     // ============================================================================
-    const matAluminum = new THREE.MeshStandardMaterial({
-      color: 0xcbd5e1,
-      metalness: 0.55,
-      roughness: 0.35
-    });
+    const matAluminum = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.65, roughness: 0.30 });
+    const matSteel = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.88, roughness: 0.20 });
+    const matDarkSteel = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.82, roughness: 0.32 });
+    const matGubelliniGold = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.78, roughness: 0.25 });
+    const matGubelliniRed = new THREE.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.70, roughness: 0.25 });
+    const matGubelliniBlue = new THREE.MeshStandardMaterial({ color: 0x2563eb, metalness: 0.70, roughness: 0.25 });
 
     const matGhostChassis = new THREE.MeshPhysicalMaterial({
       color: 0x94a3b8,
@@ -865,45 +1004,68 @@
 
     const matTire = new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.85, metalness: 0.1 });
     const matRim = new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.4, metalness: 0.7 });
-    const matDisc = new THREE.MeshStandardMaterial({ color: 0xd4d4d8, roughness: 0.3, metalness: 0.8 });
+
+    function createToothedSprocket(innerR, outerR, teethCount, thickness, mat) {
+      const grp = new THREE.Group();
+      const ringGeo = new THREE.RingGeometry(innerR, outerR, 40);
+      const ringMat = mat.clone();
+      ringMat.side = THREE.DoubleSide;
+      grp.add(new THREE.Mesh(ringGeo, ringMat));
+
+      const bodyGeo = new THREE.CylinderGeometry(outerR, outerR, thickness, 36, 1, true);
+      bodyGeo.rotateX(Math.PI / 2);
+      grp.add(new THREE.Mesh(bodyGeo, mat));
+
+      for (let i = 0; i < teethCount; i++) {
+        const a = (i / teethCount) * Math.PI * 2;
+        const toothGeo = new THREE.BoxGeometry(0.014, 0.022, thickness);
+        const tooth = new THREE.Mesh(toothGeo, mat);
+        tooth.position.set(Math.cos(a) * (outerR + 0.006), Math.sin(a) * (outerR + 0.006), 0);
+        tooth.rotation.z = a - Math.PI / 2;
+        grp.add(tooth);
+      }
+      return grp;
+    }
 
     function createWheel(x, y, tireRadius, tubeRadius, isRear) {
       const wheelGrp = new THREE.Group();
       wheelGrp.position.set(x, y, 0);
 
-      const tireGeo = new THREE.TorusGeometry(tireRadius, tubeRadius, 20, 48);
-      wheelGrp.add(new THREE.Mesh(tireGeo, matTire));
+      wheelGrp.add(new THREE.Mesh(new THREE.TorusGeometry(tireRadius, tubeRadius, 20, 48), matTire));
 
       const rimGeo = new THREE.CylinderGeometry(tireRadius - tubeRadius * 0.8, tireRadius - tubeRadius * 0.8, tubeRadius * 1.1, 32, 1, true);
       rimGeo.rotateX(Math.PI / 2);
       wheelGrp.add(new THREE.Mesh(rimGeo, matRim));
 
-      const hubGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.22, 20);
+      const hubGeo = new THREE.CylinderGeometry(0.075, 0.075, 0.22, 20);
       hubGeo.rotateX(Math.PI / 2);
       wheelGrp.add(new THREE.Mesh(hubGeo, matAluminum));
 
-      for (let i = 0; i < 6; i++) {
-        const angle = (i * Math.PI) / 3;
-        const spokeGeo = new THREE.BoxGeometry(0.03, tireRadius - 0.1, 0.025);
-        const spoke = new THREE.Mesh(spokeGeo, matRim);
+      for (let i = 0; i < 5; i++) {
+        const angle = (i * Math.PI * 2) / 5;
+        const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.028, tireRadius - 0.1, 0.022), matRim);
         spoke.position.set(Math.cos(angle) * (tireRadius * 0.45), Math.sin(angle) * (tireRadius * 0.45), 0);
         spoke.rotation.z = angle + Math.PI / 2;
         wheelGrp.add(spoke);
       }
 
-      const discGeo = new THREE.RingGeometry(0.11, 0.25, 32);
-      const discMat = matDisc.clone();
-      discMat.side = THREE.DoubleSide;
-      const disc = new THREE.Mesh(discGeo, discMat);
+      const disc = createToothedSprocket(0.11, 0.24, 12, 0.006, matSteel);
       disc.position.z = isRear ? -0.13 : 0.12;
       wheelGrp.add(disc);
 
       if (isRear) {
-        const sprocketGeo = new THREE.RingGeometry(0.09, 0.27, 36);
-        const sprocketMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.7, roughness: 0.3, side: THREE.DoubleSide });
-        const sprocket = new THREE.Mesh(sprocketGeo, sprocketMat);
-        sprocket.position.z = 0.14;
-        wheelGrp.add(sprocket);
+        // Corona dentada trasera metálica (en z = +0.145)
+        const rearSprocket = createToothedSprocket(0.08, 0.265, 42, 0.010, matSteel);
+        rearSprocket.position.z = 0.145;
+        wheelGrp.add(rearSprocket);
+
+        for (let k = 0; k < 6; k++) {
+          const ka = (k * Math.PI) / 3;
+          const hole = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.014, 16), matDarkSteel);
+          hole.rotation.x = Math.PI / 2;
+          hole.position.set(Math.cos(ka) * 0.17, Math.sin(ka) * 0.17, 0.145);
+          wheelGrp.add(hole);
+        }
 
         const stripeGeo = new THREE.RingGeometry(tireRadius - tubeRadius * 0.75, tireRadius - tubeRadius * 0.65, 40);
         const stripeMat = new THREE.MeshBasicMaterial({ color: 0xff6600, side: THREE.DoubleSide });
@@ -918,125 +1080,194 @@
     createWheel(-1.38, 0.50, 0.38, 0.12, false);
     createWheel(1.42, 0.50, 0.38, 0.13, true);
 
-    // Horquilla delantera y semimanillares
+    // SUSPENSIÓN DELANTERA FG GUBELLINI
     const forkGroup = new THREE.Group();
     [-0.14, 0.14].forEach(zPos => {
-      const tubeGeo = new THREE.CylinderGeometry(0.032, 0.028, 1.18, 16);
-      const tube = new THREE.Mesh(tubeGeo, matAluminum);
-      tube.position.set(-1.14, 0.98, zPos);
-      tube.rotation.z = -0.42;
-      forkGroup.add(tube);
+      const outerTube = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.034, 0.65, 18), matAluminum);
+      outerTube.position.set(-1.02, 1.22, zPos);
+      outerTube.rotation.z = -0.42;
+      forkGroup.add(outerTube);
+
+      const innerTube = new THREE.Mesh(new THREE.CylinderGeometry(0.027, 0.027, 0.62, 18), matSteel);
+      innerTube.position.set(-1.24, 0.74, zPos);
+      innerTube.rotation.z = -0.42;
+      forkGroup.add(innerTube);
+
+      const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 0.03, 16), zPos > 0 ? matGubelliniRed : matGubelliniBlue);
+      cap.position.set(-0.88, 1.51, zPos);
+      cap.rotation.z = -0.42;
+      forkGroup.add(cap);
+
+      const foot = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.09, 0.05), matAluminum);
+      foot.position.set(-1.37, 0.50, zPos);
+      forkGroup.add(foot);
     });
-    const stemGeo = new THREE.CylinderGeometry(0.045, 0.045, 0.34, 16);
-    const stem = new THREE.Mesh(stemGeo, matAluminum);
-    stem.position.set(-0.92, 1.38, 0);
+
+    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.042, 0.34, 16), matAluminum);
+    stem.position.set(-0.92, 1.36, 0);
     stem.rotation.z = -0.42;
     forkGroup.add(stem);
 
-    const barGeo = new THREE.CylinderGeometry(0.016, 0.016, 0.62, 12);
-    barGeo.rotateX(Math.PI / 2);
-    const handlebar = new THREE.Mesh(barGeo, matRim);
-    handlebar.position.set(-0.84, 1.56, 0);
+    const handlebar = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.64, 12).rotateX(Math.PI / 2), matDarkSteel);
+    handlebar.position.set(-0.85, 1.54, 0);
     forkGroup.add(handlebar);
     bikeGroup.add(forkGroup);
 
-    // Chasis de doble viga
+    // CHASIS DE DOBLE VIGA
     const frameGroup = new THREE.Group();
-    [-0.22, 0.22].forEach(zSide => {
-      const mainBeamGeo = new THREE.BoxGeometry(1.25, 0.16, 0.035);
-      const mainBeam = new THREE.Mesh(mainBeamGeo, matGhostChassis);
-      mainBeam.position.set(-0.32, 1.02, zSide);
-      mainBeam.rotation.z = -0.46;
+    [-0.20, 0.20].forEach(zSide => {
+      const mainBeam = new THREE.Mesh(new THREE.BoxGeometry(1.22, 0.17, 0.032), matGhostChassis);
+      mainBeam.position.set(-0.32, 1.00, zSide);
+      mainBeam.rotation.z = -0.42;
       frameGroup.add(mainBeam);
 
-      const pivotPlateGeo = new THREE.BoxGeometry(0.32, 0.58, 0.035);
-      const pivotPlate = new THREE.Mesh(pivotPlateGeo, matGhostChassis);
+      const lowerStrut = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.06, 0.028), matGhostChassis);
+      lowerStrut.position.set(-0.28, 0.72, zSide);
+      lowerStrut.rotation.z = -0.62;
+      frameGroup.add(lowerStrut);
+
+      const pivotPlate = new THREE.Mesh(new THREE.BoxGeometry(0.30, 0.58, 0.032), matGhostChassis);
       pivotPlate.position.set(0.24, 0.68, zSide);
       frameGroup.add(pivotPlate);
     });
     bikeGroup.add(frameGroup);
 
-    // Basculante trasero
+    // BASCULANTE TRASERO
     const swingarmGroup = new THREE.Group();
     [-0.19, 0.19].forEach(zSide => {
-      const armGeo = new THREE.BoxGeometry(1.18, 0.09, 0.03);
-      const arm = new THREE.Mesh(armGeo, matAluminum);
-      arm.position.set(0.84, 0.56, zSide);
-      arm.rotation.z = -0.08;
+      const arm = new THREE.Mesh(new THREE.BoxGeometry(1.18, 0.085, 0.03), matAluminum);
+      arm.position.set(0.84, 0.55, zSide);
+      arm.rotation.z = -0.07;
       swingarmGroup.add(arm);
 
-      const braceGeo = new THREE.BoxGeometry(0.65, 0.045, 0.025);
-      const brace = new THREE.Mesh(braceGeo, matAluminum);
-      brace.position.set(0.75, 0.68, zSide);
+      const brace = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.045, 0.025), matAluminum);
+      brace.position.set(0.75, 0.67, zSide);
       brace.rotation.z = -0.32;
       swingarmGroup.add(brace);
     });
     bikeGroup.add(swingarmGroup);
 
-    // Amortiguador trasero
+    // AMORTIGUADOR TRASERO FG GUBELLINI (Con muelle y botella separada Piggyback)
     const shockGroup = new THREE.Group();
-    shockGroup.position.set(0.55, 0.88, 0);
-    shockGroup.rotation.z = -0.78;
-    const damperGeo = new THREE.CylinderGeometry(0.03, 0.03, 0.46, 12);
-    shockGroup.add(new THREE.Mesh(damperGeo, matAluminum));
-    for (let i = -0.14; i <= 0.14; i += 0.035) {
-      const coilGeo = new THREE.TorusGeometry(0.048, 0.009, 8, 20);
-      coilGeo.rotateX(Math.PI / 2);
-      const coil = new THREE.Mesh(coilGeo, matDisc);
+    shockGroup.position.set(0.54, 0.88, 0);
+    shockGroup.rotation.z = -0.76;
+
+    shockGroup.add(new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.024, 0.48, 16), matGubelliniGold));
+    for (let i = -0.14; i <= 0.14; i += 0.032) {
+      const coil = new THREE.Mesh(new THREE.TorusGeometry(0.048, 0.0085, 10, 24).rotateX(Math.PI / 2), matSteel);
       coil.position.y = i;
       shockGroup.add(coil);
     }
+    const preloadRing = new THREE.Mesh(new THREE.CylinderGeometry(0.052, 0.052, 0.02, 20), matGubelliniRed);
+    preloadRing.position.y = 0.16;
+    shockGroup.add(preloadRing);
+
+    const piggyback = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.16, 18), matAluminum);
+    piggyback.position.set(0.09, 0.14, 0);
+    piggyback.rotation.z = 0.35;
+    shockGroup.add(piggyback);
+
+    const piggyCap = new THREE.Mesh(new THREE.CylinderGeometry(0.029, 0.029, 0.022, 18), matGubelliniBlue);
+    piggyCap.position.set(0.115, 0.21, 0);
+    piggyCap.rotation.z = 0.35;
+    shockGroup.add(piggyCap);
     bikeGroup.add(shockGroup);
 
-    // Cadena de transmisión
+    // CADENA DE TRANSMISIÓN COLOR METÁLICO CON ESLABONES VISIBLES (Placas externas, internas y rodillos)
+    const chainGroup = new THREE.Group();
     const chainCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0.22, 0.65, 0.14),
-      new THREE.Vector3(0.82, 0.69, 0.14),
-      new THREE.Vector3(1.42, 0.75, 0.14),
-      new THREE.Vector3(1.67, 0.50, 0.14),
-      new THREE.Vector3(1.42, 0.25, 0.14),
-      new THREE.Vector3(0.82, 0.41, 0.14),
-      new THREE.Vector3(0.22, 0.55, 0.14)
+      new THREE.Vector3(0.12, 0.69, 0.145),
+      new THREE.Vector3(0.76, 0.73, 0.145),
+      new THREE.Vector3(1.42, 0.765, 0.145),
+      new THREE.Vector3(1.685, 0.50, 0.145),
+      new THREE.Vector3(1.42, 0.235, 0.145),
+      new THREE.Vector3(0.76, 0.39, 0.145),
+      new THREE.Vector3(0.12, 0.55, 0.145),
+      new THREE.Vector3(0.05, 0.62, 0.145)
     ], true);
-    const chainGeo = new THREE.TubeGeometry(chainCurve, 60, 0.012, 6, true);
-    const chainMat = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.8, roughness: 0.3 });
-    bikeGroup.add(new THREE.Mesh(chainGeo, chainMat));
 
-    // Caja Exterior de la Batería
+    const numLinks = 92;
+    const plateGeo = new THREE.BoxGeometry(0.026, 0.012, 0.003);
+    const rollerGeo = new THREE.CylinderGeometry(0.0055, 0.0055, 0.016, 10).rotateX(Math.PI / 2);
+
+    for (let i = 0; i < numLinks; i++) {
+      const u = i / numLinks;
+      const pt = chainCurve.getPointAt(u);
+      const tangent = chainCurve.getTangentAt(u);
+      const angle = Math.atan2(tangent.y, tangent.x);
+
+      const linkHolder = new THREE.Group();
+      linkHolder.position.copy(pt);
+      linkHolder.rotation.z = angle;
+
+      const zOff = (i % 2 === 0) ? 0.008 : 0.0055;
+      const pMat = (i % 2 === 0) ? matSteel : matAluminum;
+
+      const plateL = new THREE.Mesh(plateGeo, pMat);
+      plateL.position.z = zOff;
+      linkHolder.add(plateL);
+
+      const plateR = new THREE.Mesh(plateGeo, pMat);
+      plateR.position.z = -zOff;
+      linkHolder.add(plateR);
+
+      const roller = new THREE.Mesh(rollerGeo, matDarkSteel);
+      linkHolder.add(roller);
+
+      chainGroup.add(linkHolder);
+    }
+    bikeGroup.add(chainGroup);
+
+    // CAJA DE LA BATERÍA ESCALONADA (Rodeada por el chasis abajo y ensanchada por encima en los laterales)
     const batteryBoxShell = new THREE.Group();
-    batteryBoxShell.position.set(-0.22, 1.24, 0);
-    batteryBoxShell.rotation.z = -0.45;
+    batteryBoxShell.position.set(-0.26, 1.18, 0);
+    batteryBoxShell.rotation.z = -0.42;
     bikeGroup.add(batteryBoxShell);
 
-    const boxW = 0.82, boxH = 0.34, boxD = 0.40, wallT = 0.015;
-    const bottomPlate = new THREE.Mesh(new THREE.BoxGeometry(boxW, wallT, boxD), matGhostChassis);
-    bottomPlate.position.y = -boxH / 2;
-    batteryBoxShell.add(bottomPlate);
+    const lowW = 0.72, lowH = 0.20, lowD = 0.36, wallT = 0.012;
+    const boxBottom = new THREE.Mesh(new THREE.BoxGeometry(lowW, wallT, lowD), matGhostChassis);
+    boxBottom.position.set(0, -0.14, 0);
+    batteryBoxShell.add(boxBottom);
 
-    const frontWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, boxH, boxD), matGhostChassis);
-    frontWall.position.x = -boxW / 2;
-    batteryBoxShell.add(frontWall);
-
-    const rearWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, boxH, boxD), matGhostChassis);
-    rearWall.position.x = boxW / 2;
-    batteryBoxShell.add(rearWall);
-
-    [-boxD / 2, boxD / 2].forEach(zW => {
-      const sideWall = new THREE.Mesh(new THREE.BoxGeometry(boxW, boxH, wallT), matGhostChassis);
-      sideWall.position.z = zW;
-      batteryBoxShell.add(sideWall);
+    [-lowD / 2, lowD / 2].forEach(zSide => {
+      const lowWall = new THREE.Mesh(new THREE.BoxGeometry(lowW, lowH, wallT), matGhostChassis);
+      lowWall.position.set(0, -0.04, zSide);
+      batteryBoxShell.add(lowWall);
     });
+
+    const upW = 0.72, upH = 0.18, upD = 0.48;
+    [-upD / 2, upD / 2].forEach(zSide => {
+      const upWall = new THREE.Mesh(new THREE.BoxGeometry(upW, upH, wallT), matGhostChassis);
+      upWall.position.set(0, 0.14, zSide);
+      batteryBoxShell.add(upWall);
+
+      const stepLedge = new THREE.Mesh(new THREE.BoxGeometry(upW, wallT, (upD - lowD) / 2), matGhostChassis);
+      stepLedge.position.set(0, 0.05, zSide > 0 ? (lowD / 2 + (upD - lowD) / 4) : -(lowD / 2 + (upD - lowD) / 4));
+      batteryBoxShell.add(stepLedge);
+    });
+
+    const frontBoxWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, lowH + upH, upD), matGhostChassis);
+    frontBoxWall.position.set(-upW / 2, 0.05, 0);
+    batteryBoxShell.add(frontBoxWall);
+
+    const rearBoxWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, lowH + upH, upD), matGhostChassis);
+    rearBoxWall.position.set(upW / 2, 0.05, 0);
+    batteryBoxShell.add(rearBoxWall);
+
+    // Cajón frontal delante de la caja de la batería
+    const frontDrawer = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.24, 0.46), matGhostChassis);
+    frontDrawer.position.set(-upW / 2 - 0.08, 0.10, 0);
+    batteryBoxShell.add(frontDrawer);
 
     // Subchasis trasero
     const subframeGroup = new THREE.Group();
     subframeGroup.position.set(0.62, 1.08, 0);
     subframeGroup.rotation.z = 0.22;
-    const subTray = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.05, 0.30), matGhostChassis);
-    subframeGroup.add(subTray);
+    subframeGroup.add(new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.045, 0.28), matGhostChassis));
     bikeGroup.add(subframeGroup);
 
     // ============================================================================
-    // 4. CONSTRUCCIÓN DE LOS 7 COMPONENTES ELECTRÓNICOS (HV y LV)
+    // 4. CONSTRUCCIÓN DE LOS COMPONENTES ELECTRÓNICOS
     // ============================================================================
     function registerComponent(id, group, labelOffset = new THREE.Vector3(0, 0.2, 0)) {
       group.userData.compId = id;
@@ -1048,201 +1279,333 @@
       group.traverse(child => {
         if (child.isMesh) {
           child.userData.compId = id;
-          child.userData.origColor = child.material.color.clone();
           interactiveMeshes.push(child);
         }
       });
       bikeGroup.add(group);
     }
 
-    // --- 4.1 PACK BATERÍAS 30S2P (3x Módulos Grepow GRP86A0260-10S2P) ---
+    function matCopperMaterial() {
+      return new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.85, roughness: 0.22 });
+    }
+
+    // --- 4.1 PACK BATERÍAS 30S2P (1 Horizontal detrás + 2 Verticales delante + Thermal Pad) ---
     const batGroup = new THREE.Group();
-    batGroup.position.set(-0.28, 1.26, 0);
-    batGroup.rotation.z = -0.45;
+    batGroup.position.set(-0.26, 1.15, 0);
+    batGroup.rotation.z = -0.42;
 
-    const matGrepowPVC = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.35, metalness: 0.2 });
-    const matAluPlate = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.3, metalness: 0.7 });
-    const matRedTerm = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.3 });
-    const matBlkTerm = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.3 });
-
-    [-0.19, 0.0, 0.19].forEach((xOffset, idx) => {
-      const modGrp = new THREE.Group();
-      modGrp.position.set(xOffset - 0.05, 0, 0);
-
-      const modBody = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.26, 0.31), matGrepowPVC.clone());
-      modGrp.add(modBody);
-
-      const aluEnd = new THREE.Mesh(new THREE.BoxGeometry(0.165, 0.25, 0.015), matAluPlate.clone());
-      aluEnd.position.z = 0.155;
-      modGrp.add(aluEnd);
-
-      const posPost = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.05, 12), matRedTerm.clone());
-      posPost.position.set(0.035, 0.145, (idx % 2 === 0) ? 0.09 : -0.09);
-      modGrp.add(posPost);
-
-      const negPost = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.05, 12), matBlkTerm.clone());
-      negPost.position.set(-0.035, 0.145, (idx % 2 === 0) ? -0.09 : 0.09);
-      modGrp.add(negPost);
-
-      const jst = new THREE.Mesh(
-        new THREE.BoxGeometry(0.03, 0.025, 0.045),
-        new THREE.MeshStandardMaterial({ color: 0xf8fafc })
-      );
-      jst.position.set(0, 0.14, 0);
-      modGrp.add(jst);
-
-      batGroup.add(modGrp);
+    const matThermalPad = new THREE.MeshStandardMaterial({
+      color: 0x38bdf8,
+      roughness: 0.65,
+      metalness: 0.05,
+      transparent: true,
+      opacity: 0.55
     });
+    const thermalPadWrap = new THREE.Mesh(new THREE.BoxGeometry(0.64, 0.18, 0.34), matThermalPad);
+    thermalPadWrap.position.set(-0.02, -0.02, 0);
+    batGroup.add(thermalPadWrap);
 
-    const busbarMat = new THREE.MeshStandardMaterial({ color: 0xff5500, roughness: 0.3, metalness: 0.4 });
-    const bridge1 = new THREE.Mesh(new THREE.BoxGeometry(0.19, 0.018, 0.028), busbarMat.clone());
-    bridge1.position.set(-0.14, 0.16, 0.09);
-    batGroup.add(bridge1);
+    const matModuleBlue = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.30, metalness: 0.25 });
+    const matRedPost = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.3 });
+    const matBlkPost = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.3 });
+    const matJST = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2 });
 
-    const bridge2 = new THREE.Mesh(new THREE.BoxGeometry(0.19, 0.018, 0.028), busbarMat.clone());
-    bridge2.position.set(0.05, 0.16, -0.09);
-    batGroup.add(bridge2);
+    function createGrepowModule(lenX, heightY, widthZ, posX, posY, posZ) {
+      const mGrp = new THREE.Group();
+      mGrp.position.set(posX, posY, posZ);
 
-    registerComponent('battery', batGroup, new THREE.Vector3(0, 0.25, 0));
+      const body = new THREE.Mesh(new THREE.BoxGeometry(lenX, heightY, widthZ), matModuleBlue.clone());
+      mGrp.add(body);
 
-    // --- 4.2 FUSIBLE SIBA 500A (Ref. 90 058 05) ---
+      const pPost = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.035, 12), matRedPost.clone());
+      pPost.position.set(lenX * 0.28, heightY / 2 + 0.015, widthZ * 0.25);
+      mGrp.add(pPost);
+
+      const nPost = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.035, 12), matBlkPost.clone());
+      nPost.position.set(-lenX * 0.28, heightY / 2 + 0.015, -widthZ * 0.25);
+      mGrp.add(nPost);
+
+      // Conector de cell-tabs (JST-XHR-11P)
+      const cellTabConn = new THREE.Mesh(new THREE.BoxGeometry(0.026, 0.018, 0.036), matJST.clone());
+      cellTabConn.position.set(0, heightY / 2 + 0.009, 0);
+      mGrp.add(cellTabConn);
+
+      batGroup.add(mGrp);
+    }
+
+    // 2 Módulos en VERTICAL (delante, hacia el manillar -X)
+    createGrepowModule(0.34, 0.19, 0.14, -0.14, 0.01, -0.085);
+    createGrepowModule(0.34, 0.19, 0.14, -0.14, 0.01,  0.085);
+
+    // 1 Módulo en HORIZONTAL (detrás, hacia el colín +X)
+    createGrepowModule(0.15, 0.19, 0.31,  0.14, 0.01,  0.0);
+
+    const matHVOrange = new THREE.MeshStandardMaterial({ color: 0xff5500, roughness: 0.28, metalness: 0.25 });
+    const bus1 = new THREE.Mesh(new THREE.BoxGeometry(0.022, 0.012, 0.16), matHVOrange.clone());
+    bus1.position.set(-0.06, 0.115, 0);
+    batGroup.add(bus1);
+
+    const bus2 = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.012, 0.022), matHVOrange.clone());
+    bus2.position.set(0.04, 0.115, -0.07);
+    batGroup.add(bus2);
+
+    registerComponent('battery', batGroup, new THREE.Vector3(-0.05, 0.24, 0));
+
+    addTerminalPoint('BAT -', 'term-neg', -0.44, 1.34, 0.10, ['battery', 'hall']);
+    addTerminalPoint('BAT +', 'term-pos', -0.10, 1.18, 0.06, ['battery', 'fuse']);
+
+    // --- 4.2 SENSOR HALL DE CORRIENTE (Circular negro fino en el 1er cable adelante del todo) ---
+    const hallGroup = new THREE.Group();
+    hallGroup.position.set(-0.46, 1.33, 0.09);
+    hallGroup.rotation.z = -0.42;
+
+    const hallRing = new THREE.Mesh(
+      new THREE.TorusGeometry(0.026, 0.007, 16, 32),
+      new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.3, metalness: 0.4 })
+    );
+    hallRing.rotation.y = Math.PI / 2;
+    hallGroup.add(hallRing);
+
+    const hallHeader = new THREE.Mesh(
+      new THREE.BoxGeometry(0.016, 0.018, 0.016),
+      new THREE.MeshStandardMaterial({ color: 0x7c3aed, roughness: 0.3 })
+    );
+    hallHeader.position.set(0, 0.028, 0);
+    hallGroup.add(hallHeader);
+
+    registerComponent('hall', hallGroup, new THREE.Vector3(-0.06, 0.12, 0.05));
+
+    // --- 4.3 FUSIBLE SIBA 500A (Sobre los módulos como en la foto CAD) ---
     const fuseGroup = new THREE.Group();
-    fuseGroup.position.set(0.03, 1.13, -0.09);
-    fuseGroup.rotation.z = -0.45;
+    fuseGroup.position.set(-0.20, 1.29, 0.03);
+    fuseGroup.rotation.z = -0.42;
+    fuseGroup.rotation.y = 0.25;
 
-    const ceramicMat = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, roughness: 0.25, metalness: 0.1 });
-    const fuseBody = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.045, 0.055), ceramicMat);
+    const fuseBody = new THREE.Mesh(
+      new THREE.BoxGeometry(0.085, 0.040, 0.048),
+      new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.25, metalness: 0.1 })
+    );
     fuseGroup.add(fuseBody);
 
-    const windowMesh = new THREE.Mesh(
-      new THREE.BoxGeometry(0.048, 0.048, 0.022),
+    const fuseWindow = new THREE.Mesh(
+      new THREE.BoxGeometry(0.042, 0.043, 0.020),
       new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.8, roughness: 0.2 })
     );
-    fuseGroup.add(windowMesh);
+    fuseGroup.add(fuseWindow);
 
-    const lugMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.85, roughness: 0.2 });
-    [-0.065, 0.065].forEach(xLug => {
-      const lug = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.008, 0.038), lugMat.clone());
+    [-0.06, 0.06].forEach(xLug => {
+      const lug = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.007, 0.032), matCopperMaterial());
       lug.position.x = xLug;
       fuseGroup.add(lug);
     });
 
-    registerComponent('fuse', fuseGroup, new THREE.Vector3(0, 0.12, -0.05));
+    registerComponent('fuse', fuseGroup, new THREE.Vector3(0, 0.14, 0));
 
-    // --- 4.3 CONTACTOR KILOVAC 500A ---
+    // --- 4.4 CONTACTOR KILOVAC 500A (Base pegada a pared lateral derecha -Z, bornas hacia cara opuesta +Z) ---
     const contactorGroup = new THREE.Group();
-    contactorGroup.position.set(0.05, 1.12, 0.09);
-    contactorGroup.rotation.z = -0.45;
+    contactorGroup.position.set(-0.04, 1.15, -0.16);
+    contactorGroup.rotation.z = -0.42;
 
-    const kilovacBody = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.055, 0.055, 0.11, 24),
-      new THREE.MeshStandardMaterial({ color: 0xfafaf9, roughness: 0.35, metalness: 0.2 })
+    const contactorBase = new THREE.Mesh(
+      new THREE.BoxGeometry(0.095, 0.095, 0.016),
+      new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.6, roughness: 0.3 })
     );
-    contactorGroup.add(kilovacBody);
+    contactorBase.position.z = -0.055;
+    contactorGroup.add(contactorBase);
 
-    const copperMat = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.8, roughness: 0.25 });
-    [-0.024, 0.024].forEach(xStud => {
-      const stud = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.035, 12), copperMat.clone());
-      stud.position.set(xStud, 0.068, 0);
+    const kilovacCyl = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.048, 0.048, 0.105, 24).rotateX(Math.PI / 2),
+      new THREE.MeshStandardMaterial({ color: 0xf5f5f4, roughness: 0.35, metalness: 0.15 })
+    );
+    contactorGroup.add(kilovacCyl);
+
+    [-0.022, 0.022].forEach(xStud => {
+      const stud = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.009, 0.009, 0.036, 12).rotateX(Math.PI / 2),
+        matCopperMaterial()
+      );
+      stud.position.set(xStud, 0, 0.065);
       contactorGroup.add(stud);
     });
 
-    registerComponent('contactor', contactorGroup, new THREE.Vector3(0, 0.14, 0.06));
+    registerComponent('contactor', contactorGroup, new THREE.Vector3(0.05, 0.14, -0.05));
 
-    // --- 4.4 BMS ORION 2 ---
+    // --- 4.5 BMS ORION 2 (En el cajón delantero, plana, finita y pegada a la caja de la batería) ---
     const bmsGroup = new THREE.Group();
-    bmsGroup.position.set(-0.68, 1.38, 0);
-    bmsGroup.rotation.z = -0.45;
+    bmsGroup.position.set(-0.62, 1.36, 0);
+    bmsGroup.rotation.z = -0.42;
 
-    const bmsDrawer = new THREE.Mesh(
-      new THREE.BoxGeometry(0.18, 0.22, 0.30),
-      new THREE.MeshPhysicalMaterial({ color: 0x64748b, transparent: true, opacity: 0.45 })
+    const orionBody = new THREE.Mesh(
+      new THREE.BoxGeometry(0.036, 0.19, 0.29),
+      new THREE.MeshStandardMaterial({ color: 0x111827, metalness: 0.65, roughness: 0.30 })
     );
-    chassisMaterials.push(bmsDrawer.material);
-    bmsGroup.add(bmsDrawer);
+    bmsGroup.add(orionBody);
 
-    const orionCase = new THREE.Mesh(
-      new THREE.BoxGeometry(0.13, 0.18, 0.25),
-      new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.6, roughness: 0.35 })
+    const flange = new THREE.Mesh(
+      new THREE.BoxGeometry(0.008, 0.22, 0.32),
+      new THREE.MeshStandardMaterial({ color: 0x1f2937, metalness: 0.7, roughness: 0.3 })
     );
-    bmsGroup.add(orionCase);
+    flange.position.x = 0.018;
+    bmsGroup.add(flange);
 
-    const orionStripe = new THREE.Mesh(
-      new THREE.BoxGeometry(0.135, 0.04, 0.22),
+    const labelOrion = new THREE.Mesh(
+      new THREE.BoxGeometry(0.038, 0.06, 0.18),
       new THREE.MeshStandardMaterial({ color: 0xea580c, roughness: 0.3 })
     );
-    bmsGroup.add(orionStripe);
+    bmsGroup.add(labelOrion);
+
+    [-0.08, 0.0, 0.08].forEach(zConn => {
+      const conn = new THREE.Mesh(
+        new THREE.BoxGeometry(0.024, 0.022, 0.052),
+        new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.3 })
+      );
+      conn.position.set(0, 0.102, zConn);
+      bmsGroup.add(conn);
+    });
 
     registerComponent('bms', bmsGroup, new THREE.Vector3(-0.08, 0.18, 0));
 
-    // --- 4.5 INVERSOR HYPERDRIVE X1 ---
+    // --- 4.6 INVERSOR HYPERDRIVE X1 + COLD PLATE (Pegado a la cara inferior de la caja de la batería) ---
     const invGroup = new THREE.Group();
-    invGroup.position.set(-0.48, 0.74, 0);
-    invGroup.rotation.z = -0.12;
+    invGroup.position.set(-0.34, 0.96, 0);
+    invGroup.rotation.z = -0.42;
 
-    const invBody = new THREE.Mesh(
-      new THREE.BoxGeometry(0.16, 0.32, 0.26),
-      new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.7, roughness: 0.28 })
+    const coldPlate = new THREE.Mesh(
+      new THREE.BoxGeometry(0.34, 0.024, 0.25),
+      new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.20 })
     );
-    invGroup.add(invBody);
+    coldPlate.position.set(0, 0.055, 0);
+    invGroup.add(coldPlate);
 
-    const invCover = new THREE.Mesh(
-      new THREE.BoxGeometry(0.168, 0.26, 0.21),
+    [-0.08, 0.08].forEach(zFitting => {
+      const fitting = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.010, 0.010, 0.03, 12).rotateZ(Math.PI / 2),
+        matGubelliniBlue
+      );
+      fitting.position.set(-0.18, 0.055, zFitting);
+      invGroup.add(fitting);
+    });
+
+    const invCasing = new THREE.Mesh(
+      new THREE.BoxGeometry(0.32, 0.085, 0.23),
+      new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.72, roughness: 0.28 })
+    );
+    invCasing.position.set(0, 0.0, 0);
+    invGroup.add(invCasing);
+
+    const invCap = new THREE.Mesh(
+      new THREE.BoxGeometry(0.28, 0.018, 0.19),
       new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.5, roughness: 0.4 })
     );
-    invGroup.add(invCover);
+    invCap.position.set(0, -0.048, 0);
+    invGroup.add(invCap);
 
-    const pipeCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0, -0.15, 0.08),
-      new THREE.Vector3(0.18, -0.22, 0.10),
-      new THREE.Vector3(0.45, -0.26, 0.08)
-    ]);
-    const coolingPipe = new THREE.Mesh(
-      new THREE.TubeGeometry(pipeCurve, 24, 0.015, 10, false),
-      new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.6, roughness: 0.3 })
-    );
-    invGroup.add(coolingPipe);
+    const invDcPos = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.03, 12), matRedPost);
+    invDcPos.position.set(-0.12, -0.02, -0.09);
+    invGroup.add(invDcPos);
 
-    registerComponent('inverter', invGroup, new THREE.Vector3(-0.1, -0.15, 0));
+    const invDcNeg = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.03, 12), matBlkPost);
+    invDcNeg.position.set(-0.12, -0.02, 0.09);
+    invGroup.add(invDcNeg);
 
-    // --- 4.6 MOTOR ELÉCTRICO ---
-    const motorGroup = new THREE.Group();
-    motorGroup.position.set(0.16, 0.62, 0);
-
-    const motorCyl = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.15, 0.15, 0.26, 28),
-      new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.75, roughness: 0.3 })
-    );
-    motorCyl.rotation.x = Math.PI / 2;
-    motorGroup.add(motorCyl);
-
-    for (let zRing = -0.09; zRing <= 0.09; zRing += 0.045) {
-      const ring = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.158, 0.158, 0.018, 28),
-        new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.8, roughness: 0.25 })
+    [-0.06, 0.0, 0.06].forEach(zPh => {
+      const phStud = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.010, 0.010, 0.03, 12).rotateZ(Math.PI / 2),
+        matCopperMaterial()
       );
-      ring.rotation.x = Math.PI / 2;
-      ring.position.z = zRing;
-      motorGroup.add(ring);
+      phStud.position.set(0.17, -0.01, zPh);
+      invGroup.add(phStud);
+    });
+
+    const radBox = new THREE.Mesh(
+      new THREE.BoxGeometry(0.07, 0.26, 0.22),
+      new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.65, roughness: 0.35 })
+    );
+    radBox.position.set(-0.08, -0.34, 0);
+    radBox.rotation.z = 0.42;
+    invGroup.add(radBox);
+
+    const hoseCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(-0.12, -0.36, 0.09),
+      new THREE.Vector3(0.10, -0.42, 0.12),
+      new THREE.Vector3(0.45, -0.38, 0.09)
+    ]);
+    const coolingHose = new THREE.Mesh(
+      new THREE.TubeGeometry(hoseCurve, 28, 0.014, 10, false),
+      matAluminum
+    );
+    invGroup.add(coolingHose);
+
+    registerComponent('inverter', invGroup, new THREE.Vector3(-0.14, -0.14, 0));
+
+    addTerminalPoint('INV DC+', 'term-pos', -0.45, 0.99, -0.09, ['inverter', 'contactor']);
+    addTerminalPoint('INV DC-', 'term-neg', -0.45, 0.99,  0.09, ['inverter', 'battery']);
+
+    // --- 4.7 MOTOR ELÉCTRICO CIRCE (MotoStudent) + PIÑÓN + BORNAS FASES U, V, W ---
+    const motorGroup = new THREE.Group();
+    motorGroup.position.set(0.12, 0.62, 0);
+
+    const circeStator = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.145, 0.145, 0.24, 32).rotateX(Math.PI / 2),
+      new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.78, roughness: 0.28 })
+    );
+    motorGroup.add(circeStator);
+
+    for (let zFin = -0.095; zFin <= 0.095; zFin += 0.024) {
+      const fin = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.156, 0.156, 0.010, 32).rotateX(Math.PI / 2),
+        new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.85, roughness: 0.22 })
+      );
+      fin.position.z = zFin;
+      motorGroup.add(fin);
     }
 
-    const pinion = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.055, 0.055, 0.04, 18),
-      new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.8, roughness: 0.2 })
+    [-0.125, 0.125].forEach(zBell => {
+      const bell = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.135, 0.135, 0.016, 28).rotateX(Math.PI / 2),
+        matAluminum
+      );
+      bell.position.z = zBell;
+      motorGroup.add(bell);
+    });
+
+    const terminalBlock = new THREE.Mesh(
+      new THREE.BoxGeometry(0.065, 0.035, 0.15),
+      new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 })
     );
-    pinion.rotation.x = Math.PI / 2;
-    pinion.position.z = 0.15;
-    motorGroup.add(pinion);
+    terminalBlock.position.set(-0.08, 0.14, 0);
+    motorGroup.add(terminalBlock);
 
-    registerComponent('motor', motorGroup, new THREE.Vector3(0, -0.22, 0));
+    [-0.048, 0.0, 0.048].forEach(zTerm => {
+      const stud = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.032, 12), matCopperMaterial());
+      stud.position.set(-0.08, 0.165, zTerm);
+      motorGroup.add(stud);
+    });
 
-    // --- 4.7 CAJA DE BAJA TENSIÓN CON PCBs (Subchasis / Colín) ---
+    const motorPinion = createToothedSprocket(0.022, 0.065, 15, 0.016, matSteel);
+    motorPinion.position.z = 0.145;
+    motorGroup.add(motorPinion);
+
+    const motorShaft = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.022, 0.022, 0.06, 16).rotateX(Math.PI / 2),
+      matSteel
+    );
+    motorShaft.position.z = 0.13;
+    motorGroup.add(motorShaft);
+
+    registerComponent('motor', motorGroup, new THREE.Vector3(0.04, -0.22, 0));
+
+    addTerminalPoint('Fase U', 'term-phase', 0.04, 0.80, -0.05, ['motor', 'inverter']);
+    addTerminalPoint('Fase V', 'term-phase', 0.04, 0.80,  0.00, ['motor', 'inverter']);
+    addTerminalPoint('Fase W', 'term-phase', 0.04, 0.80,  0.05, ['motor', 'inverter']);
+
+    // --- 4.8 CAJA DE BAJA TENSIÓN CON PCBs (Subchasis / Colín) ---
     const lvGroup = new THREE.Group();
-    lvGroup.position.set(0.64, 1.16, 0);
+    lvGroup.position.set(0.64, 1.15, 0);
     lvGroup.rotation.z = 0.22;
 
     const lvBoxShell = new THREE.Mesh(
-      new THREE.BoxGeometry(0.46, 0.14, 0.25),
+      new THREE.BoxGeometry(0.44, 0.13, 0.24),
       new THREE.MeshPhysicalMaterial({
         color: 0x0ea5e9,
         transparent: true,
@@ -1257,11 +1620,11 @@
     const icMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 });
 
     [-0.12, 0.02, 0.14].forEach((xPcb, idx) => {
-      const pcb = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.008, 0.19), pcbMat.clone());
-      pcb.position.set(xPcb, -0.02 + (idx % 2) * 0.03, 0);
+      const pcb = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.008, 0.18), pcbMat.clone());
+      pcb.position.set(xPcb, -0.02 + (idx % 2) * 0.028, 0);
       lvGroup.add(pcb);
 
-      const chip = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.012, 0.035), icMat.clone());
+      const chip = new THREE.Mesh(new THREE.BoxGeometry(0.032, 0.012, 0.032), icMat.clone());
       chip.position.set(xPcb, pcb.position.y + 0.01, 0.02);
       lvGroup.add(chip);
     });
@@ -1269,88 +1632,119 @@
     registerComponent('lvbox', lvGroup, new THREE.Vector3(0, 0.15, 0));
 
     // ============================================================================
-    // 5. CABLEADO Y ANIMACIÓN DE FLUJO DE POTENCIA / DATOS (Alta Tensión)
+    // 5. CABLEADO:
+    //    - ALTA TENSIÓN (> 60 V): SIEMPRE NARANJA (0xff5500)
+    //    - BAJA TENSIÓN / SEÑAL (< 60 V): COLORES DISTINTOS AL NARANJA
     // ============================================================================
     const wiresGroup = new THREE.Group();
     bikeGroup.add(wiresGroup);
     const flowParticles = [];
+    const HV_ORANGE = 0xff5500;
 
-    function createWire(points, colorHex, radius, compIds) {
+    function createWire(points, colorHex, radius, sysType) {
       const curve = new THREE.CatmullRomCurve3(points);
-      const geo = new THREE.TubeGeometry(curve, 40, radius, 8, false);
+      const geo = new THREE.TubeGeometry(curve, 44, radius, 8, false);
       const mat = new THREE.MeshStandardMaterial({
         color: colorHex,
-        roughness: 0.3,
-        metalness: 0.3,
+        roughness: 0.28,
+        metalness: 0.25,
         emissive: colorHex,
-        emissiveIntensity: 0.2
+        emissiveIntensity: 0.22
       });
       const wireMesh = new THREE.Mesh(geo, mat);
-      wireMesh.userData.compIds = compIds;
+      wireMesh.userData.sysType = sysType;
       wiresGroup.add(wireMesh);
 
-      const dotGeo = new THREE.SphereGeometry(radius * 1.9, 10, 10);
+      const dotGeo = new THREE.SphereGeometry(radius * 1.85, 10, 10);
       const dotMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const dot = new THREE.Mesh(dotGeo, dotMat);
       wiresGroup.add(dot);
-      flowParticles.push({ mesh: dot, curve: curve, progress: Math.random(), speed: 0.0045 });
+      flowParticles.push({ mesh: dot, curve: curve, progress: Math.random(), speed: 0.0042 });
     }
 
-    // 1. Batería HV+ (Módulo 3) -> Fusible SIBA 500A (35 mm²)
+    // --- ALTA TENSIÓN (> 60 V): TODOS NARANJAS ---
+    // 1. Primer cable delantero del Pack (BAT -) rodeado por el Sensor Hall -> INV DC-
     createWire([
-      new THREE.Vector3(-0.14, 1.32, 0.08),
-      new THREE.Vector3(-0.04, 1.24, 0.0),
-      new THREE.Vector3(0.01, 1.15, -0.09)
-    ], 0xff3b00, 0.012, ['battery', 'fuse']);
+      new THREE.Vector3(-0.38, 1.29, 0.09),
+      new THREE.Vector3(-0.46, 1.33, 0.09),
+      new THREE.Vector3(-0.53, 1.22, 0.12),
+      new THREE.Vector3(-0.45, 0.99, 0.09)
+    ], HV_ORANGE, 0.011, 'HV');
 
-    // 2. Fusible SIBA 500A -> Contactor Kilovac 500A
+    // 2. Salida Positiva Pack (BAT +) -> Fusible SIBA 500A
     createWire([
-      new THREE.Vector3(0.06, 1.13, -0.07),
-      new THREE.Vector3(0.08, 1.16, 0.0),
-      new THREE.Vector3(0.05, 1.16, 0.08)
-    ], 0xff3b00, 0.012, ['fuse', 'contactor']);
+      new THREE.Vector3(-0.10, 1.18, 0.05),
+      new THREE.Vector3(-0.15, 1.26, 0.04),
+      new THREE.Vector3(-0.20, 1.29, 0.03)
+    ], HV_ORANGE, 0.011, 'HV');
 
-    // 3. Contactor Kilovac 500A -> Inversor HyperDrive X1 (HV+ Principal)
+    // 3. Salida Fusible SIBA 500A -> Borna Entrada Contactor Kilovac
     createWire([
-      new THREE.Vector3(0.06, 1.15, 0.11),
-      new THREE.Vector3(-0.12, 0.98, 0.15),
-      new THREE.Vector3(-0.36, 0.85, 0.11),
-      new THREE.Vector3(-0.46, 0.82, 0.06)
-    ], 0xff3b00, 0.013, ['contactor', 'inverter']);
+      new THREE.Vector3(-0.15, 1.28, 0.01),
+      new THREE.Vector3(-0.08, 1.22, -0.05),
+      new THREE.Vector3(-0.06, 1.15, -0.09)
+    ], HV_ORANGE, 0.011, 'HV');
 
-    // 4. Batería HV- (Módulo 1) -> Inversor HyperDrive X1 (HV- 35 mm²)
+    // 4. Salida Contactor Kilovac -> Borna INV DC+ del Inversor HyperDrive X1
     createWire([
-      new THREE.Vector3(-0.46, 1.42, -0.08),
-      new THREE.Vector3(-0.56, 1.18, -0.14),
-      new THREE.Vector3(-0.54, 0.92, -0.10),
-      new THREE.Vector3(-0.48, 0.82, -0.06)
-    ], 0x334155, 0.013, ['battery', 'inverter']);
+      new THREE.Vector3(-0.02, 1.14, -0.09),
+      new THREE.Vector3(-0.18, 1.06, -0.14),
+      new THREE.Vector3(-0.34, 1.00, -0.12),
+      new THREE.Vector3(-0.45, 0.99, -0.09)
+    ], HV_ORANGE, 0.011, 'HV');
 
-    // 5. Inversor HyperDrive X1 -> Motor Eléctrico (3 Fases U, V, W)
-    [-0.04, 0.0, 0.04].forEach(zPhase => {
+    // 5. Fases U, V, W desde Inversor HyperDrive X1 -> Motor CIRCE (NARANJAS)
+    [-0.048, 0.0, 0.048].forEach(zPh => {
       createWire([
-        new THREE.Vector3(-0.42, 0.65, zPhase),
-        new THREE.Vector3(-0.15, 0.58, zPhase * 1.6),
-        new THREE.Vector3(0.08, 0.60, zPhase * 1.5)
-      ], 0xf59e0b, 0.010, ['inverter', 'motor']);
+        new THREE.Vector3(-0.19, 0.88, zPh),
+        new THREE.Vector3(-0.08, 0.82, zPh * 1.1),
+        new THREE.Vector3(0.04, 0.78, zPh)
+      ], HV_ORANGE, 0.0095, 'HV');
     });
 
-    // 6. Módulos Grepow (JST-XHR-11P AWG22#) -> BMS Orion 2
+    // --- BAJA TENSIÓN Y SEÑAL (< 60 V): COLORES VARIADOS (NO NARANJAS) ---
+    // 6. Mazos Cell-Tabs (3x JST-XHR-11P) de los 3 módulos -> BMS Orion 2 (Cian)
     createWire([
-      new THREE.Vector3(-0.26, 1.38, 0),
-      new THREE.Vector3(-0.48, 1.46, 0),
-      new THREE.Vector3(-0.64, 1.42, 0)
-    ], 0x10b981, 0.007, ['battery', 'bms']);
+      new THREE.Vector3(-0.35, 1.31, -0.085),
+      new THREE.Vector3(-0.48, 1.40, -0.08),
+      new THREE.Vector3(-0.57, 1.45, -0.08)
+    ], 0x06b6d4, 0.0055, 'LV');
 
-    // 7. BMS Orion 2 -> Bobina del Contactor Kilovac 500A
     createWire([
-      new THREE.Vector3(-0.62, 1.34, 0.10),
-      new THREE.Vector3(-0.25, 1.18, 0.17),
-      new THREE.Vector3(0.04, 1.11, 0.12)
-    ], 0x10b981, 0.006, ['bms', 'contactor']);
+      new THREE.Vector3(-0.35, 1.31, 0.085),
+      new THREE.Vector3(-0.48, 1.40, 0.08),
+      new THREE.Vector3(-0.57, 1.45, 0.08)
+    ], 0x06b6d4, 0.0055, 'LV');
+
+    createWire([
+      new THREE.Vector3(-0.10, 1.20, 0.0),
+      new THREE.Vector3(-0.36, 1.36, 0.0),
+      new THREE.Vector3(-0.57, 1.45, 0.0)
+    ], 0x06b6d4, 0.0055, 'LV');
+
+    // 7. Señal Sensor Hall -> BMS Orion 2 (Violeta)
+    createWire([
+      new THREE.Vector3(-0.45, 1.36, 0.09),
+      new THREE.Vector3(-0.53, 1.42, 0.06),
+      new THREE.Vector3(-0.59, 1.44, 0.04)
+    ], 0xa855f7, 0.005, 'LV');
+
+    // 8. Control Bobina Contactor Kilovac desde BMS Orion 2 (Verde)
+    createWire([
+      new THREE.Vector3(-0.60, 1.34, -0.12),
+      new THREE.Vector3(-0.32, 1.24, -0.17),
+      new THREE.Vector3(-0.04, 1.15, -0.15)
+    ], 0x10b981, 0.005, 'LV');
+
+    // 9. Encoder / Sensor Térmico Motor CIRCE -> Inversor (Azul)
+    createWire([
+      new THREE.Vector3(0.05, 0.68, -0.11),
+      new THREE.Vector3(-0.10, 0.76, -0.12),
+      new THREE.Vector3(-0.24, 0.86, -0.10)
+    ], 0x3b82f6, 0.005, 'LV');
 
     // ============================================================================
-    // 6. ETIQUETAS 3D E INTERFAZ DE INSPECCIÓN
+    // 6. INTERFAZ: VENTANAS, VER TODO Y SELECCIÓN
     // ============================================================================
     const labelElements = {};
     Object.keys(COMPONENTS_DB).forEach(id => {
@@ -1369,64 +1763,112 @@
     let currentFilter = 'ALL';
     let selectedCompId = null;
 
-    function toggleMobilePanel(side) {
-      const left = document.getElementById('panel-left');
-      const right = document.getElementById('panel-right');
-      if (side === 'left') {
-        left.classList.toggle('open');
-        right.classList.remove('open');
-      } else {
-        right.classList.toggle('open');
-        left.classList.remove('open');
-      }
+    function setPanelSize(side, sizeMode) {
+      const panel = document.getElementById(`panel-${side}`);
+      panel.classList.remove('state-min', 'state-half', 'state-max');
+      panel.classList.add(`state-${sizeMode}`);
+
+      ['min', 'half', 'max'].forEach(m => {
+        const btn = document.getElementById(`${side}-btn-${m}`);
+        if (btn) btn.classList.toggle('active-size', m === sizeMode);
+      });
+    }
+
+    function scrollToSection(secId) {
+      const el = document.getElementById(secId);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function renderInspectorDefault() {
       const insp = document.getElementById('inspector');
       insp.innerHTML = `
-        <span class="badge-system badge-hv">Vista General Interactiva</span>
-        <div class="insp-title">Prototipo MotoStudent eUSRacing</div>
-        <div class="insp-subtitle">Haz clic sobre cualquier componente en el modelo 3D o en la lista izquierda para iluminarlo y ver cómo está conectado.</div>
+        <div class="sec-nav">
+          <button class="sec-pill" onclick="scrollToSection('sec-resumen')">1. Resumen HV/LV</button>
+          <button class="sec-pill" onclick="scrollToSection('sec-pack')">2. Pack 30S2P y Térmica</button>
+          <button class="sec-pill" onclick="scrollToSection('sec-prot')">3. Hall, Fusible, Contactor y BMS</button>
+          <button class="sec-pill" onclick="scrollToSection('sec-trac')">4. Inversor y Motor CIRCE</button>
+          <button class="sec-pill" onclick="scrollToSection('sec-lv')">5. Parte Ciclo y Baja Tensión</button>
+        </div>
 
-        <div class="info-card">
-          <h4>⚡ Resumen Alta Tensión (HV)</h4>
-          <div class="spec-grid">
+        <div id="sec-resumen" class="info-card">
+          <h4>⚡ 1. Resumen General y Código de Colores (MotoStudent)</h4>
+          <div class="spec-grid" style="margin-bottom:10px;">
             <div class="spec-box">
               <div class="spec-label">Configuración Pack</div>
-              <div class="spec-val">30S2P (3 Módulos)</div>
+              <div class="spec-val">30S2P (111 V nom / 126 V máx)</div>
             </div>
             <div class="spec-box">
-              <div class="spec-label">Tensión Nominal / Máx</div>
-              <div class="spec-val">111.0 V / 126.0 V</div>
+              <div class="spec-label">Capacidad / Corriente Pico</div>
+              <div class="spec-val">63.2 Ah / 500 A (≤15s)</div>
             </div>
             <div class="spec-box">
-              <div class="spec-label">Capacidad / Pico</div>
-              <div class="spec-val">63.2 Ah / 500 A</div>
+              <div class="spec-label">Cables &gt; 60 V (HV)</div>
+              <div class="spec-val" style="color:#ff7b33;">Siempre Naranjas (35 mm²)</div>
             </div>
             <div class="spec-box">
-              <div class="spec-label">Protección HV</div>
-              <div class="spec-val">SIBA 500A + Kilovac</div>
+              <div class="spec-label">Cables &lt; 60 V (LV/Señal)</div>
+              <div class="spec-val" style="color:#38bdf8;">Cian, Violeta, Verde, Azul</div>
             </div>
+          </div>
+          <div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">
+            Todos los cables de más de 60 V (batería, inversor y fases del motor) son naranjas e incorporan etiquetas flotantes en el modelo 3D para distinguir <strong>BAT +</strong>, <strong>BAT -</strong>, <strong>INV DC+</strong>, <strong>INV DC-</strong> y las fases <strong>U, V, W</strong>.
           </div>
         </div>
 
-        <div class="info-card">
-          <h4>🔗 Esquema Rápido de Potencia HV</h4>
+        <div id="sec-pack" class="info-card">
+          <h4>🔋 2. Disposición del Pack 30S2P, Caja Escalonada y Thermal Pad</h4>
           <ul class="conn-list">
-            <li><strong>3x Módulos Grepow (10S2P c/u):</strong> Conectados en serie (30S2P) dentro de la caja de baterías con cable de 35 mm².</li>
-            <li><strong>Fusible SIBA 500A + Contactor Kilovac 500A:</strong> En serie en la salida positiva dentro de la caja de la batería.</li>
-            <li><strong>BMS Orion 2:</strong> En el cajón frontal delante de la caja de baterías; supervisa las 30 series (JST-XHR-11P) y gobierna el contactor.</li>
-            <li><strong>Inversor HyperDrive X1:</strong> Debajo de la caja de la batería; transforma HV DC en trifásica AC hacia el <strong>Motor</strong>.</li>
+            <li><strong>Caja de Batería Escalonada:</strong> Queda abrazada por el chasis en la parte inferior y se ensancha por encima del bastidor en los laterales superiores como en el CAD.</li>
+            <li><strong>Disposición 1 Horizontal + 2 Verticales:</strong> Visto desde arriba y desde atrás (con el manillar arriba), se sitúa <strong>1 módulo en horizontal</strong> detrás y <strong>2 módulos en vertical</strong> delante, a menor altura y rodeados de un <strong>Thermal Pad</strong>.</li>
+            <li><strong>Módulos Grepow (GRP86A0260-37V-63200mAh):</strong> Cada módulo 10S2P incluye su conector superior de <em>cell-tabs</em> (<strong>JST-XHR-11P</strong>) conectado directamente a la BMS Orion 2.</li>
           </ul>
         </div>
 
-        <div class="info-card">
-          <h4>🔌 Estado Baja Tensión (LV)</h4>
-          <div style="font-size:0.80rem;color:var(--text-muted);line-height:1.45;">
-            La <strong>Caja de PCBs</strong> se encuentra alojada en el subchasis trasero (colín), con las placas electrónicas posicionadas y sin cableado conectado en esta fase.
-          </div>
+        <div id="sec-prot" class="info-card">
+          <h4>🛡️ 3. Sensor Hall, Fusible SIBA, Contactor Kilovac y BMS Orion 2</h4>
+          <ul class="conn-list">
+            <li><strong>Sensor Hall Frontal:</strong> Anillo circular negro fino colocado en el primer cable adelante del todo del <em>battery pack</em>.</li>
+            <li><strong>Fusible SIBA 500A (Ref. 90 058 05):</strong> Situado sobre los módulos donde se observa en el CAD.</li>
+            <li><strong>Contactor Kilovac 500A:</strong> Base pegada a la <strong>pared lateral derecha</strong> de la caja con las bornas apuntando hacia la cara opuesta (izquierda).</li>
+            <li><strong>BMS Orion 2:</strong> Más fina, alojada en el cajón frontal y pegada de forma plana contra la pared de la caja de la batería; recibe los 3 mazos de <em>cell-tabs</em>.</li>
+          </ul>
+        </div>
+
+        <div id="sec-trac" class="info-card">
+          <h4>🚀 4. Inversor HyperDrive X1 (Cold Plate) y Motor CIRCE</h4>
+          <ul class="conn-list">
+            <li><strong>Inversor HyperDrive X1 + Cold Plate:</strong> Va con su <em>Cold Plate</em> pegado directamente a la cara inferior de la caja de la batería (sin flotar), con las fases y el positivo/negativo identificados.</li>
+            <li><strong>Motor Eléctrico CIRCE:</strong> Motor de competición MotoStudent conectado mediante las 3 fases naranjas (<strong>U, V, W</strong>) al inversor.</li>
+          </ul>
+        </div>
+
+        <div id="sec-lv" class="info-card">
+          <h4>⚙️ 5. Transmisión, Suspensiones FG Gubellini y Baja Tensión</h4>
+          <ul class="conn-list">
+            <li><strong>Piñón, Cadena y Corona:</strong> Piñón en el eje del motor CIRCE, corona dentada trasera y cadena metálica con eslabones individuales visibles.</li>
+            <li><strong>Suspensiones FG Gubellini:</strong> Horquilla delantera y amortiguador trasero FG Gubellini con botella separada.</li>
+            <li><strong>Caja de PCBs (Baja Tensión):</strong> Situada en el subchasis trasero (colín) con las placas electrónicas en su interior.</li>
+          </ul>
         </div>
       `;
+    }
+
+    // Botón "📖 Ver Todo": deselecciona cualquier pieza y despliega el panel derecho para navegar por secciones
+    function openFullOverview() {
+      clearSelection();
+      setPanelSize('right', 'max');
+    }
+
+    // Botón "🏍️ Todo el Sistema": deselecciona la pieza activa, restaura tamaño lateral medio y muestra todas las piezas bien
+    function resetAllSystemView() {
+      currentFilter = 'ALL';
+      document.getElementById('btn-all').className = 'btn active-all';
+      document.getElementById('btn-hv').className = 'btn';
+      document.getElementById('btn-lv').className = 'btn';
+      clearSelection();
+      if (document.getElementById('panel-right').classList.contains('state-max')) {
+        setPanelSize('right', 'half');
+      }
     }
 
     function selectComponent(id) {
@@ -1445,6 +1887,11 @@
         labelElements[k].classList.toggle('active-label', k === id);
       });
 
+      const rightPanel = document.getElementById('panel-right');
+      if (rightPanel.classList.contains('state-min')) {
+        setPanelSize('right', 'half');
+      }
+
       const insp = document.getElementById('inspector');
       insp.innerHTML = `
         <span class="badge-system ${comp.system === 'HV' ? 'badge-hv' : 'badge-lv'}">
@@ -1454,8 +1901,8 @@
         <div class="insp-subtitle">${comp.subtitle}</div>
 
         <div class="info-card">
-          <h4>📍 Ubicación en la Moto</h4>
-          <div style="font-size:0.82rem;line-height:1.45;">${comp.location}</div>
+          <h4>📍 Ubicación Exacta en la Moto</h4>
+          <div style="font-size:0.81rem;line-height:1.45;">${comp.location}</div>
         </div>
 
         <div class="info-card">
@@ -1471,22 +1918,17 @@
         </div>
 
         <div class="info-card">
-          <h4>🔌 Cómo va Conexionado</h4>
+          <h4>🔌 Conexionado y Colores de Cable</h4>
           <ul class="conn-list">
             ${comp.connections.map(c => `<li>${c}</li>`).join('')}
           </ul>
         </div>
 
         <div class="info-card">
-          <h4>💡 Nota de Ingeniería</h4>
-          <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.45;">${comp.notes}</div>
+          <h4>💡 Detalle de Diseño Mecánico / Eléctrico</h4>
+          <div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">${comp.notes}</div>
         </div>
       `;
-
-      if (window.innerWidth <= 1024) {
-        document.getElementById('panel-right').classList.add('open');
-        document.getElementById('panel-left').classList.remove('open');
-      }
 
       applyHighlighting();
     }
@@ -1528,21 +1970,27 @@
             child.material.transparent = true;
             if (selectedCompId) {
               if (isSelected) {
-                child.material.opacity = 1.0;
+                child.material.opacity = (child.material === matThermalPad) ? 0.65 : 1.0;
                 child.material.emissive = new THREE.Color(sys === 'HV' ? 0xff5500 : 0x00d2ff);
-                child.material.emissiveIntensity = 0.55;
+                child.material.emissiveIntensity = 0.50;
               } else {
-                child.material.opacity = 0.18;
+                child.material.opacity = 0.16;
                 child.material.emissive = new THREE.Color(0x000000);
                 child.material.emissiveIntensity = 0;
               }
             } else {
               if (matchesFilter) {
-                child.material.opacity = (id === 'lvbox' && child === grp.children[0]) ? 0.42 : 1.0;
+                if (child.material === matThermalPad) {
+                  child.material.opacity = 0.55;
+                } else if (id === 'lvbox' && child === grp.children[0]) {
+                  child.material.opacity = 0.40;
+                } else {
+                  child.material.opacity = 1.0;
+                }
                 child.material.emissive = new THREE.Color(
                   currentFilter === 'ALL' ? 0x000000 : (sys === 'HV' ? 0xff4400 : 0x00b4d8)
                 );
-                child.material.emissiveIntensity = currentFilter === 'ALL' ? 0 : 0.32;
+                child.material.emissiveIntensity = currentFilter === 'ALL' ? 0 : 0.30;
               } else {
                 child.material.opacity = 0.12;
                 child.material.emissive = new THREE.Color(0x000000);
@@ -1585,10 +2033,11 @@
 
     function toggleLabels(show) {
       labelsContainer.style.display = show ? 'block' : 'none';
+      terminalsContainer.style.display = show ? 'block' : 'none';
     }
 
     function resetCameraMatchCAD() {
-      camera.position.set(-1.35, 1.85, 3.65);
+      camera.position.set(-1.35, 1.85, 3.60);
       controls.target.set(0.05, 0.90, 0);
       controls.update();
     }
@@ -1617,7 +2066,7 @@
     });
 
     // ============================================================================
-    // 7. BUCLE DE RENDERIZADO Y PROYECCIÓN DE ETIQUETAS
+    // 7. BUCLE DE ANIMACIÓN Y PROYECCIÓN DE ETIQUETAS Y BORNAS
     // ============================================================================
     const clock = new THREE.Clock();
 
@@ -1627,7 +2076,7 @@
       controls.update();
 
       if (selectedCompId && componentGroups[selectedCompId]) {
-        const pulse = 0.45 + Math.sin(elapsed * 5) * 0.25;
+        const pulse = 0.45 + Math.sin(elapsed * 5) * 0.22;
         componentGroups[selectedCompId].traverse(child => {
           if (child.isMesh) child.material.emissiveIntensity = pulse;
         });
@@ -1655,11 +2104,39 @@
         const worldPos = grp.position.clone().add(grp.userData.labelOffset);
         worldPos.project(camera);
 
+        if (worldPos.z > 1) {
+          labelEl.style.display = 'none';
+          return;
+        }
+
         const x = (worldPos.x * 0.5 + 0.5) * window.innerWidth;
         const y = (-(worldPos.y * 0.5) + 0.5) * window.innerHeight;
 
         labelEl.style.left = `${x}px`;
         labelEl.style.top = `${y}px`;
+      });
+
+      terminalPoints.forEach(tp => {
+        if (currentFilter === 'LV') {
+          tp.el.style.display = 'none';
+          return;
+        }
+        if (selectedCompId && !tp.compIds.includes(selectedCompId)) {
+          tp.el.style.opacity = '0.25';
+        } else {
+          tp.el.style.opacity = '1.0';
+        }
+        tp.el.style.display = 'block';
+
+        const proj = tp.pos.clone().project(camera);
+        if (proj.z > 1) {
+          tp.el.style.display = 'none';
+          return;
+        }
+        const tx = (proj.x * 0.5 + 0.5) * window.innerWidth;
+        const ty = (-(proj.y * 0.5) + 0.5) * window.innerHeight;
+        tp.el.style.left = `${tx}px`;
+        tp.el.style.top = `${ty}px`;
       });
 
       renderer.render(scene, camera);
