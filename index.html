@@ -349,7 +349,7 @@
     }
 
     .comp-name {
-      font-size: 0.82rem;
+      font-size: 0.81rem;
       font-weight: 600;
       display: flex;
       justify-content: space-between;
@@ -357,7 +357,7 @@
     }
 
     .comp-loc {
-      font-size: 0.69rem;
+      font-size: 0.68rem;
       color: var(--text-muted);
       margin-top: 2px;
     }
@@ -376,7 +376,7 @@
       width: 100%;
       padding: 7px 10px;
       border-radius: 8px;
-      font-size: 0.76rem;
+      font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -690,7 +690,7 @@
     <div class="panel-header">
       <div class="panel-title-wrap">
         <span>COMPONENTES DEL EQUIPO</span>
-        <span class="node-badge">11 NODOS</span>
+        <span class="node-badge">12 NODOS</span>
       </div>
       <div class="win-controls">
         <button class="win-btn" id="left-btn-min" title="Plegar a la izquierda" onclick="setPanelSize('left', 'min')">◀</button>
@@ -721,7 +721,11 @@
           </div>
           <div class="comp-item" id="item-imd" onclick="selectComponent('imd')">
             <div class="comp-name"><span>IMD (Isometer Vigilancia Aislamiento)</span></div>
-            <div class="comp-loc">📍 Pared lateral derecha (Delante Contactor)</div>
+            <div class="comp-loc">📍 Pared derecha · HV+, HV-, Chasis y HVD/ECU</div>
+          </div>
+          <div class="comp-item" id="item-vmp" onclick="selectComponent('vmp')">
+            <div class="comp-name"><span>VMP (Voltage Measurement Point)</span></div>
+            <div class="comp-loc">📍 Pared derecha delantera · 4 Cables HV</div>
           </div>
           <div class="comp-item" id="item-bms" onclick="selectComponent('bms')">
             <div class="comp-name"><span>BMS Orion 2</span></div>
@@ -745,11 +749,11 @@
           </div>
           <div class="comp-item" id="item-dcdc" onclick="selectComponent('dcdc')">
             <div class="comp-name"><span>DC-DC Cincon CFB600W-110S (600W)</span></div>
-            <div class="comp-loc">📍 Interior caja bat. ➔ Conector Circular LV</div>
+            <div class="comp-loc">📍 Base pegada a pared izq. ➔ Conector LV</div>
           </div>
           <div class="comp-item" id="item-lvbox" onclick="selectComponent('lvbox')">
             <div class="comp-name"><span>Caja de PCBs (HVD + PDM + ECU)</span></div>
-            <div class="comp-loc">📍 + y - del DC-DC llegan con conectores a PDM</div>
+            <div class="comp-loc">📍 PDM (+ / - DC-DC) · HVD/ECU (Señal IMD)</div>
           </div>
         </div>
       </div>
@@ -808,7 +812,7 @@
 
   <script>
     // ============================================================================
-    // 1. BASE DE DATOS TÉCNICA DE COMPONENTES (eUSRacing MotoStudent)
+    // 1. BASE DE DATOS TÉCNICA DE COMPONENTES (eUSRacing MotoStudent - 12 NODOS)
     // ============================================================================
     var dcdcSwitchClosed = true;
 
@@ -825,14 +829,15 @@
           { label: 'Tensión Nom / Máx', val: '111.0 V / 126.0 V DC' },
           { label: 'Conectores HV Traseros', val: '2x Amphenol Rectos 0° (35 mm²)' },
           { label: 'Conector LV Central', val: 'Circular entre Amphenol + y -' },
-          { label: 'Alimentación a DC-DC', val: 'Vía Interruptor Pared Izquierda' }
+          { label: 'Tomas de Medida', val: 'IMD + VMP (4 referencias HV)' }
         ],
         connections: [
           '<strong>Serie M1 a M2 a Hall a Fusible SIBA a M3:</strong> Conecta en serie los 3 módulos Grepow con cable naranja de 35 mm².',
-          '<strong>Derivación HV (+ y -) hacia el Cincon DC-DC:</strong> Del positivo y negativo de la batería salen dos líneas de alta tensión (naranjas) que pasan primero por el <strong>Interruptor de la pared lateral izquierda</strong> antes de alimentar los pines <strong>+Vin (Pin 2)</strong> y <strong>-Vin (Pin 1)</strong> del convertidor Cincon CFB600W-110S.',
+          '<strong>Derivación HV (+ y -) hacia el Cincon DC-DC:</strong> Del positivo y negativo de la batería salen dos líneas naranjas que pasan por el <strong>Interruptor de la pared lateral izquierda</strong> antes de alimentar el convertidor Cincon.',
+          '<strong>Referencias hacia VMP e IMD:</strong> Del positivo y negativo antes y después del contactor salen las líneas de vigilancia hacia el <strong>IMD</strong> y los 4 cables de medida hacia el conector circular del <strong>VMP</strong>.',
           '<strong>Salidas Principales HV (+ y -) al Inversor:</strong> Salen por los dos conectores <strong>Amphenol de 0°</strong> traseros, bajan entre el muelle y las placas, rodean al motor por encima y entran en <strong>INV DC+</strong> e <strong>INV DC-</strong>.'
         ],
-        notes: 'Entre los dos conectores Amphenol de 0° de la cara trasera se ubica el conector circular de baja tensión por donde sale la alimentación de 12V/24V del Cincon hacia la PCB del PDM.'
+        notes: 'Entre los dos conectores Amphenol de 0° de la cara trasera se ubica el conector circular de baja tensión por donde salen la alimentación del Cincon hacia el PDM y la línea de estado del IMD hacia HVD/ECU.'
       },
       hall: {
         id: 'hall',
@@ -880,38 +885,61 @@
           { label: 'Modelo', val: 'Kilovac Serie 500A' },
           { label: 'Fijación', val: 'Parte alta pared lateral derecha' },
           { label: 'Orientación Bornas', val: 'Hacia la cara opuesta (izquierda)' },
-          { label: 'Salida', val: 'Hacia Conector Amphenol 0° (+)' }
+          { label: 'Tomas VMP', val: 'Antes y después de sus bornas' }
         ],
         connections: [
-          '<strong>Borna Entrada:</strong> Recibe el cable naranja del <strong>+ General</strong> desde la borna positiva del Módulo 3.',
-          '<strong>Borna Salida:</strong> Conecta con el <strong>Conector Recto 0° Amphenol (+)</strong> situado en la pared trasera de la caja.',
+          '<strong>Borna 1 (Entrada HV+ Antes del Contactor):</strong> Recibe el cable naranja del <strong>+ General</strong> desde la borna positiva del Módulo 3, y de ella parten las líneas de medida hacia el <strong>VMP (HV+ Antes)</strong> y hacia el <strong>IMD</strong>.',
+          '<strong>Borna 2 (Salida HV+ Después del Contactor):</strong> Conecta con el <strong>Conector Recto 0° Amphenol (+)</strong> trasero, y de ella parte la línea de medida hacia el <strong>VMP (HV+ Después)</strong>.',
           '<strong>Bobina de Control (Cable Verde - LV):</strong> Gobernada por la <strong>BMS Orion 2</strong>.'
         ],
-        notes: 'Secciona la salida positiva de tracción antes del conector Amphenol trasero.'
+        notes: 'Permite medir a través del conector VMP tanto la tensión interna del pack como la tensión de salida tras el contactor.'
       },
       imd: {
         id: 'imd',
         system: 'HV',
         name: 'IMD (Insulation Monitoring Device / Isometer)',
-        subtitle: 'Dispositivo vigilante de aislamiento galvánico entre Alta Tensión y Chasis',
-        location: 'Fijado en el interior de la caja de la batería, sobre la pared lateral derecha más adelante del contactor Kilovac 500A.',
+        subtitle: 'Vigilante de aislamiento conectado a HV+, HV-, Chasis y señal de estado a HVD / ECU',
+        location: 'Fijado con su base contra la cara interior de la pared lateral derecha de la caja de la batería, situado entre el contactor Kilovac (detrás) y el conector VMP (delante).',
         specs: [
           { label: 'Función', val: 'Vigilancia continua de aislamiento' },
-          { label: 'Ubicación Exacta', val: 'Pared lateral derecha (delante de Kilovac)' },
-          { label: 'Sistema Vigilado', val: 'HV+ / HV- respecto a Chasis' },
-          { label: 'Estado Conexionado', val: 'Presentado (Sin conexiones aún)' }
+          { label: 'Ubicación', val: 'Pared lateral derecha (Centro)' },
+          { label: 'Vigilancia HV', val: 'Líneas Naranjas a HV+ y HV-' },
+          { label: 'Salida de Estado', val: 'Señal IMD OK (Magenta) a HVD / ECU' }
         ],
         connections: [
-          '<strong>Sin conexiones activas por ahora:</strong> El IMD está posicionado en la pared lateral derecha por delante del contactor, listo para cablear sus líneas de medida HV+/HV-, chasis y señal de OK.'
+          '<strong>Línea de Vigilancia HV+ (Cable Naranja):</strong> Conectada desde el borne HV1 del IMD al bus positivo principal (<strong>HV+</strong>).',
+          '<strong>Línea de Vigilancia HV- (Cable Naranja):</strong> Conectada desde el borne HV2 del IMD al bus negativo principal (<strong>HV-</strong>).',
+          '<strong>Referencia de Masa / Chasis (Cable Verde Lima):</strong> Conectada desde el terminal de tierra (KE/Earth) del IMD al <strong>perno de masa del chasis</strong> en la pared metálica derecha de la caja.',
+          '<strong>Señal de Estado IMD OK (Cable Magenta - Baja Tensión):</strong> Sale del conector de control del IMD, atraviesa el <strong>Conector Circular de Baja Tensión</strong> en la cara trasera de la caja y llega hasta las placas <strong>HVD</strong> y <strong>ECU</strong> en el subchasis trasero.'
         ],
-        notes: 'Verifica permanentemente que la resistencia de aislamiento entre el circuito de más de 60 V y el chasis de aluminio supere el umbral de seguridad de MotoStudent.'
+        notes: 'Monitoriza continuamente la resistencia de aislamiento entre las líneas activas de alta tensión y el chasis de la motocicleta, enviando la señal de estado a la placa HVD (High Voltage Detection) y a la ECU.'
+      },
+      vmp: {
+        id: 'vmp',
+        system: 'HV',
+        name: 'VMP (Voltage Measurement Point)',
+        subtitle: 'Conector circular exterior en el lado opuesto al interruptor del DC-DC (4 cables HV)',
+        location: 'Instalado en la parte delantera de la pared lateral derecha de la caja de la batería (justo en el lado opuesto de la moto donde está el interruptor del Cincon DC-DC), terminando en un conector circular accesible desde el exterior.',
+        specs: [
+          { label: 'Ubicación', val: 'Delante en pared lateral derecha' },
+          { label: 'Tipo de Conector', val: 'Circular multipin de seguridad HV' },
+          { label: 'Número de Cables', val: '4 Cables Naranjas (> 60 V)' },
+          { label: 'Puntos Medidos', val: 'HV+ y HV- (Antes y Después Contactor)' }
+        ],
+        connections: [
+          '<strong>Cable 1 - HV+ Antes del Contactor (Naranja):</strong> Toma referencia directa de la borna de entrada del contactor Kilovac / salida positiva del pack.',
+          '<strong>Cable 2 - HV+ Después del Contactor (Naranja):</strong> Toma referencia de la borna de salida del contactor Kilovac / entrada del conector Amphenol (+).',
+          '<strong>Cable 3 - HV- Antes (Referencia Pack M1- Naranja):</strong> Toma referencia directa de la borna negativa principal del primer módulo.',
+          '<strong>Cable 4 - HV- Después (Referencia Salida Amphenol- Naranja):</strong> Toma referencia de la línea negativa junto al conector de salida Amphenol (-).'
+        ],
+        notes: 'Todos los 4 cables interiores acaban en el conector circular del VMP en la pared delantera derecha para permitir la verificación externa de tensión de tracción (pre y post contactor) durante las verificaciones técnicas de MotoStudent.'
       },
       switch_dcdc: {
         id: 'switch_dcdc',
         system: 'LV',
         name: 'Interruptor Exterior Batería a Cincon DC-DC',
-        subtitle: 'Seccionador bipolar accionable desde fuera en la pared lateral izquierda',
-        location: 'Montado en la parte delantera de la pared lateral izquierda de la caja de la batería, con el actuador basculante en la cara exterior para accionarlo desde fuera.',
+        subtitle: 'Seccionador bipolar accionable desde fuera en la pared lateral izquierda delantera',
+        location: 'Montado en la parte delantera de la pared lateral izquierda de la caja de la batería (frente al VMP del lado derecho), con el actuador basculante en la cara exterior.',
         specs: [
           { label: 'Ubicación', val: 'Parte delantera pared lateral izq.' },
           { label: 'Accionamiento', val: 'Exterior manual (Interactivo ON/OFF)' },
@@ -920,31 +948,30 @@
         ],
         connections: [
           '<strong>Entrada desde Batería (Cables Naranjas HV + y -):</strong> Recibe el positivo y el negativo del pack de baterías dentro de la caja.',
-          '<strong>Salida Conmutada hacia Cincon DC-DC (Cables Naranjas HV + y -):</strong> Alimenta los pines <strong>+V Input (Pin 2)</strong> y <strong>-V Input (Pin 1)</strong> del convertidor <strong>Cincon CFB600W-110S</strong> cuando el interruptor está cerrado.'
+          '<strong>Salida Conmutada hacia Cincon DC-DC (Cables Naranjas HV + y -):</strong> Alimenta los pines <strong>+V Input (Pin 2)</strong> y <strong>-V Input (Pin 1)</strong> del convertidor <strong>Cincon CFB600W-110S</strong> montado verticalmente en la misma pared izquierda.'
         ],
-        notes: 'Haz clic en el botón verde/rojo del panel izquierdo para abrir o cerrar este interruptor en vivo y ver cómo se corta o activa la alimentación hacia el Cincon y la PCB del PDM.'
+        notes: 'Haz clic en el botón verde/rojo del panel izquierdo para abrir o cerrar este interruptor y ver cómo se activa o corta la energía hacia el Cincon y la placa PDM.'
       },
       dcdc: {
         id: 'dcdc',
         system: 'LV',
         name: 'Convertidor DC-DC Cincon CFB600W-110S Series',
-        subtitle: '600W 4:1 Input (43-160 VDC) Isolated Full-Brick DC-DC Converter',
-        location: 'Instalado dentro de la caja de la batería (zona superior izquierda) con salida hacia el conector circular de baja tensión situado entre los dos Amphenol de la cara trasera.',
+        subtitle: '600W 4:1 Input (43-160 VDC) · Montado vertical con la base pegada a la pared izquierda',
+        location: 'Instalado verticalmente dentro de la caja de la batería con su placa base de aluminio (baseplate) pegada a la cara interna de la pared lateral izquierda (igual que el IMD en la pared derecha).',
         specs: [
           { label: 'Marca / Serie', val: 'Cincon / CFB600W-110S' },
+          { label: 'Montaje Mecánico', val: 'Vertical (Base pegada a pared izq.)' },
           { label: 'Rango Entrada (4:1)', val: '43 - 160 VDC (Nominal 110 VDC)' },
           { label: 'Potencia / Salida', val: '600 W (12V 50A / 24V 25A)' },
           { label: 'Aislamiento I/O', val: '2250 VDC ( Básica UL 60950-1 )' },
-          { label: 'Tamaño Full-Brick', val: '116.8 x 61.0 x 12.7 mm (220 g)' },
-          { label: 'Eficiencia / Temp.', val: 'Hasta 88% / -40°C a +100°C' }
+          { label: 'Tamaño Full-Brick', val: '116.8 x 61.0 x 12.7 mm (220 g)' }
         ],
         connections: [
-          '<strong>Entrada HV (Pin 1: -V Input / Pin 2: +V Input):</strong> Conectada mediante cables naranjas al <strong>Interruptor de la pared delantera izquierda</strong>, que permite abrir y cerrar la conexión con el + y - de la batería.',
-          '<strong>Pines de Control (Pin 3: -On/Off / Pin 4: +On/Off):</strong> Control de habilitación referenciado a -Vin.',
-          '<strong>Salida LV Interna (Pines 5-7: +V Output / Pines 8-10: -V Output):</strong> Salen dos cables de baja tensión (+ en Rojo Carmesí y - en Cian) hacia el <strong>Conector Circular de Baja Tensión</strong> ubicado entre los conectores Amphenol + y - en la cara trasera de la caja.',
-          '<strong>Tramo Exterior hasta PCB del PDM:</strong> Desde el conector circular trasero de la caja salen los cables + y - de baja tensión hasta el subchasis y se conectan mediante <strong>pequeños conectores directamente en la PCB del PDM</strong> (abajo a la derecha).'
+          '<strong>Entrada HV (Pin 1: -V Input / Pin 2: +V Input):</strong> Situados en el borde delantero vertical del Cincon; reciben los cables naranjas desde el <strong>Interruptor de la pared delantera izquierda</strong>.',
+          '<strong>Salida LV Interna (Pines 5-7: +V Output / Pines 8-10: -V Output):</strong> Situados en el borde trasero vertical del Cincon; de ellos salen el cable positivo (Rojo Carmesí) y negativo (Cian) hacia el <strong>Conector Circular de Baja Tensión</strong> ubicado entre los dos Amphenol de la cara trasera.',
+          '<strong>Tramo Exterior hasta PCB del PDM:</strong> Desde el conector circular trasero salen los cables + y - hasta los <strong>pequeños conectores en la PCB del PDM</strong> (abajo a la derecha).'
         ],
-        notes: 'Cumple normativa ferroviaria e industrial de choque y vibración EN 61373 / EN 50155 e incorpora protecciones OTP, OCP, OVP y UVLO (umbral de encendido en 42 VDC y apagado en 40 VDC).'
+        notes: 'Al tener su base de aluminio pegada directamente contra la pared lateral izquierda de la caja de la batería, utiliza el propio chasis/pared metálica como disipador térmico.'
       },
       bms: {
         id: 'bms',
@@ -1006,20 +1033,19 @@
         id: 'lvbox',
         system: 'LV',
         name: 'Caja de PCBs de Baja Tensión (HVD, PDM y ECU)',
-        subtitle: 'Abajo unidas HVD (Izq.) y PDM (Der. alimentada desde el Cincon DC-DC) + Arriba atornillada ECU',
+        subtitle: 'Abajo unidas HVD (recibe señal IMD) y PDM (recibe + y - DC-DC) + Arriba atornillada ECU',
         location: 'Montada en el subchasis trasero (colín), por encima del amortiguador FG Gubellini.',
         specs: [
-          { label: 'PCB Abajo Izquierda', val: 'HVD (Unida en la base)' },
+          { label: 'PCB Abajo Izquierda', val: 'HVD (Recibe señal estado del IMD)' },
           { label: 'PCB Abajo Derecha', val: 'PDM (Recibe + y - desde Cincon DC-DC)' },
-          { label: 'PCB Arriba Superior', val: 'ECU (Fija y atornillada encima)' },
-          { label: 'Llegada Alimentación', val: '2 Pequeños conectores en PCB PDM' }
+          { label: 'PCB Arriba Superior', val: 'ECU (Fija atornillada + Estado IMD)' },
+          { label: 'Llegada Cables LV', val: 'Desde Conector Circular Trasero' }
         ],
         connections: [
-          '<strong>Alimentación + y - desde el Conector Circular Trasero hasta PDM:</strong> Los cables positivo (Rojo Carmesí) y negativo (Cian) que salen del conector circular trasero de la caja de la batería (alimentados por el <strong>Cincon CFB600W-110S</strong>) llegan hasta la <strong>PCB del PDM</strong> (abajo a la derecha) mediante <strong>pequeños conectores dedicados en la placa</strong>.',
-          '<strong>Base Inferior (HVD + PDM unidas):</strong> En el nivel inferior van juntas y unidas la placa <strong>HVD</strong> a la izquierda y la placa <strong>PDM</strong> a la derecha.',
-          '<strong>Nivel Superior (ECU atornillada):</strong> Encima de HVD y PDM va fijada mediante 4 separadores metálicos y 4 tornillos la placa <strong>ECU</strong>.'
+          '<strong>Alimentación + y - desde el Cincon DC-DC a la PCB PDM:</strong> Los cables positivo (Rojo Carmesí) y negativo (Cian) salen del conector circular trasero de la caja y entran mediante <strong>2 pequeños conectores en la PCB del PDM</strong> (abajo a la derecha).',
+          '<strong>Señal de Estado del IMD hacia HVD y ECU (Cable Magenta - LV):</strong> Sale del conector circular trasero de la caja, entra al conector de la placa <strong>HVD</strong> (abajo a la izquierda) y sube a la placa <strong>ECU</strong> (arriba atornillada).'
         ],
-        notes: 'La PCB del PDM gestiona y distribuye la potencia de baja tensión recibida desde el convertidor Cincon de 600 W al resto de la electrónica de la motocicleta.'
+        notes: 'Las tres placas quedan perfectamente diferenciadas: HVD y PDM unidas en la base inferior y la ECU atornillada encima sobre 4 separadores metálicos.'
       }
     };
 
@@ -1083,48 +1109,51 @@
       if (!insp) return;
       insp.innerHTML = [
         '<div class="sec-nav">',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-resumen\')">1. Resumen HV/LV</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-pack\')">2. Pack y Conectores</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-imd\')">3. IMD, Hall y BMS</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-dcdc\')">4. Interruptor y Cincon DC-DC</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-resumen\')">1. Resumen (12 Nodos)</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-vmp\')">2. VMP (4 Cables HV)</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-imd\')">3. IMD Conectado</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-dcdc\')">4. Cincon Vertical</button>',
           '<button class="sec-pill" onclick="scrollToSection(\'sec-lv\')">5. PCBs: HVD, PDM y ECU</button>',
         '</div>',
         '<div id="sec-resumen" class="info-card">',
-          '<h4>⚡ 1. Resumen General de Arquitectura (11 Nodos)</h4>',
+          '<h4>⚡ 1. Resumen General de Arquitectura (12 Nodos)</h4>',
           '<div class="spec-grid" style="margin-bottom:10px;">',
             '<div class="spec-box"><div class="spec-label">Configuración Pack</div><div class="spec-val">30S2P (111 V nom / 126 V máx)</div></div>',
-            '<div class="spec-box"><div class="spec-label">Convertidor DC-DC</div><div class="spec-val">Cincon CFB600W-110S (600W)</div></div>',
-            '<div class="spec-box"><div class="spec-label">Vigilancia Aislamiento</div><div class="spec-val">IMD Isometer (Lateral Der.)</div></div>',
-            '<div class="spec-box"><div class="spec-label">PCBs Baja Tensión</div><div class="spec-val" style="color:#38bdf8;">HVD + PDM + ECU</div></div>',
+            '<div class="spec-box"><div class="spec-label">DC-DC Cincon 600W</div><div class="spec-val">Pegado a Pared Izquierda</div></div>',
+            '<div class="spec-box"><div class="spec-label">Vigilancia Aislamiento</div><div class="spec-val">IMD ➔ HV+, HV-, Chasis, HVD</div></div>',
+            '<div class="spec-box"><div class="spec-label">Medida Externa HV</div><div class="spec-val">VMP Circular (4 Cables)</div></div>',
           '</div>',
           '<div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">',
-            'Puedes abrir o cerrar el circuito entre la batería y el convertidor Cincon usando el botón <strong>Interruptor Batería a Cincon DC-DC</strong> situado abajo a la izquierda.',
+            'Todos los cables de más de 60 V son estrictamente <strong>naranjas</strong> (incluyendo las tomas de vigilancia HV del IMD y los 4 cables del VMP), mientras que las líneas de baja tensión y estado usan colores diferenciados.',
           '</div>',
         '</div>',
-        '<div id="sec-pack" class="info-card">',
-          '<h4>🔋 2. Pack 30S2P, 2x Amphenol 0° y Conector Circular LV Central</h4>',
+        '<div id="sec-vmp" class="info-card">',
+          '<h4>📏 2. VMP (Voltage Measurement Point · 4 Cables Naranjas)</h4>',
           '<ul class="conn-list">',
-            '<li><strong>Cara Trasera de la Caja de Batería:</strong> A los lados se ubican los 2 conectores rectos de 0° de Amphenol (35 mm²) para el + y - del inversor, y <strong>justo en medio de ellos el Conector Circular de Baja Tensión</strong> que lleva la salida del Cincon hacia el PDM.</li>',
+            '<li><strong>Ubicación Opuesta al Interruptor DC-DC:</strong> Conector circular montado en la parte delantera de la pared lateral derecha.</li>',
+            '<li><strong>4 Cables de Referencia HV:</strong> Recibe <strong>HV+ Antes del Contactor</strong>, <strong>HV+ Después del Contactor</strong>, <strong>HV- Antes (M1-)</strong> y <strong>HV- Después (Salida Amphenol-)</strong>.</li>',
           '</ul>',
         '</div>',
         '<div id="sec-imd" class="info-card">',
-          '<h4>🛡️ 3. IMD (Isometer), Sensor Hall, Fusible SIBA, Contactor y BMS</h4>',
+          '<h4>🛡️ 3. Conexionado Completo del IMD (Isometer)</h4>',
           '<ul class="conn-list">',
-            '<li><strong>IMD (Isometer):</strong> Alojado en la pared lateral derecha de la caja de la batería, más adelante que el contactor Kilovac (sin conexiones aún).</li>',
-            '<li><strong>Sensor Hall y Fusible SIBA 500A:</strong> El anillo Hall va al inicio del cable del fusible, antes del fusible SIBA.</li>',
+            '<li><strong>Vigilancia HV+ y HV- (Cables Naranjas):</strong> Conectados a los buses positivo y negativo de alta tensión.</li>',
+            '<li><strong>Masa de Chasis (Cable Verde Lima):</strong> Conectado al perno de chasis en la pared derecha.</li>',
+            '<li><strong>Señal de Estado a HVD / ECU (Cable Magenta LV):</strong> Sale por el conector circular trasero hacia las placas <strong>HVD</strong> y <strong>ECU</strong>.</li>',
           '</ul>',
         '</div>',
         '<div id="sec-dcdc" class="info-card">',
-          '<h4>🔌 4. Interruptor Lateral Izquierdo y DC-DC Cincon CFB600W-110S</h4>',
+          '<h4>🔌 4. DC-DC Cincon CFB600W-110S Pegado a la Pared Izquierda</h4>',
           '<ul class="conn-list">',
-            '<li><strong>Interruptor Exterior (Pared Lateral Izquierda Delantera):</strong> Permite abrir y cerrar desde fuera las líneas + y - que van de la batería al convertidor Cincon.</li>',
-            '<li><strong>Cincon CFB600W-110S (600W 4:1 Input 43-160 VDC):</strong> Recibe +Vin (Pin 2) y -Vin (Pin 1) desde el interruptor y entrega su salida aislada (2250 VDC) por los pines +Vout (5-7) y -Vout (8-10) hacia el conector circular trasero.</li>',
+            '<li><strong>Montaje Vertical en Pared Izquierda:</strong> Su base de aluminio va pegada a la pared lateral izquierda exactamente igual que el IMD en la pared derecha.</li>',
+            '<li><strong>Interruptor Exterior + Salida a PDM:</strong> Alimentado a través del interruptor delantero izquierdo y conectado por el conector circular trasero a la PCB del <strong>PDM</strong>.</li>',
           '</ul>',
         '</div>',
         '<div id="sec-lv" class="info-card">',
-          '<h4>📟 5. Llegada al PDM con Pequeños Conectores (HVD + PDM + ECU)</h4>',
+          '<h4>📟 5. Caja de Baja Tensión: HVD + PDM + ECU</h4>',
           '<ul class="conn-list">',
-            '<li><strong>Alimentación del PDM:</strong> Desde el conector circular trasero de la caja salen el + y - de baja tensión y entran mediante <strong>pequeños conectores en la PCB del PDM</strong> (abajo a la derecha), unida a la placa <strong>HVD</strong> (abajo a la izquierda) y con la <strong>ECU</strong> atornillada encima.</li>',
+            '<li><strong>PDM (Abajo Derecha):</strong> Recibe los cables + y - desde el Cincon DC-DC con pequeños conectores.</li>',
+            '<li><strong>HVD (Abajo Izquierda) y ECU (Arriba Atornillada):</strong> Reciben la línea de estado del IMD.</li>',
           '</ul>',
         '</div>'
       ].join('');
@@ -1342,8 +1371,9 @@
       fuse: { x: -0.04, y: 0.44, z: -0.14 },
       contactor: { x: 0.12, y: 0.44, z: -0.18 },
       imd: { x: 0.02, y: 0.46, z: -0.24 },
+      vmp: { x: -0.16, y: 0.36, z: -0.28 },
       switch_dcdc: { x: -0.16, y: 0.36, z: 0.28 },
-      dcdc: { x: 0.04, y: 0.44, z: 0.22 },
+      dcdc: { x: 0.02, y: 0.46, z: 0.24 },
       bms: { x: -0.28, y: 0.20, z: 0 },
       inverter: { x: -0.16, y: -0.24, z: 0 },
       motor: { x: 0, y: -0.18, z: 0 },
@@ -1912,7 +1942,7 @@
       });
 
       // ========================================================================
-      // 4. COMPONENTES ELECTRÓNICOS (11 NODOS)
+      // 4. COMPONENTES ELECTRÓNICOS (12 NODOS)
       // ========================================================================
       function registerComponent(id, group, labelOffset) {
         group.userData.compId = id;
@@ -2044,10 +2074,10 @@
 
       registerComponent('battery', batGroup, new THREE.Vector3(-0.08, 0.28, 0.12));
 
-      addTerminalPoint('AMPHENOL + (0°)', 'term-pos', boxToWorld(0.41, 0.08, -0.105), ['battery', 'contactor', 'inverter'], 'HV');
-      addTerminalPoint('AMPHENOL - (0°)', 'term-neg', boxToWorld(0.41, 0.08,  0.105), ['battery', 'inverter'], 'HV');
-      addTerminalPoint('BAT +', 'term-pos', boxToWorld(0.10, 0.08, 0.06), ['battery', 'contactor', 'switch_dcdc'], 'HV');
-      addTerminalPoint('BAT -', 'term-neg', boxToWorld(-0.26, 0.08, 0.105), ['battery', 'switch_dcdc'], 'HV');
+      addTerminalPoint('AMPHENOL + (0°)', 'term-pos', boxToWorld(0.41, 0.08, -0.105), ['battery', 'contactor', 'inverter', 'vmp'], 'HV');
+      addTerminalPoint('AMPHENOL - (0°)', 'term-neg', boxToWorld(0.41, 0.08,  0.105), ['battery', 'inverter', 'vmp'], 'HV');
+      addTerminalPoint('BAT +', 'term-pos', boxToWorld(0.10, 0.08, 0.06), ['battery', 'contactor', 'switch_dcdc', 'imd', 'vmp'], 'HV');
+      addTerminalPoint('BAT -', 'term-neg', boxToWorld(-0.26, 0.08, 0.105), ['battery', 'switch_dcdc', 'imd', 'vmp'], 'HV');
 
       // 4.2 Sensor Hall de Corriente (Al principio del cable del fusible, antes del fusible)
       var hallGroup = new THREE.Group();
@@ -2130,52 +2160,109 @@
 
       registerComponent('contactor', contactorGroup, new THREE.Vector3(0.10, 0.18, -0.10));
 
-      // 4.5 IMD (INSULATION MONITORING DEVICE / ISOMETER): En la pared lateral derecha más adelante del contactor (Sin conexiones aún)
+      // 4.5 IMD (ISOMETER): En la pared lateral derecha más adelante del contactor (lx = 0.02, ly = 0.145, lz = -0.212)
       var imdGroup = new THREE.Group();
-      // Ubicado en la pared lateral derecha (lz = -0.212), delante del contactor (lx = 0.04, ly = 0.145)
-      imdGroup.position.copy(boxToWorld(0.04, 0.145, -0.212));
+      imdGroup.position.copy(boxToWorld(0.02, 0.145, -0.212));
       imdGroup.rotation.z = BOX_ROT_Z;
 
-      // Carcasa industrial Bender Isometer (Amarillo/Ámbar y Azul oscuro) anclada al lateral derecho
+      // Placa base del IMD pegada a la pared lateral derecha (lz = -0.23)
+      var imdBasePlate = new THREE.Mesh(
+        new THREE.BoxGeometry(0.112, 0.074, 0.006),
+        matAluminum
+      );
+      imdBasePlate.position.z = -0.018;
+      imdGroup.add(imdBasePlate);
+
       var imdBody = new THREE.Mesh(
-        new THREE.BoxGeometry(0.105, 0.068, 0.038),
+        new THREE.BoxGeometry(0.102, 0.066, 0.032),
         new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.32, metalness: 0.20 })
       );
       imdGroup.add(imdBody);
 
       var imdFrontPlate = new THREE.Mesh(
-        new THREE.BoxGeometry(0.088, 0.050, 0.006),
+        new THREE.BoxGeometry(0.086, 0.048, 0.006),
         new THREE.MeshStandardMaterial({ color: 0x1e3a8a, roughness: 0.35 })
       );
-      imdFrontPlate.position.z = 0.018;
+      imdFrontPlate.position.z = 0.016;
       imdGroup.add(imdFrontPlate);
 
-      // LEDs de estado y bornes sin cablear en el IMD
       var imdLed = new THREE.Mesh(
         new THREE.CylinderGeometry(0.004, 0.004, 0.008, 10).rotateX(Math.PI / 2),
         new THREE.MeshBasicMaterial({ color: 0x10b981 })
       );
-      imdLed.position.set(-0.028, 0.012, 0.020);
+      imdLed.position.set(-0.026, 0.012, 0.018);
       imdGroup.add(imdLed);
 
-      [-0.035, 0.035].forEach(function(xTermImd) {
-        var imdTerm = new THREE.Mesh(
-          new THREE.BoxGeometry(0.016, 0.018, 0.016),
-          new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 })
-        );
-        imdTerm.position.set(xTermImd, -0.022, 0.016);
-        imdGroup.add(imdTerm);
-      });
+      // Perno de Masa de Chasis en la pared derecha junto al IMD
+      var chassisGndStud = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.008, 0.008, 0.024, 12).rotateX(Math.PI / 2),
+        matSteel
+      );
+      chassisGndStud.position.set(-0.075, 0.015, -0.010);
+      imdGroup.add(chassisGndStud);
 
       registerComponent('imd', imdGroup, new THREE.Vector3(0.02, 0.16, -0.12));
 
-      // 4.6 INTERRUPTOR EXTERIOR BATERÍA -> CINCON DC-DC (En la parte delantera de la pared lateral izquierda, accionable desde fuera)
+      addTerminalPoint('CHASIS GND (IMD)', 'term-lvpcb', boxToWorld(-0.055, 0.16, -0.22), ['imd'], 'HV');
+
+      // 4.6 VMP (VOLTAGE MEASUREMENT POINT): En el lado opuesto de la moto al interruptor del Cincon DC-DC
+      // (Delante en la pared lateral derecha: lx = -0.25, ly = 0.145, lz = -0.24)
+      var vmpGroup = new THREE.Group();
+      vmpGroup.position.copy(boxToWorld(-0.25, 0.145, -0.24));
+      vmpGroup.rotation.z = BOX_ROT_Z;
+
+      // Brida cuadrada de montaje en la pared lateral derecha
+      var vmpFlange = new THREE.Mesh(
+        new THREE.BoxGeometry(0.052, 0.052, 0.010),
+        matDarkSteel
+      );
+      vmpGroup.add(vmpFlange);
+
+      // Cuerpo del conector circular exterior VMP (sobresale hacia fuera de la pared derecha: -Z)
+      var vmpOuterCyl = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.019, 0.019, 0.036, 20).rotateX(Math.PI / 2),
+        new THREE.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.45, roughness: 0.25 })
+      );
+      vmpOuterCyl.position.z = -0.020;
+      vmpGroup.add(vmpOuterCyl);
+
+      // Anillo metálico de bayoneta exterior del conector circular VMP
+      var vmpBayonetRing = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.021, 0.021, 0.010, 20).rotateX(Math.PI / 2),
+        matSteel
+      );
+      vmpBayonetRing.position.z = -0.032;
+      vmpGroup.add(vmpBayonetRing);
+
+      // Cuerpo trasero interior (dentro de la caja: +Z) donde llegan los 4 cables HV de medida
+      var vmpInnerShell = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.017, 0.017, 0.028, 18).rotateX(Math.PI / 2),
+        new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.35 })
+      );
+      vmpInnerShell.position.z = 0.016;
+      vmpGroup.add(vmpInnerShell);
+
+      // 4 Pines internos del VMP (HV+ Antes, HV+ Después, HV- Antes, HV- Después)
+      [-0.007, 0.007].forEach(function(px) {
+        [-0.007, 0.007].forEach(function(py) {
+          var vmpPin = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.003, 0.003, 0.014, 8).rotateX(Math.PI / 2),
+            matCopperMaterial()
+          );
+          vmpPin.position.set(px, py, 0.032);
+          vmpGroup.add(vmpPin);
+        });
+      });
+
+      registerComponent('vmp', vmpGroup, new THREE.Vector3(-0.08, 0.15, -0.12));
+
+      addTerminalPoint('VMP CIRCULAR (4 CABLES HV)', 'term-pos', boxToWorld(-0.25, 0.19, -0.28), ['vmp', 'contactor', 'battery'], 'HV');
+
+      // 4.7 INTERRUPTOR EXTERIOR BATERÍA -> CINCON DC-DC (En la parte delantera de la pared lateral izquierda)
       var swGroup = new THREE.Group();
-      // Parte delantera (lx = -0.25) de la pared lateral izquierda (lz = +0.24)
       swGroup.position.copy(boxToWorld(-0.25, 0.145, 0.24));
       swGroup.rotation.z = BOX_ROT_Z;
 
-      // Cuerpo interno del interruptor (dentro de la pared izquierda, lz < 0 respecto a la pared)
       var swInnerBox = new THREE.Mesh(
         new THREE.BoxGeometry(0.068, 0.058, 0.042),
         new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.35, metalness: 0.4 })
@@ -2183,7 +2270,6 @@
       swInnerBox.position.z = -0.022;
       swGroup.add(swInnerBox);
 
-      // 4 Bornes internos (2 de entrada desde batería y 2 de salida hacia el Cincon DC-DC)
       [-0.020, 0.020].forEach(function(xPin) {
         [-0.014, 0.014].forEach(function(yPin) {
           var swTermPin = new THREE.Mesh(
@@ -2195,7 +2281,6 @@
         });
       });
 
-      // Bisel exterior atornillado por fuera de la pared lateral izquierda (lz > 0)
       var swOuterBezel = new THREE.Mesh(
         new THREE.BoxGeometry(0.076, 0.066, 0.010),
         new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.6, roughness: 0.3 })
@@ -2203,13 +2288,12 @@
       swOuterBezel.position.z = 0.008;
       swGroup.add(swOuterBezel);
 
-      // Palanca / Actuador basculante exterior (Accionable desde fuera de la caja de la batería)
       var swActuator = new THREE.Mesh(
         new THREE.BoxGeometry(0.036, 0.042, 0.026),
         new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.25, metalness: 0.2 })
       );
       swActuator.position.set(0, 0, 0.022);
-      swActuator.rotation.x = -0.38; // Posición ON inicial
+      swActuator.rotation.x = -0.38;
       swGroup.add(swActuator);
       switchLeverMesh = swActuator;
 
@@ -2217,59 +2301,59 @@
 
       addTerminalPoint('INT. DC-DC (ON)', 'term-lvpcb', boxToWorld(-0.25, 0.19, 0.28), ['switch_dcdc', 'dcdc', 'battery'], 'LV', 'term-sw-state');
 
-      // 4.7 CONVERTIDOR DC-DC CINCON CFB600W-110S SERIES + CONECTOR CIRCULAR LV TRASERO (Entre Amphenol + y -)
+      // 4.8 CONVERTIDOR DC-DC CINCON CFB600W-110S SERIES (VERTICAL CON LA BASE PEGADA A LA PARED LATERAL IZQUIERDA COMO EL IMD)
       var dcdcGroup = new THREE.Group();
       dcdcGroup.position.copy(BOX_ORIGIN);
       dcdcGroup.rotation.z = BOX_ROT_Z;
 
-      // Subgrupo para el módulo Cincon Full-Brick (116.8 x 61.0 x 12.7 mm -> escala modelo: 0.155 x 0.024 x 0.082 m)
-      // Ubicado en la zona media/trasera superior izquierda (lx = -0.02, ly = 0.135, lz = +0.165)
+      // Posicionado en la pared lateral izquierda (lz = +0.216), en vertical igual que el IMD en la pared derecha
       var cinconBrick = new THREE.Group();
-      cinconBrick.position.set(-0.02, 0.135, 0.165);
+      cinconBrick.position.set(0.02, 0.140, 0.216);
 
-      // Placa base superior de aluminio (Baseplate del Cincon CFB600W-110S)
+      // Placa base de aluminio (Baseplate) pegada directamente contra la pared lateral izquierda (z = +0.014 -> lz = +0.230)
       var cinconBaseplate = new THREE.Mesh(
-        new THREE.BoxGeometry(0.155, 0.006, 0.082),
+        new THREE.BoxGeometry(0.155, 0.082, 0.006),
         new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.85, roughness: 0.20 })
       );
-      cinconBaseplate.position.y = 0.009;
+      cinconBaseplate.position.z = 0.012;
       cinconBrick.add(cinconBaseplate);
 
-      // Cuerpo encapsulado negro (Plastic DAP UL 94V-0) con etiqueta roja Cincon
+      // Cuerpo encapsulado negro vertical (0.153 largo X × 0.080 alto Y × 0.018 espesor Z)
       var cinconCase = new THREE.Mesh(
-        new THREE.BoxGeometry(0.153, 0.018, 0.080),
+        new THREE.BoxGeometry(0.153, 0.080, 0.018),
         new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.35, metalness: 0.2 })
       );
       cinconBrick.add(cinconCase);
 
+      // Etiqueta roja identificativa Cincon mirando hacia el interior de la caja (-Z)
       var cinconBadge = new THREE.Mesh(
-        new THREE.BoxGeometry(0.085, 0.010, 0.004),
+        new THREE.BoxGeometry(0.095, 0.032, 0.004),
         new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.3 })
       );
-      cinconBadge.position.set(0, 0, -0.041);
+      cinconBadge.position.set(0, 0, -0.010);
       cinconBrick.add(cinconBadge);
 
-      // Pines de Entrada del Cincon en el extremo delantero (lx = -0.076): Pin 1 (-Vin), Pin 2 (+Vin), Pin 3/4 (On/Off)
-      var pin1NegIn = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.018, 10).rotateZ(Math.PI / 2), matBlkPost);
-      pin1NegIn.position.set(-0.082, -0.002, 0.022);
-      cinconBrick.add(pin1NegIn);
-
+      // Pines de Entrada del Cincon en el borde vertical delantero (lx = -0.082 respecto al brick): Pin 2 (+Vin arriba) y Pin 1 (-Vin abajo)
       var pin2PosIn = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.018, 10).rotateZ(Math.PI / 2), matRedPost);
-      pin2PosIn.position.set(-0.082, -0.002, -0.022);
+      pin2PosIn.position.set(-0.082, 0.018, -0.002);
       cinconBrick.add(pin2PosIn);
 
-      // Pines de Salida del Cincon en el extremo trasero (lx = +0.076): Pines 5-7 (+Vout) y Pines 8-10 (-Vout)
-      var pinsOutPos = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.008, 0.022), matCopperMaterial());
-      pinsOutPos.position.set(0.082, -0.002, -0.018);
+      var pin1NegIn = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.018, 10).rotateZ(Math.PI / 2), matBlkPost);
+      pin1NegIn.position.set(-0.082, -0.018, -0.002);
+      cinconBrick.add(pin1NegIn);
+
+      // Pines de Salida del Cincon en el borde vertical trasero (lx = +0.082 respecto al brick): Pines 5-7 (+Vout arriba) y Pines 8-10 (-Vout abajo)
+      var pinsOutPos = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.020, 0.008), matCopperMaterial());
+      pinsOutPos.position.set(0.082, 0.018, -0.002);
       cinconBrick.add(pinsOutPos);
 
-      var pinsOutNeg = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.008, 0.022), matSteel);
-      pinsOutNeg.position.set(0.082, -0.002, 0.018);
+      var pinsOutNeg = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.020, 0.008), matSteel);
+      pinsOutNeg.position.set(0.082, -0.018, -0.002);
       cinconBrick.add(pinsOutNeg);
 
       dcdcGroup.add(cinconBrick);
 
-      // CONECTOR CIRCULAR DE BAJA TENSIÓN EN LA CARA TRASERA DE LA CAJA (Justo entre Amphenol + y Amphenol -, en lz = 0.0)
+      // CONECTOR CIRCULAR DE BAJA TENSIÓN EN LA CARA TRASERA DE LA CAJA (Entre Amphenol + y Amphenol -, en lz = 0.0)
       var lvCircConn = new THREE.Group();
       lvCircConn.position.set(0.366, 0.065, 0.0);
 
@@ -2292,11 +2376,11 @@
 
       dcdcGroup.add(lvCircConn);
 
-      registerComponent('dcdc', dcdcGroup, new THREE.Vector3(-0.02, 0.26, 0.18));
+      registerComponent('dcdc', dcdcGroup, new THREE.Vector3(0.02, 0.26, 0.20));
 
-      addTerminalPoint('CONECTOR LV CIRCULAR', 'term-lvpcb', boxToWorld(0.42, 0.08, 0.0), ['dcdc', 'lvbox', 'battery'], 'LV');
+      addTerminalPoint('CONECTOR LV CIRCULAR', 'term-lvpcb', boxToWorld(0.42, 0.08, 0.0), ['dcdc', 'lvbox', 'imd'], 'LV');
 
-      // 4.8 BMS Orion 2
+      // 4.9 BMS Orion 2
       var bmsGroup = new THREE.Group();
       bmsGroup.position.copy(boxToWorld(-0.395, 0.04, 0));
       bmsGroup.rotation.z = BOX_ROT_Z;
@@ -2331,7 +2415,7 @@
 
       registerComponent('bms', bmsGroup, new THREE.Vector3(-0.14, 0.22, 0));
 
-      // 4.9 Inversor HyperDrive X1 + Cold Plate + Conectores DC+ y DC-
+      // 4.10 Inversor HyperDrive X1 + Cold Plate + Conectores DC+ y DC-
       var invGroup = new THREE.Group();
       invGroup.position.copy(boxToWorld(-0.04, -0.205, 0));
       invGroup.rotation.z = BOX_ROT_Z;
@@ -2381,7 +2465,7 @@
       addTerminalPoint('INV DC+', 'term-pos', boxToWorld(0.135, -0.185, -0.092), ['inverter', 'battery'], 'HV');
       addTerminalPoint('INV DC-', 'term-neg', boxToWorld(0.135, -0.185,  0.092), ['inverter', 'battery'], 'HV');
 
-      // 4.10 Motor Eléctrico CIRCE
+      // 4.11 Motor Eléctrico CIRCE
       var motorGroup = new THREE.Group();
       motorGroup.position.set(0.12, 0.62, 0);
 
@@ -2429,7 +2513,7 @@
 
       addTerminalPoint('U / V / W', 'term-phase', new THREE.Vector3(0.03, 0.79, 0.0), ['motor', 'inverter'], 'HV');
 
-      // 4.11 CAJA DE BAJA TENSIÓN: HVD (Izq) + PDM (Der, con pequeños conectores + y - desde el Cincon) + ECU (Arriba atornillada)
+      // 4.12 CAJA DE BAJA TENSIÓN: HVD (Izq, recibe señal IMD) + PDM (Der, recibe + y - DC-DC) + ECU (Arriba atornillada)
       var lvGroup = new THREE.Group();
       lvGroup.position.set(0.64, 1.15, 0);
       lvGroup.rotation.z = 0.22;
@@ -2451,6 +2535,15 @@
       chipHVD.renderOrder = 1;
       lvGroup.add(chipHVD);
 
+      // Pequeño conector en la PCB HVD donde entra la señal de estado del IMD
+      var hvdImdConn = new THREE.Mesh(
+        new THREE.BoxGeometry(0.018, 0.014, 0.020),
+        new THREE.MeshStandardMaterial({ color: 0xec4899, roughness: 0.3 })
+      );
+      hvdImdConn.position.set(-0.115, -0.015, -0.055);
+      hvdImdConn.renderOrder = 1;
+      lvGroup.add(hvdImdConn);
+
       // PCB Abajo Derecha: PDM (Junta y unida a HVD)
       var pcbPDM = new THREE.Mesh(new THREE.BoxGeometry(0.148, 0.010, 0.175), pcbPdmMat);
       pcbPDM.position.set(0.075, -0.026, 0);
@@ -2462,7 +2555,7 @@
       chipPDM.renderOrder = 1;
       lvGroup.add(chipPDM);
 
-      // PEQUEÑOS CONECTORES EN LA PCB DEL PDM (Donde entran el + y - que vienen del Conector Circular LV del Cincon)
+      // Pequeños conectores en la PCB del PDM (+ y - desde el Cincon DC-DC)
       var pdmConnPos = new THREE.Mesh(
         new THREE.BoxGeometry(0.018, 0.014, 0.020),
         new THREE.MeshStandardMaterial({ color: 0xe11d48, roughness: 0.3 })
@@ -2531,19 +2624,21 @@
 
       registerComponent('lvbox', lvGroup, new THREE.Vector3(0.12, 0.17, 0));
 
-      addTerminalPoint('HVD (Izq.)', 'term-lvpcb', new THREE.Vector3(0.55, 1.11, 0.06), ['lvbox'], 'LV');
-      addTerminalPoint('PDM (Der. + / - DC-DC)', 'term-lvpcb', new THREE.Vector3(0.73, 1.14, -0.06), ['lvbox', 'dcdc'], 'LV');
-      addTerminalPoint('ECU (Arriba)', 'term-lvpcb', new THREE.Vector3(0.64, 1.19, 0.0), ['lvbox'], 'LV');
+      addTerminalPoint('HVD (Izq. · Estado IMD)', 'term-lvpcb', new THREE.Vector3(0.55, 1.11, 0.06), ['lvbox', 'imd'], 'LV');
+      addTerminalPoint('PDM (Der. · + / - DC-DC)', 'term-lvpcb', new THREE.Vector3(0.73, 1.14, -0.06), ['lvbox', 'dcdc'], 'LV');
+      addTerminalPoint('ECU (Arriba)', 'term-lvpcb', new THREE.Vector3(0.64, 1.19, 0.0), ['lvbox', 'imd'], 'LV');
 
       // ========================================================================
-      // 5. CABLEADO INTERNO Y EXTERNO
+      // 5. CABLEADO INTERNO Y EXTERNO (12 NODOS COMPLETOS)
       // ========================================================================
       wiresGroup = new THREE.Group();
       bikeGroup.add(wiresGroup);
       var flowParticles = [];
       var HV_ORANGE = 0xff5500;
-      var LV_POS_RED = 0xe11d48; // Rojo carmesí (No naranja) para +Vout de Baja Tensión
-      var LV_NEG_CYAN = 0x00d2ff; // Azul cian para -Vout de Baja Tensión
+      var LV_POS_RED = 0xe11d48;
+      var LV_NEG_CYAN = 0x00d2ff;
+      var LV_IMD_MAGENTA = 0xec4899;
+      var GND_CHASSIS_LIME = 0x84cc16;
 
       function createWire(points, colorHex, radius, sysType, isDcdcControlled) {
         var curve = new THREE.CatmullRomCurve3(points);
@@ -2614,49 +2709,115 @@
         boxToWorld( 0.355, 0.065, 0.105)
       ], HV_ORANGE, 0.0105, 'HV', false);
 
-      // B) CONEXIONES DE LA BATERÍA AL INTERRUPTOR EXTERIOR Y DEL INTERRUPTOR AL CINCON DC-DC
+      // B) CONEXIONES DEL IMD (Vigilancia HV+, Vigilancia HV-, Masa Chasis y Señal de Estado a HVD / ECU)
+      // 1. IMD Vigilancia HV+ (Cable Naranja) -> Bus HV+ en la borna del Contactor
+      createWire([
+        boxToWorld(0.04,  0.125, -0.195),
+        boxToWorld(0.11,  0.125, -0.150),
+        boxToWorld(0.178, 0.125, -0.105)
+      ], HV_ORANGE, 0.0052, 'HV', false);
+
+      // 2. IMD Vigilancia HV- (Cable Naranja) -> Bus HV- principal
+      createWire([
+        boxToWorld(0.00, 0.125, -0.195),
+        boxToWorld(0.00, 0.090, -0.040),
+        boxToWorld(0.00, 0.065,  0.105)
+      ], HV_ORANGE, 0.0052, 'HV', false);
+
+      // 3. IMD Referencia de Chasis / Masa (Cable Verde Lima) -> Perno de chasis en pared derecha
+      createWire([
+        boxToWorld(-0.015, 0.155, -0.198),
+        boxToWorld(-0.035, 0.162, -0.210),
+        boxToWorld(-0.055, 0.160, -0.222)
+      ], GND_CHASSIS_LIME, 0.0050, 'HV', false);
+
+      // 4. Señal de Estado IMD OK (Cable Magenta LV): Sale del IMD -> Conector Circular LV Trasero -> Placa HVD y puente a ECU
+      createWire([
+        boxToWorld(0.055, 0.160, -0.195),
+        boxToWorld(0.22,  0.125, -0.080),
+        boxToWorld(0.355, 0.065, -0.004)
+      ], LV_IMD_MAGENTA, 0.0050, 'LV', false);
+
+      createWire([
+        boxToWorld(0.405, 0.065, -0.004),
+        new THREE.Vector3(0.33, 1.04, -0.020),
+        new THREE.Vector3(0.46, 1.09, -0.045),
+        new THREE.Vector3(0.525, 1.11, -0.055), // Entra al conector de la PCB HVD (abajo izquierda)
+        new THREE.Vector3(0.58,  1.16, -0.020)  // Sube a la PCB ECU (arriba atornillada)
+      ], LV_IMD_MAGENTA, 0.0050, 'LV', false);
+
+      // C) LOS 4 CABLES NARANJAS DEL VMP (Voltage Measurement Point en la pared delantera derecha)
+      // 1. VMP Cable 1: HV+ Antes del Contactor (desde Borna 1 del Contactor Kilovac hasta Pin 1 del VMP)
+      createWire([
+        boxToWorld( 0.178, 0.125, -0.105),
+        boxToWorld(-0.04,  0.115, -0.175),
+        boxToWorld(-0.243, 0.152, -0.208)
+      ], HV_ORANGE, 0.0048, 'HV', false);
+
+      // 2. VMP Cable 2: HV+ Después del Contactor (desde Borna 2 del Contactor Kilovac hasta Pin 2 del VMP)
+      createWire([
+        boxToWorld( 0.222, 0.125, -0.105),
+        boxToWorld(-0.02,  0.105, -0.182),
+        boxToWorld(-0.257, 0.152, -0.208)
+      ], HV_ORANGE, 0.0048, 'HV', false);
+
+      // 3. VMP Cable 3: HV- Antes (desde Borna Negativa M1- de la Batería hasta Pin 3 del VMP)
+      createWire([
+        boxToWorld(-0.26,  0.052,  0.105),
+        boxToWorld(-0.29,  0.095, -0.050),
+        boxToWorld(-0.243, 0.138, -0.208)
+      ], HV_ORANGE, 0.0048, 'HV', false);
+
+      // 4. VMP Cable 4: HV- Después (desde tramo de salida junto a Amphenol - hasta Pin 4 del VMP)
+      createWire([
+        boxToWorld( 0.24,  0.065,  0.105),
+        boxToWorld(-0.05,  0.085, -0.040),
+        boxToWorld(-0.257, 0.138, -0.208)
+      ], HV_ORANGE, 0.0048, 'HV', false);
+
+      // D) CONEXIONES DE LA BATERÍA AL INTERRUPTOR EXTERIOR Y AL CINCON VERTICAL EN LA PARED IZQUIERDA
       // 1. Batería (+) M3+ -> Entrada (+) del Interruptor en pared delantera izquierda
       createWire([
         boxToWorld( 0.10, 0.052, 0.06),
-        boxToWorld(-0.08, 0.115, 0.14),
+        boxToWorld(-0.08, 0.110, 0.14),
         boxToWorld(-0.23, 0.132, 0.195)
-      ], HV_ORANGE, 0.0065, 'HV', false);
+      ], HV_ORANGE, 0.0062, 'HV', false);
 
       // 2. Batería (-) M1- -> Entrada (-) del Interruptor en pared delantera izquierda
       createWire([
         boxToWorld(-0.26, 0.052, 0.105),
         boxToWorld(-0.27, 0.105, 0.155),
         boxToWorld(-0.27, 0.132, 0.195)
-      ], HV_ORANGE, 0.0065, 'HV', false);
+      ], HV_ORANGE, 0.0062, 'HV', false);
 
-      // 3. Salida (+) del Interruptor -> Pin 2 (+V Input) del Cincon CFB600W-110S (Controlado por el interruptor)
+      // 3. Salida (+) del Interruptor -> Pin 2 (+V Input) en el borde vertical delantero del Cincon
       createWire([
-        boxToWorld(-0.23, 0.158, 0.195),
-        boxToWorld(-0.16, 0.145, 0.150),
-        boxToWorld(-0.102, 0.133, 0.143)
-      ], HV_ORANGE, 0.0065, 'HV', true);
+        boxToWorld(-0.23,  0.158, 0.195),
+        boxToWorld(-0.15,  0.158, 0.212),
+        boxToWorld(-0.062, 0.158, 0.214)
+      ], HV_ORANGE, 0.0062, 'HV', true);
 
-      // 4. Salida (-) del Interruptor -> Pin 1 (-V Input) del Cincon CFB600W-110S (Controlado por el interruptor)
+      // 4. Salida (-) del Interruptor -> Pin 1 (-V Input) en el borde vertical delantero del Cincon
       createWire([
-        boxToWorld(-0.27, 0.158, 0.195),
-        boxToWorld(-0.17, 0.145, 0.190),
-        boxToWorld(-0.102, 0.133, 0.187)
-      ], HV_ORANGE, 0.0065, 'HV', true);
+        boxToWorld(-0.27,  0.158, 0.195),
+        boxToWorld(-0.16,  0.122, 0.212),
+        boxToWorld(-0.062, 0.122, 0.214)
+      ], HV_ORANGE, 0.0062, 'HV', true);
 
-      // C) SALIDA DE BAJA TENSIÓN DEL CINCON DC-DC -> CONECTOR CIRCULAR TRASERO -> PEQUEÑOS CONECTORES EN PCB PDM
-      // 5. Salida +Vout Cincon (Pines 5-7) -> Interior del Conector Circular LV trasero (entre Amphenol + y -)
+      // E) SALIDA LV DEL CINCON VERTICAL -> CONECTOR CIRCULAR TRASERO -> PEQUEÑOS CONECTORES EN PCB PDM
+      // 5. Salida +Vout Cincon (borde trasero superior) -> Interior del Conector Circular LV trasero
       createWire([
-        boxToWorld(0.062, 0.133, 0.147),
-        boxToWorld(0.21,  0.105, 0.06),
+        boxToWorld(0.102, 0.158, 0.214),
+        boxToWorld(0.24,  0.115, 0.110),
         boxToWorld(0.355, 0.068, -0.010)
-      ], LV_POS_RED, 0.0060, 'LV', true);
+      ], LV_POS_RED, 0.0058, 'LV', true);
 
-      // 6. Salida -Vout Cincon (Pines 8-10) -> Interior del Conector Circular LV trasero
+      // 6. Salida -Vout Cincon (borde trasero inferior) -> Interior del Conector Circular LV trasero
       createWire([
-        boxToWorld(0.062, 0.133, 0.183),
-        boxToWorld(0.21,  0.105, 0.09),
+        boxToWorld(0.102, 0.122, 0.214),
+        boxToWorld(0.24,  0.095, 0.120),
         boxToWorld(0.355, 0.062, 0.010)
-      ], LV_NEG_CYAN, 0.0060, 'LV', true);
+      ], LV_NEG_CYAN, 0.0058, 'LV', true);
 
       // 7. Exterior del Conector Circular LV trasero (+) -> Pequeño Conector (+) en la PCB del PDM
       createWire([
@@ -2664,7 +2825,7 @@
         new THREE.Vector3(0.34, 1.05, -0.035),
         new THREE.Vector3(0.52, 1.11, -0.055),
         new THREE.Vector3(0.675, 1.142, -0.062)
-      ], LV_POS_RED, 0.0060, 'LV', true);
+      ], LV_POS_RED, 0.0058, 'LV', true);
 
       // 8. Exterior del Conector Circular LV trasero (-) -> Pequeño Conector (-) en la PCB del PDM
       createWire([
@@ -2672,9 +2833,9 @@
         new THREE.Vector3(0.35, 1.04, 0.010),
         new THREE.Vector3(0.54, 1.10, -0.035),
         new THREE.Vector3(0.712, 1.150, -0.062)
-      ], LV_NEG_CYAN, 0.0060, 'LV', true);
+      ], LV_NEG_CYAN, 0.0058, 'LV', true);
 
-      // D) Salida Trasera Exterior desde Amphenol 0°: Rodean el Motor por encima y acaban en el + y - del Inversor
+      // F) Salida Trasera Exterior desde Amphenol 0°: Rodean el Motor por encima y acaban en el + y - del Inversor
       createWire([
         boxToWorld(0.42, 0.065, -0.105),
         new THREE.Vector3(0.31, 0.99, -0.125),
@@ -2695,7 +2856,7 @@
         boxToWorld(0.145, -0.193, 0.092)
       ], HV_ORANGE, 0.0105, 'HV', false);
 
-      // E) Fases Trifásicas U, V, W entre Inversor y Motor CIRCE
+      // G) Fases Trifásicas U, V, W entre Inversor y Motor CIRCE
       [-0.045, 0.0, 0.045].forEach(function(zPh) {
         createWire([
           boxToWorld(0.12, -0.223, zPh),
@@ -2704,7 +2865,7 @@
         ], HV_ORANGE, 0.009, 'HV', false);
       });
 
-      // F) Cables de Supervisión BMS y Señal (< 60 V)
+      // H) Cables de Supervisión BMS y Señal (< 60 V)
       createWire([
         boxToWorld(-0.18, 0.045, 0.05),
         boxToWorld(-0.29, 0.11,  0.06),
@@ -2755,7 +2916,7 @@
         labelElements[id] = div;
       });
 
-      // Selección mediante clic en el modelo 3D (y conmutación directa si clicas en el interruptor)
+      // Selección mediante clic en el modelo 3D
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2();
       var pointerDownPos = { x: 0, y: 0 };
