@@ -110,7 +110,7 @@
       font-size: 0.79rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -277,7 +277,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.15s ease;
+      transition: background 0.15s ease, border-color 0.15s ease;
     }
 
     .win-btn:hover {
@@ -327,7 +327,7 @@
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid transparent;
       cursor: pointer;
-      transition: all 0.18s ease;
+      transition: background 0.18s ease, transform 0.18s ease;
       margin-bottom: 6px;
     }
 
@@ -426,7 +426,7 @@
       padding: 5px 10px;
       border-radius: 99px;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: background 0.15s ease, border-color 0.15s ease;
     }
 
     .sec-pill:hover {
@@ -532,16 +532,21 @@
       font-weight: bold;
     }
 
+    /* Contenedores de Etiquetas 3D aceleradas por GPU (Cero tirones al rotar) */
     #labels-container, #terminals-container {
       position: absolute;
       inset: 0;
       pointer-events: none;
       z-index: 5;
+      overflow: hidden;
     }
 
     .floating-label {
       position: absolute;
-      transform: translate(-50%, -100%);
+      left: 0;
+      top: 0;
+      will-change: transform;
+      backface-visibility: hidden;
       background: rgba(10, 15, 26, 0.90);
       color: #fff;
       padding: 3px 8px;
@@ -552,11 +557,12 @@
       border: 1px solid rgba(255, 255, 255, 0.22);
       pointer-events: auto;
       cursor: pointer;
-      transition: transform 0.15s ease, border-color 0.15s ease;
+      transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
     .floating-label:hover {
-      transform: translate(-50%, -108%) scale(1.06);
+      border-color: #fff;
+      background: rgba(30, 41, 59, 0.96);
     }
 
     .floating-label.hv-label {
@@ -578,7 +584,10 @@
 
     .term-badge {
       position: absolute;
-      transform: translate(-50%, -50%);
+      left: 0;
+      top: 0;
+      will-change: transform;
+      backface-visibility: hidden;
       padding: 2px 5px;
       border-radius: 4px;
       font-size: 0.61rem;
@@ -605,6 +614,12 @@
       background: rgba(245, 158, 11, 0.94);
       color: #090d14;
       border: 1px solid #fde68a;
+    }
+
+    .term-lvpcb {
+      background: rgba(6, 182, 212, 0.94);
+      color: #090d14;
+      border: 1px solid #a5f3fc;
     }
 
     @media (max-width: 900px) {
@@ -689,15 +704,15 @@
           </div>
           <div class="comp-item" id="item-motor" onclick="selectComponent('motor')">
             <div class="comp-name"><span>Motor Eléctrico CIRCE</span></div>
-            <div class="comp-loc">📍 Cuna inferior · Fases U, V, W</div>
+            <div class="comp-loc">📍 Fases U, V, W + Refrigeración a Radiador</div>
           </div>
         </div>
 
         <div>
           <div class="sys-section-title sys-lv">🔌 Sistema Baja Tensión (LV)</div>
           <div class="comp-item" id="item-lvbox" onclick="selectComponent('lvbox')">
-            <div class="comp-name"><span>Caja de PCBs (Baja Tensión)</span></div>
-            <div class="comp-loc">📍 Subchasis Trasero (3 PCBs internas)</div>
+            <div class="comp-name"><span>Caja de PCBs (HVD + PDM + ECU)</span></div>
+            <div class="comp-loc">📍 Abajo unidas: HVD y PDM · Arriba: ECU</div>
           </div>
         </div>
       </div>
@@ -752,7 +767,7 @@
 
   <script>
     // ============================================================================
-    // 1. BASE DE DATOS E INTERFAZ (SIN COMILLAS INVERTIDAS PARA EVITAR SYNTAX ERROR)
+    // 1. BASE DE DATOS TÉCNICA DE COMPONENTES (eUSRacing MotoStudent)
     // ============================================================================
     var COMPONENTS_DB = {
       battery: {
@@ -868,42 +883,44 @@
           '<strong>Conectores INV DC+ e INV DC- (Cables Naranjas 35 mm²):</strong> Reciben los cables + y - que salen de los conectores Amphenol 0° traseros de la caja, bajan entre el muelle y las placas con vías al chasis y <strong>rodean por encima al motor CIRCE</strong> hasta embornar en el inversor.',
           '<strong>Bornas Trifásicas U, V, W (3 Cables Naranjas):</strong> Salen desde el inversor directamente hacia las 3 bornas de fase del <strong>Motor Eléctrico CIRCE</strong>.'
         ],
-        notes: 'El radiador y los manguitos de agua inferiores pertenecen al circuito mecánico/térmico y no se marcan al seleccionar Alta Tensión.'
+        notes: 'El Cold Plate disipa el calor de los IGBTs/MOSFETs del inversor directamente en la base de la caja.'
       },
       motor: {
         id: 'motor',
         system: 'HV',
         name: 'Motor Eléctrico CIRCE (MotoStudent)',
-        subtitle: 'Alimentado por las 3 fases U, V, W del inversor (los cables DC + y - lo rodean por encima)',
-        location: 'Situado en la cuna inferior del chasis. Los cables + y - de la batería pasan por encima de su carcasa sin tocarlo en su camino hacia el inversor.',
+        subtitle: 'Fases U, V, W + Circuito de Refrigeración Líquida conectado al Radiador delantero',
+        location: 'Situado en la cuna inferior del chasis. Los cables + y - de la batería lo rodean por arriba camino al inversor, mientras que su camisa de agua se conecta mediante dos conductos (entrada y salida) al radiador frontal.',
         specs: [
           { label: 'Modelo', val: 'CIRCE MotoStudent' },
           { label: 'Alimentación AC', val: '3 Bornas Superiores (Fase U, V, W)' },
-          { label: 'Paso Superior DC', val: 'Los cables + y - lo rodean por arriba' },
+          { label: 'Refrigeración Líquida', val: 'Entrada y Salida con Radiador Delantero' },
           { label: 'Sensores', val: 'Encoder + Temperatura (Cable Azul LV)' }
         ],
         connections: [
           '<strong>Bornas Fase U, V, W (3 Cables Naranjas):</strong> Conectadas directamente a las salidas trifásicas del <strong>Inversor HyperDrive X1</strong>.',
+          '<strong>Circuito de Refrigeración Líquida (Entrada y Salida):</strong> El tubo inferior une la <strong>Salida del Radiador</strong> con la <strong>Entrada del Motor CIRCE</strong>, y el tubo de retorno une la <strong>Salida del Motor CIRCE</strong> con la <strong>Entrada Superior del Radiador</strong> situado detrás de la rueda delantera.',
           '<strong>Mazo Encoder / Sensor Térmico (Cable Azul LV):</strong> Conectado al inversor para el control vectorial (FOC).'
         ],
-        notes: 'Los elementos mecánicos de transmisión (piñón, cadena, corona y placas de chasis) quedan excluidos del resaltado de Alta Tensión.'
+        notes: 'Los elementos mecánicos y hidráulicos (radiador, manguitos de refrigeración, piñón, cadena, corona y placas) quedan excluidos del resaltado cuando seleccionas Alta Tensión.'
       },
       lvbox: {
         id: 'lvbox',
         system: 'LV',
-        name: 'Caja de Electrónica de Baja Tensión (PCBs)',
-        subtitle: '3 placas PCB internas visibles desde cualquier ángulo sin parpadeos',
+        name: 'Caja de PCBs de Baja Tensión (HVD, PDM y ECU)',
+        subtitle: 'Abajo dos PCBs juntas unidas (Izquierda: HVD · Derecha: PDM) y encima de ellas atornillada la ECU',
         location: 'Montada en el subchasis trasero (colín), por encima del amortiguador FG Gubellini.',
         specs: [
-          { label: 'Sistema', val: 'Baja Tensión (< 60 V)' },
-          { label: 'Ubicación', val: 'Subchasis / Colín trasero' },
-          { label: 'Contenido Interno', val: '3 PCBs con microcontroladores' },
-          { label: 'Estado Actual', val: 'Presentadas (Sin cablear)' }
+          { label: 'PCB Abajo Izquierda', val: 'HVD (Unida en la base)' },
+          { label: 'PCB Abajo Derecha', val: 'PDM (Unida junto a HVD)' },
+          { label: 'PCB Arriba Superior', val: 'ECU (Fija y atornillada encima)' },
+          { label: 'Fijación Mecánica', val: '4 Separadores M3 + Tornillos' }
         ],
         connections: [
-          '<strong>Sin conexionado activo por ahora:</strong> Las 3 PCBs verdes están alojadas dentro de su caja translúcida en el colín.'
+          '<strong>Base Inferior (HVD + PDM unidas):</strong> En el nivel inferior van dos placas juntas y unidas mediante puente central: a la izquierda la <strong>HVD</strong> y a la derecha la <strong>PDM</strong>.',
+          '<strong>Nivel Superior (ECU atornillada):</strong> Justo encima de la unión de HVD y PDM va montada la placa <strong>ECU</strong>, fijada mecánicamente mediante 4 columnas separadoras metálicas y sus 4 tornillos superiores.'
         ],
-        notes: 'Renderizado con orden de profundidad separado para que las 3 PCBs interiores se vean nítidas desde cualquier ángulo.'
+        notes: 'Las etiquetas flotantes indican claramente la posición de HVD (abajo izquierda), PDM (abajo derecha) y ECU (arriba atornillada).'
       }
     };
 
@@ -946,8 +963,8 @@
           '<button class="sec-pill" onclick="scrollToSection(\'sec-resumen\')">1. Resumen HV/LV</button>',
           '<button class="sec-pill" onclick="scrollToSection(\'sec-pack\')">2. Pack y Amphenol 0°</button>',
           '<button class="sec-pill" onclick="scrollToSection(\'sec-prot\')">3. Hall en Fusible y BMS</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-trac\')">4. Rodeando Motor a Inversor</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-lv\')">5. Caja PCBs (3 Placas)</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-trac\')">4. Inversor, Motor y Refri</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-lv\')">5. PCBs: HVD, PDM y ECU</button>',
         '</div>',
         '<div id="sec-resumen" class="info-card">',
           '<h4>⚡ 1. Resumen General y Separación Eléctrica / Mecánica</h4>',
@@ -955,16 +972,16 @@
             '<div class="spec-box"><div class="spec-label">Configuración Pack</div><div class="spec-val">30S2P (111 V nom / 126 V máx)</div></div>',
             '<div class="spec-box"><div class="spec-label">Salida Trasera Caja</div><div class="spec-val">2x Amphenol 0° (35 mm²)</div></div>',
             '<div class="spec-box"><div class="spec-label">Cables &gt; 60 V (HV)</div><div class="spec-val" style="color:#ff7b33;">Siempre Naranjas</div></div>',
-            '<div class="spec-box"><div class="spec-label">Cables &lt; 60 V (LV/Señal)</div><div class="spec-val" style="color:#38bdf8;">Cian, Violeta, Verde</div></div>',
+            '<div class="spec-box"><div class="spec-label">PCBs Baja Tensión</div><div class="spec-val" style="color:#38bdf8;">HVD + PDM + ECU</div></div>',
           '</div>',
           '<div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">',
-            'Al seleccionar <strong>Alta Tensión (HV &gt; 60V)</strong> se iluminan exclusivamente los componentes eléctricos de potencia, dejando sin marcar toda la mecánica (chasis, cadena, piñón, corona, suspensiones y placas del motor).',
+            'Al seleccionar <strong>Alta Tensión (HV &gt; 60V)</strong> se iluminan exclusivamente los componentes eléctricos de potencia, dejando sin marcar toda la mecánica (chasis, radiador, tubos de refrigeración, cadena, piñón, corona y suspensiones).',
           '</div>',
         '</div>',
         '<div id="sec-pack" class="info-card">',
           '<h4>🔋 2. Pack 30S2P y Conectores Rectos de 0° Amphenol</h4>',
           '<ul class="conn-list">',
-            '<li><strong>Disposición Interna sin Parpadeos:</strong> 2 módulos verticales delante y 1 módulo horizontal detrás rodeados por la bandeja de Thermal Pad con separación física real.</li>',
+            '<li><strong>Disposición Interna:</strong> 2 módulos verticales delante y 1 módulo horizontal detrás rodeados por la bandeja de Thermal Pad.</li>',
             '<li><strong>Conectores Amphenol 0° (35 mm²):</strong> Montados en la cara trasera exterior de la caja uno al lado del otro a la cota de salida de los módulos.</li>',
           '</ul>',
         '</div>',
@@ -976,16 +993,17 @@
           '</ul>',
         '</div>',
         '<div id="sec-trac" class="info-card">',
-          '<h4>🚀 4. Recorrido del + y - por Encima del Motor hasta el Inversor</h4>',
+          '<h4>🚀 4. Cables + / - al Inversor y Circuito de Refrigeración Líquida</h4>',
           '<ul class="conn-list">',
-            '<li><strong>Rodeando el Motor hasta INV DC+ e INV DC-:</strong> Los dos cables naranjas salen de los conectores Amphenol 0° traseros, hacen el giro hacia abajo entre el muelle FG Gubellini y las placas del motor (sujetos con vías al chasis), <strong>rodean por encima al motor CIRCE</strong> y terminan en los conectores <strong>+ (INV DC+) y - (INV DC-) del Inversor HyperDrive X1</strong>.</li>',
-            '<li><strong>Fases U, V, W al Motor:</strong> Desde el inversor salen los 3 cables naranjas trifásicos hacia el bloque de fases del motor CIRCE.</li>',
+            '<li><strong>Rodeando el Motor hasta INV DC+ e INV DC-:</strong> Los dos cables naranjas salen de los conectores Amphenol 0° traseros, bajan entre el muelle FG Gubellini y las placas del motor (sujetos con vías al chasis), <strong>rodean por encima al motor CIRCE</strong> y terminan en los conectores <strong>+ (INV DC+) y - (INV DC-) del Inversor HyperDrive X1</strong>.</li>',
+            '<li><strong>Circuito de Refrigeración Líquida (Radiador ⇄ Motor):</strong> Radiador sobredimensionado detrás de la rueda delantera con manguitos de entrada y salida conectados directamente a la entrada y salida de refrigeración del motor CIRCE.</li>',
           '</ul>',
         '</div>',
         '<div id="sec-lv" class="info-card">',
-          '<h4>🔌 5. Caja de Baja Tensión (3 PCBs Visibles en Todo Ángulo)</h4>',
+          '<h4>🔌 5. Caja de Baja Tensión: HVD y PDM (Abajo unidas) + ECU (Arriba atornillada)</h4>',
           '<ul class="conn-list">',
-            '<li><strong>Caja de PCBs en el Subchasis:</strong> Las 3 tarjetas PCB interiores se renderizan en pase opaco prioritario para verse completas desde cualquier ángulo de cámara.</li>',
+            '<li><strong>Abajo Izquierda (HVD) y Abajo Derecha (PDM):</strong> Dos placas PCB situadas juntas y unidas en la base de la caja.</li>',
+            '<li><strong>Arriba Fija Atornillada (ECU):</strong> Placa superior montada sobre HVD y PDM mediante 4 separadores metálicos y 4 tornillos de fijación.</li>',
           '</ul>',
         '</div>'
       ].join('');
@@ -1054,7 +1072,7 @@
           '<div class="insp-subtitle">' + comp.subtitle + '</div>',
           '<div class="info-card"><h4>📍 Ubicación Exacta en la Moto</h4><div style="font-size:0.81rem;line-height:1.45;">' + comp.location + '</div></div>',
           '<div class="info-card"><h4>📊 Especificaciones Técnicas</h4><div class="spec-grid">' + specsHtml + '</div></div>',
-          '<div class="info-card"><h4>🔌 Conexionado y Recorrido de Cables</h4><ul class="conn-list">' + connHtml + '</ul></div>',
+          '<div class="info-card"><h4>🔌 Conexionado y Recorrido</h4><ul class="conn-list">' + connHtml + '</ul></div>',
           '<div class="info-card"><h4>💡 Detalle de Montaje</h4><div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">' + comp.notes + '</div></div>'
         ].join('');
       }
@@ -1113,7 +1131,7 @@
                 } else if (isShell) {
                   child.material.transparent = true;
                   child.material.depthWrite = false;
-                  child.material.opacity = 0.36;
+                  child.material.opacity = 0.34;
                 } else {
                   child.material.transparent = false;
                   child.material.depthWrite = true;
@@ -1141,7 +1159,7 @@
                 } else if (isShell) {
                   child.material.transparent = true;
                   child.material.depthWrite = false;
-                  child.material.opacity = 0.34;
+                  child.material.opacity = 0.32;
                 } else {
                   child.material.transparent = false;
                   child.material.depthWrite = true;
@@ -1226,11 +1244,10 @@
       document.getElementById('terminals-container').style.display = show ? 'block' : 'none';
     }
 
-    // Poblar ficha técnica inicial inmediatamente
     renderInspectorDefault();
 
     // ============================================================================
-    // 2. ESCENA 3D CON CONTROL ORBITAL INTEGRADO (SIN DEPENDENCIAS EXTERNAS FALLIDAS)
+    // 2. ESCENA 3D CON SINCRONIZACIÓN DE ETIQUETAS EN GPU (CERO TIRONES)
     // ============================================================================
     var camera, renderer, scene, camCtrl;
 
@@ -1240,7 +1257,6 @@
       camCtrl.theta = -0.36;
       camCtrl.phi = 1.32;
       camCtrl.radius = 3.95;
-      camCtrl.update();
     }
 
     function init3DScene() {
@@ -1261,7 +1277,6 @@
       renderer.shadowMap.enabled = true;
       container.appendChild(renderer.domElement);
 
-      // Control orbital integrado 100% nativo (Rotación, Pan y Zoom con ratón y pantalla táctil)
       camCtrl = {
         target: new THREE.Vector3(0.05, 0.90, 0),
         theta: -0.36,
@@ -1278,6 +1293,7 @@
           camera.position.y = this.target.y + this.radius * Math.cos(this.phi);
           camera.position.z = this.target.z + this.radius * Math.sin(this.phi) * Math.cos(this.theta);
           camera.lookAt(this.target);
+          camera.updateMatrixWorld(true);
         }
       };
       camCtrl.update();
@@ -1306,7 +1322,6 @@
           camCtrl.theta -= dx * 0.007;
           camCtrl.phi -= dy * 0.007;
         }
-        camCtrl.update();
       });
       window.addEventListener('pointerup', function() {
         camCtrl.isDragging = false;
@@ -1314,7 +1329,6 @@
       domEl.addEventListener('wheel', function(e) {
         e.preventDefault();
         camCtrl.radius += e.deltaY * 0.0025;
-        camCtrl.update();
       }, { passive: false });
 
       // Iluminación
@@ -1344,7 +1358,7 @@
         return v;
       }
 
-      function addTerminalPoint(label, type, worldVec, compIds) {
+      function addTerminalPoint(label, type, worldVec, compIds, sysFilter) {
         var div = document.createElement('div');
         div.className = 'term-badge ' + type;
         div.innerText = label;
@@ -1352,12 +1366,13 @@
         terminalPoints.push({
           el: div,
           pos: worldVec.clone(),
-          compIds: compIds
+          compIds: compIds,
+          sysFilter: sysFilter || 'HV'
         });
       }
 
       // ========================================================================
-      // 3. CAPA MECÁNICA PURA (NO SE MARCA AL SELECCIONAR ALTA TENSIÓN)
+      // 3. CAPA MECÁNICA Y DE REFRIGERACIÓN (RADIADOR GRANDE + CIRCUITO LÍQUIDO)
       // ========================================================================
       var mechanicalGroup = new THREE.Group();
       bikeGroup.add(mechanicalGroup);
@@ -1512,16 +1527,83 @@
         frameGroup.add(pivotPlate);
       });
 
-      var radBox = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.25, 0.22), matAluminum);
-      radBox.position.set(-0.46, 0.68, 0);
-      frameGroup.add(radBox);
+      // RADIADOR DELANTERO MÁS GRANDE (Detrás de la rueda delantera) + CIRCUITO COMPLETO CON EL MOTOR
+      var radiatorGroup = new THREE.Group();
+      radiatorGroup.position.set(-0.62, 0.63, 0);
+      radiatorGroup.rotation.z = -0.14;
 
-      var hoseCurve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-0.46, 0.58, 0.09),
-        new THREE.Vector3(-0.22, 0.48, 0.12),
-        new THREE.Vector3( 0.08, 0.48, 0.09)
+      // Núcleo central aleteado más grande
+      var radCore = new THREE.Mesh(
+        new THREE.BoxGeometry(0.075, 0.34, 0.32),
+        new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.75, roughness: 0.35 })
+      );
+      radiatorGroup.add(radCore);
+
+      // Colectores/tanques superior e inferior de aluminio pulido
+      var topTank = new THREE.Mesh(new THREE.BoxGeometry(0.088, 0.038, 0.34), matAluminum);
+      topTank.position.y = 0.18;
+      radiatorGroup.add(topTank);
+
+      var botTank = new THREE.Mesh(new THREE.BoxGeometry(0.088, 0.038, 0.34), matAluminum);
+      botTank.position.y = -0.18;
+      radiatorGroup.add(botTank);
+
+      // Tapón de presión del radiador
+      var radCap = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.024, 16), matDarkSteel);
+      radCap.position.set(0, 0.208, 0.13);
+      radiatorGroup.add(radCap);
+
+      // Racor de Entrada Superior del Radiador (Recibe agua caliente desde la Salida del Motor)
+      var radInletNozzle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.015, 0.015, 0.045, 14).rotateZ(Math.PI / 2),
+        matGubelliniRed
+      );
+      radInletNozzle.position.set(0.052, 0.14, -0.12);
+      radiatorGroup.add(radInletNozzle);
+
+      // Racor de Salida Inferior del Radiador (Envía agua fría hacia la Entrada del Motor)
+      var radOutletNozzle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.015, 0.015, 0.045, 14).rotateZ(Math.PI / 2),
+        matGubelliniBlue
+      );
+      radOutletNozzle.position.set(0.052, -0.14, 0.12);
+      radiatorGroup.add(radOutletNozzle);
+
+      frameGroup.add(radiatorGroup);
+
+      // Racores de Entrada y Salida de Refrigeración Líquida en la camisa del Motor CIRCE
+      var motInletNozzle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.015, 0.015, 0.045, 14).rotateZ(Math.PI / 2),
+        matGubelliniBlue
+      );
+      motInletNozzle.position.set(-0.02, 0.51, 0.11);
+      frameGroup.add(motInletNozzle);
+
+      var motOutletNozzle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.015, 0.015, 0.045, 14).rotateZ(Math.PI / 2),
+        matGubelliniRed
+      );
+      motOutletNozzle.position.set(-0.01, 0.68, -0.115);
+      frameGroup.add(motOutletNozzle);
+
+      // TUBO 1 (IMPULSIÓN FRÍA): Salida Inferior Radiador -> Entrada Inferior Motor CIRCE
+      var hoseSupplyCurve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-0.55, 0.49, 0.12),  // Salida inferior radiador
+        new THREE.Vector3(-0.42, 0.45, 0.135), // Curva inferior tras el radiador (como en el CAD)
+        new THREE.Vector3(-0.20, 0.46, 0.125), // Tramo bajo la cuna
+        new THREE.Vector3(-0.03, 0.51, 0.11)   // Entrada inferior del motor CIRCE
       ]);
-      frameGroup.add(new THREE.Mesh(new THREE.TubeGeometry(hoseCurve, 28, 0.013, 10, false), matAluminum));
+      frameGroup.add(new THREE.Mesh(new THREE.TubeGeometry(hoseSupplyCurve, 36, 0.0135, 12, false), matAluminum));
+
+      // TUBO 2 (RETORNO CALIENTE): Salida Superior Motor CIRCE -> Entrada Superior Radiador
+      var hoseReturnCurve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-0.02, 0.68, -0.115), // Salida lateral/superior del motor CIRCE
+        new THREE.Vector3(-0.20, 0.72, -0.135), // Paso hacia delante junto al Cold Plate
+        new THREE.Vector3(-0.40, 0.75, -0.130),
+        new THREE.Vector3(-0.58, 0.77, -0.12)   // Entrada superior del radiador
+      ]);
+      frameGroup.add(new THREE.Mesh(new THREE.TubeGeometry(hoseReturnCurve, 36, 0.0135, 12, false), matAluminum));
+
       mechanicalGroup.add(frameGroup);
 
       // Basculante trasero
@@ -1834,10 +1916,10 @@
 
       registerComponent('battery', batGroup, new THREE.Vector3(-0.08, 0.28, 0.12));
 
-      addTerminalPoint('AMPHENOL + (0°)', 'term-pos', boxToWorld(0.41, 0.08, -0.105), ['battery', 'contactor', 'inverter']);
-      addTerminalPoint('AMPHENOL - (0°)', 'term-neg', boxToWorld(0.41, 0.08,  0.105), ['battery', 'inverter']);
-      addTerminalPoint('BAT +', 'term-pos', boxToWorld(0.10, 0.08, 0.06), ['battery', 'contactor']);
-      addTerminalPoint('BAT -', 'term-neg', boxToWorld(-0.26, 0.08, 0.105), ['battery']);
+      addTerminalPoint('AMPHENOL + (0°)', 'term-pos', boxToWorld(0.41, 0.08, -0.105), ['battery', 'contactor', 'inverter'], 'HV');
+      addTerminalPoint('AMPHENOL - (0°)', 'term-neg', boxToWorld(0.41, 0.08,  0.105), ['battery', 'inverter'], 'HV');
+      addTerminalPoint('BAT +', 'term-pos', boxToWorld(0.10, 0.08, 0.06), ['battery', 'contactor'], 'HV');
+      addTerminalPoint('BAT -', 'term-neg', boxToWorld(-0.26, 0.08, 0.105), ['battery'], 'HV');
 
       // 4.2 Sensor Hall de Corriente (Al principio del cable del fusible, antes del fusible)
       var hallGroup = new THREE.Group();
@@ -1890,7 +1972,7 @@
 
       registerComponent('fuse', fuseGroup, new THREE.Vector3(-0.02, 0.18, -0.08));
 
-      // 4.4 Contactor Kilovac 500A (Elevado en pared derecha, bornas hacia la izquierda)
+      // 4.4 Contactor Kilovac 500A
       var contactorGroup = new THREE.Group();
       contactorGroup.position.copy(boxToWorld(0.20, 0.125, -0.165));
       contactorGroup.rotation.z = BOX_ROT_Z;
@@ -2002,8 +2084,8 @@
 
       registerComponent('inverter', invGroup, new THREE.Vector3(-0.18, -0.14, 0));
 
-      addTerminalPoint('INV DC+', 'term-pos', boxToWorld(0.135, -0.185, -0.092), ['inverter', 'battery']);
-      addTerminalPoint('INV DC-', 'term-neg', boxToWorld(0.135, -0.185,  0.092), ['inverter', 'battery']);
+      addTerminalPoint('INV DC+', 'term-pos', boxToWorld(0.135, -0.185, -0.092), ['inverter', 'battery'], 'HV');
+      addTerminalPoint('INV DC-', 'term-neg', boxToWorld(0.135, -0.185,  0.092), ['inverter', 'battery'], 'HV');
 
       // 4.7 Motor Eléctrico CIRCE
       var motorGroup = new THREE.Group();
@@ -2051,34 +2133,85 @@
 
       registerComponent('motor', motorGroup, new THREE.Vector3(0.05, -0.24, 0));
 
-      addTerminalPoint('U / V / W', 'term-phase', new THREE.Vector3(0.03, 0.79, 0.0), ['motor', 'inverter']);
+      addTerminalPoint('U / V / W', 'term-phase', new THREE.Vector3(0.03, 0.79, 0.0), ['motor', 'inverter'], 'HV');
 
-      // 4.8 Caja de Baja Tensión con 3 PCBs
+      // 4.8 CAJA DE BAJA TENSIÓN: DOS PCBs ABAJO JUNTAS UNIDAS (Izq: HVD, Der: PDM) Y UNA ARRIBA FIJA ATORNILLADA (ECU)
       var lvGroup = new THREE.Group();
       lvGroup.position.set(0.64, 1.15, 0);
       lvGroup.rotation.z = 0.22;
 
-      var pcbMat = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.35, metalness: 0.3 });
+      var pcbHvdMat = new THREE.MeshStandardMaterial({ color: 0x059669, roughness: 0.35, metalness: 0.3 });
+      var pcbPdmMat = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.35, metalness: 0.3 });
+      var pcbEcuMat = new THREE.MeshStandardMaterial({ color: 0x047857, roughness: 0.30, metalness: 0.35 });
       var icMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 });
+      var brassStandoffMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.85, roughness: 0.2 });
 
-      [-0.12, 0.0, 0.12].forEach(function(xPcb, idx) {
-        var pcb = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.010, 0.17), pcbMat);
-        pcb.position.set(xPcb, -0.015 + (idx % 2) * 0.026, 0);
-        pcb.renderOrder = 1;
-        lvGroup.add(pcb);
+      // PCB Abajo Izquierda: HVD (x = -0.076, y = -0.026, z = 0)
+      var pcbHVD = new THREE.Mesh(new THREE.BoxGeometry(0.148, 0.010, 0.175), pcbHvdMat);
+      pcbHVD.position.set(-0.075, -0.026, 0);
+      pcbHVD.renderOrder = 1;
+      lvGroup.add(pcbHVD);
 
-        var chip = new THREE.Mesh(new THREE.BoxGeometry(0.032, 0.012, 0.032), icMat);
-        chip.position.set(xPcb, pcb.position.y + 0.011, 0.015);
-        chip.renderOrder = 1;
-        lvGroup.add(chip);
+      var chipHVD = new THREE.Mesh(new THREE.BoxGeometry(0.038, 0.010, 0.038), icMat);
+      chipHVD.position.set(-0.085, -0.016, 0.02);
+      chipHVD.renderOrder = 1;
+      lvGroup.add(chipHVD);
+
+      // PCB Abajo Derecha: PDM (x = +0.075, y = -0.026, z = 0) -> Junta y unida a HVD
+      var pcbPDM = new THREE.Mesh(new THREE.BoxGeometry(0.148, 0.010, 0.175), pcbPdmMat);
+      pcbPDM.position.set(0.075, -0.026, 0);
+      pcbPDM.renderOrder = 1;
+      lvGroup.add(pcbPDM);
+
+      var chipPDM = new THREE.Mesh(new THREE.BoxGeometry(0.038, 0.010, 0.038), icMat);
+      chipPDM.position.set(0.085, -0.016, -0.02);
+      chipPDM.renderOrder = 1;
+      lvGroup.add(chipPDM);
+
+      // Conector central de unión entre HVD y PDM (las une físicamente en el centro x = 0)
+      var boardJoiner = new THREE.Mesh(new THREE.BoxGeometry(0.026, 0.014, 0.11), icMat);
+      boardJoiner.position.set(0, -0.024, 0);
+      boardJoiner.renderOrder = 1;
+      lvGroup.add(boardJoiner);
+
+      // PCB Arriba: ECU (x = 0, y = +0.016, z = 0) -> Montada encima de HVD y PDM y fija atornillada
+      var pcbECU = new THREE.Mesh(new THREE.BoxGeometry(0.185, 0.010, 0.145), pcbEcuMat);
+      pcbECU.position.set(0, 0.016, 0);
+      pcbECU.renderOrder = 1;
+      lvGroup.add(pcbECU);
+
+      var chipECU = new THREE.Mesh(new THREE.BoxGeometry(0.048, 0.012, 0.048), icMat);
+      chipECU.position.set(0, 0.026, 0);
+      chipECU.renderOrder = 1;
+      lvGroup.add(chipECU);
+
+      // 4 Separadores hexagonales de latón + 4 Tornillos superiores M3 que fijan la ECU sobre HVD y PDM
+      [
+        [-0.080, -0.058],
+        [-0.080,  0.058],
+        [ 0.080, -0.058],
+        [ 0.080,  0.058]
+      ].forEach(function(coord) {
+        var sx = coord[0], sz = coord[1];
+        // Columna separadora entre las placas inferiores y la ECU
+        var standoff = new THREE.Mesh(new THREE.CylinderGeometry(0.0055, 0.0055, 0.036, 6), brassStandoffMat);
+        standoff.position.set(sx, -0.005, sz);
+        standoff.renderOrder = 1;
+        lvGroup.add(standoff);
+
+        // Cabeza del tornillo M3 sobre la cara superior de la ECU
+        var screwHead = new THREE.Mesh(new THREE.CylinderGeometry(0.0085, 0.0085, 0.006, 12), matSteel);
+        screwHead.position.set(sx, 0.024, sz);
+        screwHead.renderOrder = 1;
+        lvGroup.add(screwHead);
       });
 
       var lvBoxShell = new THREE.Mesh(
-        new THREE.BoxGeometry(0.42, 0.12, 0.23),
+        new THREE.BoxGeometry(0.42, 0.125, 0.23),
         new THREE.MeshPhysicalMaterial({
           color: 0x0ea5e9,
           transparent: true,
-          opacity: 0.34,
+          opacity: 0.32,
           depthWrite: false,
           roughness: 0.2,
           metalness: 0.1
@@ -2088,7 +2221,12 @@
       lvBoxShell.renderOrder = 12;
       lvGroup.add(lvBoxShell);
 
-      registerComponent('lvbox', lvGroup, new THREE.Vector3(0.12, 0.16, 0));
+      registerComponent('lvbox', lvGroup, new THREE.Vector3(0.12, 0.17, 0));
+
+      // Etiquetas de identificación para HVD (abajo izq.), PDM (abajo der.) y ECU (arriba atornillada)
+      addTerminalPoint('HVD (Izq.)', 'term-lvpcb', new THREE.Vector3(0.55, 1.11, 0.06), ['lvbox'], 'LV');
+      addTerminalPoint('PDM (Der.)', 'term-lvpcb', new THREE.Vector3(0.73, 1.14, -0.06), ['lvbox'], 'LV');
+      addTerminalPoint('ECU (Arriba)', 'term-lvpcb', new THREE.Vector3(0.64, 1.19, 0.0), ['lvbox'], 'LV');
 
       // ========================================================================
       // 5. CABLEADO INTERNO Y EXTERNO
@@ -2264,12 +2402,16 @@
         }
       });
 
-      // Bucle de renderizado
+      // Vector reutilizable para proyectar coordenadas sin generar basura en memoria (0 lag)
+      var projVec = new THREE.Vector3();
       var clock = new THREE.Clock();
 
       function animate() {
         requestAnimationFrame(animate);
         var elapsed = clock.getElapsedTime();
+
+        // Actualizar cámara justo antes de proyectar las etiquetas en el mismo frame
+        camCtrl.update();
 
         if (selectedCompId && componentGroups[selectedCompId]) {
           var pulse = 0.42 + Math.sin(elapsed * 5) * 0.20;
@@ -2289,6 +2431,9 @@
           }
         }
 
+        var halfW = window.innerWidth * 0.5;
+        var halfH = window.innerHeight * 0.5;
+
         var ids = Object.keys(componentGroups);
         for (var i = 0; i < ids.length; i++) {
           var id = ids[i];
@@ -2301,44 +2446,42 @@
             labelEl.style.display = 'none';
             continue;
           }
-          labelEl.style.display = 'block';
 
-          var worldPos = grp.position.clone().add(grp.userData.labelOffset);
-          worldPos.project(camera);
+          projVec.copy(grp.position).add(grp.userData.labelOffset).project(camera);
 
-          if (worldPos.z > 1) {
+          if (projVec.z > 1) {
             labelEl.style.display = 'none';
             continue;
           }
 
-          var lx = (worldPos.x * 0.5 + 0.5) * window.innerWidth;
-          var ly = (-(worldPos.y * 0.5) + 0.5) * window.innerHeight;
-          labelEl.style.left = lx + 'px';
-          labelEl.style.top = ly + 'px';
+          labelEl.style.display = 'block';
+          var lx = (projVec.x * halfW) + halfW;
+          var ly = -(projVec.y * halfH) + halfH;
+          labelEl.style.transform = 'translate3d(' + lx.toFixed(1) + 'px,' + ly.toFixed(1) + 'px,0) translate(-50%,-100%)';
         }
 
         for (var t = 0; t < terminalPoints.length; t++) {
           var tp = terminalPoints[t];
-          if (currentFilter === 'LV') {
+          if (currentFilter !== 'ALL' && currentFilter !== tp.sysFilter) {
             tp.el.style.display = 'none';
             continue;
           }
           if (selectedCompId && tp.compIds.indexOf(selectedCompId) === -1) {
-            tp.el.style.opacity = '0.25';
+            tp.el.style.opacity = '0.22';
           } else {
             tp.el.style.opacity = '1.0';
           }
-          tp.el.style.display = 'block';
 
-          var proj = tp.pos.clone().project(camera);
-          if (proj.z > 1) {
+          projVec.copy(tp.pos).project(camera);
+          if (projVec.z > 1) {
             tp.el.style.display = 'none';
             continue;
           }
-          var tx = (proj.x * 0.5 + 0.5) * window.innerWidth;
-          var ty = (-(proj.y * 0.5) + 0.5) * window.innerHeight;
-          tp.el.style.left = tx + 'px';
-          tp.el.style.top = ty + 'px';
+
+          tp.el.style.display = 'block';
+          var tx = (projVec.x * halfW) + halfW;
+          var ty = -(projVec.y * halfH) + halfH;
+          tp.el.style.transform = 'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,0) translate(-50%,-50%)';
         }
 
         renderer.render(scene, camera);
