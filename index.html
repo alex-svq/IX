@@ -16,89 +16,642 @@
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; user-select: none; -webkit-user-select: none; }
-    body { background-color: var(--bg-dark); color: var(--text-main); overflow: hidden; width: 100vw; height: 100vh; }
-    #canvas-container { position: absolute; inset: 0; z-index: 1; cursor: grab; }
-    #canvas-container:active { cursor: grabbing; }
-    .topbar { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 30; display: flex; align-items: center; gap: 10px; background: var(--panel-bg); backdrop-filter: blur(14px); padding: 9px 14px; border-radius: 14px; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); max-width: 96vw; overflow-x: auto; }
-    .brand { display: flex; align-items: center; gap: 10px; padding-right: 12px; border-right: 1px solid var(--border-color); flex-shrink: 0; }
-    .brand-badge { background: linear-gradient(135deg, #ff5500, #d97706); color: #fff; font-weight: 800; font-size: 0.84rem; padding: 5px 10px; border-radius: 8px; letter-spacing: 0.5px; }
-    .brand-title { font-size: 0.90rem; font-weight: 700; white-space: nowrap; }
-    .brand-sub { font-size: 0.69rem; color: var(--text-muted); white-space: nowrap; }
-    .filter-group { display: flex; gap: 7px; flex-shrink: 0; }
-    .btn { background: rgba(255, 255, 255, 0.06); color: var(--text-main); border: 1px solid var(--border-color); padding: 7px 11px; border-radius: 9px; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-    .btn:hover { background: rgba(255, 255, 255, 0.15); }
-    .btn.active-all { background: rgba(255, 255, 255, 0.22); border-color: #fff; box-shadow: 0 0 12px rgba(255, 255, 255, 0.25); }
-    .btn.active-hv { background: rgba(255, 85, 0, 0.25); border-color: var(--hv-color); color: #ff9d66; box-shadow: 0 0 15px var(--hv-glow); }
-    .btn.active-lv { background: rgba(0, 210, 255, 0.22); border-color: var(--lv-color); color: #7ce8ff; box-shadow: 0 0 15px var(--lv-glow); }
-    .sidebar { position: absolute; top: 74px; z-index: 20; background: var(--panel-bg); backdrop-filter: blur(14px); border-radius: 14px; border: 1px solid var(--border-color); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55); transition: width 0.26s cubic-bezier(0.22, 1, 0.36, 1), height 0.26s cubic-bezier(0.22, 1, 0.36, 1), bottom 0.26s cubic-bezier(0.22, 1, 0.36, 1); }
-    .sidebar-left { left: 10px; width: 305px; bottom: 14px; }
-    .sidebar-right { right: 10px; width: 365px; bottom: 14px; }
-    .sidebar .panel-title-wrap { display: none; align-items: center; gap: 7px; overflow: hidden; white-space: nowrap; }
-    .sidebar.state-max .panel-title-wrap { display: flex; }
-    .sidebar.state-min { width: auto !important; bottom: auto !important; height: 40px !important; border-radius: 10px; }
-    .sidebar.state-min .btn-ver-todo, .sidebar.state-min .panel-body { display: none !important; }
-    .sidebar.state-min .panel-header { height: 40px; padding: 0 6px; border-bottom: none; justify-content: center; }
-    .sidebar-left.state-half { width: 305px; bottom: 14px; }
-    .sidebar-right.state-half { width: 365px; bottom: 14px; }
-    .sidebar.state-half .panel-header { justify-content: flex-end; }
-    .sidebar-left.state-max { width: min(480px, 92vw); bottom: 14px; z-index: 28; }
-    .sidebar-right.state-max { width: min(660px, 94vw); bottom: 14px; z-index: 28; }
-    .sidebar.state-max .panel-header { justify-content: space-between; }
-    .panel-header { height: 44px; padding: 0 12px; border-bottom: 1px solid var(--border-color); font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); display: flex; align-items: center; flex-shrink: 0; background: rgba(0, 0, 0, 0.22); }
-    .node-badge { background: rgba(255, 85, 0, 0.2); color: #ff9d66; border: 1px solid rgba(255, 85, 0, 0.4); padding: 2px 7px; border-radius: 99px; font-size: 0.66rem; font-weight: 800; }
-    .win-controls { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
-    .win-btn { background: rgba(255, 255, 255, 0.07); color: var(--text-main); border: 1px solid var(--border-color); width: 26px; height: 26px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s ease, border-color 0.15s ease; }
-    .win-btn:hover { background: rgba(255, 255, 255, 0.2); border-color: #fff; }
-    .win-btn.active-size { background: rgba(255, 85, 0, 0.28); border-color: var(--hv-color); color: #fff; }
-    .panel-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-    .comp-list { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 14px; }
-    .sys-section-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    #canvas-container {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      cursor: grab;
+    }
+
+    #canvas-container:active {
+      cursor: grabbing;
+    }
+
+    .topbar {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(14px);
+      padding: 9px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      max-width: 96vw;
+      overflow-x: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-right: 12px;
+      border-right: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #ff5500, #d97706);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.84rem;
+      padding: 5px 10px;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title {
+      font-size: 0.90rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .brand-sub {
+      font-size: 0.69rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 7px 11px;
+      border-radius: 9px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn.active-all {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: #fff;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+    }
+
+    .btn.active-hv {
+      background: rgba(255, 85, 0, 0.25);
+      border-color: var(--hv-color);
+      color: #ff9d66;
+      box-shadow: 0 0 15px var(--hv-glow);
+    }
+
+    .btn.active-lv {
+      background: rgba(0, 210, 255, 0.22);
+      border-color: var(--lv-color);
+      color: #7ce8ff;
+      box-shadow: 0 0 15px var(--lv-glow);
+    }
+
+    .sidebar {
+      position: absolute;
+      top: 74px;
+      z-index: 20;
+      background: var(--panel-bg);
+      backdrop-filter: blur(14px);
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+      transition: width 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+                  height 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+                  bottom 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .sidebar-left {
+      left: 10px;
+      width: 305px;
+      bottom: 14px;
+    }
+
+    .sidebar-right {
+      right: 10px;
+      width: 365px;
+      bottom: 14px;
+    }
+
+    /* Títulos ocultos salvo cuando se activa Full Screen (state-max) */
+    .sidebar .panel-title-wrap {
+      display: none;
+      align-items: center;
+      gap: 7px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .sidebar.state-max .panel-title-wrap {
+      display: flex;
+    }
+
+    .sidebar.state-min {
+      width: auto !important;
+      bottom: auto !important;
+      height: 40px !important;
+      border-radius: 10px;
+    }
+
+    .sidebar.state-min .btn-ver-todo,
+    .sidebar.state-min .panel-body {
+      display: none !important;
+    }
+
+    .sidebar.state-min .panel-header {
+      height: 40px;
+      padding: 0 6px;
+      border-bottom: none;
+      justify-content: center;
+    }
+
+    .sidebar-left.state-half {
+      width: 305px;
+      bottom: 14px;
+    }
+
+    .sidebar-right.state-half {
+      width: 365px;
+      bottom: 14px;
+    }
+
+    .sidebar.state-half .panel-header {
+      justify-content: flex-end;
+    }
+
+    .sidebar-left.state-max {
+      width: min(480px, 92vw);
+      bottom: 14px;
+      z-index: 28;
+    }
+
+    .sidebar-right.state-max {
+      width: min(660px, 94vw);
+      bottom: 14px;
+      z-index: 28;
+    }
+
+    .sidebar.state-max .panel-header {
+      justify-content: space-between;
+    }
+
+    .panel-header {
+      height: 44px;
+      padding: 0 12px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      background: rgba(0, 0, 0, 0.22);
+    }
+
+    .node-badge {
+      background: rgba(255, 85, 0, 0.2);
+      color: #ff9d66;
+      border: 1px solid rgba(255, 85, 0, 0.4);
+      padding: 2px 7px;
+      border-radius: 99px;
+      font-size: 0.66rem;
+      font-weight: 800;
+    }
+
+    .win-controls {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .win-btn {
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .win-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #fff;
+    }
+
+    .win-btn.active-size {
+      background: rgba(255, 85, 0, 0.28);
+      border-color: var(--hv-color);
+      color: #fff;
+    }
+
+    .panel-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .comp-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .sys-section-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .sys-hv { color: #ff7b33; }
     .sys-lv { color: #38bdf8; }
-    .comp-item { padding: 8px 11px; border-radius: 10px; background: rgba(255, 255, 255, 0.04); border: 1px solid transparent; cursor: pointer; transition: background 0.18s ease, transform 0.18s ease; margin-bottom: 6px; }
-    .comp-item:hover { background: rgba(255, 255, 255, 0.09); transform: translateX(3px); }
-    .comp-item.selected-hv { background: rgba(255, 85, 0, 0.20); border-color: var(--hv-color); box-shadow: 0 0 12px var(--hv-glow); }
-    .comp-item.selected-lv { background: rgba(0, 210, 255, 0.20); border-color: var(--lv-color); box-shadow: 0 0 12px var(--lv-glow); }
-    .comp-name { font-size: 0.81rem; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
-    .comp-loc { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
-    .controls-box { padding: 10px 14px; border-top: 1px solid var(--border-color); background: rgba(0, 0, 0, 0.28); display: flex; flex-direction: column; gap: 7px; flex-shrink: 0; }
-    .switch-action-btn { width: 100%; padding: 6px 10px; border-radius: 8px; font-size: 0.74rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s ease; }
-    .sw-closed { background: rgba(16, 185, 129, 0.20); border: 1px solid #10b981; color: #6ee7b7; }
-    .sw-open { background: rgba(239, 68, 68, 0.22); border: 1px solid #ef4444; color: #fca5a5; }
-    .slider-row { display: flex; flex-direction: column; gap: 3px; font-size: 0.72rem; color: var(--text-muted); }
-    .slider-row input[type="range"] { width: 100%; accent-color: var(--hv-color); cursor: pointer; }
-    .toggle-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.74rem; color: var(--text-main); }
-    .inspector-content { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 13px; scroll-behavior: smooth; }
-    .sec-nav { display: flex; flex-wrap: wrap; gap: 6px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); position: sticky; top: -15px; background: rgba(15, 22, 36, 0.96); z-index: 10; padding-top: 4px; }
-    .sec-pill { background: rgba(255, 255, 255, 0.07); border: 1px solid var(--border-color); color: var(--text-main); font-size: 0.70rem; font-weight: 600; padding: 5px 9px; border-radius: 99px; cursor: pointer; transition: background 0.15s ease, border-color 0.15s ease; }
-    .sec-pill:hover { background: rgba(255, 85, 0, 0.25); border-color: var(--hv-color); }
-    .badge-system { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.70rem; font-weight: 700; text-transform: uppercase; width: fit-content; }
-    .badge-hv { background: rgba(255, 85, 0, 0.2); color: #ff8c42; border: 1px solid var(--hv-color); }
-    .badge-lv { background: rgba(0, 210, 255, 0.2); color: #5eead4; border: 1px solid var(--lv-color); }
-    .insp-title { font-size: 1.14rem; font-weight: 800; line-height: 1.25; }
-    .insp-subtitle { font-size: 0.80rem; color: var(--text-muted); }
-    .info-card { background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; }
-    .info-card h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.6px; color: #ff9d66; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-    .spec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 7px; }
-    .spec-box { background: rgba(0, 0, 0, 0.30); padding: 7px 9px; border-radius: 7px; }
-    .spec-label { font-size: 0.67rem; color: var(--text-muted); }
-    .spec-val { font-size: 0.81rem; font-weight: 700; color: #fff; margin-top: 2px; }
-    .conn-list { list-style: none; display: flex; flex-direction: column; gap: 7px; font-size: 0.80rem; line-height: 1.45; }
-    .conn-list li { padding-left: 16px; position: relative; }
-    .conn-list li::before { content: "▸"; color: var(--hv-color); position: absolute; left: 2px; top: 0; font-weight: bold; }
-    #labels-container, #terminals-container { position: absolute; inset: 0; pointer-events: none; z-index: 5; overflow: hidden; }
-    .floating-label { position: absolute; left: 0; top: 0; will-change: transform; backface-visibility: hidden; background: rgba(10, 15, 26, 0.90); color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 0.68rem; font-weight: 600; white-space: nowrap; border: 1px solid rgba(255, 255, 255, 0.22); pointer-events: auto; cursor: pointer; transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease; }
-    .floating-label:hover { border-color: #fff; background: rgba(30, 41, 59, 0.96); }
-    .floating-label.hv-label { border-left: 3px solid var(--hv-color); }
-    .floating-label.lv-label { border-left: 3px solid var(--lv-color); }
-    .floating-label.active-label { background: #ff5500; color: #fff; border-color: #fff; font-weight: 800; box-shadow: 0 0 15px rgba(255, 85, 0, 0.85); z-index: 25; }
-    .term-badge { position: absolute; left: 0; top: 0; will-change: transform; backface-visibility: hidden; padding: 2px 5px; border-radius: 4px; font-size: 0.60rem; font-weight: 800; letter-spacing: 0.3px; white-space: nowrap; pointer-events: none; box-shadow: 0 2px 6px rgba(0,0,0,0.65); }
-    .term-pos { background: rgba(220, 38, 38, 0.94); color: #fff; border: 1px solid #fca5a5; }
-    .term-neg { background: rgba(15, 23, 42, 0.94); color: #e2e8f0; border: 1px solid #64748b; }
-    .term-phase { background: rgba(245, 158, 11, 0.94); color: #090d14; border: 1px solid #fde68a; }
-    .term-lvpcb { background: rgba(6, 182, 212, 0.94); color: #090d14; border: 1px solid #a5f3fc; }
-    @media (max-width: 900px) { .sidebar-left.state-half, .sidebar-right.state-half { width: 260px; } }
+
+    .comp-item {
+      padding: 8px 11px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.18s ease;
+      margin-bottom: 6px;
+    }
+
+    .comp-item:hover {
+      background: rgba(255, 255, 255, 0.09);
+      transform: translateX(3px);
+    }
+
+    .comp-item.selected-hv {
+      background: rgba(255, 85, 0, 0.20);
+      border-color: var(--hv-color);
+      box-shadow: 0 0 12px var(--hv-glow);
+    }
+
+    .comp-item.selected-lv {
+      background: rgba(0, 210, 255, 0.20);
+      border-color: var(--lv-color);
+      box-shadow: 0 0 12px var(--lv-glow);
+    }
+
+    .comp-name {
+      font-size: 0.81rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .comp-loc {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .controls-box {
+      padding: 10px 14px;
+      border-top: 1px solid var(--border-color);
+      background: rgba(0, 0, 0, 0.28);
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .switch-action-btn {
+      width: 100%;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .sw-closed {
+      background: rgba(16, 185, 129, 0.20);
+      border: 1px solid #10b981;
+      color: #6ee7b7;
+    }
+
+    .sw-open {
+      background: rgba(239, 68, 68, 0.22);
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+    }
+
+    .slider-row {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .slider-row input[type="range"] {
+      width: 100%;
+      accent-color: var(--hv-color);
+      cursor: pointer;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.74rem;
+      color: var(--text-main);
+    }
+
+    .inspector-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      scroll-behavior: smooth;
+    }
+
+    .sec-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: -15px;
+      background: rgba(15, 22, 36, 0.96);
+      z-index: 10;
+      padding-top: 4px;
+    }
+
+    .sec-pill {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 0.70rem;
+      font-weight: 600;
+      padding: 5px 9px;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .sec-pill:hover {
+      background: rgba(255, 85, 0, 0.25);
+      border-color: var(--hv-color);
+    }
+
+    .badge-system {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.70rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .badge-hv {
+      background: rgba(255, 85, 0, 0.2);
+      color: #ff8c42;
+      border: 1px solid var(--hv-color);
+    }
+
+    .badge-lv {
+      background: rgba(0, 210, 255, 0.2);
+      color: #5eead4;
+      border: 1px solid var(--lv-color);
+    }
+
+    .insp-title {
+      font-size: 1.14rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .insp-subtitle {
+      font-size: 0.80rem;
+      color: var(--text-muted);
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .info-card h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #ff9d66;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      gap: 7px;
+    }
+
+    .spec-box {
+      background: rgba(0, 0, 0, 0.30);
+      padding: 7px 9px;
+      border-radius: 7px;
+    }
+
+    .spec-label {
+      font-size: 0.67rem;
+      color: var(--text-muted);
+    }
+
+    .spec-val {
+      font-size: 0.81rem;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 2px;
+    }
+
+    .conn-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 0.80rem;
+      line-height: 1.45;
+    }
+
+    .conn-list li {
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .conn-list li::before {
+      content: "▸";
+      color: var(--hv-color);
+      position: absolute;
+      left: 2px;
+      top: 0;
+      font-weight: bold;
+    }
+
+    /* Etiquetas 3D aceleradas por GPU (Cero tirones al rotar) */
+    #labels-container, #terminals-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    .floating-label {
+      position: absolute;
+      left: 0;
+      top: 0;
+      will-change: transform;
+      backface-visibility: hidden;
+      background: rgba(10, 15, 26, 0.90);
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      pointer-events: auto;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .floating-label:hover {
+      border-color: #fff;
+      background: rgba(30, 41, 59, 0.96);
+    }
+
+    .floating-label.hv-label {
+      border-left: 3px solid var(--hv-color);
+    }
+
+    .floating-label.lv-label {
+      border-left: 3px solid var(--lv-color);
+    }
+
+    .floating-label.active-label {
+      background: #ff5500;
+      color: #fff;
+      border-color: #fff;
+      font-weight: 800;
+      box-shadow: 0 0 15px rgba(255, 85, 0, 0.85);
+      z-index: 25;
+    }
+
+    .term-badge {
+      position: absolute;
+      left: 0;
+      top: 0;
+      will-change: transform;
+      backface-visibility: hidden;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 0.60rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.65);
+    }
+
+    .term-pos {
+      background: rgba(220, 38, 38, 0.94);
+      color: #fff;
+      border: 1px solid #fca5a5;
+    }
+
+    .term-neg {
+      background: rgba(15, 23, 42, 0.94);
+      color: #e2e8f0;
+      border: 1px solid #64748b;
+    }
+
+    .term-phase {
+      background: rgba(245, 158, 11, 0.94);
+      color: #090d14;
+      border: 1px solid #fde68a;
+    }
+
+    .term-lvpcb {
+      background: rgba(6, 182, 212, 0.94);
+      color: #090d14;
+      border: 1px solid #a5f3fc;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar-left.state-half, .sidebar-right.state-half {
+        width: 260px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -117,11 +670,21 @@
       </div>
     </div>
     <div class="filter-group">
-      <button id="btn-all" class="btn active-all" onclick="resetAllSystemView()">🏍️ Todo el Sistema</button>
-      <button id="btn-hv" class="btn" onclick="setSystemFilter('HV')">⚡ Alta Tensión (HV &gt; 60V)</button>
-      <button id="btn-lv" class="btn" onclick="setSystemFilter('LV')">🔌 Baja Tensión (LV)</button>
-      <button id="btn-aim-cam" class="btn" onclick="focusAimCockpit()">🏁 Vista Pantalla AiM</button>
-      <button id="btn-cam" class="btn" onclick="resetCameraMatchCAD()">📷 Vista CAD Original</button>
+      <button id="btn-all" class="btn active-all" onclick="resetAllSystemView()">
+        🏍️ Todo el Sistema
+      </button>
+      <button id="btn-hv" class="btn" onclick="setSystemFilter('HV')">
+        ⚡ Alta Tensión (HV &gt; 60V)
+      </button>
+      <button id="btn-lv" class="btn" onclick="setSystemFilter('LV')">
+        🔌 Baja Tensión (LV)
+      </button>
+      <button id="btn-aim-cam" class="btn" onclick="focusAimCockpit()">
+        🏁 Vista Pantalla AiM
+      </button>
+      <button id="btn-cam" class="btn" onclick="resetCameraMatchCAD()">
+        📷 Vista CAD Original
+      </button>
     </div>
   </div>
 
@@ -935,9 +1498,11 @@
       canvas.height = 680;
       var ctx = canvas.getContext('2d');
 
+      // Fondo bisel negro mate
       ctx.fillStyle = '#111317';
       ctx.fillRect(0, 0, 1024, 680);
 
+      // Sutil rebaje superior trapezoidal del logo AiM
       ctx.strokeStyle = 'rgba(255,255,255,0.14)';
       ctx.lineWidth = 4;
       ctx.beginPath();
@@ -962,7 +1527,7 @@
       ctx.fillText('AiM', 0, 2);
       ctx.restore();
 
-      // Números de alarma "1" y "2"
+      // Números de alarma "1" y "2" junto a los LEDs rojos superiores
       ctx.fillStyle = '#f1f5f9';
       ctx.font = '800 34px "Segoe UI", Arial, sans-serif';
       ctx.textAlign = 'center';
@@ -978,7 +1543,7 @@
       ctx.fillText('MEM/OK', 910, 238);
       ctx.fillText('ON/VIEW', 906, 458);
 
-      // Ventana cuadrada oscura de sensor IR
+      // Ventana cuadrada oscura de sensor IR entre los botones izquierdos
       ctx.fillStyle = '#1e2430';
       ctx.strokeStyle = '#334155';
       ctx.lineWidth = 3;
@@ -1007,19 +1572,20 @@
       ctx.fillStyle = grad;
       ctx.fillRect(lcdX, lcdY, lcdW, lcdH);
 
+      // Sombra interna del cristal LCD
       ctx.strokeStyle = 'rgba(15, 23, 42, 0.35)';
       ctx.lineWidth = 6;
       ctx.strokeRect(lcdX + 3, lcdY + 3, lcdW - 6, lcdH - 6);
 
-      // --- CONTENIDO DE LA PANTALLA LCD ---
+      // --- CONTENIDO DE LA PANTALLA LCD (Fiel a la imagen de la MyChron 5S) ---
       ctx.fillStyle = '#0f172a';
       ctx.textAlign = 'left';
 
-      // Marcha "6"
+      // Marcha engranada "6" grande a la izquierda
       ctx.font = '900 138px "Courier New", monospace';
       ctx.fillText('6', lcdX + 34, lcdY + 135);
 
-      // R P M
+      // Letras verticales R P M
       ctx.font = '800 21px "Segoe UI", Arial, sans-serif';
       ctx.fillText('R', lcdX + 132, lcdY + 46);
       ctx.fillText('P', lcdX + 132, lcdY + 68);
@@ -1033,6 +1599,7 @@
         var bx = barStartX + b * 7.2;
         ctx.fillRect(bx, barTopY, 4.5, barHeight);
       }
+      // Líneas divisorias de escala RPM
       var scaleNums = [0, 2, 4, 6, 8, 10, 12, 14];
       ctx.font = '700 18px "Segoe UI", Arial, sans-serif';
       ctx.textAlign = 'center';
@@ -1062,11 +1629,11 @@
       ctx.font = '900 64px "Courier New", monospace';
       ctx.fillText('31.29', lcdX + 215, lcdY + 236);
 
-      // Tiempo de vuelta "31.56"
+      // Tiempo de vuelta principal grande "31.56"
       ctx.font = '900 104px "Courier New", monospace';
       ctx.fillText('31.56', lcdX + 135, lcdY + 342);
 
-      // Telemetría derecha
+      // Telemetría derecha (Lambda 0.93 / PWM % 45 / EXHAUST °C 630 / WATER °C 69)
       ctx.font = '700 14px "Segoe UI", Arial, sans-serif';
       ctx.fillText('Lambda 1', lcdX + 446, lcdY + 205);
       ctx.font = '900 34px "Courier New", monospace';
@@ -1165,6 +1732,7 @@
         camCtrl.radius += e.deltaY * 0.0025;
       }, { passive: false });
 
+      // Iluminación
       scene.add(new THREE.AmbientLight(0xe2e8f0, 0.84));
       var dirLight1 = new THREE.DirectionalLight(0xffffff, 1.05);
       dirLight1.position.set(-3.5, 6.5, 5.5);
@@ -1373,7 +1941,7 @@
         frameGroup.add(pivotPlate);
       });
 
-      // Radiador delantero grande + Circuito de refrigeración líquida con el motor
+      // Radiador delantero grande + Circuito completo de refrigeración líquida con el motor
       var radiatorGroup = new THREE.Group();
       radiatorGroup.position.set(-0.62, 0.63, 0);
       radiatorGroup.rotation.z = -0.14;
@@ -1543,7 +2111,7 @@
       }
       mechanicalGroup.add(chainGroup);
 
-      // CAJA DE LA BATERÍA ESCALONADA CON RANURAS DE REFRIGERACIÓN
+      // CAJA DE LA BATERÍA ESCALONADA CON RANURAS DE REFRIGERACIÓN (TRASERAS Y BRANQUIAS DELANTERAS)
       var batteryBoxShell = new THREE.Group();
       batteryBoxShell.position.copy(BOX_ORIGIN);
       batteryBoxShell.rotation.z = BOX_ROT_Z;
@@ -1574,6 +2142,7 @@
         batteryBoxShell.add(stepLedge);
       });
 
+      // Branquias / Ranuras de refrigeración delanteras laterales
       [-1, 1].forEach(function(sideSign) {
         var louverPod = new THREE.Group();
         louverPod.position.set(-upW / 2 + 0.032, 0.142, sideSign * (upD / 2 + 0.012));
@@ -1598,6 +2167,7 @@
       frontBoxWall.position.set(-upW / 2, 0.05, 0);
       batteryBoxShell.add(frontBoxWall);
 
+      // Pared trasera con las 4 columnas de ranuras de refrigeración
       var rearWallShape = new THREE.Shape();
       rearWallShape.moveTo(-upD / 2, -totalBoxH / 2);
       rearWallShape.lineTo( upD / 2, -totalBoxH / 2);
@@ -1625,6 +2195,7 @@
       rearBoxWall.position.set(upW / 2 - wallT / 2, 0.05, 0);
       batteryBoxShell.add(rearBoxWall);
 
+      // Cajón delantero estrecho de altura completa para la BMS
       var bmsW = 0.15, bmsD = 0.30;
       var bmsBottom = new THREE.Mesh(new THREE.BoxGeometry(bmsW, wallT, bmsD), matGhostChassis);
       bmsBottom.position.set(-upW / 2 - bmsW / 2, -0.14, 0);
@@ -1646,6 +2217,7 @@
       subframeGroup.add(new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.045, 0.28), matGhostChassis));
       mechanicalGroup.add(subframeGroup);
 
+      // Vías de sujeción de cables al chasis
       [
         new THREE.Vector3(0.32, 0.92, -0.150),
         new THREE.Vector3(0.26, 0.84, -0.145),
@@ -1687,6 +2259,7 @@
         return new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.85, roughness: 0.22 });
       }
 
+      // Función para crear las "PUNTITAS DE LOS CABLES" (Terminales de engaste de cobre con pala, ojal, tornillo y barril)
       function createCableLugNode(parentGrp, lx, ly, lz, dirAngleY) {
         var lugGrp = new THREE.Group();
         lugGrp.position.set(lx, ly, lz);
@@ -1718,7 +2291,7 @@
         parentGrp.add(lugGrp);
       }
 
-      // 4.1 Pack Baterías 30S2P + Los 3 Cell-Tabs Amarillos hasta la BMS
+      // 4.1 Pack Baterías 30S2P + Los 3 Cell-Tabs Amarillos hasta la BMS + Terminales de Cobre
       var batGroup = new THREE.Group();
       batGroup.position.copy(BOX_ORIGIN);
       batGroup.rotation.z = BOX_ROT_Z;
@@ -2041,6 +2614,7 @@
       // 4.7 PANTALLA AiM MYCHRON 5S + SOPORTE CNC ANCLADO AL MANILLAR / TIJA
       // ========================================================================
       var aimGroup = new THREE.Group();
+      // Posicionada encima de la tija superior (-0.90, 1.48, 0) y el manillar
       aimGroup.position.set(-0.855, 1.565, 0);
 
       // A) SOPORTE DE ANCLAJE CNC A LA TIJA SUPERIOR Y MANILLAR
@@ -2048,7 +2622,9 @@
       var matCncBlack = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.78, roughness: 0.26 });
       var matRubber = new THREE.MeshStandardMaterial({ color: 0x090d14, roughness: 0.85 });
 
+      // Dos torretas CNC que bajan desde la base del soporte hasta anclarse en la tija superior (topTripleClamp)
       [-0.048, 0.048].forEach(function(zBrk) {
+        // Base de amarre sobre la tija superior con tornillos M6
         var clampFoot = new THREE.Mesh(new THREE.BoxGeometry(0.052, 0.014, 0.024), matAluminum);
         clampFoot.position.set(-0.040, -0.078, zBrk);
         clampFoot.rotation.z = -0.42;
@@ -2061,17 +2637,20 @@
           mountBracketGrp.add(m6Bolt);
         });
 
+        // Brazo CNC inclinado que sube desde la tija hasta la trasera de la pantalla AiM
         var cncArm = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.088, 0.014), matCncBlack);
         cncArm.position.set(-0.028, -0.036, zBrk);
         cncArm.rotation.z = -0.32;
         mountBracketGrp.add(cncArm);
 
+        // Silentblock de goma antivibración detrás de la carcasa AiM
         var rubberDamper = new THREE.Mesh(new THREE.CylinderGeometry(0.009, 0.009, 0.012, 14).rotateZ(Math.PI / 2), matRubber);
         rubberDamper.position.set(-0.014, -0.002, zBrk * 0.75);
         rubberDamper.rotation.z = 0.52;
         mountBracketGrp.add(rubberDamper);
       });
 
+      // Placa transversal CNC de sujeción trasera de la pantalla
       var crossbarPlate = new THREE.Mesh(new THREE.BoxGeometry(0.010, 0.046, 0.118), matCncBlack);
       crossbarPlate.position.set(-0.018, -0.006, 0);
       crossbarPlate.rotation.z = 0.52;
@@ -2079,15 +2658,16 @@
 
       aimGroup.add(mountBracketGrp);
 
-      // B) CABEZAL DE LA PANTALLA AiM MYCHRON 5S
+      // B) CABEZAL DE LA PANTALLA AiM MYCHRON 5S (Inclinado hacia los ojos del piloto)
       var dashTiltGrp = new THREE.Group();
-      dashTiltGrp.rotation.z = 0.52;
+      dashTiltGrp.rotation.z = 0.52; // Inclinación ergonómica hacia el piloto (+X, +Y)
       aimGroup.add(dashTiltGrp);
 
       var dashHead = new THREE.Group();
-      dashHead.rotation.y = Math.PI / 2;
+      dashHead.rotation.y = Math.PI / 2; // Frontal mirando al piloto (+X), Izquierda en +Z, Derecha en -Z
       dashTiltGrp.add(dashHead);
 
+      // Silueta octogonal biselada exacta de la AiM MyChron 5S
       var wAim = 0.082, hAim = 0.054;
       var aimShape = new THREE.Shape();
       aimShape.moveTo(-0.048,  hAim);
@@ -2102,6 +2682,7 @@
       aimShape.lineTo(-0.072,  0.032);
       aimShape.closePath();
 
+      // Cuerpo intermedio/trasero gris aluminio anodizado (como se ve en el lateral de la foto)
       var backExtrude = new THREE.ExtrudeGeometry(aimShape, {
         depth: 0.016,
         bevelEnabled: true,
@@ -2114,6 +2695,7 @@
       aimBackMesh.position.z = -0.014;
       dashHead.add(aimBackMesh);
 
+      // Bisel frontal negro mate
       var frontExtrude = new THREE.ExtrudeGeometry(aimShape, {
         depth: 0.010,
         bevelEnabled: true,
@@ -2126,8 +2708,10 @@
       aimFrontMesh.position.z = 0.003;
       dashHead.add(aimFrontMesh);
 
+      // Textura Canvas frontal (Logo AiM, MYCHRON 5S, textos de botones y pantalla LCD)
       var aimTexture = createAimMyChronTexture();
       var faceShapeGeo = new THREE.ShapeGeometry(aimShape);
+      // Mapeado UV ajustado al bounding box (-wAim..wAim, -hAim..hAim)
       var posAttr = faceShapeGeo.attributes.position;
       var uvs = [];
       for (var vi = 0; vi < posAttr.count; vi++) {
@@ -2145,11 +2729,11 @@
       aimScreenMesh.userData.isAimScreen = true;
       dashHead.add(aimScreenMesh);
 
-      // Los 5 LEDs RGB centrales de cambio
+      // Los 5 LEDs RGB centrales de cambio (Shift Lights: Morado, Rojo, Amarillo, Verde, Cian)
       var shiftColors = [0xa855f7, 0xef4444, 0xf59e0b, 0x22c55e, 0x06b6d4];
-      for (var lIdx = 0; lIdx < 5; lIdx++) {
-        var lxLed = (lIdx - 2) * 0.0125;
-        var ledMat = new THREE.MeshBasicMaterial({ color: shiftColors[lIdx] });
+      for (var li = 0; li < 5; li++) {
+        var lxLed = (li - 2) * 0.0125;
+        var ledMat = new THREE.MeshBasicMaterial({ color: shiftColors[li] });
         var ledMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.0036, 0.0036, 0.003, 16).rotateX(Math.PI / 2), ledMat);
         ledMesh.position.set(lxLed, 0.0325, 0.0158);
         ledMesh.userData.isAimLed = true;
@@ -2160,7 +2744,7 @@
         dashHead.add(ledBezel);
       }
 
-      // Los 2 LEDs Rojos de Alarma ("1" y "2")
+      // Los 2 LEDs Rojos de Alarma ("1" a la izquierda y "2" a la derecha)
       [-0.052, 0.052].forEach(function(xAlarm) {
         var alarmMat = new THREE.MeshBasicMaterial({ color: 0xff1e1e });
         var alarmLed = new THREE.Mesh(new THREE.CylinderGeometry(0.0044, 0.0044, 0.003, 16).rotateX(Math.PI / 2), alarmMat);
@@ -2169,7 +2753,7 @@
         dashHead.add(alarmLed);
       });
 
-      // Los 4 Botones Metálicos Laterales
+      // Los 4 Botones Metálicos Laterales (MENU/<<, >>/OFF, MEM/OK, ON/VIEW)
       [
         [-0.064,  0.008],
         [-0.062, -0.024],
@@ -2186,7 +2770,7 @@
         dashHead.add(btnCap);
       });
 
-      // Conectores Traseros Circulares Binder 712
+      // Conectores Traseros Circulares Binder 712 (Dorados con pasamuros de goma para los cables)
       var matGoldConn = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.85, roughness: 0.22 });
       [-0.026, 0.026].forEach(function(xConn) {
         var binderSocket = new THREE.Mesh(new THREE.CylinderGeometry(0.0065, 0.0065, 0.014, 14).rotateX(Math.PI / 2), matGoldConn);
@@ -2306,7 +2890,7 @@
 
       registerComponent('bms', bmsGroup, new THREE.Vector3(-0.14, 0.22, 0));
 
-      // 4.11 Inversor HyperDrive X1 + Cold Plate
+      // 4.11 Inversor HyperDrive X1 + Cold Plate + Conectores DC+ y DC-
       var invGroup = new THREE.Group();
       invGroup.position.copy(boxToWorld(-0.04, -0.205, 0));
       invGroup.rotation.z = BOX_ROT_Z;
@@ -2404,7 +2988,7 @@
 
       addTerminalPoint('U / V / W', 'term-phase', new THREE.Vector3(0.03, 0.79, 0.0), ['motor', 'inverter'], 'HV');
 
-      // 4.13 CAJA DE BAJA TENSIÓN: HVD + PDM + ECU
+      // 4.13 CAJA DE BAJA TENSIÓN: HVD (Izq) + PDM (Der) + ECU (Arriba atornillada)
       var lvGroup = new THREE.Group();
       lvGroup.position.set(0.64, 1.15, 0);
       lvGroup.rotation.z = 0.22;
@@ -2647,7 +3231,7 @@
         boxToWorld(-0.287, 0.138, -0.212)
       ], HV_ORANGE, 0.0045, 'HV', false);
 
-      // D) CONEXIONES DE LA BATERÍA AL INTERRUPTOR EXTERIOR Y AL CINCON VERTICAL
+      // D) CONEXIONES DE LA BATERÍA AL INTERRUPTOR EXTERIOR Y AL CINCON VERTICAL EN LA PARED IZQUIERDA
       createWire([
         boxToWorld(-0.224, 0.058, -0.112),
         boxToWorld(-0.30,  0.105,  0.040),
@@ -2672,7 +3256,7 @@
         boxToWorld(-0.12, 0.118, 0.210)
       ], HV_ORANGE, 0.0058, 'HV', true);
 
-      // E) SALIDA LV DEL CINCON VERTICAL -> CONECTOR CIRCULAR TRASERO -> PCB PDM
+      // E) SALIDA LV DEL CINCON VERTICAL -> CONECTOR CIRCULAR TRASERO -> PEQUEÑOS CONECTORES EN PCB PDM
       createWire([
         boxToWorld(0.040, 0.155, 0.210),
         boxToWorld(0.22,  0.110, 0.105),
@@ -2699,7 +3283,10 @@
         new THREE.Vector3(0.712, 1.150, -0.062)
       ], LV_NEG_CYAN, 0.0056, 'LV', true);
 
-      // E2) CABLEADO COMPLETO DE LA PANTALLA AiM MYCHRON 5S (12V PDM + BUS CAN + SENSOR)
+      // ======================================================================
+      // E2) CABLEADO COMPLETO DE LA PANTALLA AiM MYCHRON 5S (ALIMENTACIÓN 12V PDM + BUS CAN + SENSOR)
+      // ======================================================================
+      // 1. Alimentación +12V DC (Rojo Carmesí) desde la PCB del PDM -> Mazo Chasis Izquierdo -> Tija -> Conector Binder 712 Izquierdo del AiM
       createWire([
         new THREE.Vector3(0.675, 1.142, 0.045),
         new THREE.Vector3(0.42, 1.06, 0.165),
@@ -2710,6 +3297,7 @@
         new THREE.Vector3(-0.880, 1.542, 0.026)
       ], LV_POS_RED, 0.0046, 'LV', true);
 
+      // 2. Masa GND 12V (Cian) desde la PCB del PDM -> Mazo Chasis Izquierdo -> Tija -> Conector Binder 712 Izquierdo del AiM
       createWire([
         new THREE.Vector3(0.712, 1.150, 0.055),
         new THREE.Vector3(0.43, 1.05, 0.175),
@@ -2720,6 +3308,7 @@
         new THREE.Vector3(-0.880, 1.538, 0.022)
       ], LV_NEG_CYAN, 0.0046, 'LV', true);
 
+      // 3. Bus de Datos CAN (Ámbar): ECU (Colín) -> Conector LV Trasero -> BMS Orion 2 (Cajón Frontal) -> Conector Binder 712 Derecho del AiM
       createWire([
         new THREE.Vector3(0.60, 1.17, 0.025),
         new THREE.Vector3(0.45, 1.10, 0.020),
@@ -2732,6 +3321,7 @@
         new THREE.Vector3(-0.880, 1.542, -0.026)
       ], LV_CAN_AMBER, 0.0048, 'LV', false);
 
+      // 4. Cable de Sensor Delantero (Velocidad de rueda delantera / Temp. Radiador) subiendo por la botella izquierda de la horquilla hacia el AiM
       createWire([
         new THREE.Vector3(-1.34, 0.54, 0.135),
         new THREE.Vector3(-1.16, 0.92, 0.145),
@@ -2740,7 +3330,7 @@
         new THREE.Vector3(-0.882, 1.540, -0.022)
       ], 0x3b82f6, 0.0042, 'LV', false);
 
-      // F) Salida Trasera Exterior desde Amphenol al Inversor
+      // F) Salida Trasera Exterior desde Amphenol: Rodean el Motor por encima y acaban en el + y - del Inversor
       createWire([
         boxToWorld(0.42, 0.105, -0.150),
         new THREE.Vector3(0.31, 0.99, -0.135),
