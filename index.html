@@ -707,7 +707,7 @@
           <div class="sys-section-title sys-hv">⚡ Sistema Alta Tensión (HV)</div>
           <div class="comp-item" id="item-battery" onclick="selectComponent('battery')">
             <div class="comp-name"><span>Pack 30S2P + 3 Cell-Tabs Amarillos</span></div>
-            <div class="comp-loc">📍 Rejillas Espejo Integradas · Terminales Cobre</div>
+            <div class="comp-loc">📍 Esquinas Diagonales con Rejillas CAD</div>
           </div>
           <div class="comp-item" id="item-hall" onclick="selectComponent('hall')">
             <div class="comp-name"><span>Sensor Hall + Busbar de Cobre</span></div>
@@ -747,7 +747,7 @@
           <div class="sys-section-title sys-lv">🔌 Conversión DC-DC y Baja Tensión (LV)</div>
           <div class="comp-item" id="item-aim" onclick="selectComponent('aim')">
             <div class="comp-name"><span>Pantalla AiM MyChron 5S (Dash)</span></div>
-            <div class="comp-loc">📍 Semimanillares Racing · Cableado Limpio</div>
+            <div class="comp-loc">📍 Semimanillares Bien Orientados · CAN + 12V</div>
           </div>
           <div class="comp-item" id="item-switch_dcdc" onclick="selectComponent('switch_dcdc')">
             <div class="comp-name"><span>Interruptor Exterior Batería ➔ DC-DC</span></div>
@@ -827,23 +827,23 @@
         id: 'battery',
         system: 'HV',
         name: 'Pack de Baterías 30S2P + 3 Cell-Tabs Amarillos',
-        subtitle: 'Ref. GRP86A0260-37V-63200mAh · Rejillas de refrigeración en modo espejo integradas en la caja',
-        location: 'Interior de la caja de baterías escalonada con rejillas delanteras laterales empotradas en modo espejo (orientadas hacia dentro) y 4 columnas traseras de extracción.',
+        subtitle: 'Ref. GRP86A0260-37V-63200mAh · Caja con esquinas delanteras diagonales achaflanadas y rejillas en espejo',
+        location: 'Interior de la caja de baterías escalonada con las 2 esquinas delanteras haciendo pico y chaflán diagonal con sus branquias de refrigeración (igual que en el CAD) y 4 columnas traseras.',
         specs: [
           { label: 'Configuración Pack', val: '30S2P (3x 10S2P en serie)' },
           { label: 'Disposición Interna', val: '2 Vert. delante + 1 Horiz. detrás' },
-          { label: 'Rejillas Batería', val: 'Modo Espejo Integradas en Pared' },
+          { label: 'Esquinas Delanteras', val: 'Chaflán Diagonal + Branquias Espejo' },
           { label: 'Terminales HV', val: 'Puntitas/ojales de cobre atornillados' },
           { label: 'Conectores HV Traseros', val: '2x Amphenol Rectos 0° (35 mm²)' },
           { label: 'Conector LV Central', val: 'Circular entre Amphenol + y -' }
         ],
         connections: [
           '<strong>Puente Busbar del Sensor Hall (Entre M1 y M2):</strong> Dos postes verticales de cobre suben desde los bornes interiores delanteros (el derecho atraviesa el núcleo del <strong>Sensor Hall</strong>) y quedan unidos arriba por el <strong>busbar plano de cobre</strong> atornillado.',
-          '<strong>Cable Naranja Izquierdo con Puntitas de Cobre:</strong> Une mediante terminales de cobre acodados el borne delantero izquierdo de M1 con el borne delantero izquierdo del módulo trasero horizontal (M3) por un canal superior libre de colisiones.',
+          '<strong>Cable Naranja Izquierdo con Puntitas de Cobre:</strong> Une mediante terminales de cobre acodados el borne delantero izquierdo de M1 con el borne delantero izquierdo del módulo trasero horizontal (M3).',
           '<strong>Rama Derecha (Fusible SIBA ➔ Contactor Kilovac ➔ Amphenol +):</strong> Pletina de cobre desde el borne delantero derecho al <strong>Fusible SIBA 500A</strong>, cable naranja con terminales de cobre hasta la borna de entrada del <strong>Contactor Kilovac 500A</strong> y salida limpia hacia el conector <strong>Amphenol (+)</strong>.',
-          '<strong>Los 3 Cableados Amarillos de Cell-Tabs a la BMS:</strong> Las cintas amarillas de los 3 módulos viajan ordenadas hacia el cajón delantero de la <strong>BMS Orion 2</strong>.'
+          '<strong>Los 3 Cableados Amarillos de Cell-Tabs a la BMS:</strong> Las cintas amarillas de los 3 módulos pasan por la abertura central hacia el cajón delantero de la <strong>BMS Orion 2</strong>.'
         ],
-        notes: 'Las rejillas de ventilación laterales están integradas en modo espejo en el propio plano de las paredes de la caja (sin sobresalir por fuera), canalizando el aire directamente hacia los módulos.'
+        notes: 'Las esquinas delanteras de la sección superior de la caja forman exactamente el pico y chaflán diagonal de tu tercera foto del CAD, alojando ahí las rejillas verticales en modo espejo.'
       },
       hall: {
         id: 'hall',
@@ -859,7 +859,7 @@
         ],
         connections: [
           '<strong>Paso de Corriente por el Centro del Sensor Hall:</strong> Del borne interior del módulo derecho sube la <strong>puntita/poste vertical de cobre</strong> atravesando el agujero central del Sensor Hall; arriba se atornilla el <strong>busbar plano de cobre</strong> que baja por el otro poste vertical de cobre al módulo izquierdo.',
-          '<strong>Línea de Señal (Cable Violeta - LV):</strong> Sale hacia arriba desde el cabezal del Sensor Hall y entra limpiamente al cajón frontal de la <strong>BMS Orion 2</strong>.'
+          '<strong>Línea de Señal (Cable Violeta - LV):</strong> Sale desde el cabezal del Sensor Hall hacia el cajón frontal de la <strong>BMS Orion 2</strong>.'
         ],
         notes: 'Al modelar los dos postes verticales de cobre con sus anillos aislantes rojos en la base y el busbar horizontal atornillado arriba, el paso de corriente a través del Sensor Hall tiene total sentido físico y eléctrico.'
       },
@@ -879,7 +879,7 @@
           '<strong>Entrada Delantera:</strong> Pletina metálica acodada atornillada a la puntita de cobre del borne delantero derecho de M2.',
           '<strong>Salida Trasera:</strong> Terminal de engaste de cobre unido al cable naranja que va directo a la borna frontal izquierda del <strong>Contactor Kilovac 500A</strong>.'
         ],
-        notes: 'Reproduce exactamente la inclinación y los herrajes de conexión sin atravesar ningún componente.'
+        notes: 'Reproduce exactamente la inclinación y los herrajes de conexión visibles en el CAD.'
       },
       contactor: {
         id: 'contactor',
@@ -895,8 +895,8 @@
         ],
         connections: [
           '<strong>Borna 1 (Entrada HV+):</strong> Recibe por el frente el terminal de cobre del cable naranja procedente del <strong>Fusible SIBA 500A</strong>.',
-          '<strong>Borna 2 (Salida HV+ sin cruzar el contactor):</strong> Sale de la borna trasera derecha hacia el interior y va directo al pasamuros del conector <strong>Amphenol (+)</strong>.',
-          '<strong>Bobina de Control (Cable Verde - LV):</strong> Conectada por la parte superior hacia la <strong>BMS Orion 2</strong>.'
+          '<strong>Borna 2 (Salida HV+ sin cruzar el contactor):</strong> Sale de la borna trasera hacia el interior y va directo al pasamuros del conector <strong>Amphenol (+)</strong>.',
+          '<strong>Bobina de Control (Cable Verde - LV):</strong> Conectada por el canal interior hacia la <strong>BMS Orion 2</strong>.'
         ],
         notes: 'Ningún cable atraviesa el cilindro crema del contactor: todas las líneas entran y salen por las puntitas de cobre de sus bornas respetando el volumen físico de la pieza.'
       },
@@ -913,19 +913,19 @@
           { label: 'Salida de Estado', val: 'Señal IMD OK (Magenta) a HVD / ECU' }
         ],
         connections: [
-          '<strong>Línea de Vigilancia HV+ (Cable Naranja):</strong> Conectada por el canal superior derecho a la borna HV+ del contactor.',
-          '<strong>Línea de Vigilancia HV- (Cable Naranja):</strong> Sube por encima de los módulos hasta el borne negativo HV- del pack.',
+          '<strong>Línea de Vigilancia HV+ (Cable Naranja):</strong> Conectada por el canal interior derecho a la borna HV+ del contactor.',
+          '<strong>Línea de Vigilancia HV- (Cable Naranja):</strong> Pasa sobre los módulos hasta el borne negativo HV- del pack.',
           '<strong>Referencia de Masa / Chasis (Cable Verde Lima):</strong> Conectada al perno de chasis en la pared derecha.',
-          '<strong>Señal de Estado IMD OK (Cable Magenta - LV):</strong> Viaja por la parte alta de la caja hasta el conector circular trasero y sube a las placas <strong>HVD</strong> y <strong>ECU</strong>.'
+          '<strong>Señal de Estado IMD OK (Cable Magenta - LV):</strong> Viaja por dentro de la caja hasta el conector circular trasero y sube a las placas <strong>HVD</strong> y <strong>ECU</strong>.'
         ],
-        notes: 'Sus cables discurren por canales despejados por encima de los módulos sin tocar el cuerpo del contactor Kilovac.'
+        notes: 'Sus cables discurren íntegramente por el interior de la caja sin salirse de las paredes ni tocar el contactor.'
       },
       vmp: {
         id: 'vmp',
         system: 'HV',
         name: 'VMP (Voltage Measurement Point)',
         subtitle: 'Conector circular exterior en el lado derecho (opuesto al interruptor del DC-DC) con 4 cables HV',
-        location: 'Instalado en la parte delantera de la pared lateral derecha de la caja de la batería, terminando en un conector circular accesible desde el exterior.',
+        location: 'Instalado en la parte delantera de la pared lateral derecha de la caja de la batería, justo detrás del chaflán diagonal derecho.',
         specs: [
           { label: 'Ubicación', val: 'Delante en pared lateral derecha' },
           { label: 'Tipo de Conector', val: 'Circular multipin de seguridad HV' },
@@ -935,38 +935,38 @@
         connections: [
           '<strong>Cable 1 - HV+ Antes del Contactor (Naranja):</strong> Conectado a la borna de entrada del contactor Kilovac.',
           '<strong>Cable 2 - HV+ Después del Contactor (Naranja):</strong> Conectado a la borna de salida del contactor Kilovac.',
-          '<strong>Cable 3 - HV- Antes (Naranja):</strong> Cruza por el puente superior hacia el borne negativo interior del pack.',
-          '<strong>Cable 4 - HV- Después (Naranja):</strong> Va por el canal superior hasta el terminal negativo de salida Amphenol (-).'
+          '<strong>Cable 3 - HV- Antes (Naranja):</strong> Va por el interior hacia el borne negativo interior del pack.',
+          '<strong>Cable 4 - HV- Después (Naranja):</strong> Va por el interior hasta el terminal negativo de salida Amphenol (-).'
         ],
-        notes: 'Permite comprobar desde el exterior la tensión antes y después del contactor principal con un ruteo interior limpio.'
+        notes: 'Permite comprobar desde el exterior la tensión antes y después del contactor principal.'
       },
       aim: {
         id: 'aim',
         system: 'LV',
         name: 'Pantalla AiM MyChron 5S + Semimanillares Racing',
-        subtitle: 'Display LCD de competición sobre tija superior CNC, semimanillares orientados hacia atrás y mazo de cables limpio',
-        location: 'Anclada encima de la tija superior mediante soporte CNC, presidida por los dos semimanillares de competición (clip-ons) que salen de las botellas doradas de la horquilla hacia atrás en ángulo ergonómico.',
+        subtitle: 'Display LCD sobre tija superior CNC, semimanillares bien orientados hacia fuera/atrás y cableado limpio',
+        location: 'Anclada sobre la tija superior CNC, acompañada por los dos semimanillares que abrazan las botellas bajo la tija y salen hacia fuera y hacia atrás (hacia las manos del piloto).',
         specs: [
           { label: 'Modelo Exacto', val: 'AiM MyChron 5S (268x128 px)' },
-          { label: 'Semimanillares', val: 'Clip-ons Racing hacia atrás + Puños' },
+          { label: 'Semimanillares', val: 'Hacia fuera y hacia el piloto (CAD)' },
           { label: 'Controles Laterales', val: '4 Pulsadores Metálicos (MENU/MEM)' },
           { label: 'Conectores Traseros', val: '2x Binder 712 (5 pines CAN/12V + Lap)' },
           { label: 'Alimentación LV', val: '12V DC (+12V y GND desde PCB PDM)' },
           { label: 'Bus de Telemetría', val: 'CAN Bus (ECU + BMS Orion 2)' }
         ],
         connections: [
-          '<strong>Alimentación 12V DC (+12V Rojo Carmesí y GND Cian desde el PDM):</strong> Sale del conector trasero <strong>Binder 712 izquierdo</strong> de la AiM, baja por el lateral de la pipa de dirección, bordea por fuera la pared superior izquierda de la caja de baterías y llega a la PCB del <strong>PDM</strong> sin atravesar ninguna pieza.',
-          '<strong>Línea de Comunicación CAN Bus (Cable Ámbar CAN H/L):</strong> Sale del conector trasero <strong>Binder 712 derecho</strong> de la AiM, entra al cajón frontal de la <strong>BMS Orion 2</strong> y continúa por el canal superior central hasta el conector circular LV trasero y la <strong>ECU</strong>.',
-          '<strong>Entrada de Sensores Delanteros (Cable Azul LV):</strong> Sube en paralelo a la botella izquierda de la horquilla invertida pasando por las abrazaderas hasta el conector trasero derecho de la AiM.'
+          '<strong>Alimentación 12V DC (+12V Rojo Carmesí y GND Cian desde el PDM):</strong> Sale del conector trasero <strong>Binder 712 izquierdo</strong> de la AiM, pasa por el cuello de dirección y recorre por fuera el lateral izquierdo del chasis hasta la PCB del <strong>PDM</strong> sin tocar ni atravesar la caja de baterías.',
+          '<strong>Línea de Comunicación CAN Bus (Cable Ámbar CAN H/L):</strong> Sale del conector trasero <strong>Binder 712 derecho</strong> de la AiM hacia la <strong>BMS Orion 2</strong> y viaja por el interior de la caja hasta el conector circular LV trasero y la <strong>ECU</strong>.',
+          '<strong>Entrada de Sensores Delanteros (Cable Azul LV):</strong> Sube paralelo a la botella izquierda de la horquilla hasta el segundo conector trasero de la AiM.'
         ],
-        notes: 'Los semimanillares están ahora correctamente diseñados hacia atrás y ligeramente hacia abajo (con sus manetas, puños, contrapesos, botoneras y bomba de freno radial), y los cables de la AiM bajan por el cuello de dirección sin atravesar ningún objeto.'
+        notes: 'Los semimanillares apuntan ahora en la dirección natural de las manos del piloto (hacia fuera y hacia atrás), con la maneta de freno y el bote de líquido en el lado correcto.'
       },
       switch_dcdc: {
         id: 'switch_dcdc',
         system: 'LV',
         name: 'Interruptor Exterior Batería a Cincon DC-DC',
         subtitle: 'Seccionador bipolar accionable desde fuera en la parte delantera de la pared izquierda',
-        location: 'Montado en la parte delantera de la pared lateral izquierda de la caja de la batería, con el actuador accesible desde el exterior.',
+        location: 'Montado en la parte delantera de la pared lateral izquierda de la caja de la batería, justo detrás del chaflán diagonal izquierdo.',
         specs: [
           { label: 'Ubicación', val: 'Parte delantera pared lateral izq.' },
           { label: 'Accionamiento', val: 'Exterior manual (Interactivo ON/OFF)' },
@@ -974,8 +974,8 @@
           { label: 'Tensión de Trabajo', val: '111 V nom (43 - 160 VDC)' }
         ],
         connections: [
-          '<strong>Entrada desde Batería (Cables Naranjas HV + y -):</strong> Recibe por el canal superior el positivo y el negativo del pack de baterías.',
-          '<strong>Salida Conmutada hacia Cincon DC-DC (Cables Naranjas HV + y -):</strong> Alimenta directamente los pines de entrada del convertidor <strong>Cincon CFB600W-110S</strong> adosado a la misma pared izquierda.'
+          '<strong>Entrada desde Batería (Cables Naranjas HV + y -):</strong> Recibe por el interior el positivo y el negativo del pack de baterías.',
+          '<strong>Salida Conmutada hacia Cincon DC-DC (Cables Naranjas HV + y -):</strong> Alimenta directamente los pines de entrada del convertidor <strong>Cincon CFB600W-110S</strong> en la misma pared izquierda.'
         ],
         notes: 'Puedes abrir y cerrar este interruptor con el botón del panel izquierdo para simular el corte de alimentación al convertidor Cincon y a la pantalla AiM.'
       },
@@ -984,7 +984,7 @@
         system: 'LV',
         name: 'Convertidor DC-DC Cincon CFB600W-110S Series',
         subtitle: '600W 4:1 Input (43-160 VDC) · Base pegada verticalmente a la pared lateral izquierda',
-        location: 'Fijado verticalmente con su base contra la cara interior de la pared lateral izquierda de la caja de la batería.',
+        location: 'Fijado verticalmente con su base contra la cara interior de la pared lateral izquierda de la caja de la batería, como la placa azul celeste con pines de tu tercera foto del CAD.',
         specs: [
           { label: 'Marca / Serie', val: 'Cincon / CFB600W-110S' },
           { label: 'Montaje CAD', val: 'Vertical pegado a pared izquierda' },
@@ -994,31 +994,30 @@
           { label: 'Tamaño Full-Brick', val: '116.8 x 61.0 x 12.7 mm (220 g)' }
         ],
         connections: [
-          '<strong>Entrada HV (Pin 1: -V Input / Pin 2: +V Input):</strong> Recibe los cables naranjas cortos desde el <strong>Interruptor delantero izquierdo</strong>.',
-          '<strong>Salida LV Interna (Pines +V Output / -V Output):</strong> Saca el positivo (Rojo Carmesí) y negativo (Cian) bordeando la pared izquierda hacia el <strong>Conector Circular de Baja Tensión</strong> situado en la cara trasera.',
-          '<strong>Llegada a la PCB del PDM:</strong> Desde el conector circular trasero los cables + y - suben limpiamente al subchasis y se conectan en la <strong>PCB del PDM</strong>.'
+          '<strong>Entrada HV (Pin 1: -V Input / Pin 2: +V Input):</strong> Recibe los cables naranjas desde el <strong>Interruptor delantero izquierdo</strong>.',
+          '<strong>Salida LV Interna (Pines +V Output / -V Output):</strong> Saca el positivo (Rojo Carmesí) y negativo (Cian) por el interior hacia el <strong>Conector Circular de Baja Tensión</strong> situado en la cara trasera.',
+          '<strong>Llegada a la PCB del PDM:</strong> Desde el conector circular trasero los cables + y - suben al subchasis y se conectan en la <strong>PCB del PDM</strong>.'
         ],
-        notes: 'Reproduce la tarjeta vertical celeste con su placa disipadora de aluminio y sus hileras de pines laterales.'
+        notes: 'Reproduce exactamente la tarjeta vertical celeste con sus hileras de pines laterales de tu captura CAD.'
       },
       bms: {
         id: 'bms',
         system: 'HV',
         name: 'BMS Orion 2 (Battery Management System)',
         subtitle: 'Alojada en el cajón frontal estrecho · Recibe los 3 cableados amarillos de Cell-Tabs',
-        location: 'Dentro del cajón delantero (menos ancho que la caja superior y con la misma altura hasta abajo de la caja de la batería).',
+        location: 'Dentro del cajón delantero (menos ancho que la caja superior y situado delante de las esquinas diagonales de las rejillas).',
         specs: [
           { label: 'Modelo', val: 'Ewert Energy Orion BMS 2' },
-          { label: 'Cajón Frontal', val: 'Menos ancho y misma altura hasta abajo' },
+          { label: 'Cajón Frontal', val: 'Delante de las esquinas diagonales' },
           { label: 'Entradas Cell-Tabs', val: '3 Cintas amarillas (M1, M2 y M3)' },
           { label: 'Entrada Hall / CAN', val: 'Cable Violeta Hall + Bus CAN a AiM' }
         ],
         connections: [
-          '<strong>Cell-Tabs Módulo 1 y Módulo 2 (2 Cintas Planas Amarillas):</strong> Nacen al final de cada uno de los dos módulos verticales delanteros, pasan por sus guías amarillas delanteras y bajan directo a la BMS.',
-          '<strong>Cell-Tab Módulo 3 Trasero (3.ª Cinta Amarilla Completa):</strong> Nace en el módulo horizontal más alejado de la BMS y recorre longitudinalmente el centro del pack hasta entrar también en el cajón de la <strong>BMS Orion 2</strong>.',
-          '<strong>Señal Sensor Hall (Cable Violeta - LV) y CAN Bus (Ámbar):</strong> Recibe la lectura del Sensor Hall y enlaza por CAN Bus con la <strong>Pantalla AiM MyChron 5S</strong> y la <strong>ECU</strong>.',
-          '<strong>Control Contactor (Cable Verde - LV):</strong> Comanda la bobina del <strong>Contactor Kilovac 500A</strong>.'
+          '<strong>Cell-Tabs Módulo 1 y Módulo 2 (2 Cintas Planas Amarillas):</strong> Nacen al final de cada uno de los dos módulos verticales delanteros, pasan por sus guías amarillas delanteras y entran al cajón de la BMS.',
+          '<strong>Cell-Tab Módulo 3 Trasero (3.ª Cinta Amarilla Completa):</strong> Nace en el módulo horizontal trasero y recorre el centro del pack hasta entrar también en el cajón de la <strong>BMS Orion 2</strong>.',
+          '<strong>Señal Sensor Hall (Cable Violeta - LV) y CAN Bus (Ámbar):</strong> Recibe la lectura del Sensor Hall y enlaza por CAN Bus con la <strong>Pantalla AiM MyChron 5S</strong> y la <strong>ECU</strong>.'
         ],
-        notes: 'Los 3 módulos tienen sus cintas amarillas de cell-tabs conectadas de principio a fin hasta la BMS.'
+        notes: 'Todos los cables entran a la BMS por la garganta central entre la caja principal y el cajón delantero sin atravesar las paredes exteriores.'
       },
       inverter: {
         id: 'inverter',
@@ -1033,8 +1032,8 @@
           { label: 'Salida Trifásica', val: 'Fases U, V, W al Motor CIRCE' }
         ],
         connections: [
-          '<strong>Conectores INV DC+ e INV DC- (Cables Naranjas 35 mm²):</strong> Reciben los cables + y - que salen de los conectores Amphenol traseros de la caja, bajan por las grapas laterales del chasis y <strong>rodean por fuera al motor CIRCE</strong> hasta embornar en el inversor sin tocar el estátor.',
-          '<strong>Bornas Trifásicas U, V, W (3 Cables Naranjas):</strong> Salen en arco directo hacia las 3 bornas superiores de fase del <strong>Motor Eléctrico CIRCE</strong>.'
+          '<strong>Conectores INV DC+ e INV DC- (Cables Naranjas 35 mm²):</strong> Reciben los cables + y - que salen de los conectores Amphenol traseros de la caja, bajan por las grapas laterales del chasis y <strong>rodean por fuera al motor CIRCE</strong> hasta embornar en el inversor.',
+          '<strong>Bornas Trifásicas U, V, W (3 Cables Naranjas):</strong> Salen hacia las 3 bornas superiores de fase del <strong>Motor Eléctrico CIRCE</strong>.'
         ],
         notes: 'Montado en la parte inferior de la caja de baterías igual que en las capturas laterales del CAD.'
       },
@@ -1054,14 +1053,14 @@
           '<strong>Bornas Fase U, V, W (3 Cables Naranjas):</strong> Conectadas directamente a las salidas trifásicas del <strong>Inversor HyperDrive X1</strong>.',
           '<strong>Circuito de Refrigeración Líquida (Entrada y Salida):</strong> Manguitos de impulsión y retorno conectados entre la entrada/salida del <strong>Radiador delantero</strong> y la entrada/salida del <strong>Motor CIRCE</strong>.'
         ],
-        notes: 'Los elementos mecánicos (chasis, cadena, corona, piñón, suspensiones FG Gubellini con muelle helicoidal + botella piggyback y radiador) acompañan al conjunto con geometría realista.'
+        notes: 'Acompañado por el amortiguador trasero con el muelle helicoidal blanco/gris y la botella cilíndrica (piggyback) arriba en el extremo trasero del muelle como en las fotos 3 y 4.'
       },
       lvbox: {
         id: 'lvbox',
         system: 'LV',
         name: 'Caja de PCBs de Baja Tensión (HVD, PDM y ECU)',
         subtitle: 'Abajo juntas unidas: HVD (Izq.) y PDM (Der.) · Arriba fija atornillada: ECU',
-        location: 'Montada en el subchasis trasero (colín), por encima del amortiguador trasero FG Gubellini.',
+        location: 'Montada en el subchasis trasero (colín), junto al conjunto superior del amortiguador trasero.',
         specs: [
           { label: 'PCB Abajo Izquierda', val: 'HVD (Recibe señal estado del IMD)' },
           { label: 'PCB Abajo Derecha', val: 'PDM (Recibe DC-DC y alimenta AiM)' },
@@ -1069,8 +1068,8 @@
           { label: 'Llegada Cables LV', val: 'Desde Conector Circular Trasero' }
         ],
         connections: [
-          '<strong>Alimentación + y - desde el Cincon DC-DC a la PCB PDM:</strong> Los cables positivo (Rojo Carmesí) y negativo (Cian) salen del conector circular trasero y entran mediante <strong>2 pequeños conectores en la PCB del PDM</strong> (abajo a la derecha).',
-          '<strong>Salida 12V DC desde el PDM hacia la Pantalla AiM MyChron 5S:</strong> Desde la PCB del PDM salen las líneas +12V y GND que recorren limpiamente el lateral izquierdo hasta alimentar la pantalla AiM en el manillar.',
+          '<strong>Alimentación + y - desde el Cincon DC-DC a la PCB PDM:</strong> Los cables positivo (Rojo Carmesí) y negativo (Cian) salen del conector circular trasero y entran mediante <strong>2 pequeños conectores en la PCB del PDM</strong>.',
+          '<strong>Salida 12V DC desde el PDM hacia la Pantalla AiM MyChron 5S:</strong> Desde la PCB del PDM salen las líneas +12V y GND que bordean por fuera el chasis izquierdo hasta alimentar la pantalla AiM en el manillar.',
           '<strong>Señal de Estado del IMD y CAN Bus hacia HVD y ECU:</strong> La señal del IMD (Magenta) y el bus CAN de telemetría (Ámbar) comunican la <strong>ECU</strong> con la <strong>BMS Orion 2</strong> y la <strong>Pantalla AiM MyChron 5S</strong>.'
         ],
         notes: 'Las tres placas están modeladas en 2 niveles: HVD y PDM unidas abajo y la ECU atornillada encima sobre 4 separadores.'
@@ -1141,56 +1140,56 @@
       if (!insp) return;
       insp.innerHTML = [
         '<div class="sec-nav">',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-aim\')">🏁 AiM y Semimanillares</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-susp\')">1. Suspensiones y Botella</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-pack\')">2. Rejillas Espejo y Pack</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-aim\')">🏁 Semimanillares y AiM</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-pack\')">1. Esquinas Diagonales Rejillas</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-susp\')">2. Botella Arriba del Muelle</button>',
           '<button class="sec-pill" onclick="scrollToSection(\'sec-vmp\')">3. Cableado Sin Cruces</button>',
           '<button class="sec-pill" onclick="scrollToSection(\'sec-dcdc\')">4. Cincon e Interruptor</button>',
           '<button class="sec-pill" onclick="scrollToSection(\'sec-lv\')">5. PCBs: HVD, PDM y ECU</button>',
         '</div>',
         '<div id="sec-aim" class="info-card">',
-          '<h4>🏁 Pantalla AiM MyChron 5S + Semimanillares de Competición</h4>',
+          '<h4>🏁 Semimanillares en el Ángulo Correcto + Pantalla AiM MyChron 5S</h4>',
           '<div class="spec-grid" style="margin-bottom:10px;">',
-            '<div class="spec-box"><div class="spec-label">Modelo Dashboard</div><div class="spec-val" style="color:#38bdf8;">AiM MyChron 5S</div></div>',
-            '<div class="spec-box"><div class="spec-label">Semimanillares</div><div class="spec-val">Clip-ons Racing (Atrás)</div></div>',
-            '<div class="spec-box"><div class="spec-label">Alimentación LV</div><div class="spec-val">12V DC desde PDM</div></div>',
+            '<div class="spec-box"><div class="spec-label">Semimanillares</div><div class="spec-val" style="color:#38bdf8;">Hacia Fuera y al Piloto</div></div>',
+            '<div class="spec-box"><div class="spec-label">Bomba / Manetas</div><div class="spec-val">Delante del Puño (CAD)</div></div>',
+            '<div class="spec-box"><div class="spec-label">Alimentación AiM</div><div class="spec-val">12V DC desde PDM</div></div>',
             '<div class="spec-box"><div class="spec-label">Telemetría</div><div class="spec-val" style="color:#fbbf24;">CAN Bus (ECU + BMS)</div></div>',
           '</div>',
           '<ul class="conn-list">',
-            '<li><strong>Semimanillares Bien Orientados:</strong> Abrazaderas CNC ancladas a las botellas doradas bajo la tija superior, con los tubos de manillar saliendo hacia atrás y ligeramente hacia abajo, puños de goma, contrapesos, manetas, botoneras y bomba de freno radial.</li>',
-            '<li><strong>Cableado Directo Sin Atravesar Objetos:</strong> Los cables salen de los conectores traseros Binder 712 de la AiM, pasan por el cuello de dirección y siguen la línea exterior del chasis hasta el PDM y el cajón frontal de la BMS.</li>',
+            '<li><strong>Orientación Natural para las Manos del Piloto:</strong> Los semimanillares salen de las abrazaderas negras bajo la tija superior abriéndose hacia fuera y hacia atrás (hacia el piloto), exactamente como en tus fotos 3 y 4 del CAD.</li>',
+            '<li><strong>Cables por Fuera/Dentro Bien Guiados:</strong> Los cables rojo/cian del AiM rodean la caja por fuera junto al chasis sin atravesar las paredes translúcidas.</li>',
+          '</ul>',
+        '</div>',
+        '<div id="sec-pack" class="info-card">',
+          '<h4>🔋 1. Rejillas en las Esquinas Delanteras Diagonales (Modo Espejo CAD)</h4>',
+          '<ul class="conn-list">',
+            '<li><strong>Chaflán Diagonal en Pico Delantero:</strong> Las dos esquinas delanteras de la caja superior hacen pico y esquina diagonal a 45° donde van integradas las dos columnas verticales de rejillas en modo espejo (exactamente como en la foto 3 de tu CAD).</li>',
+            '<li><strong>Paredes Laterales Limpias:</strong> Las paredes laterales son lisas (con el interruptor a la izquierda y el VMP a la derecha) y detrás están las 4 columnas de ranuras traseras.</li>',
           '</ul>',
         '</div>',
         '<div id="sec-susp" class="info-card">',
-          '<h4>🔧 1. Suspensiones Delantera (USD) y Trasera (Muelle + Botella Piggyback)</h4>',
+          '<h4>🔧 2. Amortiguador Trasero con la Botella Arriba del Muelle</h4>',
           '<div class="spec-grid" style="margin-bottom:10px;">',
-            '<div class="spec-box"><div class="spec-label">Horquilla Delantera</div><div class="spec-val">Invertida USD + 2 Tijas</div></div>',
-            '<div class="spec-box"><div class="spec-label">Muelle Trasero</div><div class="spec-val">Helicoidal Continuo 3D</div></div>',
-            '<div class="spec-box"><div class="spec-label">Botella Gas</div><div class="spec-val" style="color:#facc15;">Piggyback + Latiguillo</div></div>',
-            '<div class="spec-box"><div class="spec-label">Frenos Delanteros</div><div class="spec-val">Doble Pinza Radial</div></div>',
+            '<div class="spec-box"><div class="spec-label">Posición Botella</div><div class="spec-val" style="color:#facc15;">Arriba / Detrás del Muelle</div></div>',
+            '<div class="spec-box"><div class="spec-label">Muelle Trasero</div><div class="spec-val">Helicoidal Blanco/Plata</div></div>',
+            '<div class="spec-box"><div class="spec-label">Horquilla Delantera</div><div class="spec-val">Plata/Aluminio CAD + 2 Tijas</div></div>',
+            '<div class="spec-box"><div class="spec-label">Frenos Delanteros</div><div class="spec-val">Disco Wave + Pinza Radial</div></div>',
           '</div>',
           '<div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">',
-            'Amortiguador trasero reconstruido con su cuerpo roscado, vástago cromado, topes de muelle, espiral helicoidal real y botella de gas (piggyback) conectada por puente y latiguillo al cabezal.',
+            'La botella cilíndrica del amortiguador trasero está montada arriba en el cabezal superior/trasero (sobresaliendo por encima del final del muelle hacia el colín, igual que en las fotos 3 y 4).',
           '</div>',
         '</div>',
-        '<div id="sec-pack" class="info-card">',
-          '<h4>🔋 2. Rejillas de la Batería en Modo Espejo (Integradas) + 3 Cell-Tabs</h4>',
-          '<ul class="conn-list">',
-            '<li><strong>Rejillas Laterales en Modo Espejo:</strong> Empotradas directamente en las paredes laterales superiores de la caja (sin quedar flotando por fuera), con lamas inclinadas simétricas a izquierda y derecha y 4 columnas traseras de extracción.</li>',
-            '<li><strong>3 Cintas Amarillas de Cell-Tabs:</strong> Conectadas desde los módulos M1, M2 y M3 hasta el cajón delantero de la BMS Orion 2.</li>',
-          '</ul>',
-        '</div>',
         '<div id="sec-vmp" class="info-card">',
-          '<h4>🛡️ 3. Ruteo Sencillo y Limpio de Todos los Cables (Cero Colisiones)</h4>',
+          '<h4>🛡️ 3. Cableado Interior y Exterior Sin Atravesar Paredes</h4>',
           '<ul class="conn-list">',
-            '<li><strong>Interior de la Caja HV/LV:</strong> Todos los cables viajan por canales superiores y laterales definidos sin atravesar los módulos azules ni el cilindro del contactor Kilovac.</li>',
-            '<li><strong>Exterior (Batería ➔ Inversor / Motor):</strong> Los cables de potencia de 35 mm² bajan por las grapas laterales del chasis y rodean limpiamente el estátor del motor CIRCE.</li>',
+            '<li><strong>Interior de la Caja HV/LV:</strong> Todos los cables naranjas, magenta e hilos del VMP/IMD se mantienen dentro del perímetro achaflanado de la caja sin cortar las esquinas diagonales.</li>',
+            '<li><strong>Paso Frontal a la BMS:</strong> El cable CAN amarillo y la señal del Hall entran a la BMS por la abertura central delantera entre la caja y el cajón de la BMS.</li>',
           '</ul>',
         '</div>',
         '<div id="sec-dcdc" class="info-card">',
           '<h4>🔌 4. DC-DC Cincon Vertical (Pared Izquierda) e Interruptor</h4>',
           '<ul class="conn-list">',
-            '<li><strong>Cincon CFB600W-110S:</strong> Pegado verticalmente a la pared izquierda con interruptor exterior delantero izquierdo y salida directa al conector circular trasero hacia el PDM.</li>',
+            '<li><strong>Cincon CFB600W-110S:</strong> Pegado verticalmente a la pared izquierda como en la foto 3 del CAD, con interruptor exterior delantero izquierdo y salida al conector circular trasero hacia el PDM.</li>',
           '</ul>',
         '</div>',
         '<div id="sec-lv" class="info-card">',
@@ -1754,12 +1753,13 @@
       }
 
       // ========================================================================
-      // 3. CAPA MECÁNICA, SUSPENSIONES FG GUBELLINI, SEMIMANILLARES Y CAJA BATERÍA
+      // 3. CAPA MECÁNICA, SUSPENSIONES CAD, SEMIMANILLARES Y CAJA BATERÍA CON ESQUINAS DIAGONALES
       // ========================================================================
       var mechanicalGroup = new THREE.Group();
       bikeGroup.add(mechanicalGroup);
 
       var matAluminum = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.65, roughness: 0.30 });
+      var matSilverFork = new THREE.MeshStandardMaterial({ color: 0xd8dee9, metalness: 0.78, roughness: 0.24 });
       var matSteel = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.88, roughness: 0.18 });
       var matDarkSteel = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.82, roughness: 0.32 });
       var matBlackAnodized = new THREE.MeshStandardMaterial({ color: 0x18181b, metalness: 0.72, roughness: 0.28 });
@@ -1828,7 +1828,6 @@
         }
 
         if (!isRear) {
-          // Doble disco de freno delantero flotante con araña dorada/negra
           [-0.105, 0.105].forEach(function(zDisc) {
             var frontDisc = createToothedSprocket(0.12, 0.245, 14, 0.005, matSteel);
             frontDisc.position.z = zDisc;
@@ -1871,16 +1870,14 @@
       createWheel(1.42, 0.50, 0.38, 0.13, true);
 
       // ========================================================================
-      // 3.1 HORQUILLA INVERTIDA (USD) FG GUBELLINI + DOBLE TIJA + SEMIMANILLARES BIEN DISEÑADOS
+      // 3.1 HORQUILLA DELANTERA CAD + DOBLE TIJA ALIGERADA + SEMIMANILLARES EN EL ÁNGULO CORRECTO
       // ========================================================================
-      // Sistema de coordenadas local alineado con el eje de dirección (inclinación -0.42 rad)
-      // En este grupo: +Y sube por las barras hacia la tija superior, +X apunta hacia atrás (hacia el piloto), -X hacia adelante.
+      // En frontEndGroup: +Y sube por la horquilla, +X apunta hacia atrás (hacia el piloto), -X hacia delante, +Z izquierda, -Z derecha.
       var frontEndGroup = new THREE.Group();
       frontEndGroup.position.set(-1.38, 0.50, 0);
       frontEndGroup.rotation.z = -0.42;
       mechanicalGroup.add(frontEndGroup);
 
-      // Eje de rueda delantera cromado con tuercas
       var frontAxle = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.34, 20).rotateX(Math.PI / 2), matSteel);
       frontEndGroup.add(frontAxle);
 
@@ -1888,8 +1885,8 @@
         var legGrp = new THREE.Group();
         legGrp.position.z = zFork;
 
-        // 1. Puntera inferior CNC (Axle Clamp Foot) + Soporte de pinza radial
-        var axleFoot = new THREE.Mesh(new THREE.BoxGeometry(0.068, 0.095, 0.048), matBlackAnodized);
+        // Puntera inferior de aluminio + Soporte de pinza radial (como en la foto 4)
+        var axleFoot = new THREE.Mesh(new THREE.BoxGeometry(0.068, 0.095, 0.048), matAluminum);
         axleFoot.position.set(0.010, 0.015, 0);
         legGrp.add(axleFoot);
 
@@ -1897,88 +1894,81 @@
         radialMount.position.set(0.058, 0.045, zFork > 0 ? -0.018 : 0.018);
         legGrp.add(radialMount);
 
-        // Pinza de freno radial de 4 pistones
         var brakeCaliper = new THREE.Mesh(new THREE.BoxGeometry(0.068, 0.105, 0.052), matDarkSteel);
         brakeCaliper.position.set(0.105, 0.055, zFork > 0 ? -0.032 : 0.032);
         brakeCaliper.rotation.z = -0.22;
         legGrp.add(brakeCaliper);
 
-        var caliperCap = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.054, 14).rotateX(Math.PI / 2), matGubelliniRed);
-        caliperCap.position.set(0.112, 0.065, zFork > 0 ? -0.032 : 0.032);
-        legGrp.add(caliperCap);
-
-        // 2. Barra interior cromada (Stanchion deslizante inferior)
+        // Barra inferior cromada
         var innerStanchion = new THREE.Mesh(new THREE.CylinderGeometry(0.0235, 0.0235, 0.44, 24), matSteel);
         innerStanchion.position.set(0, 0.24, 0);
         legGrp.add(innerStanchion);
 
-        // 3. Guardapolvos y retén negro (Dust Seal)
-        var dustSeal = new THREE.Mesh(new THREE.CylinderGeometry(0.033, 0.028, 0.028, 24), matRubberGrip);
+        var dustSeal = new THREE.Mesh(new THREE.CylinderGeometry(0.033, 0.028, 0.026, 24), matRubberGrip);
         dustSeal.position.set(0, 0.435, 0);
         legGrp.add(dustSeal);
 
-        // 4. Botella exterior invertida dorada (USD Outer Tube FG Gubellini) con escalonado mecanizado
-        var outerBot = new THREE.Mesh(new THREE.CylinderGeometry(0.0325, 0.0315, 0.28, 24), matGubelliniGold);
+        // Botella superior de aluminio anodizado plata/gris claro (idéntica a la foto 3 del CAD)
+        var outerBot = new THREE.Mesh(new THREE.CylinderGeometry(0.0325, 0.0315, 0.28, 24), matSilverFork);
         outerBot.position.set(0, 0.585, 0);
         legGrp.add(outerBot);
 
-        var outerMidCollar = new THREE.Mesh(new THREE.CylinderGeometry(0.0345, 0.0325, 0.04, 24), matGubelliniGold);
+        var outerMidCollar = new THREE.Mesh(new THREE.CylinderGeometry(0.0345, 0.0325, 0.04, 24), matSilverFork);
         outerMidCollar.position.set(0, 0.745, 0);
         legGrp.add(outerMidCollar);
 
-        var outerTop = new THREE.Mesh(new THREE.CylinderGeometry(0.0335, 0.0345, 0.34, 24), matGubelliniGold);
-        outerTop.position.set(0, 0.935, 0);
+        var outerTop = new THREE.Mesh(new THREE.CylinderGeometry(0.0335, 0.0345, 0.36, 24), matSilverFork);
+        outerTop.position.set(0, 0.945, 0);
         legGrp.add(outerTop);
 
-        // Anillo indicador de recorrido (O-ring rojo en la barra cromada)
-        var travelRing = new THREE.Mesh(new THREE.TorusGeometry(0.0245, 0.003, 10, 24).rotateX(Math.PI / 2), matGubelliniRed);
-        travelRing.position.set(0, 0.32, 0);
-        legGrp.add(travelRing);
-
-        // 5. Tapón superior de la botella (Fork Cap con tuerca de precarga y regulador hidráulico)
-        var forkCapBase = new THREE.Mesh(new THREE.CylinderGeometry(0.034, 0.034, 0.016, 20), matBlackAnodized);
-        forkCapBase.position.set(0, 1.112, 0);
+        // Tapón superior mecanizado (como se ve en la foto 3)
+        var forkCapBase = new THREE.Mesh(new THREE.CylinderGeometry(0.033, 0.033, 0.014, 20), matSteel);
+        forkCapBase.position.set(0, 1.130, 0);
         legGrp.add(forkCapBase);
 
-        var preloadHex = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.014, 6), matAluminum);
-        preloadHex.position.set(0, 1.124, 0);
-        legGrp.add(preloadHex);
+        var capCrown = new THREE.Mesh(new THREE.CylinderGeometry(0.021, 0.024, 0.012, 8), matAluminum);
+        capCrown.position.set(0, 1.140, 0);
+        legGrp.add(capCrown);
 
-        var clickerDial = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.008, 0.008, 0.018, 14),
+        var clickerScrew = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.007, 0.007, 0.016, 12),
           fIdx === 0 ? matGubelliniRed : matGubelliniBlue
         );
-        clickerDial.position.set(0, 1.132, 0);
-        legGrp.add(clickerDial);
+        clickerScrew.position.set(0, 1.144, 0);
+        legGrp.add(clickerScrew);
 
         frontEndGroup.add(legGrp);
       });
 
-      // 6. Tija Inferior (Lower Triple Clamp), Tija Superior (Top Triple Clamp) y Pipa de Dirección
+      // Tijas Inferior y Superior CNC con bolsillos aligerados como en la foto 3
       function createTripleClampMesh(yHeight, thickness) {
         var clampGrp = new THREE.Group();
         clampGrp.position.y = yHeight;
 
-        // Puente central que une las dos botellas y el eje de dirección
         var mainBridge = new THREE.Mesh(new THREE.BoxGeometry(0.088, thickness, 0.31), matAluminum);
         mainBridge.position.x = 0.022;
         clampGrp.add(mainBridge);
 
-        // Cajeras aligeradas CNC
-        var pocket = new THREE.Mesh(new THREE.BoxGeometry(0.044, thickness + 0.004, 0.14), matDarkSteel);
-        pocket.position.x = 0.022;
-        clampGrp.add(pocket);
+        [-0.075, 0.075].forEach(function(zPocket) {
+          var pocket = new THREE.Mesh(new THREE.BoxGeometry(0.034, thickness + 0.003, 0.068), matDarkSteel);
+          pocket.position.set(0.018, 0, zPocket);
+          clampGrp.add(pocket);
+        });
 
-        // Abrazaderas circulares en cada botella
         [-0.14, 0.14].forEach(function(zPos) {
           var collar = new THREE.Mesh(new THREE.CylinderGeometry(0.041, 0.041, thickness * 1.15, 24), matAluminum);
           collar.position.set(0, 0, zPos);
           clampGrp.add(collar);
 
-          // Tornillos de apriete laterales
-          var pinchBolt = new THREE.Mesh(new THREE.CylinderGeometry(0.0045, 0.0045, 0.026, 8).rotateZ(Math.PI / 2), matSteel);
-          pinchBolt.position.set(-0.036, 0, zPos);
-          clampGrp.add(pinchBolt);
+          var pinchBlock = new THREE.Mesh(new THREE.BoxGeometry(0.034, thickness * 1.1, 0.032), matAluminum);
+          pinchBlock.position.set(-0.028, 0, zPos);
+          clampGrp.add(pinchBlock);
+
+          [-0.008, 0.008].forEach(function(yB) {
+            var pinchBolt = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.036, 8).rotateX(Math.PI / 2), matSteel);
+            pinchBolt.position.set(-0.034, yB, zPos);
+            clampGrp.add(pinchBolt);
+          });
         });
 
         return clampGrp;
@@ -1987,124 +1977,126 @@
       var lowerTripleClamp = createTripleClampMesh(0.755, 0.038);
       frontEndGroup.add(lowerTripleClamp);
 
-      var upperTripleClamp = createTripleClampMesh(1.075, 0.026);
+      var upperTripleClamp = createTripleClampMesh(1.065, 0.026);
       frontEndGroup.add(upperTripleClamp);
 
-      // Eje / Pipa de dirección (Steering Stem) + Tuerca central de tija
-      var steeringStem = new THREE.Mesh(new THREE.CylinderGeometry(0.024, 0.024, 0.36, 20), matAluminum);
-      steeringStem.position.set(0.052, 0.915, 0);
+      var steeringStem = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.026, 0.36, 20), matAluminum);
+      steeringStem.position.set(0.048, 0.910, 0);
       frontEndGroup.add(steeringStem);
 
       var headTubeSleeve = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.038, 0.27, 24), matGhostChassis);
-      headTubeSleeve.position.set(0.052, 0.915, 0);
+      headTubeSleeve.position.set(0.048, 0.910, 0);
       frontEndGroup.add(headTubeSleeve);
 
-      var stemTopNut = new THREE.Mesh(new THREE.CylinderGeometry(0.020, 0.020, 0.014, 6), matGubelliniGold);
-      stemTopNut.position.set(0.052, 1.094, 0);
+      var stemTopNut = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.022, 6), matDarkSteel);
+      stemTopNut.position.set(0.048, 1.088, 0);
       frontEndGroup.add(stemTopNut);
 
-      // 7. SEMIMANILLARES DE COMPETICIÓN (CLIP-ONS) DISEÑADOS EN LA DIRECCIÓN CORRECTA (HACIA ATRÁS Y HACIA FUERA)
+      // ========================================================================
+      // 3.1.B SEMIMANILLARES DE COMPETICIÓN CON EL ÁNGULO Y DIRECCIÓN CORRECTOS (FOTO 3 Y 4)
+      // ========================================================================
+      // En Three.js una rotación positiva alrededor de Y lleva el eje +Z hacia +X (hacia el piloto).
+      // Por tanto, para que AMBOS semimanillares apunten hacia fuera (+Z el izquierdo, -Z el derecho)
+      // y hacia ATRÁS (+X, hacia las manos del piloto), rotation.y DEBE SER +sideSign * ángulo.
       [-1, 1].forEach(function(sideSign) {
-        // sideSign = 1 -> Izquierda (+Z), sideSign = -1 -> Derecha (-Z)
+        // sideSign = 1 -> Mano Izquierda (+Z)
+        // sideSign = -1 -> Mano Derecha (-Z)
         var clipOnMount = new THREE.Group();
-        clipOnMount.position.set(0, 1.015, sideSign * 0.14);
+        clipOnMount.position.set(0, 1.018, sideSign * 0.14);
 
-        // Abrazadera CNC alrededor de la botella dorada justo debajo de la tija superior
-        var forkCollar = new THREE.Mesh(new THREE.CylinderGeometry(0.0395, 0.0395, 0.032, 24), matBlackAnodized);
+        // Abrazadera negra anodizada alrededor de la botella justo debajo de la tija superior (Foto 3)
+        var forkCollar = new THREE.Mesh(new THREE.CylinderGeometry(0.0395, 0.0395, 0.034, 24), matBlackAnodized);
         clipOnMount.add(forkCollar);
 
-        // Bloque adelantado/lateral de anclaje del tubo con 2 tornillos Allen
-        var wristBlock = new THREE.Mesh(new THREE.BoxGeometry(0.044, 0.030, 0.036), matBlackAnodized);
-        wristBlock.position.set(0.024, 0, sideSign * 0.028);
+        // Bloque negro de amarre del semimanillar en el lado exterior/trasero de la botella (Foto 3)
+        var wristBlock = new THREE.Mesh(new THREE.BoxGeometry(0.046, 0.034, 0.038), matBlackAnodized);
+        wristBlock.position.set(0.016, 0, sideSign * 0.032);
         clipOnMount.add(wristBlock);
 
-        // Subgrupo del tubo del semimanillar orientado:
-        // - Hacia fuera en Z (sideSign)
-        // - Barrido hacia ATRÁS (+X, hacia el piloto) unos 24 grados para postura racing real
-        // - Caída ergonómica hacia abajo (-Y) unos 8 grados
-        var barAxisGrp = new THREE.Group();
-        barAxisGrp.position.set(0.028, 0, sideSign * 0.030);
-        barAxisGrp.rotation.y = -sideSign * 0.42; // Abre hacia atrás (+X) en ambos lados de forma simétrica
-        barAxisGrp.rotation.x = sideSign * 0.12;  // Ligera inclinación ergonómica hacia abajo
+        // Tornillos Allen del bloque negro
+        [-0.008, 0.008].forEach(function(yb) {
+          var allenBolt = new THREE.Mesh(new THREE.CylinderGeometry(0.0035, 0.0035, 0.040, 8), matSteel);
+          allenBolt.rotation.z = Math.PI / 2;
+          allenBolt.position.set(0.018, yb, sideSign * 0.046);
+          clipOnMount.add(allenBolt);
+        });
 
-        var barLen = 0.25;
-        // Tubo de aluminio negro anodizado
+        // Grupo del tubo del semimanillar:
+        // Construido explícitamente con vectores para garantizar al 100% que va:
+        // - Hacia fuera (sideSign * Z)
+        // - Hacia atrás (+X, hacia el cuerpo y manos del piloto)
+        // - Ligeramente hacia abajo (-Y, caída ergonómica de competición)
+        var barPivot = new THREE.Group();
+        barPivot.position.set(0.020, 0.002, sideSign * 0.035);
+        // +sideSign * 0.38 rad (~22°) hace que tanto el izquierdo (+Z) como el derecho (-Z) vayan hacia +X (atrás, hacia el piloto)
+        barPivot.rotation.order = 'YXZ';
+        barPivot.rotation.y = sideSign * 0.38;
+        barPivot.rotation.x = -sideSign * 0.10; // Caída hacia abajo (-Y) conforme se aleja hacia los extremos
+
+        var barLen = 0.26;
+        // Tubo del semimanillar (orientado en el eje Z local mediante rotateX)
         var barTube = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.011, 0.011, barLen, 16).rotateZ(Math.PI / 2),
+          new THREE.CylinderGeometry(0.0115, 0.0115, barLen, 20).rotateX(Math.PI / 2),
           matBlackAnodized
         );
-        // Rotado primero en X para apuntar a lo largo de Z
-        barTube.rotation.set(0, Math.PI / 2, 0);
         barTube.position.z = sideSign * (barLen * 0.5);
-        barAxisGrp.add(barTube);
+        barPivot.add(barTube);
 
-        // Puño de goma antideslizante (Grip)
-        var gripLen = 0.125;
+        // Puño de goma negra (Grip) donde agarra la mano del piloto
+        var gripLen = 0.13;
         var rubberGrip = new THREE.Mesh(
           new THREE.CylinderGeometry(0.0155, 0.0155, gripLen, 20).rotateX(Math.PI / 2),
           matRubberGrip
         );
-        rubberGrip.position.z = sideSign * (barLen - gripLen * 0.5 - 0.015);
-        barAxisGrp.add(rubberGrip);
+        rubberGrip.position.z = sideSign * (barLen - gripLen * 0.5 - 0.014);
+        barPivot.add(rubberGrip);
 
-        // Reborde interior del puño (Flange)
+        // Reborde interior del puño
         var gripFlange = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.022, 0.022, 0.008, 20).rotateX(Math.PI / 2),
+          new THREE.CylinderGeometry(0.021, 0.021, 0.007, 20).rotateX(Math.PI / 2),
           matRubberGrip
         );
-        gripFlange.position.z = sideSign * (barLen - gripLen - 0.015);
-        barAxisGrp.add(gripFlange);
+        gripFlange.position.z = sideSign * (barLen - gripLen - 0.014);
+        barPivot.add(gripFlange);
 
-        // Contrapeso metálico en la punta del semimanillar (Bar-End Weight)
+        // Tapón / Contrapeso en el extremo exterior del semimanillar
         var barEnd = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.0165, 0.014, 0.024, 18).rotateX(Math.PI / 2),
-          matGubelliniRed
+          new THREE.CylinderGeometry(0.015, 0.013, 0.020, 18).rotateX(Math.PI / 2),
+          matBlackAnodized
         );
-        barEnd.position.z = sideSign * (barLen + 0.004);
-        barAxisGrp.add(barEnd);
+        barEnd.position.z = sideSign * (barLen + 0.005);
+        barPivot.add(barEnd);
 
-        // Piña de botones de competición (Mapa motor / Pit Limiter / Regen)
-        var switchPod = new THREE.Mesh(new THREE.BoxGeometry(0.042, 0.044, 0.034), matDarkSteel);
-        switchPod.position.z = sideSign * 0.075;
-        barAxisGrp.add(switchPod);
+        // Abrazadera y Bomba / Maneta en el lado DELANTERO del puño (-X local, hacia los dedos del piloto)
+        var masterCylMount = new THREE.Mesh(new THREE.BoxGeometry(0.034, 0.032, 0.026), matAluminum);
+        masterCylMount.position.set(-0.012, 0.004, sideSign * 0.095);
+        barPivot.add(masterCylMount);
 
-        var btnRed = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, 0.010, 12).rotateZ(Math.PI / 2), matGubelliniRed);
-        btnRed.position.set(0.022, 0.008, sideSign * 0.075);
-        barAxisGrp.add(btnRed);
-
-        var btnBlue = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, 0.010, 12).rotateZ(Math.PI / 2), matGubelliniBlue);
-        btnBlue.position.set(0.022, -0.008, sideSign * 0.075);
-        barAxisGrp.add(btnBlue);
-
-        // Maneta de freno delantero (derecha) / freno regenerativo (izquierda) apuntando hacia delante del puño
-        var leverMount = new THREE.Mesh(new THREE.BoxGeometry(0.032, 0.028, 0.022), matBlackAnodized);
-        leverMount.position.set(-0.014, 0, sideSign * 0.105);
-        barAxisGrp.add(leverMount);
-
+        // Maneta metálica articulada delante del puño (-X local) abriéndose de dentro hacia fuera para los dedos
         var leverBlade = new THREE.Mesh(new THREE.BoxGeometry(0.010, 0.012, 0.135), matAluminum);
-        leverBlade.position.set(-0.042, -0.006, sideSign * 0.168);
-        leverBlade.rotation.y = sideSign * 0.18;
-        barAxisGrp.add(leverBlade);
+        leverBlade.position.set(-0.042, 0.002, sideSign * 0.165);
+        leverBlade.rotation.y = -sideSign * 0.16;
+        barPivot.add(leverBlade);
 
-        // En el semimanillar derecho (sideSign === -1), añadir bote de líquido de frenos Brembo con soporte
-        if (sideSign === -1) {
-          var resBracket = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.045, 0.008), matAluminum);
-          resBracket.position.set(-0.015, 0.032, -0.105);
-          barAxisGrp.add(resBracket);
+        // Bote de líquido de freno delantero (como se ve en la foto 3 junto a la bomba del semimanillar)
+        if (sideSign === 1) {
+          var resBracket = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.042, 0.008), matAluminum);
+          resBracket.position.set(-0.018, 0.032, sideSign * 0.082);
+          barPivot.add(resBracket);
 
           var fluidCup = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.018, 0.018, 0.042, 18),
-            new THREE.MeshStandardMaterial({ color: 0xfef3c7, roughness: 0.25, metalness: 0.1 })
+            new THREE.CylinderGeometry(0.021, 0.021, 0.038, 20),
+            new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.25, metalness: 0.2 })
           );
-          fluidCup.position.set(-0.015, 0.062, -0.105);
-          barAxisGrp.add(fluidCup);
+          fluidCup.position.set(-0.018, 0.058, sideSign * 0.082);
+          barPivot.add(fluidCup);
 
-          var fluidCap = new THREE.Mesh(new THREE.CylinderGeometry(0.0195, 0.0195, 0.010, 18), matBlackAnodized);
-          fluidCap.position.set(-0.015, 0.086, -0.105);
-          barAxisGrp.add(fluidCap);
+          var fluidCap = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.010, 20), matDarkSteel);
+          fluidCap.position.set(-0.018, 0.080, sideSign * 0.082);
+          barPivot.add(fluidCap);
         }
 
-        clipOnMount.add(barAxisGrp);
+        clipOnMount.add(barPivot);
         frontEndGroup.add(clipOnMount);
       });
 
@@ -2210,119 +2202,114 @@
         brace.rotation.z = -0.32;
         swingarmGroup.add(brace);
       });
-      // Puente transversal del basculante donde ancla el amortiguador trasero
       var swingCrossBridge = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.05, 0.36), matAluminum);
       swingCrossBridge.position.set(0.68, 0.68, 0);
       swingarmGroup.add(swingCrossBridge);
       mechanicalGroup.add(swingarmGroup);
 
       // ========================================================================
-      // 3.2 AMORTIGUADOR TRASERO FG GUBELLINI COMPLETO (MUELLE HELICOIDAL 3D + BOTELLA PIGGYBACK CONECTADA)
+      // 3.2 AMORTIGUADOR TRASERO CON LA BOTELLA ARRIBA DEL MUELLE (COMO EN FOTOS 3 Y 4 DEL CAD)
       // ========================================================================
+      // En shockGroup (rotado -0.74 rad en Z):
+      //   +Y local apunta hacia delante/arriba (hacia la caja de la batería)
+      //   -Y local apunta hacia atrás/abajo (hacia el anclaje del basculante/colín)
+      //   +X local apunta hacia ARRIBA/ATRÁS (exactamente donde sobresale la botella en las fotos 3 y 4)
       var shockGroup = new THREE.Group();
-      shockGroup.position.set(0.52, 0.87, 0);
+      shockGroup.position.set(0.50, 0.86, 0);
       shockGroup.rotation.z = -0.74;
 
-      // 1. Cabezal superior CNC + Ojal de anclaje superior al chasis
-      var topEyelet = new THREE.Mesh(new THREE.TorusGeometry(0.018, 0.007, 12, 24), matAluminum);
-      topEyelet.position.set(0, 0.255, 0);
-      shockGroup.add(topEyelet);
+      // 1. Anclaje delantero (+Y) junto a la caja de la batería
+      var frontShockMount = new THREE.Mesh(new THREE.BoxGeometry(0.038, 0.050, 0.044), matAluminum);
+      frontShockMount.position.set(0, 0.215, 0);
+      shockGroup.add(frontShockMount);
 
-      var topBolt = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.06, 12).rotateX(Math.PI / 2), matSteel);
-      topBolt.position.set(0, 0.255, 0);
-      shockGroup.add(topBolt);
+      var frontShockBolt = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.062, 12).rotateX(Math.PI / 2), matSteel);
+      frontShockBolt.position.set(0, 0.228, 0);
+      shockGroup.add(frontShockBolt);
 
-      var topShockHead = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.030, 0.065, 20), matBlackAnodized);
-      topShockHead.position.set(0, 0.205, 0);
-      shockGroup.add(topShockHead);
-
-      // 2. Cuerpo principal roscado dorado (Damper Body) + Vástago cromado inferior (Piston Rod)
-      var damperBody = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.026, 0.24, 24), matGubelliniGold);
-      damperBody.position.set(0, 0.065, 0);
+      // 2. Cuerpo roscado central + Vástago
+      var damperBody = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.026, 0.28, 24), matDarkSteel);
+      damperBody.position.set(0, 0.02, 0);
       shockGroup.add(damperBody);
 
-      var pistonRod = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.19, 20), matSteel);
-      pistonRod.position.set(0, -0.12, 0);
+      var pistonRod = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.16, 20), matSteel);
+      pistonRod.position.set(0, 0.15, 0);
       shockGroup.add(pistonRod);
 
-      // Tope de goma progresivo (Bump Stop) en el vástago
-      var bumpRubber = new THREE.Mesh(new THREE.CylinderGeometry(0.019, 0.022, 0.032, 16), matRubberGrip);
-      bumpRubber.position.set(0, -0.075, 0);
-      shockGroup.add(bumpRubber);
+      // Platos de retención del muelle (delantero y trasero)
+      var springPerchFront = new THREE.Mesh(new THREE.CylinderGeometry(0.049, 0.046, 0.018, 24), matAluminum);
+      springPerchFront.position.set(0, 0.160, 0);
+      shockGroup.add(springPerchFront);
 
-      // Horquilla / Ojal inferior de anclaje al basculante
-      var botClevis = new THREE.Mesh(new THREE.BoxGeometry(0.038, 0.055, 0.042), matAluminum);
-      botClevis.position.set(0, -0.215, 0);
-      shockGroup.add(botClevis);
+      var springPerchRear = new THREE.Mesh(new THREE.CylinderGeometry(0.049, 0.049, 0.022, 24), matDarkSteel);
+      springPerchRear.position.set(0, -0.145, 0);
+      shockGroup.add(springPerchRear);
 
-      var botBolt = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.065, 12).rotateX(Math.PI / 2), matSteel);
-      botBolt.position.set(0, -0.232, 0);
-      shockGroup.add(botBolt);
-
-      // 3. Tuerca y contratuerca superior de precarga (Roja anodizada) + Plato retenedor inferior
-      var upperSpringPerch = new THREE.Mesh(new THREE.CylinderGeometry(0.050, 0.048, 0.022, 24), matGubelliniRed);
-      upperSpringPerch.position.set(0, 0.155, 0);
-      shockGroup.add(upperSpringPerch);
-
-      var lowerSpringPerch = new THREE.Mesh(new THREE.CylinderGeometry(0.048, 0.036, 0.020, 24), matBlackAnodized);
-      lowerSpringPerch.position.set(0, -0.155, 0);
-      shockGroup.add(lowerSpringPerch);
-
-      // 4. Muelle Helicoidal Continuo Real en 3D (8.5 espiras entre -0.145 y +0.145)
+      // 3. Muelle Helicoidal Continuo Blanco/Gris Claro (Exactamente como se ve en las fotos 3 y 4 del CAD)
       var helixPts = [];
-      var coilTurns = 8.5;
+      var coilTurns = 7.5;
       var coilSamples = 180;
-      var coilRadius = 0.041;
+      var coilRadius = 0.042;
       for (var hIdx = 0; hIdx <= coilSamples; hIdx++) {
         var tCoil = hIdx / coilSamples;
         var ang = tCoil * coilTurns * Math.PI * 2;
-        var hy = -0.145 + tCoil * 0.290;
+        var hy = -0.135 + tCoil * 0.285;
         helixPts.push(new THREE.Vector3(Math.cos(ang) * coilRadius, hy, Math.sin(ang) * coilRadius));
       }
       var helixCurve = new THREE.CatmullRomCurve3(helixPts);
-      var springGeo = new THREE.TubeGeometry(helixCurve, 220, 0.0082, 12, false);
-      var springMat = new THREE.MeshStandardMaterial({ color: 0xe11d48, metalness: 0.45, roughness: 0.25 });
+      var springGeo = new THREE.TubeGeometry(helixCurve, 200, 0.0092, 12, false);
+      var springMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.35, roughness: 0.28 });
       shockGroup.add(new THREE.Mesh(springGeo, springMat));
 
-      // 5. Botella de gas separada (Piggyback Reservoir) unida sólidamente mediante puente CNC y latiguillo con racores
-      var piggyBridge = new THREE.Mesh(new THREE.BoxGeometry(0.088, 0.036, 0.036), matBlackAnodized);
-      piggyBridge.position.set(0.044, 0.195, 0);
-      piggyBridge.rotation.z = -0.15;
+      // 4. Cabezal trasero (-Y) + Orejetas de anclaje al basculante (Foto 3)
+      var rearShockHead = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 0.065, 22), matAluminum);
+      rearShockHead.position.set(0, -0.185, 0);
+      shockGroup.add(rearShockHead);
+
+      var rearBracketLug = new THREE.Mesh(new THREE.BoxGeometry(0.048, 0.055, 0.056), matAluminum);
+      rearBracketLug.position.set(-0.010, -0.225, 0);
+      shockGroup.add(rearBracketLug);
+
+      var rearMountBolt = new THREE.Mesh(new THREE.CylinderGeometry(0.0085, 0.0085, 0.068, 12).rotateX(Math.PI / 2), matSteel);
+      rearMountBolt.position.set(-0.010, -0.232, 0);
+      shockGroup.add(rearMountBolt);
+
+      // 5. BOTELLA SEPARADA (PIGGYBACK) ARRIBA EN EL EXTREMO TRASERO DEL MUELLE (FOTOS 3 Y 4 DEL CAD)
+      // Ubicada en (-Y = -0.175, +X = +0.095), quedando levantada por encima del final del muelle tal cual tus capturas
+      var piggyBridge = new THREE.Mesh(new THREE.BoxGeometry(0.075, 0.042, 0.040), matAluminum);
+      piggyBridge.position.set(0.042, -0.182, 0);
       shockGroup.add(piggyBridge);
 
-      var piggyBody = new THREE.Group();
-      piggyBody.position.set(0.092, 0.105, 0);
-      piggyBody.rotation.z = 0.08;
+      // Ruedas/tuercas de ajuste en la unión de la botella (visibles en la foto 3)
+      var adjustWheel = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.016, 16), matDarkSteel);
+      adjustWheel.rotation.z = Math.PI / 2;
+      adjustWheel.position.set(0.048, -0.155, 0);
+      shockGroup.add(adjustWheel);
 
-      var piggyCyl = new THREE.Mesh(new THREE.CylinderGeometry(0.027, 0.027, 0.165, 24), matGubelliniGold);
-      piggyBody.add(piggyCyl);
+      var piggyCylinderGrp = new THREE.Group();
+      // Posicionada arriba (+X) en la parte trasera del muelle (-Y), orientada como en la foto 3 y 4
+      piggyCylinderGrp.position.set(0.098, -0.155, 0);
+      piggyCylinderGrp.rotation.z = -0.58; // Queda erguida/inclinada en la parte superior trasera del muelle
 
-      var piggyClampRing = new THREE.Mesh(new THREE.CylinderGeometry(0.0295, 0.0295, 0.022, 24), matBlackAnodized);
-      piggyClampRing.position.y = 0.035;
-      piggyBody.add(piggyClampRing);
+      var piggyMainCan = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.032, 0.032, 0.145, 28),
+        new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.65, roughness: 0.25 })
+      );
+      piggyCylinderGrp.add(piggyMainCan);
 
-      var piggyTopCap = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.020, 24), matGubelliniBlue);
-      piggyTopCap.position.y = 0.090;
-      piggyBody.add(piggyTopCap);
+      var piggyTopRing = new THREE.Mesh(new THREE.CylinderGeometry(0.033, 0.030, 0.018, 24), matAluminum);
+      piggyTopRing.position.y = 0.078;
+      piggyCylinderGrp.add(piggyTopRing);
 
-      var compKnob = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.016, 12), matGubelliniRed);
-      compKnob.position.y = 0.105;
-      piggyBody.add(compKnob);
+      var piggyEndValve = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.014, 16), matDarkSteel);
+      piggyEndValve.position.y = 0.090;
+      piggyCylinderGrp.add(piggyEndValve);
 
-      var piggyBotCap = new THREE.Mesh(new THREE.CylinderGeometry(0.0275, 0.025, 0.016, 24), matBlackAnodized);
-      piggyBotCap.position.y = -0.088;
-      piggyBody.add(piggyBotCap);
+      var piggyBottomCap = new THREE.Mesh(new THREE.CylinderGeometry(0.033, 0.030, 0.020, 24), matAluminum);
+      piggyBottomCap.position.y = -0.078;
+      piggyCylinderGrp.add(piggyBottomCap);
 
-      shockGroup.add(piggyBody);
-
-      // Latiguillo trenzado de alta presión con racores azul/rojo entre el cabezal y la botella piggyback
-      var piggyHoseCurve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(0.015, 0.215, 0.018),
-        new THREE.Vector3(0.055, 0.228, 0.026),
-        new THREE.Vector3(0.088, 0.195, 0.016)
-      ]);
-      shockGroup.add(new THREE.Mesh(new THREE.TubeGeometry(piggyHoseCurve, 20, 0.0065, 10, false), matSteel));
-
+      shockGroup.add(piggyCylinderGrp);
       mechanicalGroup.add(shockGroup);
 
       // Piñón y Cadena de Eslabones Metálicos
@@ -2382,7 +2369,7 @@
       mechanicalGroup.add(chainGroup);
 
       // ========================================================================
-      // 3.3 CAJA DE LA BATERÍA CON REJILLAS EN MODO ESPEJO INTEGRADAS EN LAS PAREDES
+      // 3.3 CAJA DE LA BATERÍA CON ESQUINAS DELANTERAS DIAGONALES EN PICO Y REJILLAS EN MODO ESPEJO (FOTO 3 CAD)
       // ========================================================================
       var batteryBoxShell = new THREE.Group();
       batteryBoxShell.position.copy(BOX_ORIGIN);
@@ -2393,6 +2380,7 @@
       var upW = 0.72, upH = 0.18, upD = 0.48;
       var totalBoxH = lowH + upH;
 
+      // Parte inferior estrecha de la caja (z = -0.18 a +0.18)
       var boxBottom = new THREE.Mesh(new THREE.BoxGeometry(lowW, wallT, lowD), matGhostChassis);
       boxBottom.position.set(0, -0.14, 0);
       batteryBoxShell.add(boxBottom);
@@ -2403,68 +2391,90 @@
         batteryBoxShell.add(lowWall);
       });
 
-      // Paredes superiores laterales con ranuras de ventilación delanteras perforadas e integradas en MODO ESPEJO
-      var sideWallLen = upW - wallT * 2;
-      var sideWallShape = new THREE.Shape();
-      sideWallShape.moveTo(-sideWallLen / 2, -upH / 2);
-      sideWallShape.lineTo( sideWallLen / 2, -upH / 2);
-      sideWallShape.lineTo( sideWallLen / 2,  upH / 2);
-      sideWallShape.lineTo(-sideWallLen / 2,  upH / 2);
-      sideWallShape.closePath();
+      var lowFrontWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, lowH, lowD), matGhostChassis);
+      lowFrontWall.position.set(-lowW / 2, -0.042, 0);
+      batteryBoxShell.add(lowFrontWall);
 
-      // 2 columnas delanteras de 6 ranuras en cada pared lateral superior
-      [-0.295, -0.225].forEach(function(slotX) {
-        for (var sRow = 0; sRow < 6; sRow++) {
-          var slotY = -0.058 + sRow * 0.023;
-          var sHole = new THREE.Path();
-          var sw = 0.024, sh = 0.0065;
-          sHole.moveTo(slotX - sw, slotY - sh);
-          sHole.lineTo(slotX + sw, slotY - sh);
-          sHole.lineTo(slotX + sw, slotY + sh);
-          sHole.lineTo(slotX - sw, slotY + sh);
-          sHole.closePath();
-          sideWallShape.holes.push(sHole);
-        }
-      });
-
-      var sideWallGeo = new THREE.ExtrudeGeometry(sideWallShape, { depth: wallT, bevelEnabled: false });
-      sideWallGeo.translate(0, 0, -wallT / 2);
+      // Parte superior ancha (z = -0.24 a +0.24) con las ESQUINAS DELANTERAS EN CHAFLÁN DIAGONAL (Foto 3):
+      // En la parte delantera (x de -0.29 a -0.36), el ancho se estrecha en diagonal desde z = ±0.24 hasta z = ±0.16,
+      // formando exactamente el pico diagonal en ambas esquinas delanteras donde van las rejillas verticales.
+      var chX = 0.075; // Longitud X del chaflán delantero (de x = -0.36 a x = -0.285)
+      var chZ = 0.080; // Ancho Z del chaflán delantero (de z = ±0.24 a z = ±0.16)
+      var sideLenUp = upW - chX - wallT; // Pared lateral lisa desde x = -0.285 hasta x = +0.36
 
       [-1, 1].forEach(function(sideSign) {
         var zSide = sideSign * (upD / 2);
-        var upWall = new THREE.Mesh(sideWallGeo, matGhostChassis);
-        upWall.position.set(0, 0.145, zSide);
+
+        // 1. Pared lateral superior lisa (termina delante en x = -0.285 para dar paso a la esquina diagonal)
+        var upWall = new THREE.Mesh(new THREE.BoxGeometry(sideLenUp, upH, wallT), matGhostChassis);
+        upWall.position.set(chX * 0.5, 0.145, zSide);
         batteryBoxShell.add(upWall);
 
-        // Deflectores/lamas interiores en MODO ESPEJO exacto (empotrados hacia el interior de la caja, nunca por fuera)
-        [-0.295, -0.225].forEach(function(slotX) {
-          // Marco interior de la rejilla pegado a la cara interna de la pared
-          var innerGrilleFrame = new THREE.Mesh(new THREE.BoxGeometry(0.058, 0.148, 0.008), matDarkSteel);
-          innerGrilleFrame.position.set(slotX, 0.145, zSide - sideSign * (wallT * 0.65));
-          batteryBoxShell.add(innerGrilleFrame);
-
-          for (var sRow = 0; sRow < 6; sRow++) {
-            var slotY = 0.145 - 0.058 + sRow * 0.023;
-            var louverBlade = new THREE.Mesh(new THREE.BoxGeometry(0.046, 0.004, 0.014), matAluminum);
-            // Colocadas hacia el interior de la pared (zSide - sideSign * ...) y con inclinación simétrica en espejo
-            louverBlade.position.set(slotX, slotY, zSide - sideSign * (wallT * 0.85));
-            louverBlade.rotation.y = -sideSign * 0.42;
-            louverBlade.rotation.x = sideSign * 0.25;
-            batteryBoxShell.add(louverBlade);
-          }
-        });
-
+        // Escalón horizontal (step ledge) recortado en la esquina delantera
         var stepW = (upD - lowD) / 2;
-        var stepLedge = new THREE.Mesh(new THREE.BoxGeometry(upW - wallT * 2, wallT, stepW), matGhostChassis);
-        stepLedge.position.set(0, 0.05, sideSign * (lowD / 2 + stepW / 2));
+        var stepLedge = new THREE.Mesh(new THREE.BoxGeometry(sideLenUp, wallT, stepW), matGhostChassis);
+        stepLedge.position.set(chX * 0.5, 0.05, sideSign * (lowD / 2 + stepW / 2));
         batteryBoxShell.add(stepLedge);
+
+        // 2. ESQUINA DELANTERA DIAGONAL CON REJILLA VERTICAL EN MODO ESPEJO (Idéntica a la Foto 3 del CAD)
+        // Une el final de la pared lateral (x = -0.285, z = ±0.24) con el frente estrecho (x = -0.36, z = ±0.16)
+        var diagLen = Math.hypot(chX, chZ); // ~0.110 m
+        var diagAngleY = sideSign * Math.atan2(chZ, chX);
+
+        var cornerGrilleGroup = new THREE.Group();
+        cornerGrilleGroup.position.set(-upW / 2 + chX * 0.5, 0.145, sideSign * (upD / 2 - chZ * 0.5));
+        cornerGrilleGroup.rotation.y = diagAngleY;
+
+        // Marco exterior achaflanado que hace el pico de la esquina (como se ve en la foto 3)
+        var frameThick = 0.018;
+        var topCapBar = new THREE.Mesh(new THREE.BoxGeometry(diagLen + 0.008, 0.016, frameThick), matGhostChassis);
+        topCapBar.position.y = upH / 2 - 0.008;
+        cornerGrilleGroup.add(topCapBar);
+
+        var botCapBar = new THREE.Mesh(new THREE.BoxGeometry(diagLen + 0.008, 0.016, frameThick), matGhostChassis);
+        botCapBar.position.y = -upH / 2 + 0.008;
+        cornerGrilleGroup.add(botCapBar);
+
+        var outerPostBar = new THREE.Mesh(new THREE.BoxGeometry(0.020, upH, frameThick), matGhostChassis);
+        outerPostBar.position.x = diagLen * 0.5 - 0.008;
+        cornerGrilleGroup.add(outerPostBar);
+
+        var innerPostBar = new THREE.Mesh(new THREE.BoxGeometry(0.020, upH, frameThick), matGhostChassis);
+        innerPostBar.position.x = -diagLen * 0.5 + 0.008;
+        cornerGrilleGroup.add(innerPostBar);
+
+        // Las 9 lamas horizontales/inclinadas de la rejilla en la esquina diagonal en MODO ESPEJO (Foto 3)
+        var numSlats = 9;
+        for (var sl = 0; sl < numSlats; sl++) {
+          var ySlat = -0.068 + sl * 0.017;
+          var slatBlade = new THREE.Mesh(
+            new THREE.BoxGeometry(diagLen - 0.026, 0.0055, 0.018),
+            matAluminum
+          );
+          slatBlade.position.set(0, ySlat, 0);
+          // Inclinadas simétricamente en modo espejo hacia el interior de la caja
+          slatBlade.rotation.x = sideSign * 0.35;
+          cornerGrilleGroup.add(slatBlade);
+
+          // Hueco oscuro entre lamas para dar contraste real de rejilla como en el CAD
+          var darkSlot = new THREE.Mesh(
+            new THREE.BoxGeometry(diagLen - 0.030, 0.006, 0.006),
+            new THREE.MeshBasicMaterial({ color: 0x0f172a })
+          );
+          darkSlot.position.set(0, ySlat - 0.006, -sideSign * 0.003);
+          cornerGrilleGroup.add(darkSlot);
+        }
+
+        batteryBoxShell.add(cornerGrilleGroup);
       });
 
-      var frontBoxWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, totalBoxH, lowD), matGhostChassis);
-      frontBoxWall.position.set(-upW / 2, 0.05, 0);
-      batteryBoxShell.add(frontBoxWall);
+      // Pared frontal superior entre los dos chaflanes diagonales (z = -0.16 a +0.16)
+      var frontMidWidth = upD - chZ * 2;
+      var frontUpperWall = new THREE.Mesh(new THREE.BoxGeometry(wallT, upH, frontMidWidth), matGhostChassis);
+      frontUpperWall.position.set(-upW / 2, 0.145, 0);
+      batteryBoxShell.add(frontUpperWall);
 
-      // Pared trasera con las 4 columnas simétricas en modo espejo de ranuras de refrigeración
+      // Pared trasera con las 4 columnas simétricas en modo espejo de ranuras de refrigeración (Foto 3)
       var rearWallShape = new THREE.Shape();
       rearWallShape.moveTo(-upD / 2, -totalBoxH / 2);
       rearWallShape.lineTo( upD / 2, -totalBoxH / 2);
@@ -2492,7 +2502,6 @@
       rearBoxWall.position.set(upW / 2 - wallT / 2, 0.05, 0);
       batteryBoxShell.add(rearBoxWall);
 
-      // Lamas interiores en modo espejo para las 4 columnas de rejillas traseras
       [-0.145, -0.050, 0.050, 0.145].forEach(function(colZ) {
         var mirrorSign = colZ < 0 ? -1 : 1;
         for (var rowIdx = 0; rowIdx < 5; rowIdx++) {
@@ -2505,8 +2514,8 @@
         }
       });
 
-      // Cajón delantero estrecho de altura completa para la BMS
-      var bmsW = 0.15, bmsD = 0.30;
+      // Cajón delantero estrecho de la BMS (delante de la pared frontal superior, dejando libre las esquinas diagonales)
+      var bmsW = 0.14, bmsD = 0.28;
       var bmsBottom = new THREE.Mesh(new THREE.BoxGeometry(bmsW, wallT, bmsD), matGhostChassis);
       bmsBottom.position.set(-upW / 2 - bmsW / 2, -0.14, 0);
       batteryBoxShell.add(bmsBottom);
@@ -2859,11 +2868,11 @@
 
       // 4.5 IMD (ISOMETER)
       var imdGroup = new THREE.Group();
-      imdGroup.position.copy(boxToWorld(-0.15, 0.135, -0.222));
+      imdGroup.position.copy(boxToWorld(-0.12, 0.135, -0.222));
       imdGroup.rotation.z = BOX_ROT_Z;
 
       var imdGreenPcb = new THREE.Mesh(
-        new THREE.BoxGeometry(0.140, 0.082, 0.008),
+        new THREE.BoxGeometry(0.130, 0.082, 0.008),
         new THREE.MeshStandardMaterial({ color: 0x4ade80, roughness: 0.32, metalness: 0.20 })
       );
       imdGroup.add(imdGreenPcb);
@@ -2879,16 +2888,16 @@
         new THREE.CylinderGeometry(0.007, 0.007, 0.022, 12).rotateX(Math.PI / 2),
         matSteel
       );
-      chassisGndStud.position.set(-0.082, 0.020, 0.008);
+      chassisGndStud.position.set(-0.075, 0.020, 0.008);
       imdGroup.add(chassisGndStud);
 
       registerComponent('imd', imdGroup, new THREE.Vector3(-0.04, 0.18, -0.14));
 
-      addTerminalPoint('CHASIS GND (IMD)', 'term-lvpcb', boxToWorld(-0.23, 0.16, -0.22), ['imd'], 'HV');
+      addTerminalPoint('CHASIS GND (IMD)', 'term-lvpcb', boxToWorld(-0.195, 0.16, -0.22), ['imd'], 'HV');
 
-      // 4.6 VMP (VOLTAGE MEASUREMENT POINT)
+      // 4.6 VMP (VOLTAGE MEASUREMENT POINT) - Ubicado justo detrás de la esquina diagonal derecha (x = -0.245)
       var vmpGroup = new THREE.Group();
-      vmpGroup.position.copy(boxToWorld(-0.28, 0.145, -0.24));
+      vmpGroup.position.copy(boxToWorld(-0.245, 0.145, -0.24));
       vmpGroup.rotation.z = BOX_ROT_Z;
 
       var vmpFlange = new THREE.Mesh(new THREE.BoxGeometry(0.048, 0.048, 0.010), matDarkSteel);
@@ -2917,7 +2926,7 @@
 
       registerComponent('vmp', vmpGroup, new THREE.Vector3(-0.10, 0.15, -0.14));
 
-      addTerminalPoint('VMP CIRCULAR (4 CABLES HV)', 'term-pos', boxToWorld(-0.28, 0.19, -0.28), ['vmp', 'contactor', 'battery'], 'HV');
+      addTerminalPoint('VMP CIRCULAR (4 CABLES HV)', 'term-pos', boxToWorld(-0.245, 0.19, -0.28), ['vmp', 'contactor', 'battery'], 'HV');
 
       // ========================================================================
       // 4.7 PANTALLA AiM MYCHRON 5S + SOPORTE CNC ANCLADO A LA TIJA SUPERIOR
@@ -3078,37 +3087,37 @@
 
       addTerminalPoint('AiM CAN + 12V PDM', 'term-lvpcb', new THREE.Vector3(-0.88, 1.54, 0.06), ['aim', 'lvbox', 'bms', 'dcdc'], 'LV');
 
-      // 4.8 INTERRUPTOR EXTERIOR BATERÍA -> CINCON DC-DC
+      // 4.8 INTERRUPTOR EXTERIOR BATERÍA -> CINCON DC-DC (Ubicado en x = -0.245, detrás de la esquina diagonal izquierda)
       var swGroup = new THREE.Group();
-      swGroup.position.copy(boxToWorld(-0.28, 0.145, 0.24));
+      swGroup.position.copy(boxToWorld(-0.245, 0.145, 0.24));
       swGroup.rotation.z = BOX_ROT_Z;
 
       var swInnerBox = new THREE.Mesh(
-        new THREE.BoxGeometry(0.064, 0.054, 0.038),
+        new THREE.BoxGeometry(0.060, 0.052, 0.034),
         new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.35, metalness: 0.4 })
       );
-      swInnerBox.position.z = -0.020;
+      swInnerBox.position.z = -0.018;
       swGroup.add(swInnerBox);
 
       var swOuterBezel = new THREE.Mesh(
-        new THREE.BoxGeometry(0.072, 0.062, 0.010),
+        new THREE.BoxGeometry(0.068, 0.060, 0.010),
         new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.6, roughness: 0.3 })
       );
       swOuterBezel.position.z = 0.008;
       swGroup.add(swOuterBezel);
 
       var swActuator = new THREE.Mesh(
-        new THREE.BoxGeometry(0.034, 0.040, 0.024),
+        new THREE.BoxGeometry(0.032, 0.038, 0.022),
         new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.25, metalness: 0.2 })
       );
-      swActuator.position.set(0, 0, 0.020);
+      swActuator.position.set(0, 0, 0.018);
       swActuator.rotation.x = -0.38;
       swGroup.add(swActuator);
       switchLeverMesh = swActuator;
 
       registerComponent('switch_dcdc', swGroup, new THREE.Vector3(-0.10, 0.14, 0.12));
 
-      addTerminalPoint('INT. DC-DC (ON)', 'term-lvpcb', boxToWorld(-0.28, 0.19, 0.28), ['switch_dcdc', 'dcdc', 'battery', 'aim'], 'LV', 'term-sw-state');
+      addTerminalPoint('INT. DC-DC (ON)', 'term-lvpcb', boxToWorld(-0.245, 0.19, 0.28), ['switch_dcdc', 'dcdc', 'battery', 'aim'], 'LV', 'term-sw-state');
 
       // 4.9 CONVERTIDOR DC-DC CINCON CFB600W-110S SERIES
       var dcdcGroup = new THREE.Group();
@@ -3165,17 +3174,17 @@
 
       // 4.10 BMS Orion 2
       var bmsGroup = new THREE.Group();
-      bmsGroup.position.copy(boxToWorld(-0.41, 0.04, 0));
+      bmsGroup.position.copy(boxToWorld(-0.42, 0.04, 0));
       bmsGroup.rotation.z = BOX_ROT_Z;
 
       var orionBody = new THREE.Mesh(
-        new THREE.BoxGeometry(0.038, 0.19, 0.23),
+        new THREE.BoxGeometry(0.038, 0.19, 0.21),
         new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.65, roughness: 0.30 })
       );
       bmsGroup.add(orionBody);
 
       var labelOrion = new THREE.Mesh(
-        new THREE.BoxGeometry(0.040, 0.055, 0.15),
+        new THREE.BoxGeometry(0.040, 0.055, 0.14),
         new THREE.MeshStandardMaterial({ color: 0xea580c, roughness: 0.3 })
       );
       bmsGroup.add(labelOrion);
@@ -3282,7 +3291,7 @@
 
       // 4.13 CAJA DE BAJA TENSIÓN: HVD (Izq) + PDM (Der) + ECU (Arriba atornillada)
       var lvGroup = new THREE.Group();
-      lvGroup.position.set(0.64, 1.15, 0);
+      lvGroup.position.set(0.68, 1.18, 0);
       lvGroup.rotation.z = 0.22;
 
       var pcbHvdMat = new THREE.MeshStandardMaterial({ color: 0x059669, roughness: 0.35, metalness: 0.3 });
@@ -3385,12 +3394,12 @@
 
       registerComponent('lvbox', lvGroup, new THREE.Vector3(0.12, 0.17, 0));
 
-      addTerminalPoint('HVD (Izq. · Estado IMD)', 'term-lvpcb', new THREE.Vector3(0.55, 1.11, 0.06), ['lvbox', 'imd'], 'LV');
-      addTerminalPoint('PDM (Der. · + / - DC-DC)', 'term-lvpcb', new THREE.Vector3(0.73, 1.14, -0.06), ['lvbox', 'dcdc', 'aim'], 'LV');
-      addTerminalPoint('ECU (Arriba · CAN AiM)', 'term-lvpcb', new THREE.Vector3(0.64, 1.19, 0.0), ['lvbox', 'imd', 'aim'], 'LV');
+      addTerminalPoint('HVD (Izq. · Estado IMD)', 'term-lvpcb', new THREE.Vector3(0.59, 1.14, 0.06), ['lvbox', 'imd'], 'LV');
+      addTerminalPoint('PDM (Der. · + / - DC-DC)', 'term-lvpcb', new THREE.Vector3(0.77, 1.17, -0.06), ['lvbox', 'dcdc', 'aim'], 'LV');
+      addTerminalPoint('ECU (Arriba · CAN AiM)', 'term-lvpcb', new THREE.Vector3(0.68, 1.22, 0.0), ['lvbox', 'imd', 'aim'], 'LV');
 
       // ========================================================================
-      // 5. SISTEMA DE CABLEADO ORDENADO Y SIN ATRAVESAR NINGÚN OBJETO
+      // 5. SISTEMA DE CABLEADO ORDENADO Y SIN ATRAVESAR NINGÚN OBJETO NI PARED
       // ========================================================================
       wiresGroup = new THREE.Group();
       bikeGroup.add(wiresGroup);
@@ -3403,7 +3412,7 @@
       var GND_CHASSIS_LIME = 0x84cc16;
 
       function createWire(points, colorHex, radius, sysType, isDcdcControlled) {
-        var curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.25);
+        var curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.22);
         var geo = new THREE.TubeGeometry(curve, 48, radius, 8, false);
         var mat = new THREE.MeshStandardMaterial({
           color: colorHex,
@@ -3432,205 +3441,193 @@
         });
       }
 
-      // A) CABLES INTERNOS DE ALTA TENSIÓN (Sobre los módulos M1/M2/M3 a cota y >= 0.062, cero cruces)
-      // 1. Unión serie M1 delantero izquierdo (-0.222, 0.056, 0.115) -> M3 delantero izquierdo (0.054, 0.056, 0.115)
+      // A) CABLES INTERNOS DE ALTA TENSIÓN (Sobre los módulos M1/M2/M3 como en la Foto 3)
       createWire([
         boxToWorld(-0.222, 0.056, 0.115),
         boxToWorld(-0.085, 0.062, 0.115),
         boxToWorld( 0.054, 0.056, 0.115)
       ], HV_ORANGE, 0.0095, 'HV', false);
 
-      // 2. Pletina/Cable corto de Borne + M2 (-0.224, 0.056, -0.112) a Entrada Fusible SIBA (-0.212, 0.078, -0.116)
       createWire([
         boxToWorld(-0.224, 0.056, -0.112),
         boxToWorld(-0.212, 0.078, -0.116)
       ], HV_ORANGE, 0.0085, 'HV', false);
 
-      // 3. Salida Fusible SIBA (-0.105, 0.078, -0.088) -> Borna 1 Entrada Contactor Kilovac (0.047, 0.109, -0.093)
       createWire([
         boxToWorld(-0.105, 0.078, -0.088),
         boxToWorld(-0.025, 0.098, -0.090),
         boxToWorld( 0.047, 0.109, -0.093)
       ], HV_ORANGE, 0.0095, 'HV', false);
 
-      // 4. Borna 2 Salida Contactor Kilovac (0.123, 0.109, -0.093) -> Pasamuros Amphenol (+) (0.295, 0.115, -0.150)
       createWire([
         boxToWorld(0.123, 0.109, -0.093),
         boxToWorld(0.205, 0.112, -0.115),
         boxToWorld(0.295, 0.115, -0.150)
       ], HV_ORANGE, 0.0095, 'HV', false);
 
-      // 5. Borne Negativo Principal M3 (0.215, 0.056, 0.122) -> Pasamuros Amphenol (-) (0.295, 0.115, 0.150)
       createWire([
         boxToWorld(0.215, 0.056, 0.122),
         boxToWorld(0.258, 0.092, 0.138),
         boxToWorld(0.295, 0.115, 0.150)
       ], HV_ORANGE, 0.0095, 'HV', false);
 
-      // B) CONEXIONES DEL IMD (Ruteadas por el canal superior interior sin tocar el cilindro del contactor)
-      // 1. Vigilancia HV+ (IMD -> Borna entrada contactor)
+      // B) CONEXIONES DEL IMD (Ruteadas íntegramente dentro de la caja, bajo cota y=0.175)
       createWire([
-        boxToWorld(-0.110, 0.130, -0.204),
-        boxToWorld(-0.030, 0.125, -0.145),
+        boxToWorld(-0.085, 0.130, -0.204),
+        boxToWorld(-0.020, 0.122, -0.145),
         boxToWorld( 0.047, 0.109, -0.093)
-      ], HV_ORANGE, 0.0044, 'HV', false);
+      ], HV_ORANGE, 0.0042, 'HV', false);
 
-      // 2. Vigilancia HV- (IMD -> Canal superior central -> Borne HV-)
       createWire([
-        boxToWorld(-0.140, 0.120, -0.204),
-        boxToWorld(-0.080, 0.125, -0.060),
+        boxToWorld(-0.115, 0.120, -0.204),
+        boxToWorld(-0.060, 0.115, -0.050),
         boxToWorld( 0.054, 0.056,  0.115)
-      ], HV_ORANGE, 0.0044, 'HV', false);
+      ], HV_ORANGE, 0.0042, 'HV', false);
 
-      // 3. Masa Chasis IMD (IMD -> Perno Chasis pared derecha)
       createWire([
-        boxToWorld(-0.185, 0.145, -0.212),
-        boxToWorld(-0.232, 0.155, -0.214)
-      ], GND_CHASSIS_LIME, 0.0044, 'HV', false);
+        boxToWorld(-0.155, 0.145, -0.212),
+        boxToWorld(-0.195, 0.155, -0.214)
+      ], GND_CHASSIS_LIME, 0.0042, 'HV', false);
 
-      // 4. Señal Estado IMD OK (Magenta): IMD -> Canal alto (y=0.19) por encima del contactor -> Conector LV Circular Trasero
       createWire([
-        boxToWorld(-0.095, 0.155, -0.204),
-        boxToWorld( 0.080, 0.190, -0.150),
-        boxToWorld( 0.280, 0.155, -0.060),
+        boxToWorld(-0.075, 0.152, -0.204),
+        boxToWorld( 0.080, 0.165, -0.095),
+        boxToWorld( 0.250, 0.125, -0.045),
         boxToWorld( 0.355, 0.065, -0.005)
-      ], LV_IMD_MAGENTA, 0.0044, 'LV', false);
+      ], LV_IMD_MAGENTA, 0.0042, 'LV', false);
 
-      // Tramo exterior Señal IMD: Conector LV Circular Trasero -> PCB HVD/ECU
       createWire([
         boxToWorld(0.405, 0.065, -0.005),
-        new THREE.Vector3(0.36, 1.05, -0.035),
-        new THREE.Vector3(0.53, 1.11, -0.055),
-        new THREE.Vector3(0.58, 1.15, -0.025)
-      ], LV_IMD_MAGENTA, 0.0044, 'LV', false);
+        new THREE.Vector3(0.38, 1.06, -0.035),
+        new THREE.Vector3(0.56, 1.13, -0.055),
+        new THREE.Vector3(0.62, 1.17, -0.025)
+      ], LV_IMD_MAGENTA, 0.0042, 'LV', false);
 
-      // C) LOS 4 CABLES NARANJAS DEL VMP (Canal superior derecho, cero colisiones)
+      // C) LOS 4 CABLES NARANJAS DEL VMP (Desde x = -0.245, dentro de la pared derecha sin tocar el chaflán)
       createWire([
-        boxToWorld(-0.273, 0.152, -0.212),
-        boxToWorld(-0.100, 0.168, -0.175),
+        boxToWorld(-0.240, 0.150, -0.212),
+        boxToWorld(-0.090, 0.158, -0.175),
         boxToWorld( 0.047, 0.109, -0.093)
-      ], HV_ORANGE, 0.0040, 'HV', false);
+      ], HV_ORANGE, 0.0038, 'HV', false);
 
       createWire([
-        boxToWorld(-0.287, 0.152, -0.212),
-        boxToWorld(-0.060, 0.178, -0.165),
+        boxToWorld(-0.250, 0.150, -0.212),
+        boxToWorld(-0.050, 0.165, -0.160),
         boxToWorld( 0.123, 0.109, -0.093)
-      ], HV_ORANGE, 0.0040, 'HV', false);
+      ], HV_ORANGE, 0.0038, 'HV', false);
 
       createWire([
-        boxToWorld(-0.273, 0.138, -0.212),
-        boxToWorld(-0.280, 0.135, -0.020),
+        boxToWorld(-0.240, 0.138, -0.212),
+        boxToWorld(-0.235, 0.120, -0.030),
         boxToWorld(-0.222, 0.056,  0.115)
-      ], HV_ORANGE, 0.0040, 'HV', false);
+      ], HV_ORANGE, 0.0038, 'HV', false);
 
       createWire([
-        boxToWorld(-0.287, 0.138, -0.212),
-        boxToWorld(-0.120, 0.165,  0.040),
+        boxToWorld(-0.250, 0.138, -0.212),
+        boxToWorld(-0.100, 0.145,  0.035),
         boxToWorld( 0.215, 0.056,  0.122)
-      ], HV_ORANGE, 0.0040, 'HV', false);
+      ], HV_ORANGE, 0.0038, 'HV', false);
 
-      // D) BATERÍA -> INTERRUPTOR EXTERIOR DELANTERO IZQUIERDO -> CINCON DC-DC VERTICAL
+      // D) BATERÍA -> INTERRUPTOR EXTERIOR DELANTERO IZQUIERDO (x = -0.245) -> CINCON DC-DC VERTICAL
+      // Todos los puntos se mantienen dentro del chaflán diagonal izquierdo
       createWire([
         boxToWorld(-0.224, 0.056, -0.112),
-        boxToWorld(-0.295, 0.125,  0.030),
-        boxToWorld(-0.265, 0.135,  0.202)
-      ], HV_ORANGE, 0.0052, 'HV', false);
+        boxToWorld(-0.235, 0.115,  0.040),
+        boxToWorld(-0.238, 0.135,  0.205)
+      ], HV_ORANGE, 0.0050, 'HV', false);
 
       createWire([
         boxToWorld(-0.222, 0.056, 0.115),
-        boxToWorld(-0.285, 0.115, 0.175),
-        boxToWorld(-0.295, 0.135, 0.202)
-      ], HV_ORANGE, 0.0052, 'HV', false);
+        boxToWorld(-0.242, 0.105, 0.165),
+        boxToWorld(-0.252, 0.135, 0.205)
+      ], HV_ORANGE, 0.0050, 'HV', false);
 
       createWire([
-        boxToWorld(-0.265, 0.155, 0.202),
-        boxToWorld(-0.190, 0.155, 0.206),
+        boxToWorld(-0.238, 0.155, 0.205),
+        boxToWorld(-0.175, 0.155, 0.208),
         boxToWorld(-0.120, 0.152, 0.208)
-      ], HV_ORANGE, 0.0052, 'HV', true);
+      ], HV_ORANGE, 0.0050, 'HV', true);
 
       createWire([
-        boxToWorld(-0.295, 0.155, 0.202),
-        boxToWorld(-0.195, 0.120, 0.206),
+        boxToWorld(-0.252, 0.155, 0.205),
+        boxToWorld(-0.180, 0.120, 0.208),
         boxToWorld(-0.120, 0.120, 0.208)
-      ], HV_ORANGE, 0.0052, 'HV', true);
+      ], HV_ORANGE, 0.0050, 'HV', true);
 
       // E) SALIDA LV DEL CINCON VERTICAL -> CONECTOR CIRCULAR TRASERO -> PCB PDM
       createWire([
         boxToWorld(0.040, 0.152, 0.208),
-        boxToWorld(0.240, 0.135, 0.165),
+        boxToWorld(0.240, 0.130, 0.155),
         boxToWorld(0.355, 0.068, -0.008)
-      ], LV_POS_RED, 0.0052, 'LV', true);
+      ], LV_POS_RED, 0.0050, 'LV', true);
 
       createWire([
         boxToWorld(0.040, 0.120, 0.208),
-        boxToWorld(0.240, 0.110, 0.165),
+        boxToWorld(0.240, 0.108, 0.155),
         boxToWorld(0.355, 0.062,  0.008)
-      ], LV_NEG_CYAN, 0.0052, 'LV', true);
+      ], LV_NEG_CYAN, 0.0050, 'LV', true);
 
       createWire([
         boxToWorld(0.405, 0.068, -0.008),
-        new THREE.Vector3(0.36, 1.05, -0.035),
-        new THREE.Vector3(0.54, 1.11, -0.058),
-        new THREE.Vector3(0.675, 1.142, -0.062)
-      ], LV_POS_RED, 0.0052, 'LV', true);
+        new THREE.Vector3(0.38, 1.06, -0.035),
+        new THREE.Vector3(0.56, 1.13, -0.058),
+        new THREE.Vector3(0.715, 1.168, -0.062)
+      ], LV_POS_RED, 0.0050, 'LV', true);
 
       createWire([
         boxToWorld(0.405, 0.062, 0.008),
-        new THREE.Vector3(0.37, 1.04, 0.005),
-        new THREE.Vector3(0.55, 1.10, -0.042),
-        new THREE.Vector3(0.712, 1.150, -0.062)
-      ], LV_NEG_CYAN, 0.0052, 'LV', true);
+        new THREE.Vector3(0.39, 1.05, 0.005),
+        new THREE.Vector3(0.57, 1.12, -0.042),
+        new THREE.Vector3(0.752, 1.175, -0.062)
+      ], LV_NEG_CYAN, 0.0050, 'LV', true);
 
       // ======================================================================
-      // E2) SISTEMA DE CABLEADO MÁS SENCILLO Y LIMPIO PARA LA PANTALLA AiM MYCHRON 5S (SIN ATRAVESAR NADA)
-      // Los conectores Binder 712 traseros de la AiM están en:
-      //   - Izquierdo (+Z): (-0.880, 1.540,  0.026)
-      //   - Derecho  (-Z): (-0.880, 1.540, -0.026)
+      // E2) CABLEADO DE LA PANTALLA AiM MYCHRON 5S (POR FUERA DE LA CAJA EN Z=0.265 PARA NO ATRAVESAR PAREDES)
       // ======================================================================
-      // 1. Alimentación +12V DC (Rojo Carmesí): PCB PDM -> Exterior viga izquierda chasis -> Cuello dirección -> Binder Izquierdo AiM
+      // 1. Alimentación +12V DC (Rojo Carmesí): PCB PDM -> Exterior chasis izquierdo (z=0.265) -> Cuello dirección -> Binder Izquierdo AiM
       createWire([
-        new THREE.Vector3(0.675, 1.142, 0.055),
-        new THREE.Vector3(0.42,  1.08,  0.185),
-        boxToWorld(-0.05, 0.215, 0.215),
-        boxToWorld(-0.42, 0.215, 0.165),
-        new THREE.Vector3(-0.79, 1.45,  0.085),
-        new THREE.Vector3(-0.888, 1.515, 0.032),
+        new THREE.Vector3(0.715, 1.168, 0.055),
+        new THREE.Vector3(0.42,  1.08,  0.258),
+        boxToWorld( 0.05, 0.08,  0.265),
+        boxToWorld(-0.32, 0.08,  0.262),
+        new THREE.Vector3(-0.78, 1.44,  0.105),
+        new THREE.Vector3(-0.888, 1.515, 0.034),
         new THREE.Vector3(-0.880, 1.540, 0.026)
       ], LV_POS_RED, 0.0044, 'LV', true);
 
-      // 2. Masa GND 12V (Cian): Paralelo a +12V desde PCB PDM -> Binder Izquierdo AiM
+      // 2. Masa GND 12V (Cian): Paralelo a +12V por fuera de la caja (z=0.272) -> Binder Izquierdo AiM
       createWire([
-        new THREE.Vector3(0.712, 1.150, 0.062),
-        new THREE.Vector3(0.42,  1.07,  0.195),
-        boxToWorld(-0.05, 0.202, 0.222),
-        boxToWorld(-0.42, 0.202, 0.172),
-        new THREE.Vector3(-0.80, 1.44,  0.092),
-        new THREE.Vector3(-0.892, 1.510, 0.028),
+        new THREE.Vector3(0.752, 1.175, 0.062),
+        new THREE.Vector3(0.42,  1.065, 0.265),
+        boxToWorld( 0.05, 0.065, 0.272),
+        boxToWorld(-0.32, 0.065, 0.268),
+        new THREE.Vector3(-0.79, 1.43,  0.112),
+        new THREE.Vector3(-0.892, 1.510, 0.030),
         new THREE.Vector3(-0.880, 1.536, 0.022)
       ], LV_NEG_CYAN, 0.0044, 'LV', true);
 
       // 3. Bus CAN (Ámbar):
-      // Tramo A: Conector Binder Derecho AiM -> Cuello dirección -> Conector superior BMS Orion 2 (en cajón frontal)
+      // Tramo A: Conector Binder Derecho AiM -> Cuello dirección -> Entra por arriba al cajón frontal de la BMS Orion 2
       createWire([
         new THREE.Vector3(-0.880, 1.540, -0.026),
         new THREE.Vector3(-0.885, 1.505, -0.032),
-        new THREE.Vector3(-0.76,  1.43,  -0.035),
-        boxToWorld(-0.41, 0.145, -0.020)
-      ], LV_CAN_AMBER, 0.0046, 'LV', false);
+        new THREE.Vector3(-0.77,  1.45,  -0.025),
+        boxToWorld(-0.42, 0.135, -0.020)
+      ], LV_CAN_AMBER, 0.0045, 'LV', false);
 
-      // Tramo B: BMS Orion 2 -> Canal central elevado (y=0.165, por encima de todos los módulos) -> Conector LV Trasero -> ECU
+      // Tramo B: BMS Orion 2 -> Pasa por la garganta central interior (y=0.045) junto a los cell-tabs -> Conector LV Trasero -> ECU
       createWire([
-        boxToWorld(-0.39, 0.145, 0.015),
-        boxToWorld(-0.15, 0.165, 0.020),
-        boxToWorld( 0.18, 0.155, 0.020),
+        boxToWorld(-0.40, 0.048, 0.015),
+        boxToWorld(-0.15, 0.052, 0.020),
+        boxToWorld( 0.18, 0.058, 0.020),
         boxToWorld( 0.355, 0.065, 0.012)
-      ], LV_CAN_AMBER, 0.0046, 'LV', false);
+      ], LV_CAN_AMBER, 0.0045, 'LV', false);
 
       createWire([
         boxToWorld(0.405, 0.065, 0.012),
-        new THREE.Vector3(0.44, 1.10, 0.020),
-        new THREE.Vector3(0.60, 1.17, 0.020)
-      ], LV_CAN_AMBER, 0.0046, 'LV', false);
+        new THREE.Vector3(0.46, 1.11, 0.020),
+        new THREE.Vector3(0.64, 1.20, 0.020)
+      ], LV_CAN_AMBER, 0.0045, 'LV', false);
 
       // 4. Sensor de Velocidad / Temperatura Delantero (Azul LV): Puntera horquilla izquierda -> Sube paralelo a la botella -> Binder Derecho AiM
       createWire([
@@ -3669,18 +3666,18 @@
         ], HV_ORANGE, 0.0088, 'HV', false);
       });
 
-      // H) Cables de Señal Sensor Hall, Bobina Contactor y Encoder Motor (< 60 V)
+      // H) Cables de Señal Sensor Hall, Bobina Contactor y Encoder Motor (< 60 V) por la abertura central hacia la BMS
       createWire([
         boxToWorld(-0.213, 0.058, -0.038),
-        boxToWorld(-0.300, 0.115, -0.038),
-        boxToWorld(-0.390, 0.120, -0.025)
-      ], 0xa855f7, 0.0044, 'LV', false);
+        boxToWorld(-0.310, 0.048, -0.038),
+        boxToWorld(-0.400, 0.048, -0.030)
+      ], 0xa855f7, 0.0042, 'LV', false);
 
       createWire([
-        boxToWorld( 0.040, 0.125, -0.120),
-        boxToWorld(-0.160, 0.155, -0.125),
-        boxToWorld(-0.390, 0.125, -0.085)
-      ], 0x10b981, 0.0044, 'LV', false);
+        boxToWorld( 0.040, 0.115, -0.120),
+        boxToWorld(-0.180, 0.065, -0.105),
+        boxToWorld(-0.400, 0.055, -0.075)
+      ], 0x10b981, 0.0042, 'LV', false);
 
       createWire([
         new THREE.Vector3(0.05, 0.68, -0.125),
