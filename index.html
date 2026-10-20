@@ -664,7 +664,7 @@
     <div class="brand">
       <span class="brand-badge">eUSRacing</span>
       <div>
-        <div class="brand-title">Arquitectura Eléctrica 3D · REV CAD 4.0</div>
+        <div class="brand-title">Arquitectura Eléctrica 3D · REV CAD 5.0</div>
         <div class="brand-sub">MotoStudent Electric · Dpto. Electrónica</div>
       </div>
     </div>
@@ -707,7 +707,7 @@
           <div class="sys-section-title sys-hv">⚡ Sistema Alta Tensión (HV)</div>
           <div class="comp-item" id="item-battery" onclick="selectComponent('battery')">
             <div class="comp-name"><span>Pack 30S2P + 3 Cell-Tabs Amarillos</span></div>
-            <div class="comp-loc">📍 Rejillas en Esquinas Delanteras 45° CAD</div>
+            <div class="comp-loc">📍 5 Cables HV Limpios · Rejillas 45° CAD</div>
           </div>
           <div class="comp-item" id="item-hall" onclick="selectComponent('hall')">
             <div class="comp-name"><span>Sensor Hall + Busbar de Cobre</span></div>
@@ -723,11 +723,11 @@
           </div>
           <div class="comp-item" id="item-imd" onclick="selectComponent('imd')">
             <div class="comp-name"><span>IMD (Isometer Vigilancia Aislamiento)</span></div>
-            <div class="comp-loc">📍 Pared derecha · HV+, HV-, Chasis y HVD/ECU</div>
+            <div class="comp-loc">📍 Pared derecha · Canal perimetral limpio</div>
           </div>
           <div class="comp-item" id="item-vmp" onclick="selectComponent('vmp')">
             <div class="comp-name"><span>VMP (Voltage Measurement Point)</span></div>
-            <div class="comp-loc">📍 Pared derecha · 4 Cables HV por canal</div>
+            <div class="comp-loc">📍 Pared derecha · Mazo perimetral HV</div>
           </div>
           <div class="comp-item" id="item-bms" onclick="selectComponent('bms')">
             <div class="comp-name"><span>BMS Orion 2</span></div>
@@ -747,7 +747,7 @@
           <div class="sys-section-title sys-lv">🔌 Conversión DC-DC y Baja Tensión (LV)</div>
           <div class="comp-item" id="item-aim" onclick="selectComponent('aim')">
             <div class="comp-name"><span>Pantalla AiM MyChron 5S (Dash)</span></div>
-            <div class="comp-loc">📍 Manillares Racing · Solo CAN + 12V PDM</div>
+            <div class="comp-loc">📍 Cables por Fuera y Debajo hasta PDM</div>
           </div>
           <div class="comp-item" id="item-switch_dcdc" onclick="selectComponent('switch_dcdc')">
             <div class="comp-name"><span>Interruptor Exterior Batería ➔ DC-DC</span></div>
@@ -759,7 +759,7 @@
           </div>
           <div class="comp-item" id="item-lvbox" onclick="selectComponent('lvbox')">
             <div class="comp-name"><span>Caja de PCBs (HVD + PDM + ECU)</span></div>
-            <div class="comp-loc">📍 PDM (+ / - DC-DC) · HVD/ECU (Señal IMD)</div>
+            <div class="comp-loc">📍 PDM (+ / - DC-DC y AiM) · HVD/ECU</div>
           </div>
         </div>
       </div>
@@ -827,23 +827,23 @@
         id: 'battery',
         system: 'HV',
         name: 'Pack de Baterías 30S2P + 3 Cell-Tabs Amarillos',
-        subtitle: 'Ref. GRP86A0260-37V-63200mAh · Caja superior poligonal con rejillas en las esquinas delanteras a 45°',
+        subtitle: 'Ref. GRP86A0260-37V-63200mAh · Conexionado serie de 5 tramos limpios idéntico al CAD',
         location: 'Interior de la caja de baterías cuya sección superior se ensancha detrás del cajón de la BMS mediante dos esquinas delanteras diagonales a 45° con sus rejillas verticales en modo espejo.',
         specs: [
           { label: 'Configuración Pack', val: '30S2P (3x 10S2P en serie)' },
           { label: 'Disposición Interna', val: '2 Vert. delante + 1 Horiz. detrás' },
           { label: 'Esquinas Delanteras', val: 'Chaflán 45° con Rejillas en Espejo' },
-          { label: 'Terminales HV', val: 'Puntitas/ojales de cobre atornillados' },
+          { label: 'Tramos Potencia HV', val: '5 Conexiones claras (Sin cruces)' },
           { label: 'Conectores HV Traseros', val: '2x Amphenol Rectos 0° (35 mm²)' },
           { label: 'Conector LV Central', val: 'Circular entre Amphenol + y -' }
         ],
         connections: [
-          '<strong>Puente Busbar del Sensor Hall (Entre M1 y M2):</strong> Dos postes verticales de cobre suben desde los bornes interiores delanteros (el derecho atraviesa el núcleo del <strong>Sensor Hall</strong>) y quedan unidos arriba por el <strong>busbar plano de cobre</strong> atornillado.',
-          '<strong>Cable Naranja Izquierdo con Puntitas de Cobre:</strong> Une en línea recta el borne delantero izquierdo de M1 con el borne delantero izquierdo del módulo trasero horizontal (M3).',
-          '<strong>Rama Derecha (Fusible SIBA ➔ Contactor Kilovac ➔ Amphenol +):</strong> Pletina de cobre desde el borne delantero derecho al <strong>Fusible SIBA 500A</strong>, cable naranja corto hasta la borna de entrada del <strong>Contactor Kilovac 500A</strong> y salida directa hacia el conector <strong>Amphenol (+)</strong>.',
-          '<strong>Los 3 Cableados Amarillos de Cell-Tabs a la BMS:</strong> Las cintas amarillas de los 3 módulos pasan hacia el cajón delantero de la <strong>BMS Orion 2</strong>.'
+          '<strong>1. Puente Busbar del Sensor Hall (Entre M2 y M1):</strong> Dos postes verticales de cobre suben desde los bornes interiores delanteros (el derecho atraviesa el núcleo del <strong>Sensor Hall</strong>) y quedan unidos arriba por el <strong>busbar plano de cobre</strong> atornillado.',
+          '<strong>2. Cable Naranja Serie Izquierdo (M1 ➔ M3):</strong> Une en línea recta el borne delantero izquierdo de M1 con el borne delantero izquierdo del módulo trasero horizontal (M3).',
+          '<strong>3. Salida Negativa HV- (M3 ➔ Amphenol -):</strong> Sale del borne trasero de M3 con su terminal de cobre directo al pasamuros izquierdo hacia el conector <strong>Amphenol (-)</strong>.',
+          '<strong>4 y 5. Rama Positiva HV+ (M2 ➔ Fusible SIBA ➔ Contactor Kilovac ➔ Amphenol +):</strong> Pletina corta desde el borne delantero derecho de M2 al <strong>Fusible SIBA 500A</strong>, cable naranja recto a la borna de entrada del <strong>Contactor Kilovac</strong> y salida directa desde la segunda borna hacia el pasamuros del <strong>Amphenol (+)</strong>.'
         ],
-        notes: 'Todos los cables siguen recorridos perimetrales cortos y ergonómicos pegados a las paredes interiores sin cruzar por encima de los módulos ni atravesar estructuras.'
+        notes: 'Se han eliminado todos los cables cruzados en diagonal y los terminales huérfanos: ahora cada borne de cobre tiene exactamente su único cable asignado como en el CAD.'
       },
       hall: {
         id: 'hall',
@@ -859,9 +859,9 @@
         ],
         connections: [
           '<strong>Paso de Corriente por el Centro del Sensor Hall:</strong> Del borne interior del módulo derecho sube la <strong>puntita/poste vertical de cobre</strong> atravesando el agujero central del Sensor Hall; arriba se atornilla el <strong>busbar plano de cobre</strong> que baja por el otro poste vertical de cobre al módulo izquierdo.',
-          '<strong>Línea de Señal (Cable Violeta - LV):</strong> Sale en tramo recto y directo desde el cabezal del Sensor Hall hasta la cara trasera de la <strong>BMS Orion 2</strong> sin tocar el busbar.'
+          '<strong>Línea de Señal (Cable Violeta - LV):</strong> Sale en tramo recto de 12 cm desde el cabezal del Sensor Hall hasta la cara trasera de la <strong>BMS Orion 2</strong>.'
         ],
-        notes: 'Al modelar los dos postes verticales de cobre con sus anillos aislantes rojos en la base y el busbar horizontal atornillado arriba, el paso de corriente a través del Sensor Hall tiene total sentido físico y eléctrico.'
+        notes: 'Completamente despejado: ningún cable del AiM ni de otros componentes le pasa por encima.'
       },
       fuse: {
         id: 'fuse',
@@ -877,7 +877,7 @@
         ],
         connections: [
           '<strong>Entrada Delantera:</strong> Pletina metálica acodada atornillada a la puntita de cobre del borne delantero derecho de M2.',
-          '<strong>Salida Trasera:</strong> Terminal de engaste de cobre unido al cable naranja corto que va directo a la borna frontal izquierda del <strong>Contactor Kilovac 500A</strong>.'
+          '<strong>Salida Trasera:</strong> Terminal de engaste de cobre unido al cable naranja recto que va directo a la borna frontal del <strong>Contactor Kilovac 500A</strong>.'
         ],
         notes: 'Reproduce exactamente la inclinación y los herrajes de conexión visibles en el CAD.'
       },
@@ -895,70 +895,68 @@
         ],
         connections: [
           '<strong>Borna 1 (Entrada HV+):</strong> Recibe por el frente el terminal de cobre del cable naranja procedente del <strong>Fusible SIBA 500A</strong>.',
-          '<strong>Borna 2 (Salida HV+ sin cruzar el contactor):</strong> Sale de la borna trasera hacia el interior y va directo al pasamuros del conector <strong>Amphenol (+)</strong>.',
-          '<strong>Bobina de Control (Cable Verde - LV):</strong> Conectada por el canal interior derecho hacia la <strong>BMS Orion 2</strong>.'
+          '<strong>Borna 2 (Salida HV+):</strong> Sale de la borna trasera hacia el pasamuros del conector <strong>Amphenol (+)</strong>.',
+          '<strong>Bobina de Control (Cable Verde - LV):</strong> Va pegada al rincón inferior de la pared derecha hasta la <strong>BMS Orion 2</strong>.'
         ],
-        notes: 'Ningún cable atraviesa el cilindro crema del contactor: todas las líneas entran y salen por las puntitas de cobre de sus bornas respetando el volumen físico de la pieza.'
+        notes: 'Ningún cable atraviesa el cilindro crema del contactor.'
       },
       imd: {
         id: 'imd',
         system: 'HV',
         name: 'IMD (Insulation Monitoring Device / Isometer)',
-        subtitle: 'Placa en la pared lateral derecha delante del contactor · Conectada a HV+, HV-, Chasis y HVD/ECU',
+        subtitle: 'Placa en la pared lateral derecha delante del contactor · Cableado pegado a la pared derecha',
         location: 'Fijado verticalmente contra la cara interior de la pared lateral derecha de la caja de la batería, delante del contactor Kilovac.',
         specs: [
           { label: 'Ubicación', val: 'Pared lateral derecha (Delante Kilovac)' },
-          { label: 'Vigilancia HV', val: 'Líneas Naranjas a HV+ y HV-' },
+          { label: 'Vigilancia HV', val: 'Canal perimetral a HV+ y HV-' },
           { label: 'Masa Referencia', val: 'Cable Verde Lima a Chasis' },
           { label: 'Salida de Estado', val: 'Señal IMD OK (Magenta) a HVD / ECU' }
         ],
         connections: [
-          '<strong>Línea de Vigilancia HV+ (Cable Naranja):</strong> Conectada mediante un puente corto a la borna HV+ del contactor.',
-          '<strong>Línea de Vigilancia HV- (Cable Naranja):</strong> Va pegada al borde delantero hacia el borne negativo HV- del pack.',
+          '<strong>Línea de Vigilancia HV+ (Cable Naranja):</strong> Puente corto pegado a la pared derecha hasta la borna HV+.',
+          '<strong>Línea de Vigilancia HV- (Cable Naranja):</strong> Va por el borde perimetral delantero (sin cruzar los módulos) hasta el borne negativo HV-.',
           '<strong>Referencia de Masa / Chasis (Cable Verde Lima):</strong> Tramo directo de 2 cm al perno de chasis en la pared derecha.',
-          '<strong>Señal de Estado IMD OK (Cable Magenta - LV):</strong> Viaja pegada al canal derecho hasta el conector circular trasero y sube a las placas <strong>HVD</strong> y <strong>ECU</strong>.'
+          '<strong>Señal de Estado IMD OK (Cable Magenta - LV):</strong> Corre pegada al borde superior de la pared derecha hasta el conector circular trasero y sube a las placas <strong>HVD</strong> y <strong>ECU</strong>.'
         ],
-        notes: 'Sus cables discurren pegados a la pared derecha sin cruzar en diagonal por encima de los módulos.'
+        notes: 'Sus cables van 100% pegados al perímetro de la pared derecha, dejando los módulos azules totalmente limpios.'
       },
       vmp: {
         id: 'vmp',
         system: 'HV',
         name: 'VMP (Voltage Measurement Point)',
-        subtitle: 'Conector circular exterior en el lado derecho (opuesto al interruptor del DC-DC) con 4 cables HV',
+        subtitle: 'Conector circular exterior en el lado derecho con mazo perimetral limpio',
         location: 'Instalado en la pared lateral derecha de la caja de la batería, detrás de la esquina diagonal derecha.',
         specs: [
           { label: 'Ubicación', val: 'Pared lateral derecha' },
           { label: 'Tipo de Conector', val: 'Circular multipin de seguridad HV' },
-          { label: 'Número de Cables', val: '4 Cables Naranjas (> 60 V)' },
+          { label: 'Ruteo Interior', val: 'Mazo perimetral en ángulo recto' },
           { label: 'Puntos Medidos', val: 'HV+ y HV- (Antes y Después Contactor)' }
         ],
         connections: [
-          '<strong>Cable 1 - HV+ Antes del Contactor (Naranja):</strong> Va pegado a la pared derecha hasta la borna de entrada del contactor Kilovac.',
-          '<strong>Cable 2 - HV+ Después del Contactor (Naranja):</strong> Va pegado a la pared derecha hasta la borna de salida del contactor Kilovac.',
-          '<strong>Cable 3 - HV- Antes (Naranja):</strong> Bordea limpiamente el frente de los módulos hasta el borne negativo interior M1.',
-          '<strong>Cable 4 - HV- Después (Naranja):</strong> Sigue el canal perimetral hasta el borne negativo de salida M3.'
+          '<strong>Rama HV+ (Antes y Después del Contactor):</strong> Sale del VMP pegada a la pared derecha hacia las dos bornas del contactor Kilovac.',
+          '<strong>Rama HV- (Negativo Pack):</strong> Baja al escalón perimetral derecho, bordea limpiamente el frente del módulo M2/M1 y llega al borne negativo sin cruzar en diagonal sobre las baterías.'
         ],
-        notes: 'Ruteo perimetral ergonómico y corto sin atravesar ningún componente.'
+        notes: 'Agrupado junto al borde de la pared derecha para que se distinga con total claridad.'
       },
       aim: {
         id: 'aim',
         system: 'LV',
-        name: 'Pantalla AiM MyChron 5S + Semimanillares Hacia Atrás',
-        subtitle: 'Display LCD sobre tija superior CNC con cableado limpio (+12V, GND y CAN Bus) sin atravesar la BMS',
-        location: 'Anclada sobre la tija superior CNC, acompañada por los dos semimanillares que abrazan las botellas bajo la tija y apuntan hacia atrás (hacia el piloto) y hacia fuera.',
+        name: 'Pantalla AiM MyChron 5S + Mazo Exterior Inferior al PDM',
+        subtitle: 'Display LCD sobre tija superior · Cables +12V, GND y CAN ruteados por fuera y por debajo hasta el PDM/ECU',
+        location: 'Anclada sobre la tija superior CNC, acompañada por los dos semimanillares que apuntan hacia atrás (hacia el piloto) y hacia fuera.',
         specs: [
           { label: 'Modelo Exacto', val: 'AiM MyChron 5S (268x128 px)' },
-          { label: 'Semimanillares', val: 'Vector Directo Hacia Atrás (+X)' },
+          { label: 'Recorrido Cables', val: 'Por fuera y por debajo hasta PDM' },
           { label: 'Controles Laterales', val: '4 Pulsadores Metálicos (MENU/MEM)' },
           { label: 'Conectores Traseros', val: '2x Binder 712 (12V PDM + CAN Bus)' },
           { label: 'Alimentación LV', val: '12V DC (+12V y GND desde PCB PDM)' },
-          { label: 'Bus de Telemetría', val: 'CAN Bus (ECU + BMS Orion 2)' }
+          { label: 'Bus de Telemetría', val: 'CAN Bus (Directo por fuera a PDM/ECU)' }
         ],
         connections: [
-          '<strong>Alimentación 12V DC (+12V Rojo Carmesí y GND Cian desde el PDM):</strong> Sale del conector trasero <strong>Binder 712 izquierdo</strong> de la AiM, pasa por encima del borde frontal izquierdo (sin tocar ni atravesar la BMS Orion 2) y viaja pegado a la pared interior izquierda hasta el conector circular trasero y el <strong>PDM</strong>.',
-          '<strong>Línea de Comunicación CAN Bus (Cable Ámbar CAN H/L):</strong> Sale del conector trasero <strong>Binder 712 derecho</strong> de la AiM hasta el conector superior de la <strong>BMS Orion 2</strong>, y desde la cara interna de la BMS va por el canal interior hasta el conector circular LV trasero y la <strong>ECU</strong>.'
+          '<strong>Alimentación 12V DC (+12V Rojo Carmesí y GND Cian):</strong> Salen del conector trasero <strong>Binder 712 izquierdo</strong> de la AiM, bajan por detrás de la pipa de dirección hasta la parte baja delantera del chasis, van **por fuera y por debajo del costado izquierdo de la caja de baterías** y suben por el subchasis trasero directo al <strong>PDM</strong>.',
+          '<strong>Línea de Comunicación CAN Bus (Cable Amarillo/Ámbar):</strong> Sale del conector trasero <strong>Binder 712 derecho</strong> de la AiM, se une al mismo mazo exterior inferior por fuera de la caja de baterías y sube limpio hasta el <strong>PDM / ECU</strong> (con su ramal corto exterior hacia la BMS) sin atravesar absolutamente nada.'
         ],
-        notes: 'Se ha eliminado el cable azul de la rueda delantera y se ha corregido el paso de los cables rojo, cian y amarillo para que rodeen limpiamente la BMS y el Sensor Hall sin atravesar ninguna estructura.'
+        notes: 'Ningún cable del AiM entra ni cruza la caja de la batería: todo el mazo del AiM (+12V, GND y CAN amarillo) va por fuera desde abajo siguiendo el chasis hasta el PDM.'
       },
       switch_dcdc: {
         id: 'switch_dcdc',
@@ -973,8 +971,8 @@
           { label: 'Tensión de Trabajo', val: '111 V nom (43 - 160 VDC)' }
         ],
         connections: [
-          '<strong>Entrada desde Batería (Cables Naranjas HV + y -):</strong> Recibe por un tramo corto interior el positivo y el negativo del pack de baterías.',
-          '<strong>Salida Conmutada hacia Cincon DC-DC (Cables Naranjas HV + y -):</strong> Dos puentes rectos de 8 cm pegados a la pared izquierda hacia los pines de entrada del convertidor <strong>Cincon CFB600W-110S</strong>.'
+          '<strong>Entrada desde Batería (Cables Naranjas HV):</strong> Tramo corto desde el borne delantero izquierdo hasta el interruptor.',
+          '<strong>Salida Conmutada hacia Cincon DC-DC:</strong> Dos puentes rectos paralelos de 8 cm pegados a la pared izquierda hacia los pines de entrada del convertidor <strong>Cincon CFB600W-110S</strong>.'
         ],
         notes: 'Puedes abrir y cerrar este interruptor con el botón del panel izquierdo para simular el corte de alimentación al convertidor Cincon y a la pantalla AiM.'
       },
@@ -994,7 +992,7 @@
         ],
         connections: [
           '<strong>Entrada HV (Pin 1: -V Input / Pin 2: +V Input):</strong> Recibe los cables naranjas cortos desde el <strong>Interruptor lateral izquierdo</strong>.',
-          '<strong>Salida LV Interna (Pines +V Output / -V Output):</strong> Saca el positivo (Rojo Carmesí) y negativo (Cian) pegados a la pared izquierda hacia el <strong>Conector Circular de Baja Tensión</strong> situado en la cara trasera.',
+          '<strong>Salida LV Interna (Pines +V Output / -V Output):</strong> Saca el positivo (Rojo Carmesí) y negativo (Cian) pegados al borde de la pared izquierda hacia el <strong>Conector Circular de Baja Tensión</strong> situado en la cara trasera.',
           '<strong>Llegada a la PCB del PDM:</strong> Desde el conector circular trasero los cables + y - suben siguiendo el subchasis hasta los conectores de la <strong>PCB del PDM</strong>.'
         ],
         notes: 'Reproduce exactamente la tarjeta vertical celeste con sus hileras de pines laterales de tu captura CAD.'
@@ -1009,14 +1007,14 @@
           { label: 'Modelo', val: 'Ewert Energy Orion BMS 2' },
           { label: 'Cajón Frontal', val: 'Delante de las esquinas diagonales' },
           { label: 'Entradas Cell-Tabs', val: '3 Cintas amarillas (M1, M2 y M3)' },
-          { label: 'Entrada Hall / CAN', val: 'Cable Violeta Hall + Bus CAN a AiM' }
+          { label: 'Entrada Hall / CAN', val: 'Cable Violeta Hall + Ramal CAN' }
         ],
         connections: [
           '<strong>Cell-Tabs Módulo 1 y Módulo 2 (2 Cintas Planas Amarillas):</strong> Nacen al final de cada uno de los dos módulos verticales delanteros, pasan por sus guías amarillas delanteras y entran al cajón de la BMS.',
-          '<strong>Cell-Tab Módulo 3 Trasero (3.ª Cinta Amarilla Completa):</strong> Nace en el módulo horizontal trasero y recorre el centro del pack hasta entrar también en el cajón de la <strong>BMS Orion 2</strong>.',
-          '<strong>Señal Sensor Hall (Cable Violeta - LV) y CAN Bus (Ámbar):</strong> Conectados directamente en la cara interna y superior de la BMS sin que ningún cable atraviese su carcasa negra.'
+          '<strong>Cell-Tab Módulo 3 Trasero (3.ª Cinta Amarilla Central):</strong> Nace en el módulo horizontal trasero y recorre el centro del pack hasta entrar en la <strong>BMS Orion 2</strong>.',
+          '<strong>Señal Sensor Hall (Cable Violeta Corto) y Ramal CAN:</strong> Conectados limpiamente sin que ningún cable atraviese la caja.'
         ],
-        notes: 'Ningún cable atraviesa el cuerpo de la BMS: el CAN del AiM llega al conector superior y los cables de señal salen de su cara interior.'
+        notes: 'Las 3 cintas planas amarillas de los cell-tabs se ven ahora con total nitidez al haber eliminado los cables que cruzaban por encima.'
       },
       inverter: {
         id: 'inverter',
@@ -1031,7 +1029,7 @@
           { label: 'Salida Trifásica', val: 'Fases U, V, W al Motor CIRCE' }
         ],
         connections: [
-          '<strong>Conectores INV DC+ e INV DC- (Cables Naranjas 35 mm²):</strong> Reciben los cables + y - que salen de los conectores Amphenol traseros de la caja, bajan por las grapas laterales del chasis y <strong>entran directos a los bornes laterales del inversor</strong> sin tocar el motor.',
+          '<strong>Conectores INV DC+ e INV DC- (Cables Naranjas 35 mm²):</strong> Reciben los cables + y - que salen de los conectores Amphenol traseros de la caja, bajan por las grapas laterales del chasis y <strong>entran directos a los bornes laterales del inversor</strong>.',
           '<strong>Bornas Trifásicas U, V, W (3 Cables Naranjas Cortos):</strong> Salen en un arco corto y directo hacia las 3 bornas superiores de fase del <strong>Motor Eléctrico CIRCE</strong>.'
         ],
         notes: 'Montado en la parte inferior de la caja de baterías igual que en las capturas laterales del CAD.'
@@ -1062,14 +1060,14 @@
         location: 'Montada en la parte trasera alta del colín (subchasis), dejando libre la botella superior del amortiguador trasero.',
         specs: [
           { label: 'PCB Abajo Izquierda', val: 'HVD (Recibe señal estado del IMD)' },
-          { label: 'PCB Abajo Derecha', val: 'PDM (Recibe DC-DC y alimenta AiM)' },
+          { label: 'PCB Abajo Derecha', val: 'PDM (Recibe DC-DC y Mazo AiM)' },
           { label: 'PCB Arriba Superior', val: 'ECU (Fija atornillada + CAN a AiM)' },
-          { label: 'Llegada Cables LV', val: 'Desde Conector Circular Trasero' }
+          { label: 'Llegada Mazo AiM', val: 'Por fuera desde abajo al PDM/ECU' }
         ],
         connections: [
-          '<strong>Alimentación + y - desde el Cincon DC-DC a la PCB PDM:</strong> Los cables positivo (Rojo Carmesí) y negativo (Cian) salen del conector circular trasero y suben paralelos al subchasis (rodeando la botella del amortiguador) hasta entrar en la <strong>PCB del PDM</strong>.',
-          '<strong>Salida 12V DC hacia la Pantalla AiM MyChron 5S:</strong> Conectada por el canal interior izquierdo hasta el conector trasero de la pantalla AiM.',
-          '<strong>Señal de Estado del IMD y CAN Bus hacia HVD y ECU:</strong> La señal del IMD (Magenta) y el bus CAN de telemetría (Ámbar) suben desde el conector circular trasero a la <strong>HVD</strong> y la <strong>ECU</strong>.'
+          '<strong>Alimentación + y - desde el Cincon DC-DC a la PCB PDM:</strong> Los cables positivo (Rojo Carmesí) y negativo (Cian) salen del conector circular trasero y suben paralelos al subchasis hasta entrar en la <strong>PCB del PDM</strong>.',
+          '<strong>Mazo Exterior hacia la Pantalla AiM MyChron 5S (+12V, GND y CAN Amarillo):</strong> Sale de la caja LV (PDM/ECU), baja al costado izquierdo del chasis y recorre la moto **por fuera y por debajo de la caja de la batería** hasta subir por el cuello de dirección al AiM.',
+          '<strong>Señal de Estado del IMD hacia HVD y ECU:</strong> La señal del IMD (Magenta) sube desde el conector circular trasero a la <strong>HVD</strong> y la <strong>ECU</strong>.'
         ],
         notes: 'Las tres placas están modeladas en 2 niveles: HVD y PDM unidas abajo y la ECU atornillada encima sobre 4 separadores.'
       }
@@ -1139,29 +1137,30 @@
       if (!insp) return;
       insp.innerHTML = [
         '<div class="sec-nav">',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-aim\')">🏁 AiM y Cableado Corto</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-pack\')">1. Rejillas Esquinas 45°</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-aim\')">🏁 Cables AiM Por Fuera/Abajo</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-pack\')">1. Caja Baterías Ordenada</button>',
           '<button class="sec-pill" onclick="scrollToSection(\'sec-susp\')">2. Botella Arriba del Muelle</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-vmp\')">3. Ruteo Perimetral Limpio</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-vmp\')">3. Canales Perimetrales</button>',
           '<button class="sec-pill" onclick="scrollToSection(\'sec-dcdc\')">4. Cincon e Interruptor</button>',
           '<button class="sec-pill" onclick="scrollToSection(\'sec-lv\')">5. PCBs: HVD, PDM y ECU</button>',
         '</div>',
         '<div id="sec-aim" class="info-card">',
-          '<h4>🏁 Pantalla AiM MyChron 5S + Cableado Ergonómico (Sin Cable en Horquilla)</h4>',
+          '<h4>🏁 Cables del AiM (+12V, GND y CAN Amarillo) Por Fuera y Desde Abajo hasta el PDM</h4>',
           '<div class="spec-grid" style="margin-bottom:10px;">',
-            '<div class="spec-box"><div class="spec-label">Semimanillares</div><div class="spec-val" style="color:#38bdf8;">Hacia Atrás (+X) y Fuera</div></div>',
-            '<div class="spec-box"><div class="spec-label">Cable Horquilla</div><div class="spec-val">Eliminado (Limpio)</div></div>',
+            '<div class="spec-box"><div class="spec-label">Ruta Mazo AiM</div><div class="spec-val" style="color:#38bdf8;">100% Exterior Inferior</div></div>',
+            '<div class="spec-box"><div class="spec-label">Paso por Batería</div><div class="spec-val">Cero (Va por fuera)</div></div>',
             '<div class="spec-box"><div class="spec-label">Alimentación AiM</div><div class="spec-val">12V DC desde PDM</div></div>',
-            '<div class="spec-box"><div class="spec-label">Telemetría</div><div class="spec-val" style="color:#fbbf24;">CAN Bus (BMS + ECU)</div></div>',
+            '<div class="spec-box"><div class="spec-label">Cable Amarillo</div><div class="spec-val" style="color:#fbbf24;">CAN Exterior al PDM/ECU</div></div>',
           '</div>',
           '<ul class="conn-list">',
-            '<li><strong>Sin Cruzar la BMS ni el Sensor Hall:</strong> Los cables +12V (Rojo) y GND (Cian) salen del conector Binder izquierdo del AiM, pasan sobre el borde delantero y van pegados a la pared izquierda interior hasta el conector trasero. El cable CAN (Ámbar) llega directo al borde superior de la BMS sin atravesarla.</li>',
+            '<li><strong>Por Fuera desde Abajo hasta el PDM:</strong> Los cables rojo (+12V), cian (GND) y amarillo (CAN Bus) bajan desde la parte trasera del AiM por el cuello de dirección hasta la parte baja del chasis, bordean la caja de la batería <strong>por fuera y por debajo en el lado izquierdo</strong> y suben directos al PDM/ECU sin atravesar nada.</li>',
           '</ul>',
         '</div>',
         '<div id="sec-pack" class="info-card">',
-          '<h4>🔋 1. Rejillas en las Esquinas Delanteras en Chaflán a 45° (Foto 3 CAD)</h4>',
+          '<h4>🔋 1. Interior de la Caja de Baterías Clarificado (Idéntico al CAD)</h4>',
           '<ul class="conn-list">',
-            '<li><strong>Geometría Poligonal Achaflanada:</strong> Las dos esquinas delanteras de la caja están cortadas a 45° donde van integradas las rejillas verticales en modo espejo.</li>',
+            '<li><strong>5 Únicos Tramos de Potencia Naranjas:</strong> (1) Puente serie izquierdo M1 ➔ M3, (2) Salida negativa M3 ➔ Amphenol (-), (3) M2 ➔ Fusible SIBA, (4) Fusible SIBA ➔ Contactor Kilovac y (5) Contactor ➔ Amphenol (+).</li>',
+            '<li><strong>Sin Terminales Sueltos ni Cruces:</strong> Se ha eliminado el terminal repetido de M3 y toda la telaraña de cables que cruzaba sobre los módulos azules.</li>',
           '</ul>',
         '</div>',
         '<div id="sec-susp" class="info-card">',
@@ -1170,16 +1169,17 @@
             '<div class="spec-box"><div class="spec-label">Posición Botella</div><div class="spec-val" style="color:#facc15;">Arriba y Sobre el Muelle</div></div>',
             '<div class="spec-box"><div class="spec-label">Muelle Trasero</div><div class="spec-val">Helicoidal Blanco/Plata</div></div>',
             '<div class="spec-box"><div class="spec-label">Horquilla Delantera</div><div class="spec-val">Plata CAD + Doble Tija</div></div>',
-            '<div class="spec-box"><div class="spec-label">Frenos Delanteros</div><div class="spec-val">Doble Disco + Pinzas</div></div>',
+            '<div class="spec-box"><div class="spec-label">Semimanillares</div><div class="spec-val">Hacia Atrás (+X) y Fuera</div></div>',
           '</div>',
           '<div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">',
             'La botella cilíndrica (piggyback) va montada por encima del cabezal del amortiguador trasero sobresaliendo arriba del muelle como en las fotos 3 y 4 del CAD.',
           '</div>',
         '</div>',
         '<div id="sec-vmp" class="info-card">',
-          '<h4>🛡️ 3. Ruteo Perimetral Más Corto y Cómodo (Cero Colisiones)</h4>',
+          '<h4>🛡️ 3. Canales Perimetrales en Pared Derecha e Izquierda</h4>',
           '<ul class="conn-list">',
-            '<li><strong>Canales Laterales Definidos:</strong> Los cables del VMP, IMD y Contactor van pegados a la pared derecha, mientras que los del Interruptor, Cincon DC-DC y alimentación 12V van pegados a la pared izquierda, dejando el centro despejado.</li>',
+            '<li><strong>Pared Derecha (VMP, IMD y Contactor):</strong> Sus cables van recogidos pegados al borde interior derecho en ángulo recto.</li>',
+            '<li><strong>Pared Izquierda (Interruptor y Cincon DC-DC):</strong> Conectados mediante tramos cortos pegados a la pared izquierda hasta el conector circular trasero.</li>',
           '</ul>',
         '</div>',
         '<div id="sec-dcdc" class="info-card">',
@@ -1191,8 +1191,8 @@
         '<div id="sec-lv" class="info-card">',
           '<h4>📟 5. Caja de Baja Tensión: HVD + PDM + ECU</h4>',
           '<ul class="conn-list">',
-            '<li><strong>PDM (Abajo Derecha):</strong> Recibe el + y - del Cincon y distribuye 12V hacia la pantalla AiM.</li>',
-            '<li><strong>HVD (Abajo Izquierda) y ECU (Arriba Atornillada):</strong> Reciben la línea de estado del IMD y comunican el bus CAN con la pantalla AiM y la BMS.</li>',
+            '<li><strong>PDM (Abajo Derecha):</strong> Recibe el + y - del Cincon y alimenta por el mazo exterior inferior a la pantalla AiM.</li>',
+            '<li><strong>HVD (Abajo Izquierda) y ECU (Arriba Atornillada):</strong> Reciben la línea de estado del IMD y el bus CAN exterior desde el AiM y la BMS.</li>',
           '</ul>',
         '</div>'
       ].join('');
@@ -2507,7 +2507,7 @@
         parentGrp.add(lugGrp);
       }
 
-      // 4.1 Pack Baterías 30S2P + Los 3 Cell-Tabs Amarillos hasta la BMS + Terminales de Cobre
+      // 4.1 Pack Baterías 30S2P + Los 3 Cell-Tabs Amarillos hasta la BMS + Terminales de Cobre Exactos (Sin terminales huérfanos)
       var batGroup = new THREE.Group();
       batGroup.position.copy(BOX_ORIGIN);
       batGroup.rotation.z = BOX_ROT_Z;
@@ -2553,11 +2553,15 @@
       mod3.position.set(0.14, -0.048, 0.0);
       batGroup.add(mod3);
 
+      // Exactamente los 4 terminales de engaste de cobre de los módulos (eliminado el 5.º terminal huérfano que no tenía cable):
+      // 1) M1 delantero izquierdo (-0.25, 0.042, 0.115) -> apunta hacia M3 (0 rad)
       createCableLugNode(batGroup, -0.25, 0.042, 0.115, 0);
+      // 2) M3 delantero izquierdo (0.08, 0.042, 0.115)  -> recibe desde M1 (Math.PI rad)
       createCableLugNode(batGroup, 0.08, 0.042, 0.115, Math.PI);
+      // 3) M3 trasero izquierdo (0.19, 0.042, 0.115)    -> sale hacia Amphenol (-) (0.25 rad)
       createCableLugNode(batGroup, 0.19, 0.042, 0.115, 0.25);
+      // 4) M2 delantero derecho (-0.25, 0.042, -0.115)  -> sale hacia el Fusible SIBA (-0.25 rad)
       createCableLugNode(batGroup, -0.25, 0.042, -0.115, -0.25);
-      createCableLugNode(batGroup, 0.16, 0.042, -0.068, Math.PI * 0.75);
 
       [-0.150, 0.150].forEach(function(zPass) {
         var passRing = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.012, 16), matHVOrange);
@@ -3297,7 +3301,9 @@
       addTerminalPoint('ECU (Arriba · CAN AiM)', 'term-lvpcb', new THREE.Vector3(0.86, 1.28, 0.0), ['lvbox', 'imd', 'aim'], 'LV');
 
       // ========================================================================
-      // 5. SISTEMA DE CABLEADO CORTO, ERGONÓMICO Y SIN ATRAVESAR ESTRUCTURAS
+      // 5. SISTEMA DE CABLEADO LIMPIO:
+      //    - CABLES DEL AiM 100% POR FUERA Y POR DEBAJO HASTA EL PDM (CERO PASO POR LA CAJA)
+      //    - INTERIOR DE LA CAJA DE BATERÍAS CON 5 TRAMOS HV CLAROS Y CANALES PERIMETRALES
       // ========================================================================
       wiresGroup = new THREE.Group();
       bikeGroup.add(wiresGroup);
@@ -3310,7 +3316,7 @@
       var GND_CHASSIS_LIME = 0x84cc16;
 
       function createWire(points, colorHex, radius, sysType, isDcdcControlled) {
-        var curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.15);
+        var curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.12);
         var geo = new THREE.TubeGeometry(curve, 44, radius, 8, false);
         var mat = new THREE.MeshStandardMaterial({
           color: colorHex,
@@ -3339,132 +3345,125 @@
         });
       }
 
-      // A) CABLES PRINCIPALES DE POTENCIA HV EN EL INTERIOR DE LA CAJA (Tramos rectos y cortos como en la Foto 3)
-      // 1. Puente serie izquierdo M1 -> M3
+      // ----------------------------------------------------------------------
+      // A) LOS 5 CABLES DE ALTA TENSIÓN PRINCIPALES DENTRO DE LA CAJA (IDÉNTICOS A TU FOTO 3 DEL CAD)
+      // ----------------------------------------------------------------------
+      // 1. Cable naranja serie izquierdo: Borne delantero M1 -> Borne delantero M3
       createWire([
         boxToWorld(-0.222, 0.056, 0.115),
         boxToWorld( 0.054, 0.056, 0.115)
       ], HV_ORANGE, 0.0095, 'HV', false);
 
-      // 2. Borne delantero derecho M2 -> Entrada Fusible SIBA
+      // 2. Salida Negativa HV-: Borne trasero M3 -> Pasamuros izquierdo Amphenol (-)
+      createWire([
+        boxToWorld(0.215, 0.056, 0.122),
+        boxToWorld(0.265, 0.088, 0.142),
+        boxToWorld(0.295, 0.115, 0.150)
+      ], HV_ORANGE, 0.0095, 'HV', false);
+
+      // 3. Pletina/Cable corto delantero derecho: Borne M2 -> Entrada Fusible SIBA 500A
       createWire([
         boxToWorld(-0.224, 0.056, -0.112),
         boxToWorld(-0.212, 0.078, -0.116)
       ], HV_ORANGE, 0.0085, 'HV', false);
 
-      // 3. Salida Fusible SIBA -> Borna 1 Contactor Kilovac
+      // 4. Salida Fusible SIBA 500A -> Borna 1 Entrada Contactor Kilovac
       createWire([
         boxToWorld(-0.105, 0.078, -0.088),
         boxToWorld( 0.047, 0.109, -0.093)
       ], HV_ORANGE, 0.0095, 'HV', false);
 
-      // 4. Borna 2 Contactor Kilovac -> Pasamuros Amphenol (+)
+      // 5. Borna 2 Salida Contactor Kilovac -> Pasamuros derecho Amphenol (+)
       createWire([
         boxToWorld(0.123, 0.109, -0.093),
-        boxToWorld(0.220, 0.112, -0.130),
+        boxToWorld(0.215, 0.112, -0.128),
         boxToWorld(0.295, 0.115, -0.150)
       ], HV_ORANGE, 0.0095, 'HV', false);
 
-      // 5. Borne Negativo Principal M3 -> Pasamuros Amphenol (-)
+      // ----------------------------------------------------------------------
+      // B) CANAL PERIMETRAL DERECHO (VMP + IMD + CONTACTOR):
+      //    Ruteados pegados al escalón interior de la pared derecha (z = -0.215) sin cruzar por encima de los módulos
+      // ----------------------------------------------------------------------
+      // 1. VMP -> Bornas Contactor (Pegado a la pared derecha en z = -0.215)
       createWire([
-        boxToWorld(0.215, 0.056, 0.122),
-        boxToWorld(0.260, 0.090, 0.140),
-        boxToWorld(0.295, 0.115, 0.150)
-      ], HV_ORANGE, 0.0095, 'HV', false);
-
-      // B) CONEXIONES DEL IMD (Pegadas a la pared derecha z = -0.19, sin cruzar por encima de los módulos)
-      // 1. Vigilancia HV+ (IMD -> Borna entrada contactor)
-      createWire([
-        boxToWorld(-0.035, 0.125, -0.205),
+        boxToWorld(-0.195, 0.148, -0.215),
+        boxToWorld( 0.047, 0.148, -0.215),
         boxToWorld( 0.047, 0.109, -0.093)
-      ], HV_ORANGE, 0.0040, 'HV', false);
+      ], HV_ORANGE, 0.0038, 'HV', false);
 
-      // 2. Vigilancia HV- (IMD -> Canal frontal M2 -> Borne HV-)
       createWire([
-        boxToWorld(-0.105, 0.115, -0.205),
-        boxToWorld(-0.224, 0.056, -0.112)
-      ], HV_ORANGE, 0.0040, 'HV', false);
+        boxToWorld(-0.205, 0.154, -0.215),
+        boxToWorld( 0.123, 0.154, -0.215),
+        boxToWorld( 0.123, 0.109, -0.093)
+      ], HV_ORANGE, 0.0038, 'HV', false);
 
-      // 3. Masa Chasis IMD (Tramo recto de 2 cm en la misma pared derecha)
+      // 2. VMP e IMD -> Referencia HV- por el escalón perimetral delantero (x = -0.255, y = 0.062)
+      createWire([
+        boxToWorld(-0.205, 0.135, -0.215),
+        boxToWorld(-0.250, 0.065, -0.215),
+        boxToWorld(-0.250, 0.065, -0.115),
+        boxToWorld(-0.224, 0.056, -0.112)
+      ], HV_ORANGE, 0.0038, 'HV', false);
+
+      // 3. IMD Vigilancia HV+ (Puente corto en la pared derecha hacia la borna del contactor)
+      createWire([
+        boxToWorld(-0.030, 0.132, -0.210),
+        boxToWorld( 0.047, 0.132, -0.210),
+        boxToWorld( 0.047, 0.109, -0.093)
+      ], HV_ORANGE, 0.0038, 'HV', false);
+
+      // 4. IMD Masa Chasis (Tramo recto de 2 cm en la pared derecha)
       createWire([
         boxToWorld(-0.125, 0.145, -0.212),
         boxToWorld(-0.148, 0.155, -0.214)
       ], GND_CHASSIS_LIME, 0.0040, 'HV', false);
 
-      // 4. Señal Estado IMD OK (Magenta): Va pegada a la pared derecha (por encima del contactor) y gira en la pared trasera hacia el conector LV
+      // 5. IMD Señal Estado OK (Magenta): Pegada a la esquina superior de la pared derecha (z = -0.22) y pared trasera hasta el conector LV
       createWire([
-        boxToWorld(-0.035, 0.155, -0.205),
-        boxToWorld( 0.150, 0.165, -0.205),
-        boxToWorld( 0.335, 0.120, -0.120),
+        boxToWorld(-0.030, 0.160, -0.215),
+        boxToWorld( 0.340, 0.160, -0.215),
+        boxToWorld( 0.345, 0.065, -0.215),
         boxToWorld( 0.355, 0.065, -0.006)
       ], LV_IMD_MAGENTA, 0.0040, 'LV', false);
 
-      // C) LOS 4 CABLES NARANJAS DEL VMP (Ruteados pegados a la pared derecha y al frente de M2/M1, sin telarañas centrales)
-      // 1 y 2: VMP -> Bornas entrada y salida del Contactor Kilovac por la pared derecha
-      createWire([
-        boxToWorld(-0.195, 0.150, -0.212),
-        boxToWorld(-0.060, 0.152, -0.185),
-        boxToWorld( 0.047, 0.109, -0.093)
-      ], HV_ORANGE, 0.0036, 'HV', false);
-
-      createWire([
-        boxToWorld(-0.205, 0.156, -0.212),
-        boxToWorld( 0.020, 0.160, -0.185),
-        boxToWorld( 0.123, 0.109, -0.093)
-      ], HV_ORANGE, 0.0036, 'HV', false);
-
-      // 3: VMP -> Borne delantero derecho M2 (tramo directo de 8 cm)
-      createWire([
-        boxToWorld(-0.205, 0.136, -0.212),
-        boxToWorld(-0.224, 0.056, -0.112)
-      ], HV_ORANGE, 0.0036, 'HV', false);
-
-      // 4: VMP -> Bordea el escalón delantero (x = -0.24) hasta el borne delantero izquierdo M1
-      createWire([
-        boxToWorld(-0.195, 0.136, -0.212),
-        boxToWorld(-0.235, 0.075, -0.160),
-        boxToWorld(-0.235, 0.045,  0.070),
-        boxToWorld(-0.222, 0.056,  0.115)
-      ], HV_ORANGE, 0.0036, 'HV', false);
-
-      // D) INTERRUPTOR EXTERIOR LATERAL IZQUIERDO -> CINCON DC-DC VERTICAL (Pegado a la pared izquierda z = +0.205)
-      // Entrada + y - al interruptor desde el borne cercano M1 (tramo directo de 8 cm sin cruzar la caja)
+      // ----------------------------------------------------------------------
+      // C) CANAL PERIMETRAL IZQUIERDO (INTERRUPTOR EXTERIOR + CINCON DC-DC):
+      //    Ruteados pegados a la pared izquierda (z = +0.210) sin cruzar hacia el centro
+      // ----------------------------------------------------------------------
+      // 1. Alimentación HV desde borne delantero izquierdo M1 -> Interruptor lateral izquierdo
       createWire([
         boxToWorld(-0.222, 0.056, 0.115),
-        boxToWorld(-0.208, 0.135, 0.205)
-      ], HV_ORANGE, 0.0048, 'HV', false);
+        boxToWorld(-0.222, 0.065, 0.210),
+        boxToWorld(-0.205, 0.135, 0.210)
+      ], HV_ORANGE, 0.0046, 'HV', false);
+
+      // 2. Interruptor lateral izquierdo -> Pines de entrada del Cincon DC-DC (2 tramos rectos paralelos de 8 cm en la pared izquierda)
+      createWire([
+        boxToWorld(-0.195, 0.155, 0.210),
+        boxToWorld(-0.100, 0.152, 0.210)
+      ], HV_ORANGE, 0.0046, 'HV', true);
 
       createWire([
-        boxToWorld( 0.054, 0.056, 0.115),
-        boxToWorld(-0.120, 0.085, 0.185),
-        boxToWorld(-0.195, 0.135, 0.205)
-      ], HV_ORANGE, 0.0048, 'HV', false);
+        boxToWorld(-0.195, 0.125, 0.210),
+        boxToWorld(-0.100, 0.120, 0.210)
+      ], HV_ORANGE, 0.0046, 'HV', true);
 
-      // Salida conmutada del interruptor -> Pines de entrada del Cincon DC-DC (2 puentes rectos de 9 cm en la pared izquierda)
+      // 3. Salida 12V del Cincon DC-DC -> Pegada a la pared izquierda y pared trasera hasta el Conector Circular LV
       createWire([
-        boxToWorld(-0.195, 0.155, 0.205),
-        boxToWorld(-0.100, 0.152, 0.208)
-      ], HV_ORANGE, 0.0048, 'HV', true);
-
-      createWire([
-        boxToWorld(-0.208, 0.145, 0.205),
-        boxToWorld(-0.100, 0.120, 0.208)
-      ], HV_ORANGE, 0.0048, 'HV', true);
-
-      // E) SALIDA LV DEL CINCON VERTICAL -> PARED IZQUIERDA/TRASERA -> CONECTOR CIRCULAR TRASERO
-      createWire([
-        boxToWorld(0.060, 0.152, 0.208),
-        boxToWorld(0.325, 0.125, 0.195),
+        boxToWorld(0.060, 0.152, 0.210),
+        boxToWorld(0.340, 0.152, 0.210),
+        boxToWorld(0.345, 0.068, 0.210),
         boxToWorld(0.355, 0.068, 0.008)
-      ], LV_POS_RED, 0.0048, 'LV', true);
+      ], LV_POS_RED, 0.0046, 'LV', true);
 
       createWire([
-        boxToWorld(0.060, 0.120, 0.208),
-        boxToWorld(0.325, 0.105, 0.195),
+        boxToWorld(0.060, 0.120, 0.210),
+        boxToWorld(0.340, 0.120, 0.210),
+        boxToWorld(0.345, 0.062, 0.210),
         boxToWorld(0.355, 0.062, 0.008)
-      ], LV_NEG_CYAN, 0.0048, 'LV', true);
+      ], LV_NEG_CYAN, 0.0046, 'LV', true);
 
-      // Tramo exterior desde el Conector Circular Trasero -> Sube por el lado derecho/izquierdo del subchasis (z = -0.07) sin tocar la botella del amortiguador (z = 0) -> Caja PCBs LV
+      // 4. Tramo exterior desde Conector Circular Trasero -> Sube por el subchasis hasta la caja de PCBs (PDM y HVD)
       createWire([
         boxToWorld(0.405, 0.068, -0.008),
         new THREE.Vector3(0.48, 1.06, -0.075),
@@ -3486,53 +3485,56 @@
         new THREE.Vector3(0.76, 1.22, -0.025)
       ], LV_IMD_MAGENTA, 0.0042, 'LV', false);
 
-      // ======================================================================
-      // E2) CABLEADO DE LA PANTALLA AiM MYCHRON 5S (CORTO, ERGONÓMICO Y SIN ATRAVESAR LA BMS NI EL SENSOR HALL)
-      // Nota: La BMS Orion 2 ocupa en coordenadas de caja: x=[-0.44, -0.40], y=[-0.055, +0.135], z=[-0.105, +0.105].
-      // Por tanto, pasar por y = +0.165 salva por completo la parte superior de la BMS y del busbar del Hall.
-      // ======================================================================
-      // 1. Alimentación +12V DC (Rojo Carmesí): Sale del Binder Izquierdo AiM -> Pasa sobre el borde superior (y=0.168) -> Va pegado al canal lateral izquierdo (z=0.175) -> Conector LV Trasero
+      // ----------------------------------------------------------------------
+      // D) CABLES DE LA PANTALLA AiM MYCHRON 5S (+12V ROJO, GND CIAN Y CAN AMARILLO):
+      //    VAN 100% POR FUERA Y POR DEBAJO DE LA CAJA DE LA BATERÍA HASTA EL PDM/ECU (SIN ENTRAR A LA CAJA NI ATRAVESAR NADA)
+      // ----------------------------------------------------------------------
+      // 1. Cable +12V (Rojo Carmesí): Binder Izquierdo AiM -> Baja por detrás de la pipa de dirección -> Pasa por fuera y debajo del costado izquierdo de la caja (z = +0.255) -> Sube por el subchasis izquierdo al PDM
       createWire([
         new THREE.Vector3(-0.880, 1.540, 0.026),
-        boxToWorld(-0.42, 0.168, 0.085),
-        boxToWorld(-0.22, 0.165, 0.175),
-        boxToWorld( 0.28, 0.145, 0.175),
-        boxToWorld( 0.355, 0.068, 0.012)
-      ], LV_POS_RED, 0.0042, 'LV', true);
+        new THREE.Vector3(-0.895, 1.440, 0.095),
+        new THREE.Vector3(-0.820, 1.260, 0.245),
+        new THREE.Vector3(-0.520, 1.020, 0.255),
+        new THREE.Vector3( 0.050, 0.800, 0.255),
+        new THREE.Vector3( 0.420, 0.960, 0.215),
+        new THREE.Vector3( 0.720, 1.170, 0.115),
+        new THREE.Vector3( 0.895, 1.225, 0.055)
+      ], LV_POS_RED, 0.0044, 'LV', true);
 
-      // 2. Masa GND 12V (Cian): Paralelo a +12V desde Binder Izquierdo AiM -> Canal lateral izquierdo -> Conector LV Trasero
+      // 2. Cable GND (Cian): Binder Izquierdo AiM -> En paralelo junto al +12V por fuera y debajo de la caja (z = +0.263) -> PDM
       createWire([
         new THREE.Vector3(-0.880, 1.536, 0.020),
-        boxToWorld(-0.42, 0.162, 0.075),
-        boxToWorld(-0.22, 0.155, 0.168),
-        boxToWorld( 0.28, 0.135, 0.168),
-        boxToWorld( 0.355, 0.062, 0.012)
-      ], LV_NEG_CYAN, 0.0042, 'LV', true);
+        new THREE.Vector3(-0.900, 1.432, 0.102),
+        new THREE.Vector3(-0.825, 1.250, 0.253),
+        new THREE.Vector3(-0.520, 1.008, 0.263),
+        new THREE.Vector3( 0.050, 0.788, 0.263),
+        new THREE.Vector3( 0.420, 0.948, 0.223),
+        new THREE.Vector3( 0.720, 1.160, 0.122),
+        new THREE.Vector3( 0.932, 1.235, 0.062)
+      ], LV_NEG_CYAN, 0.0044, 'LV', true);
 
-      // 3. Bus CAN (Ámbar):
-      // Tramo A (Corto y directo): Conector Binder Derecho AiM -> Conector superior de la BMS Orion 2 (en y = +0.135, sin atravesar la BMS)
+      // 3. Cable CAN Bus (Amarillo/Ámbar): Binder Derecho AiM -> Baja por el cuello de dirección y se une al mismo mazo exterior inferior (z = +0.247) por fuera y debajo de la caja hasta el PDM/ECU
       createWire([
         new THREE.Vector3(-0.880, 1.540, -0.026),
-        new THREE.Vector3(-0.810, 1.480, -0.025),
-        boxToWorld(-0.42, 0.135, -0.025)
+        new THREE.Vector3(-0.890, 1.448,  0.085),
+        new THREE.Vector3(-0.815, 1.270,  0.237),
+        new THREE.Vector3(-0.520, 1.032,  0.247),
+        new THREE.Vector3( 0.050, 0.812,  0.247),
+        new THREE.Vector3( 0.420, 0.972,  0.207),
+        new THREE.Vector3( 0.720, 1.180,  0.105),
+        new THREE.Vector3( 0.860, 1.250,  0.045)
       ], LV_CAN_AMBER, 0.0044, 'LV', false);
 
-      // Tramo B: Cara interior trasera de la BMS (x = -0.40) -> Canal central bajo las cintas (z = 0.0, evitando el Sensor Hall) -> Conector LV Trasero -> ECU
+      // Ramal corto exterior CAN desde el mazo inferior izquierdo hacia el lateral izquierdo del cajón de la BMS Orion 2 (sin cruzar la caja)
       createWire([
-        boxToWorld(-0.40, 0.038, 0.000),
-        boxToWorld(-0.24, 0.038, 0.000),
-        boxToWorld( 0.15, 0.048, 0.000),
-        boxToWorld( 0.355, 0.065, -0.002)
-      ], LV_CAN_AMBER, 0.0042, 'LV', false);
+        new THREE.Vector3(-0.740, 1.210, 0.242),
+        boxToWorld(-0.42, -0.08, 0.145),
+        boxToWorld(-0.42,  0.02, 0.105)
+      ], LV_CAN_AMBER, 0.0040, 'LV', false);
 
-      createWire([
-        boxToWorld(0.405, 0.065, -0.002),
-        new THREE.Vector3(0.48, 1.07, 0.055),
-        new THREE.Vector3(0.70, 1.17, 0.055),
-        new THREE.Vector3(0.82, 1.25, 0.020)
-      ], LV_CAN_AMBER, 0.0044, 'LV', false);
-
-      // F) CABLES EXTERIORES DE POTENCIA HV (AMPHENOL -> GRAPAS CHASIS -> INVERSOR, TRAYECTO CORTO Y LIMPIO)
+      // ----------------------------------------------------------------------
+      // E) CABLES EXTERIORES DE POTENCIA HV (AMPHENOL -> GRAPAS CHASIS -> INVERSOR)
+      // ----------------------------------------------------------------------
       createWire([
         boxToWorld(0.42, 0.105, -0.150),
         new THREE.Vector3(0.32, 0.92, -0.148),
@@ -3549,7 +3551,7 @@
         boxToWorld(0.145, -0.193, 0.092)
       ], HV_ORANGE, 0.0100, 'HV', false);
 
-      // G) Fases Trifásicas U, V, W entre Inversor y Motor CIRCE (Arco corto directo)
+      // F) Fases Trifásicas U, V, W entre Inversor y Motor CIRCE (Arco corto directo)
       [-0.045, 0.0, 0.045].forEach(function(zPh) {
         createWire([
           boxToWorld(0.12, -0.223, zPh),
@@ -3558,19 +3560,18 @@
         ], HV_ORANGE, 0.0085, 'HV', false);
       });
 
-      // H) Cables cortos de Señal Sensor Hall, Bobina Contactor y Encoder Motor (< 60 V)
-      // 1. Sensor Hall -> Cara trasera de la BMS Orion 2 (tramo recto de 15 cm sin tocar el busbar)
+      // G) Cables cortos de Señal Sensor Hall, Bobina Contactor y Encoder Motor (< 60 V)
+      // 1. Sensor Hall -> Cara trasera de la BMS Orion 2 (tramo recto de 12 cm)
       createWire([
         boxToWorld(-0.245, 0.058, -0.052),
-        boxToWorld(-0.330, 0.058, -0.052),
         boxToWorld(-0.400, 0.058, -0.052)
       ], 0xa855f7, 0.0040, 'LV', false);
 
-      // 2. Bobina Contactor Kilovac -> Canal pared derecha -> Cara trasera derecha de la BMS
+      // 2. Bobina Contactor Kilovac -> Pegada al rincón inferior derecho (z = -0.175) -> BMS
       createWire([
-        boxToWorld( 0.040, 0.105, -0.145),
-        boxToWorld(-0.200, 0.095, -0.145),
-        boxToWorld(-0.400, 0.075, -0.085)
+        boxToWorld( 0.040, 0.085, -0.165),
+        boxToWorld(-0.240, 0.065, -0.165),
+        boxToWorld(-0.400, 0.065, -0.090)
       ], 0x10b981, 0.0040, 'LV', false);
 
       // 3. Encoder Motor CIRCE -> Inversor HyperDrive X1 (tramo corto directo)
