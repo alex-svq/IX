@@ -509,6 +509,52 @@
       gap: 6px;
     }
 
+    .def-text {
+      font-size: 0.82rem;
+      line-height: 1.52;
+      color: var(--text-main);
+    }
+
+    .dict-card {
+      background: rgba(0, 0, 0, 0.26);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 9px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background 0.16s ease, border-color 0.16s ease;
+    }
+
+    .dict-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    .dict-card-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dict-card-def {
+      font-size: 0.76rem;
+      line-height: 1.44;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .dict-card-conn {
+      font-size: 0.75rem;
+      line-height: 1.42;
+      color: #cbd5e1;
+      padding-top: 5px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.12);
+    }
+
     .spec-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
@@ -693,7 +739,7 @@
     </div>
   </div>
 
-  <!-- Panel Izquierdo -->
+  <!-- Panel Izquierdo (Intacto con Sistema HV y LV e interactividad por clic) -->
   <div class="sidebar sidebar-left state-half" id="panel-left">
     <div class="panel-header">
       <div class="panel-title-wrap">
@@ -801,11 +847,11 @@
     </div>
   </div>
 
-  <!-- Panel Derecho -->
+  <!-- Panel Derecho: DEFINICIÓN DE COMPONENTES Y CONEXIONADO ENTRE ELLOS -->
   <div class="sidebar sidebar-right state-half" id="panel-right">
     <div class="panel-header">
       <div class="panel-title-wrap">
-        <span>FICHA TÉCNICA Y CONEXIONADO</span>
+        <span>DEFINICIÓN DE COMPONENTES Y CONEXIONADO</span>
       </div>
       <div class="win-controls">
         <button class="btn btn-ver-todo" style="padding:3px 9px;font-size:0.70rem;background:rgba(255,85,0,0.24);border-color:var(--hv-color);" onclick="openFullOverview()">📖 Ver Todo</button>
@@ -824,7 +870,7 @@
 
   <script>
     // ============================================================================
-    // 1. BASE DE DATOS TÉCNICA DE COMPONENTES (eUSRacing MotoStudent - 13 NODOS)
+    // 1. BASE DE DATOS DE DEFINICIONES Y CONEXIONADO ENTRE COMPONENTES (13 NODOS)
     // ============================================================================
     var dcdcSwitchClosed = true;
 
@@ -833,256 +879,264 @@
         id: 'battery',
         system: 'HV',
         name: 'Pack de Baterías 30S2P + 3 Cell-Tabs Amarillos',
-        subtitle: 'Ref. GRP86A0260-37V-63200mAh · 3 Módulos 10S2P en Serie (M3: 0-37V ➔ M1: 37-74V ➔ M2: 74-111V)',
-        location: 'Interior de la caja de baterías separado del cajón delantero de la BMS mediante una pared divisora de aluminio que llega exactamente hasta la altura superior de los módulos azules.',
+        subtitle: 'Fuente de energía principal de Alta Tensión (111V nominales / 126V máx.)',
+        definition: 'Es el acumulador electroquímico de alta tensión de la motocicleta. Está formado por 3 módulos de polímero de litio (10S2P de 37V cada uno) conectados en serie entre sí para alcanzar los 111V nominales (126V a plena carga) que alimentan el sistema de tracción (Inversor y Motor) y el convertidor DC-DC.',
+        location: 'Alojado en el interior de la caja estructural de aluminio, separado del cajón delantero de la BMS por una pared divisora de aluminio de la misma altura que los módulos.',
         specs: [
-          { label: 'Configuración Pack', val: '30S2P (3x 10S2P en serie)' },
-          { label: 'Pared Divisora', val: 'Aluminio (Altura máx. = Módulo)' },
-          { label: 'Cell-Tabs (x3)', val: 'Conectados ARRIBA de la BMS' },
-          { label: 'Borne BAT+ (111V)', val: 'Delantero derecho de M2 (Antes Fusible)' },
-          { label: 'Borne HV- (0V Ref)', val: 'Trasero izquierdo de M3 (Salida Amphenol -)' },
-          { label: 'Unión Sensor Hall', val: 'Nodo Intermedio 74V (Entre M1 y M2)' }
+          { label: 'Configuración Serie', val: '30S2P (M3 ➔ M1 ➔ M2)' },
+          { label: 'Tensión Nominal / Máx.', val: '111 V / 126 V DC' },
+          { label: 'Borne Positivo Total', val: 'BAT+ en M2 (Antes Fusible)' },
+          { label: 'Borne Negativo Total', val: 'HV- en M3 (0V Referencia)' }
         ],
         connections: [
-          '<strong>1. Puente Busbar del Sensor Hall (Entre M2 y M1 · Nodo a 74V):</strong> Une en serie el segundo módulo (`M1`) con el tercer módulo (`M2`). Al ser una unión intermedia en mitad de la serie, no es el negativo general del pack.',
-          '<strong>2. Cable Naranja Serie Izquierdo (M1 ➔ M3 · Nodo a 37V):</strong> Une en serie el primer módulo (`M3`) con el segundo módulo (`M1`).',
-          '<strong>3. Salida Negativa General HV- (M3 ➔ Amphenol - · 0V Referencia Total):</strong> Es el último negativo de toda la asociación en serie/paralelo. De aquí salen el cable principal al <strong>Amphenol (-)</strong> y las referencias negativas reales hacia el <strong>VMP (Pin 4)</strong>, el <strong>IMD (HV-)</strong> y el <strong>Interruptor del DC-DC (HV- In)</strong>.',
-          '<strong>4 y 5. Rama Positiva HV+ (M2 ➔ Fusible SIBA ➔ Contactor Kilovac ➔ Amphenol +):</strong> Pletina corta desde el borne delantero derecho de M2 (`BAT+`) al <strong>Fusible SIBA 500A</strong>, cable naranja a la borna 1 del <strong>Contactor Kilovac (`FUSE+`)</strong> y salida desde la borna 2 (`TS+`) hacia el <strong>Amphenol (+)</strong>.'
+          '<strong>Con el Sensor Hall (Entre M1 y M2):</strong> Los módulos delanteros `M1` y `M2` se unen en serie a través de dos postes verticales de cobre y el busbar superior que atraviesa el núcleo del <strong>Sensor Hall</strong>.',
+          '<strong>Serie Interna Izquierda (Entre M1 y M3):</strong> Un cable naranja de alta sección con terminales de cobre une el borne delantero izquierdo de `M1` con el borne delantero izquierdo del módulo trasero `M3`.',
+          '<strong>Con el Fusible Principal SIBA 500A (Salida BAT+):</strong> Del borne positivo general en `M2` sale una pletina/cable corto hacia la entrada del <strong>Fusible SIBA 500A</strong>.',
+          '<strong>Con el Inversor HyperDrive X1 (Salida Amphenol + y -):</strong> El negativo general en `M3` sale directo por el conector trasero <strong>Amphenol (-)</strong> hacia el inversor, mientras que el positivo sale tras pasar por el fusible y el contactor por el conector <strong>Amphenol (+)</strong>.',
+          '<strong>Con la BMS Orion 2 (3 Cintas Amarillas Cell-Tabs):</strong> De la parte superior de cada uno de los 3 módulos sale una cinta plana amarilla con las tomas individuales de tensión de las 30 celdas y termistores que suben hasta los <strong>3 conectores amarillos superiores de la BMS</strong>.',
+          '<strong>Con el VMP, el IMD y el Interruptor del DC-DC:</strong> Cede las tomas de positivo (`BAT+` en M2) y negativo general (`HV-` en M3) para alimentar el DC-DC y monitorizar tensión y aislamiento.'
         ],
-        notes: 'El negativo de referencia para el VMP, el IMD y el DC-DC se toma siempre del módulo trasero M3 (0V reales del pack completo) para medir los 111V-126V totales de los 3 módulos en serie.'
+        notes: 'El módulo trasero M3 actúa como referencia de 0V (HV- General), sumando +37V en M3, +74V en M1 y +111V en la salida positiva de M2.'
       },
       hall: {
         id: 'hall',
         system: 'HV',
         name: 'Sensor Hall + Busbar de Cobre',
-        subtitle: 'Ubicado en el puente serie intermedio entre M1 y M2 (a +74V respecto a HV-) · Cable morado a la BMS',
-        location: 'Situado en la parte delantera central entre los módulos M1 y M2, rodeando el poste vertical de cobre que sube hasta el busbar horizontal.',
+        subtitle: 'Transductor magnético de corriente de Efecto Hall en lazo cerrado',
+        definition: 'Es el sensor encargado de medir en tiempo real toda la corriente eléctrica (amperios de descarga al acelerar y de carga al regenerar) que circula por el pack de baterías sin necesidad de contacto eléctrico directo con la alta tensión, gracias al campo magnético generado en el busbar de cobre que atraviesa su orificio central.',
+        location: 'Situado en la zona delantera central entre los módulos M1 y M2, abrazando el poste vertical de cobre derecho bajo el busbar horizontal.',
         specs: [
-          { label: 'Geometría Sensor', val: 'Anillo negro nervado + conector' },
-          { label: 'Potencial del Busbar', val: '+74V nom (Unión serie M1-M2)' },
-          { label: 'Corriente Medida', val: '100% de la corriente serie del pack' },
-          { label: 'Cable Morado', val: 'Señal Corriente Hall ➔ BMS Orion 2' }
+          { label: 'Principio Físico', val: 'Efecto Hall Toroidal Aislado' },
+          { label: 'Conductor Primario', val: 'Busbar de Cobre M1-M2' },
+          { label: 'Potencial del Punto', val: '+74V (Nodo intermedio serie)' },
+          { label: 'Salida de Lectura', val: 'Cable Morado hacia BMS' }
         ],
         connections: [
-          '<strong>Paso de Corriente en Serie por el Sensor Hall:</strong> Como los 3 módulos están en serie, toda la corriente del pack pasa por este puente entre `M1` y `M2`. Sin embargo, su tensión es intermedia (+74V respecto a `HV-`), por lo que el negativo del VMP nunca debe conectarse aquí sino en `M3`.',
-          '<strong>Cable Morado (Señal del Sensor Hall - LV):</strong> Sale del conector del Sensor Hall, pasa sobre el tabique divisor de aluminio y se conecta en el puerto superior de la <strong>BMS Orion 2</strong>.'
+          '<strong>Con los Módulos M1 y M2 del Pack (Alta Tensión):</strong> Su núcleo toroidal negro rodea el poste vertical de cobre que une en serie el módulo `M1` con el módulo `M2` a través del busbar plano atornillado arriba.',
+          '<strong>Con la BMS Orion 2 (Cable Morado - Baja Tensión):</strong> Desde su conector lateral sale el <strong>cable morado</strong> que sube por encima de la pared divisora de aluminio y entra directamente en el conector superior derecho de la <strong>BMS Orion 2</strong> para que esta calcule el SOC (Estado de Carga) y controle los límites de corriente.'
         ],
-        notes: 'En un circuito serie la corriente es idéntica en cualquier punto (por eso el Sensor Hall mide perfecto entre M1 y M2), pero la tensión total solo existe entre los dos extremos finales (M2+ y M3-).'
+        notes: 'Como en un circuito en serie la intensidad es idéntica en todos sus puntos, colocarlo entre M1 y M2 permite medir el 100% de la corriente del pack de forma compacta.'
       },
       fuse: {
         id: 'fuse',
         system: 'HV',
         name: 'Fusible Principal HV SIBA 500A',
-        subtitle: 'Ref. SIBA 90 058 05 · Monitorizado externamente entre el Pin 1 (BAT+) y el Pin 2 (FUSE+) del VMP',
-        location: 'Montado en ángulo en el lateral superior derecho sobre el módulo M2, delante del contactor Kilovac.',
+        subtitle: 'Protección pasiva ultrarrápida frente a cortocircuitos en Alta Tensión',
+        definition: 'Es el elemento de seguridad pasiva principal del sistema de tracción. Contiene una lámina calibrada en baño de arena de cuarzo diseñada para fundirse e interrumpir físicamente el circuito de alta tensión en milisegundos si se produce una sobrecorriente extrema o un cortocircuito.',
+        location: 'Montado en ángulo en el lateral superior derecho sobre el módulo M2, justo entre el borne positivo de la batería y el contactor principal.',
         specs: [
-          { label: 'Fabricante / Ref.', val: 'SIBA / 90 058 05' },
-          { label: 'Corriente Nominal', val: '500 A' },
-          { label: 'Antes del Fusible', val: 'Conectado a Pin 1 del VMP (BAT+)' },
-          { label: 'Después del Fusible', val: 'Conectado a Pin 2 del VMP (FUSE+)' }
+          { label: 'Fabricante / Modelo', val: 'SIBA / 90 058 05' },
+          { label: 'Corriente de Corte', val: '500 A (Ultrarrápido aR)' },
+          { label: 'Nodo Anterior', val: 'Borne BAT+ M2 y Pin 1 VMP' },
+          { label: 'Nodo Posterior', val: 'Contactor Kilovac y Pin 2 VMP' }
         ],
         connections: [
-          '<strong>Entrada Delantera (`BAT+` Antes del Fusible):</strong> Conectada al borne positivo de M2, de donde salen el <strong>Cable 1 del VMP</strong> y la entrada positiva hacia el <strong>Interruptor del DC-DC</strong>.',
-          '<strong>Salida Trasera (`FUSE+` Después del Fusible / Antes del Contactor):</strong> Va a la borna 1 de entrada del <strong>Contactor Kilovac 500A</strong>, donde mide el <strong>Cable 2 del VMP</strong>.'
+          '<strong>Por delante con el Borne Positivo BAT+ (Módulo M2):</strong> Recibe toda la corriente positiva del pack a través de una pletina/cable corto desde el borne delantero derecho de `M2` (donde también mide el <strong>Pin 1 del VMP</strong>).',
+          '<strong>Por detrás con el Contactor Kilovac 500A:</strong> De su terminal trasero sale el cable naranja principal que va directo a la borna de entrada (Borna 1) del <strong>Contactor Kilovac 500A</strong> (donde también se conectan el <strong>Pin 2 del VMP</strong> y la línea `HV+` del <strong>IMD</strong>).'
         ],
-        notes: 'Gracias a que el VMP tiene un cable antes del fusible (Pin 1) y otro después del fusible (Pin 2), puedes diagnosticar en 2 segundos desde fuera si el fusible SIBA se ha fundido.'
+        notes: 'Su integridad se comprueba desde el exterior midiendo con el polímetro entre el Pin 1 y el Pin 2 del VMP.'
       },
       contactor: {
         id: 'contactor',
         system: 'HV',
         name: 'Contactor Principal Kilovac 500A',
-        subtitle: 'Montado en la pared derecha · Monitorizado entre el Pin 2 (Antes del Contactor) y el Pin 3 (Después del Contactor) del VMP',
-        location: 'Base fijada en la zona superior trasera de la pared lateral derecha, con sus dos bornas apuntando hacia el interior de la caja.',
+        subtitle: 'Relé electromecánico de potencia (AIR - Accumulator Isolation Relay)',
+        definition: 'Es el interruptor electromecánico de alta potencia controlado por baja tensión encargado de aislar o conectar la alta tensión de la batería con el exterior de la caja (Inversor y Motor). En reposo está siempre abierto (0V fuera de la caja) y solo se cierra cuando la BMS y el circuito de seguridad confirman que no hay fallos.',
+        location: 'Fijado en la parte trasera de la pared lateral derecha de la caja de la batería, con sus dos bornas de potencia mirando hacia el interior.',
         specs: [
-          { label: 'Modelo', val: 'Kilovac Serie 500A' },
-          { label: 'Fijación', val: 'Pared lateral derecha' },
-          { label: 'Borna 1 (Entrada)', val: 'Pin 2 del VMP (Antes Contactor)' },
-          { label: 'Borna 2 (Salida)', val: 'Pin 3 del VMP (Después Contactor)' }
+          { label: 'Modelo', val: 'Kilovac Serie 500A HV' },
+          { label: 'Estado en Reposo', val: 'Normalmente Abierto (NO)' },
+          { label: 'Borna 1 (Entrada)', val: 'Desde Fusible SIBA (FUSE+)' },
+          { label: 'Borna 2 (Salida)', val: 'Hacia Amphenol (+) e Inversor' }
         ],
         connections: [
-          '<strong>Borna 1 (`FUSE+` Entrada HV+ Antes del Contactor):</strong> Recibe el cable del <strong>Fusible SIBA 500A</strong>, la toma `HV+` del <strong>IMD</strong> y el <strong>Cable 2 del VMP</strong>.',
-          '<strong>Borna 2 (`TS+` Salida HV+ Después del Contactor):</strong> Sale hacia el pasamuros del conector <strong>Amphenol (+)</strong> y lleva conectado el <strong>Cable 3 del VMP</strong>.',
-          '<strong>Bobina de Control (Cable Verde - LV):</strong> Va pegada al rincón derecho y sube al conector superior derecho de la <strong>BMS Orion 2</strong>.'
+          '<strong>Borna 1 de Potencia (Entrada HV+):</strong> Conectada al cable naranja que viene de la salida del <strong>Fusible SIBA 500A</strong>, a la línea de vigilancia `HV+` del <strong>IMD</strong> y al <strong>Cable 2 (`FUSE+`) del VMP</strong>.',
+          '<strong>Borna 2 de Potencia (Salida TS+):</strong> Conectada mediante un cable naranja de 35 mm² al pasamuros del conector trasero <strong>Amphenol (+)</strong> (que baja al <strong>Inversor HyperDrive X1</strong>) y al <strong>Cable 3 (`TS+`) del VMP</strong>.',
+          '<strong>Bobina de Control (Cable Verde - Baja Tensión):</strong> Conectada por el canal interior derecho hasta el conector superior derecho de la <strong>BMS Orion 2</strong> y el lazo de seguridad.'
         ],
-        notes: 'Midiendo en el VMP entre el Pin 3 (`TS+`) y el Pin 4 (`HV-`) se verifica que cuando el contactor está abierto hay 0V en la salida.'
+        notes: 'Actúa como barrera de seguridad activa: si el IMD o la BMS detectan cualquier anomalía, cortan la corriente de su bobina verde y el contactor abre instantáneamente la alta tensión.'
       },
       imd: {
         id: 'imd',
         system: 'HV',
         name: 'IMD (Insulation Monitoring Device / Isometer)',
-        subtitle: 'Vigilancia activa de aislamiento con sus 5 conexiones completas: HV+, HV- (en M3), Tierra Chasis (KE), Alimentación LV y Señal OK',
-        location: 'Fijado verticalmente contra la cara interior de la pared lateral derecha de la caja de la batería, delante del contactor Kilovac.',
+        subtitle: 'Vigilante activo de aislamiento galvánico entre Alta Tensión y Chasis',
+        definition: 'Es un dispositivo electrónico de seguridad (tipo Bender Isometer) que vigila de forma continua que exista un aislamiento eléctrico perfecto entre los cables de Alta Tensión (`HV+` y `HV-`) y el chasis metálico de la moto. Si detecta una fuga de corriente o pérdida de aislamiento hacia el chasis, envía una señal de fallo a la placa HVD/ECU para abrir el contactor.',
+        location: 'Montado verticalmente en la cara interior de la pared lateral derecha de la caja de la batería, delante del contactor Kilovac.',
         specs: [
-          { label: '1. Acoplamiento HV+', val: 'Cable Naranja a Positivo HV+' },
-          { label: '2. Acoplamiento HV-', val: 'Cable Naranja a Negativo General M3' },
-          { label: '3. Tierra Chasis (KE)', val: 'Cable Verde Lima a Perno Chasis' },
-          { label: '4. Señal Estado OK', val: 'Cable Violeta a HVD / ECU' },
-          { label: '5. Alimentación LV', val: '+12V (Rojo) y -GND (Cian) desde DC-DC' }
+          { label: 'Función Principal', val: 'Medir Resistencia Aislamiento' },
+          { label: 'Tomas de Alta', val: 'HV+ (Contactor) y HV- (M3)' },
+          { label: 'Referencia Masa', val: 'Tierra Chasis KE (Verde Lima)' },
+          { label: 'Salida de Estado', val: 'Cable Violeta a HVD / ECU' }
         ],
         connections: [
-          '<strong>1. Vigilancia Positivo de Alta HV+ (Cable Naranja):</strong> Sale del terminal `L+` del IMD hacia la borna positiva HV+ (entrada del contactor Kilovac).',
-          '<strong>2. Vigilancia Negativo de Alta HV- (Cable Naranja):</strong> Sale del terminal `L-` del IMD, bordea por el perímetro trasero (tras M3) y se conecta al **borne negativo general del pack (`HV-` en M3)**.',
-          '<strong>3. Tierra de Referencia / Masa Chasis `KE / E` (Cable Verde Lima):</strong> Conectado directamente al perno metálico de chasis en la pared derecha.',
-          '<strong>4. Señal de Estado `IMD OK` (Cable Púrpura/Violeta):</strong> Corre por la cornisa superior derecha hasta el conector circular LV trasero y sube a las placas <strong>HVD</strong> y <strong>ECU</strong>.',
-          '<strong>5. Alimentación 12V DC del IMD (+12V Rojo y -GND Cian):</strong> Recibe alimentación de baja tensión desde la línea de 12V del <strong>Cincon DC-DC</strong>.'
+          '<strong>1. Con el Positivo de Alta Tensión (`HV+` - Cable Naranja):</strong> Conectado desde su terminal `L+` a la borna positiva de entrada del <strong>Contactor Kilovac</strong>.',
+          '<strong>2. Con el Negativo General de Alta Tensión (`HV-` - Cable Naranja):</strong> Conectado desde su terminal `L-` por el escalón trasero hasta el borne negativo general del pack en el módulo <strong>M3</strong>.',
+          '<strong>3. Con el Chasis Metálico (`Tierra KE` - Cable Verde Lima):</strong> Conectado directamente al perno de masa atornillado al chasis en la pared derecha.',
+          '<strong>4. Con el Convertidor Cincon DC-DC (`+12V` Rojo y `-GND` Cian):</strong> Recibe alimentación de baja tensión (12V) a través del mazo trasero para alimentar su circuito interno de medida.',
+          '<strong>5. Con las Placas HVD y ECU (`Señal IMD OK` - Cable Violeta):</strong> Saca un cable violeta por la cornisa derecha que sale por el conector circular LV trasero y sube sobre el colín hasta el conector violeta de la placa <strong>HVD</strong> y la <strong>ECU</strong>.'
         ],
-        notes: 'Al llevar su toma negativa HV- por el perímetro trasero hacia el borne negativo real del pack en M3, vigila el aislamiento de los 3 módulos completos.'
+        notes: 'Sus 5 conexiones son indispensables porque el IMD necesita comparar simultáneamente HV+ y HV- contra la Tierra del Chasis (KE), estar alimentado a 12V y reportar su estado por la línea violeta.'
       },
       vmp: {
         id: 'vmp',
         system: 'HV',
-        name: 'VMP (Voltage Measurement Point · 4 Pines de Diagnóstico)',
-        subtitle: 'Pin 1: BAT+ (Antes Fusible) · Pin 2: FUSE+ (Antes Contactor) · Pin 3: TS+ (Después Contactor) · Pin 4: HV- (Negativo General M3)',
-        location: 'Instalado en la pared lateral derecha de la caja de la batería, delante del IMD, accesible desde el exterior para el multímetro de verificaciones.',
+        name: 'VMP (Voltage Measurement Point · 4 Pines)',
+        subtitle: 'Punto externo de comprobación y diagnóstico de tensiones de seguridad',
+        definition: 'Es un conector circular multipin de seguridad accesible desde el exterior de la caja de baterías. Permite a los comisarios técnicos y al equipo medir con un polímetro la tensión de la batería, comprobar si el fusible principal está sano y verificar que el contactor principal aísla correctamente la salida sin tener que abrir la caja.',
+        location: 'Instalado en la zona delantera de la pared lateral derecha de la caja de la batería, justo delante del IMD.',
         specs: [
-          { label: 'Pin 1 (BAT+)', val: 'Positivo ANTES del Fusible (M2+)' },
-          { label: 'Pin 2 (FUSE+)', val: 'DESPUÉS Fusible / ANTES Contactor' },
-          { label: 'Pin 3 (TS+)', val: 'DESPUÉS del Contactor (Amphenol +)' },
-          { label: 'Pin 4 (HV-)', val: 'Negativo General Pack (M3 / 0V Real)' }
+          { label: 'Pin 1 (BAT+)', val: 'Positivo Antes del Fusible' },
+          { label: 'Pin 2 (FUSE+)', val: 'Después Fusible / Antes Contactor' },
+          { label: 'Pin 3 (TS+)', val: 'Después del Contactor (Salida)' },
+          { label: 'Pin 4 (HV-)', val: 'Negativo General Común (M3)' }
         ],
         connections: [
-          '<strong>Cable 1 - Pin 1 `BAT+` (Positivo ANTES del Fusible SIBA):</strong> Va desde el pin superior del VMP directo al borne positivo del módulo delantero derecho `M2` (antes del fusible). Medido contra el Pin 4 (`HV-`), da siempre la tensión total de los 3 módulos en serie (~111V - 126V).',
-          '<strong>Cable 2 - Pin 2 `FUSE+` (Positivo DESPUÉS del Fusible / ANTES del Contactor):</strong> Baja al escalón derecho y se conecta en la **Borna 1 (entrada) del Contactor Kilovac**. Permite comprobar que el fusible SIBA tiene continuidad.',
-          '<strong>Cable 3 - Pin 3 `TS+` (Positivo DESPUÉS del Contactor):</strong> Va por el escalón derecho hasta la **Borna 2 (salida) del Contactor Kilovac** (hacia `Amphenol +`). Permite verificar que con el contactor abierto hay **0V** en el exterior de la moto.',
-          '<strong>Cable 4 - Pin 4 `HV-` (Negativo General en Módulo Trasero `M3`):</strong> Va por el escalón derecho hasta el **borne negativo general de salida del pack (`M3`)**. Tiene que ir obligatoriamente a `M3` porque es el extremo 0V de toda la serie.'
+          '<strong>Cable 1 (Pin 1 `BAT+`) ➔ Borne Positivo M2 (Antes del Fusible):</strong> Mide la tensión directa de las celdas (~118V) antes de pasar por el fusible SIBA.',
+          '<strong>Cable 2 (Pin 2 `FUSE+`) ➔ Borna 1 Entrada Contactor (Después del Fusible):</strong> Permite verificar que la corriente atraviesa el <strong>Fusible SIBA 500A</strong>. Si en el Pin 1 hay 118V y en el Pin 2 hay 0V, el fusible está fundido.',
+          '<strong>Cable 3 (Pin 3 `TS+`) ➔ Borna 2 Salida Contactor (Después del Contactor):</strong> Permite comprobar el estado del <strong>Contactor Kilovac</strong>. Con la moto apagada debe dar 0V; con la moto activada da la tensión del pack.',
+          '<strong>Cable 4 (Pin 4 `HV-`) ➔ Borne Negativo General en M3 (0V Común):</strong> Recorre el escalón derecho hasta el último negativo de la serie en el módulo trasero `M3` (`Amphenol -`), sirviendo de referencia común para la punta negra del multímetro.'
         ],
-        notes: 'Con esta configuración de 4 cables (3 positivos escalonados en la cadena de seguridad + 1 negativo común de referencia), desde el conector exterior puedes diagnosticar: (1) Tensión del pack, (2) Salud del fusible SIBA y (3) Apertura/cierre del contactor Kilovac.'
+        notes: 'Toma la referencia negativa en el módulo trasero M3 porque es el único punto a 0V reales de toda la serie de 3 módulos.'
       },
       aim: {
         id: 'aim',
         system: 'LV',
-        name: 'Pantalla AiM MyChron 5S + Mazo Protegido por Interior del Chasis',
-        subtitle: 'Cables +12V (Rojo), -GND (Cian) y CAN (Amarillo) pegados a la cara interior de la viga del chasis y sobre el colín',
-        location: 'Anclada sobre la tija superior CNC, con su mazo de 3 cables bajando por detrás de la pipa de dirección para discurrir pegado a la cara interior de la viga izquierda del chasis.',
+        name: 'Pantalla AiM MyChron 5S (Dashboard & Data Logger)',
+        subtitle: 'Cuadro de instrumentos del piloto, adquisidor de datos y telemetría CAN',
+        definition: 'Es la pantalla LCD con registrador de datos (Data Logger) y LEDs superiores configurables situada en el puesto de conducción. Muestra en tiempo real al piloto las RPM, velocidad, tiempos por vuelta, temperatura de refrigeración, tensión del pack y SOC, además de almacenar toda la telemetría en memoria interna.',
+        location: 'Anclada sobre la tija superior CNC entre los dos semimanillares de competición mediante un soporte mecanizado con silentblocks.',
         specs: [
-          { label: 'Modelo Exacto', val: 'AiM MyChron 5S (268x128 px)' },
-          { label: 'Ruta del Mazo', val: 'Cara Interior Viga Chasis Izquierda' },
-          { label: 'Subida al Colín', val: 'Por delante y encima (Sin atravesar)' },
-          { label: 'Cable Positivo', val: '+12V Rojo Intenso desde PDM' },
-          { label: 'Cable Negativo', val: '-GND Azul Cian desde PDM' },
-          { label: 'Telemetría CAN', val: 'Cable Amarillo CAN H/L a ECU/PDM' }
+          { label: 'Modelo Dashboard', val: 'AiM MyChron 5S' },
+          { label: 'Iluminación Alarma', val: '5 Shift LEDs RGB + 2 Alarmas' },
+          { label: 'Conectores Traseros', val: '2x Binder 712 Dorados' },
+          { label: 'Recorrido del Mazo', val: 'Cara Interior Viga Chasis Izq.' }
         ],
         connections: [
-          '<strong>Alimentación +12V (Rojo Intenso) y -GND (Azul Cian):</strong> Salen del conector trasero izquierdo de la AiM, bajan tras la pipa de dirección y se pegan a la **cara interior de la viga principal izquierda del chasis** (`z = +0.186`). Al llegar atrás, suben bordeando el frente del subchasis (colín) y entran por arriba al <strong>PDM</strong>.',
-          '<strong>Bus de Datos CAN (Cable Amarillo):</strong> Sale del conector trasero derecho de la AiM, se une al mismo mazo protegido por la cara interior del chasis izquierdo y sube limpio sobre la bandeja del colín hasta la <strong>ECU / PDM</strong>.'
+          '<strong>Con la Placa PDM (+12V Rojo y -GND Cian):</strong> Del conector Binder 712 trasero izquierdo salen los cables de alimentación de 12V (`+12V` rojo y `-GND` cian), bajan por detrás de la tija, discurren protegidos pegados a la <strong>cara interior de la viga izquierda del chasis</strong> y suben por encima de la bandeja del colín hasta la <strong>PCB del PDM</strong>.',
+          '<strong>Con la Placa ECU (Bus CAN Amarillo):</strong> Del conector Binder 712 trasero derecho sale el cable amarillo de comunicación <strong>CAN Bus (CAN H / CAN L)</strong>, que viaja junto al mazo interior del chasis izquierdo hasta la <strong>PCB de la ECU</strong> en el colín para recibir todos los parámetros del motor, inversor y batería.'
         ],
-        notes: 'Recorrido 100% protegido por la cara interna del chasis sin atravesar ninguna estructura.'
+        notes: 'Si se abre el interruptor exterior del DC-DC, el PDM deja de recibir 12V y la pantalla AiM se apaga automáticamente.'
       },
       switch_dcdc: {
         id: 'switch_dcdc',
         system: 'LV',
-        name: 'Interruptor Exterior Batería a Cincon DC-DC (4 Cables HV)',
-        subtitle: 'Seccionador bipolar en la pared izquierda con sus 4 cables 100% por dentro de la caja (por encima del escalón y detrás de la rejilla)',
-        location: 'Montado en la pared lateral izquierda de la caja de la batería, delante del convertidor Cincon DC-DC.',
+        name: 'Interruptor Exterior Batería a Cincon DC-DC',
+        subtitle: 'Seccionador manual bipolar (DPST) de encendido de Baja Tensión',
+        definition: 'Es el interruptor maestro exterior de dos polos que conecta o desconecta la alimentación de alta tensión procedente del pack de baterías hacia la entrada del convertidor Cincon DC-DC. Al accionarlo desde fuera de la caja, permite encender o apagar toda la electrónica de 12V de la moto (BMS, PDM, ECU, HVD, IMD y Pantalla AiM).',
+        location: 'Empotrado en la parte delantera de la pared lateral izquierda de la caja de la batería, justo delante del convertidor Cincon DC-DC.',
         specs: [
-          { label: 'Ubicación', val: 'Pared lateral izquierda delantera' },
-          { label: 'Tipo Seccionador', val: 'Bipolar DPST (4 Terminales = 4 Cables)' },
-          { label: 'Entrada Positiva', val: 'Desde BAT+ (M2) por encima del escalón' },
-          { label: 'Entrada Negativa', val: 'Desde Negativo General HV- (M3)' }
+          { label: 'Tipo de Interruptor', val: 'Bipolar DPST (Corta + y -)' },
+          { label: 'Total de Cables', val: '4 Cables Naranjas Internos' },
+          { label: '2 Cables de Entrada', val: 'Desde BAT+ (M2) y HV- (M3)' },
+          { label: '2 Cables de Salida', val: 'Hacia Vin+ y Vin- del DC-DC' }
         ],
         connections: [
-          '<strong>Cable 1 - Entrada Positiva Batería (`HV+ In` Antes del Fusible):</strong> Sale del borne positivo delantero `M2`, sube a la cota superior (`y = 0.072 -> 0.115`) y cruza a la altura de `x = -0.220` (detrás de la rejilla diagonal y por encima del escalón lateral) directo al terminal superior del interruptor, sin asomar jamás por fuera.',
-          '<strong>Cable 2 - Entrada Negativa General (`HV- In`):</strong> Viene por encima del escalón izquierdo desde el **borne negativo general del pack en `M3`** hasta el terminal inferior de entrada del interruptor.',
-          '<strong>Cable 3 - Salida Positiva Conmutada (`DC-DC Vin+`):</strong> Puente horizontal superior desde el interruptor hasta el pin `+V Input` del <strong>Cincon DC-DC</strong>.',
-          '<strong>Cable 4 - Salida Negativa Conmutada (`DC-DC Vin-`):</strong> Puente horizontal inferior desde el interruptor hasta el pin `-V Input` del <strong>Cincon DC-DC</strong>.'
+          '<strong>1. Entrada Positiva desde el Pack (`HV+ In`):</strong> Un cable naranja sale del borne positivo delantero `M2` (antes del fusible), cruza por el interior detrás del chaflán de la rejilla y entra en la borna superior delantera del interruptor.',
+          '<strong>2. Entrada Negativa desde el Pack (`HV- In`):</strong> Un segundo cable naranja viene desde el borne negativo general en `M3` por el escalón izquierdo hasta la borna inferior delantera del interruptor.',
+          '<strong>3 y 4. Salida Conmutada hacia el Convertidor Cincon DC-DC (`Vin+` y `Vin-`):</strong> De las dos bornas traseras del interruptor salen 2 cables naranjas paralelos horizontales directamente hacia los pines de entrada `+Vin` y `-Vin` del <strong>Cincon DC-DC</strong>.'
         ],
-        notes: 'El cable positivo va ahora por encima del escalón lateral (`y > 0.072`) y detrás de la esquina achaflanada (`x = -0.220`), quedando 100% oculto dentro de la caja.'
+        notes: 'Al ser un interruptor bipolar (corta simultáneamente el positivo y el negativo por seguridad), cuenta exactamente con 4 cables naranjas en su parte interior.'
       },
       dcdc: {
         id: 'dcdc',
         system: 'LV',
-        name: 'Convertidor DC-DC Cincon CFB600W-110S Series',
-        subtitle: '600W 4:1 Input (43-160 VDC) · Alimenta con +12V (Rojo) y -GND (Cian) al PDM, a la BMS Orion 2 y al IMD',
-        location: 'Fijado verticalmente con su base contra la cara interior de la pared lateral izquierda de la caja de la batería.',
+        name: 'Convertidor DC-DC Cincon CFB600W-110S (600W)',
+        subtitle: 'Fuente de alimentación aislada que transforma los ~111V HV en 12V DC LV',
+        definition: 'Es el convertidor electrónico de potencia con aislamiento galvánico encargado de reducir la alta tensión de la batería (rango de entrada de 43V a 160V DC) a una tensión continua estabilizada de **12V DC (hasta 600W / 50A)** para alimentar todos los sistemas de baja tensión de la moto sin necesidad de llevar una batería auxiliar pesada de 12V.',
+        location: 'Fijado verticalmente con su placa disipadora de aluminio contra la cara interior de la pared lateral izquierda de la caja de la batería.',
         specs: [
-          { label: 'Marca / Serie', val: 'Cincon / CFB600W-110S' },
-          { label: 'Pines Delanteros', val: 'Entrada HV (+Vin y -Vin desde Int.)' },
-          { label: 'Salida LV Trasera', val: '+12V (Rojo) y -GND (Cian) al PDM' },
-          { label: 'Salida LV Delantera', val: '+12V (Rojo) y -GND (Cian) a BMS e IMD' }
+          { label: 'Modelo Exacto', val: 'Cincon CFB600W-110S' },
+          { label: 'Entrada HV (4:1)', val: '43 - 160 V DC (Nom. 110V)' },
+          { label: 'Salida Regulada LV', val: '12 V DC / 50 A (600 W)' },
+          { label: 'Aislamiento Galvánico', val: '2250 V DC Entrada/Salida' }
         ],
         connections: [
-          '<strong>Entrada HV (+Vin arriba / -Vin abajo):</strong> Recibe los 2 cables naranjas paralelos desde la salida del <strong>Interruptor exterior izquierdo</strong>.',
-          '<strong>Alimentación Directa a la BMS Orion 2 (+12V Rojo y -GND Cian):</strong> Desde la salida de 12V del Cincon DC-DC van dos cables (+12V rojo y -GND cian) por el interior hacia el conector de alimentación superior izquierdo de la <strong>BMS Orion 2</strong>.',
-          '<strong>Salida Principal hacia la PCB del PDM (+12V Rojo / -GND Cian):</strong> Va por la pared izquierda hasta el <strong>Conector Circular de Baja Tensión</strong> trasero y sube a la <strong>PCB del PDM</strong>.'
+          '<strong>Por delante con el Interruptor Exterior DC-DC (Entrada HV):</strong> Sus pines delanteros `+Vin` y `-Vin` reciben los 2 cables naranjas conmutados procedentes del <strong>Interruptor exterior izquierdo</strong>.',
+          '<strong>Por detrás con la Placa PDM (Salida Principal +12V Rojo y -GND Cian):</strong> De sus pines traseros salen las líneas principales `+12V` (Rojo) y `-GND` (Cian) que van pegadas a la pared izquierda hasta el <strong>Conector Circular LV trasero</strong> y suben sobre el colín hasta los conectores de entrada de la <strong>PCB del PDM</strong>.',
+          '<strong>Hacia delante con la BMS Orion 2 (+12V Rojo y -GND Cian):</strong> Envía un par de alimentación regulada de 12V por el canal izquierdo directamente al conector superior izquierdo de la <strong>BMS Orion 2</strong>.',
+          '<strong>Con el IMD (Isometer):</strong> Alimenta con 12V DC la electrónica interna del <strong>IMD</strong> a través del conector trasero.'
         ],
-        notes: 'Si abres el interruptor exterior del DC-DC (OFF), se corta simultáneamente la alimentación de 12V hacia la BMS, el PDM y la pantalla AiM.'
+        notes: 'Es el corazón del sistema de Baja Tensión: transforma la energía del pack principal para dar vida a la BMS, el IMD, el PDM, la ECU y la pantalla AiM.'
       },
       bms: {
         id: 'bms',
         system: 'HV',
-        name: 'BMS Orion 2 (Apoyada en el Suelo + Conectores Arriba + Alim. 12V DC-DC)',
-        subtitle: 'Llega hasta el fondo del suelo del cajón delantero · Separada de los módulos por la pared divisora de aluminio · Conectores arriba',
-        location: 'Alojada en el cajón delantero estrecho llegando hasta el mismo suelo inferior de la caja (`y = -0.134`), separada de los módulos azules por el tabique divisor de aluminio.',
+        name: 'BMS Orion 2 (Battery Management System)',
+        subtitle: 'Unidad central de gestión, equilibrado y protección de la batería',
+        definition: 'Es el ordenador encargado de vigilar y proteger el pack de baterías. Monitoriza individualmente el voltaje de las 30 celdas en serie y las temperaturas mediante las 3 cintas de cell-tabs, lee la corriente total a través del Sensor Hall, equilibra (balancea) las celdas durante la carga y autoriza o corta el cierre del Contactor Kilovac.',
+        location: 'Instalada verticalmente dentro del cajón delantero estrecho llegando hasta el suelo de la caja, separada de los módulos azules por la pared divisora de aluminio.',
         specs: [
           { label: 'Modelo', val: 'Ewert Energy Orion BMS 2' },
-          { label: 'Montaje Vertical', val: 'Llega hasta el suelo del cajón' },
-          { label: 'Pared Divisora', val: 'Aluminio (Altura = Módulo Azul)' },
-          { label: 'Conectores Arriba', val: '3x Cell-Tabs Amarillos en Cara Sup.' },
-          { label: 'Alimentación 12V', val: '+12V (Rojo) y -GND (Cian) desde DC-DC' },
-          { label: 'Sensores / Control', val: 'Hall (Morado) + Contactor (Verde)' }
+          { label: 'Montaje Físico', val: 'Apoyada hasta el suelo del cajón' },
+          { label: 'Separación Módulos', val: 'Pared Divisora de Aluminio' },
+          { label: 'Ubicación Conectores', val: ' todos en la Cara Superior' }
         ],
         connections: [
-          '<strong>3 Conectores Amarillos Superiores (Cell-Tabs M1, M2 y M3):</strong> Las 3 cintas amarillas pasan por encima de la pared divisora de aluminio y se enchufan en los **3 conectores amarillos situados en la parte superior de la BMS**.',
-          '<strong>Alimentación 12V DC desde el Cincon DC-DC (+12V Rojo y -GND Cian):</strong> Llega al conector superior izquierdo de la BMS desde la salida regulada de 12V del convertidor <strong>Cincon DC-DC</strong>.',
-          '<strong>Cable Morado del Sensor Hall:</strong> Entra en el conector superior derecho de la BMS desde el <strong>Sensor Hall</strong>.',
-          '<strong>Cable Verde de Control del Contactor:</strong> Sale del conector superior derecho de la BMS hacia la bobina del <strong>Contactor Kilovac 500A</strong>.'
+          '<strong>Con los 3 Módulos de Batería (3 Conectores Amarillos Superiores):</strong> Recibe en su cara superior las <strong>3 cintas planas amarillas de Cell-Tabs</strong> procedentes de los módulos `M1`, `M2` y `M3` tras pasar por encima de la pared divisora de aluminio.',
+          '<strong>Con el Convertidor Cincon DC-DC (Conector Rojo Superior Izquierdo):</strong> Recibe alimentación de <strong>+12V (Rojo) y -GND (Cian)</strong> directamente desde la salida regulada del <strong>Cincon DC-DC</strong>.',
+          '<strong>Con el Sensor Hall (Conector Morado Superior Derecho):</strong> Recibe el <strong>cable morado</strong> con la señal de corriente medida por el <strong>Sensor Hall</strong>.',
+          '<strong>Con el Contactor Kilovac 500A (Cable Verde Superior Derecho):</strong> Saca el <strong>cable verde</strong> de mando y seguridad que alimenta la bobina del <strong>Contactor Kilovac 500A</strong>.'
         ],
-        notes: 'La BMS apoya en el suelo inferior del cajón delantero, tiene delante de los módulos la pared divisora de aluminio de la misma altura que los módulos, y recibe todos sus conectores por la cara superior.'
+        notes: 'Al tener todos sus conectores en la cara superior y una pared de aluminio hasta la altura de los módulos, el cableado entra limpio desde arriba sin doblarse contra el suelo.'
       },
       inverter: {
         id: 'inverter',
         system: 'HV',
         name: 'Inversor HyperDrive X1 + Cold Plate',
-        subtitle: 'Pegado bajo la caja de la batería · Recibe el + y - (rodeando al motor) y entrega U, V, W',
-        location: 'Adosado directamente con su Cold Plate a la cara inferior inclinada de la caja de la batería.',
+        subtitle: 'Controlador electrónico que convierte la Corriente Continua (DC) en Trifásica (AC)',
+        definition: 'Es el variador electrónico de potencia encargado de transformar la corriente continua de alta tensión (`DC+` y `DC-`) procedente de la batería en corriente alterna trifásica variable en frecuencia y amplitud (`Fases U, V, W`) para controlar el par y las revoluciones del motor eléctrico, además de gestionar el freno regenerativo.',
+        location: 'Atornillado por debajo del suelo inclinado de la caja de la batería sobre una placa fría de aluminio (Cold Plate) refrigerada por agua.',
         specs: [
           { label: 'Modelo', val: 'HyperDrive X1' },
-          { label: 'Montaje Térmico', val: 'Cold Plate pegado bajo caja bat.' },
-          { label: 'Entrada DC (+ / -)', val: 'Conectores INV DC+ e INV DC-' },
-          { label: 'Salida Trifásica', val: 'Fases U, V, W al Motor CIRCE' }
+          { label: 'Disipación Térmica', val: 'Cold Plate Refrigerado por Agua' },
+          { label: 'Entrada Potencia DC', val: '2x Bornas Laterales (DC+ y DC-)' },
+          { label: 'Salida Potencia AC', val: '3x Bornas Trifásicas (U, V, W)' }
         ],
         connections: [
-          '<strong>Conectores INV DC+ e INV DC- (Cables Naranjas 35 mm²):</strong> Reciben los cables + y - que salen de los conectores Amphenol traseros de la caja, bajan por las grapas laterales del chasis y <strong>entran directos a los bornes laterales del inversor</strong>.',
-          '<strong>Bornas Trifásicas U, V, W (3 Cables Naranjas Cortos):</strong> Salen en un arco corto y directo hacia las 3 bornas superiores de fase del <strong>Motor Eléctrico CIRCE</strong>.'
+          '<strong>Con la Caja de Baterías (Cables Naranjas DC+ y DC- de 35 mm²):</strong> Recibe en sus dos bornes laterales los dos cables gruesos de alta tensión que salen de los conectores traseros <strong>Amphenol (+)</strong> y <strong>Amphenol (-)</strong> de la batería, bajando sujetos por las grapas laterales del chasis.',
+          '<strong>Con el Motor Eléctrico CIRCE (3 Cables Naranjas Fases U, V, W):</strong> De sus 3 bornes traseros salen en arco directo los 3 cables de potencia trifásica hacia la caja de bornas superior del <strong>Motor Eléctrico CIRCE</strong>.'
         ],
-        notes: 'Montado en la parte inferior de la caja de baterías igual que en las capturas laterales del CAD.'
+        notes: 'Su posición justo debajo de la caja de baterías e inmediatamente delante del motor minimiza la longitud y el peso de los cables gruesos de 35 mm².'
       },
       motor: {
         id: 'motor',
         system: 'HV',
         name: 'Motor Eléctrico CIRCE (MotoStudent)',
-        subtitle: 'Fases U, V, W + Circuito de Refrigeración Líquida conectado al Radiador delantero',
-        location: 'Situado en la cuna inferior del chasis entre las placas laterales de soporte.',
+        subtitle: 'Máquina eléctrica síncrona trifásica de imanes permanentes (PMSM) refrigerada por agua',
+        definition: 'Es el propulsor eléctrico de competición encargado de transformar la energía eléctrica trifásica entregada por el inversor en par mecánico en el piñón de ataque para mover la rueda trasera mediante la transmisión por cadena. Al desacelerar puede actuar como generador recargando la batería.',
+        location: 'Anclado en la cuna central/inferior del chasis mediante las placas laterales mecanizadas de aluminio.',
         specs: [
-          { label: 'Modelo', val: 'CIRCE MotoStudent' },
-          { label: 'Alimentación AC', val: '3 Bornas Superiores (Fase U, V, W)' },
-          { label: 'Refrigeración Líquida', val: 'Entrada y Salida con Radiador Delantero' },
-          { label: 'Sensores', val: 'Encoder + Temperatura (Al Inversor)' }
+          { label: 'Fabricante / Tipo', val: 'CIRCE / PMSM Trifásico' },
+          { label: 'Alimentación AC', val: '3 Bornas Superiores (U, V, W)' },
+          { label: 'Refrigeración', val: 'Camisa de Agua con Radiador' },
+          { label: 'Transmisión', val: 'Piñón 15T ➔ Cadena ➔ Corona 42T' }
         ],
         connections: [
-          '<strong>Bornas Fase U, V, W (3 Cables Naranjas):</strong> Conectadas mediante 3 puentes cortos y ergonómicos a las salidas trifásicas del <strong>Inversor HyperDrive X1</strong>.',
-          '<strong>Circuito de Refrigeración Líquida (Entrada y Salida):</strong> Manguitos de impulsión y retorno conectados entre la entrada/salida del <strong>Radiador delantero</strong> y la entrada/salida del <strong>Motor CIRCE</strong>.'
+          '<strong>Con el Inversor HyperDrive X1 (3 Cables Naranjas Fases U, V, W):</strong> Sus 3 espárragos de cobre superiores reciben directamente las fases `U`, `V` y `W` desde el <strong>Inversor HyperDrive X1</strong>.',
+          '<strong>Con el Radiador Delantero (Manguitos de Refrigeración Líquida):</strong> Conectado mediante dos tuberías de impulsión y retorno (racores azul de entrada fría y rojo de salida caliente) con el <strong>Radiador delantero</strong> para evacuar el calor del estátor.'
         ],
-        notes: 'Acompañado por el amortiguador trasero con el muelle helicoidal blanco/plata y la botella cilíndrica (piggyback) arriba en el extremo superior/trasero del muelle.'
+        notes: 'Los cables de continua DC+ y DC- que van de la batería al inversor rodean limpiamente el motor por los laterales sujetos al chasis sin tocar su carcasa.'
       },
       lvbox: {
         id: 'lvbox',
         system: 'LV',
         name: 'Caja de PCBs de Baja Tensión (HVD, PDM y ECU)',
-        subtitle: 'Cables guiados por encima de la bandeja del subchasis (sin atravesar el colín) y colores diferenciados (+12V Rojo, -GND Cian, IMD Violeta, CAN Amarillo)',
-        location: 'Montada sobre la bandeja trasera del subchasis (colín), con todos los cables entrando por la parte superior de la bandeja.',
+        subtitle: 'Cerebro electrónico del vehículo: Seguridad HV (HVD), Distribución 12V (PDM) y Control (ECU)',
+        definition: 'Es el módulo electrónico trasero situado sobre el colín que agrupa las 3 placas de circuito impreso (PCBs) diseñadas por el equipo en una arquitectura de dos pisos: abajo van unidas la **HVD** (izquierda) y el **PDM** (derecha), y arriba va atornillada sobre 4 separadores la **ECU**.',
+        location: 'Montada en la bandeja superior del subchasis trasero (colín), por detrás y encima de la botella del amortiguador trasero.',
         specs: [
-          { label: 'PCB Abajo Izquierda', val: 'HVD (Recibe Estado IMD Violeta)' },
-          { label: 'PCB Abajo Derecha', val: 'PDM (+12V Rojo y -GND Cian)' },
-          { label: 'PCB Arriba Superior', val: 'ECU (Recibe CAN Amarillo AiM)' },
-          { label: 'Paso por Subchasis', val: 'Por encima de la bandeja (Sin cruzarla)' }
+          { label: '1. PCB HVD (Abajo Izq.)', val: 'Detector Alta Tensión y Seguridad' },
+          { label: '2. PCB PDM (Abajo Der.)', val: 'Distribución Potencia 12V DC' },
+          { label: '3. PCB ECU (Arriba)', val: 'Unidad Control Vehículo y Mapas' },
+          { label: 'Ruta de Cables', val: 'Por encima del colín (Sin cruzarlo)' }
         ],
         connections: [
-          '<strong>Entrada DC-DC al PDM (+12V Rojo Intenso y -GND Cian):</strong> Salen del conector circular trasero, suben por delante del borde frontal de la placa del subchasis y van por encima de la bandeja hasta los dos conectores de entrada del <strong>PDM</strong>.',
-          '<strong>Salida al AiM (+12V Rojo, -GND Cian y CAN Amarillo):</strong> Salen por el costado izquierdo encima de la bandeja del subchasis, bajan salvando el borde del colín y corren pegados a la <strong>cara interior de la viga izquierda del chasis</strong> hasta la pantalla AiM.',
-          '<strong>Señal Estado IMD OK (Cable Púrpura/Violeta):</strong> Sube por delante del subchasis y entra por arriba al conector violeta de la <strong>HVD / ECU</strong>.'
+          '<strong>PCB PDM (Abajo a la Derecha) ➔ Conectada con Cincon DC-DC y Pantalla AiM:</strong> Recibe la alimentación principal de <strong>+12V (Rojo) y -GND (Cian)</strong> desde el <strong>Cincon DC-DC</strong> (a través del conector circular trasero) y la distribuye de forma protegida hacia la <strong>Pantalla AiM MyChron 5S</strong> (por el mazo interior del chasis izquierdo) y hacia el resto de placas.',
+          '<strong>PCB HVD (Abajo a la Izquierda) ➔ Conectada con el IMD:</strong> Recibe el <strong>cable violeta (`Estado IMD OK`)</strong> procedente del <strong>IMD</strong> a través del conector circular trasero para supervisar el aislamiento y gestionar los pilotos de seguridad.',
+          '<strong>PCB ECU (Arriba sobre separadores) ➔ Conectada con Pantalla AiM, HVD, PDM e Inversor:</strong> Se comunica mediante el <strong>cable amarillo de CAN Bus</strong> con la <strong>Pantalla AiM MyChron 5S</strong> (por la cara interior del chasis izquierdo), coordina la lectura de sensores de puño de acelerador/freno y envía las consignas de par al inversor.'
         ],
-        notes: 'Ningún cable atraviesa la placa gris del subchasis (colín): todos salvan el borde delantero/lateral y entran a la altura de las PCBs.'
+        notes: 'Todos los cables que entran y salen de esta caja caminan por encima de la bandeja del subchasis (colín) salvando su borde delantero sin atravesar la placa.'
       }
     };
 
@@ -1145,55 +1199,66 @@
       }
     }
 
+    // Vista por defecto del Panel Derecho: Guía completa de Definiciones de cada componente y Cómo se conectan entre ellos
     function renderInspectorDefault() {
       var insp = document.getElementById('inspector');
       if (!insp) return;
+
+      var hvIds = ['battery', 'hall', 'fuse', 'contactor', 'imd', 'vmp', 'bms', 'inverter', 'motor'];
+      var lvIds = ['aim', 'switch_dcdc', 'dcdc', 'lvbox'];
+
+      var hvCardsHtml = '';
+      for (var i = 0; i < hvIds.length; i++) {
+        var c = COMPONENTS_DB[hvIds[i]];
+        hvCardsHtml += [
+          '<div class="dict-card" onclick="selectComponent(\'' + c.id + '\')">',
+            '<div class="dict-card-title">',
+              '<span style="color:#ff9d66;">⚡ ' + c.name + '</span>',
+              '<span style="font-size:0.66rem;color:var(--text-muted);">Ver en 3D ➔</span>',
+            '</div>',
+            '<div class="dict-card-def"><strong>¿Qué es?:</strong> ' + c.definition + '</div>',
+            '<div class="dict-card-conn"><strong>Conectado con:</strong> ' + c.connections[0].replace(/<[^>]*>?/gm, '') + '</div>',
+          '</div>'
+        ].join('');
+      }
+
+      var lvCardsHtml = '';
+      for (var j = 0; j < lvIds.length; j++) {
+        var lvc = COMPONENTS_DB[lvIds[j]];
+        lvCardsHtml += [
+          '<div class="dict-card" onclick="selectComponent(\'' + lvc.id + '\')">',
+            '<div class="dict-card-title">',
+              '<span style="color:#7ce8ff;">🔌 ' + lvc.name + '</span>',
+              '<span style="font-size:0.66rem;color:var(--text-muted);">Ver en 3D ➔</span>',
+            '</div>',
+            '<div class="dict-card-def"><strong>¿Qué es?:</strong> ' + lvc.definition + '</div>',
+            '<div class="dict-card-conn"><strong>Conectado con:</strong> ' + lvc.connections[0].replace(/<[^>]*>?/gm, '') + '</div>',
+          '</div>'
+        ].join('');
+      }
+
       insp.innerHTML = [
         '<div class="sec-nav">',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-vmp\')">🔍 Por Qué HV- del VMP va a M3</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-bms\')">🔋 BMS, Pared Divisora y 12V</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-imd\')">🛡️ Conexiones Completas IMD</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-aim\')">🏁 AiM por Interior Chasis</button>',
-          '<button class="sec-pill" onclick="scrollToSection(\'sec-lv\')">📟 Colín y Colores (+/-)</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-mapa-global\')">🔗 Mapa de Conexiones</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-def-hv\')">⚡ Definiciones Alta Tensión (HV)</button>',
+          '<button class="sec-pill" onclick="scrollToSection(\'sec-def-lv\')">🔌 Definiciones Baja Tensión (LV)</button>',
         '</div>',
-        '<div id="sec-vmp" class="info-card">',
-          '<h4>🔍 1. Por Qué el Negativo del VMP Va al Módulo Más Alejado (M3) y No Junto al Hall</h4>',
-          '<div class="spec-grid" style="margin-bottom:10px;">',
-            '<div class="spec-box"><div class="spec-label">Pin 1 (BAT+)</div><div class="spec-val" style="color:#ff8c42;">Antes del Fusible (M2+)</div></div>',
-            '<div class="spec-box"><div class="spec-label">Pin 2 (FUSE+)</div><div class="spec-val" style="color:#ff8c42;">Antes del Contactor</div></div>',
-            '<div class="spec-box"><div class="spec-label">Pin 3 (TS+)</div><div class="spec-val" style="color:#ff8c42;">Después del Contactor</div></div>',
-            '<div class="spec-box"><div class="spec-label">Pin 4 (HV- en M3)</div><div class="spec-val" style="color:#38bdf8;">0V General (Serie Total)</div></div>',
-          '</div>',
+        '<div id="sec-mapa-global" class="info-card">',
+          '<h4>🔗 Cómo Están Conectados Todos los Componentes Entre Ellos</h4>',
           '<ul class="conn-list">',
-            '<li><strong>Por qué tiene que ir a M3:</strong> Los 3 módulos de 37V están en serie (`M3 ➔ M1 ➔ M2`). El borne junto al Sensor Hall es una unión intermedia a +74V (solo medirías 37V de un módulo). El borne de `M3` es el <strong>único negativo general (0V)</strong> que permite medir los ~111V-126V completos del pack.</li>',
-            '<li><strong>Cable del Interruptor DC-DC 100% Interior:</strong> El cable positivo que va de `M2+` al interruptor del DC-DC ahora cruza por encima del escalón (`y > 0.072`) y por detrás del plano de la rejilla (`x = -0.220`), sin sobresalir jamás por fuera.</li>',
+            '<li><strong>Cadena Principal de Tracción (HV):</strong> <strong>Módulo M3 (0V HV-)</strong> ➔ Cable serie izquierdo a <strong>Módulo M1</strong> ➔ Busbar a través del <strong>Sensor Hall</strong> a <strong>Módulo M2 (BAT+ 111V)</strong> ➔ <strong>Fusible SIBA 500A</strong> ➔ <strong>Contactor Kilovac 500A</strong> ➔ Conectores <strong>Amphenol (+ / -)</strong> ➔ <strong>Inversor HyperDrive X1</strong> ➔ Fases <strong>U, V, W</strong> al <strong>Motor CIRCE</strong>.</li>',
+            '<li><strong>Cadena de Supervisión y Diagnóstico (HV/LV):</strong> Los 3 módulos envían sus <strong>3 cintas amarillas de Cell-Tabs</strong> a la parte superior de la <strong>BMS Orion 2</strong> (que también recibe el cable morado del <strong>Sensor Hall</strong> y comanda por el cable verde la bobina del <strong>Contactor Kilovac</strong>). En la pared derecha, el <strong>VMP</strong> mide con 4 cables `BAT+`, `FUSE+`, `TS+` y `HV-`, mientras el <strong>IMD</strong> vigila `HV+` y `HV-` frente a la tierra del chasis (`KE`) y envía su señal violeta a la <strong>HVD / ECU</strong>.</li>',
+            '<li><strong>Cadena de Alimentación 12V y Telemetría (LV):</strong> De `BAT+` y `HV-` salen 2 cables al <strong>Interruptor Exterior Izquierdo</strong> y de este otros 2 cables al <strong>Cincon DC-DC (600W)</strong>. El DC-DC convierte los 111V en <strong>+12V (Rojo) y -GND (Cian)</strong> para alimentar directamente a la <strong>BMS Orion 2</strong>, al <strong>IMD</strong> y (saliendo por el conector circular trasero) a la placa <strong>PDM</strong> en el colín. Finalmente, desde el <strong>PDM / ECU</strong> salen `+12V`, `-GND` y el bus <strong>CAN (Amarillo)</strong> pegados a la cara interior del chasis izquierdo hasta la <strong>Pantalla AiM MyChron 5S</strong>.</li>',
           '</ul>',
         '</div>',
-        '<div id="sec-bms" class="info-card">',
-          '<h4>🔋 2. BMS Hasta el Suelo + Pared Divisora de Aluminio + Conectores Arriba</h4>',
-          '<ul class="conn-list">',
-            '<li><strong>Pared Divisora de Aluminio:</strong> Separa los módulos azules del cajón de la BMS llegando exactamente hasta la altura superior del módulo.</li>',
-            '<li><strong>Conectores en la Cara Superior de la BMS:</strong> Los 3 conectores amarillos de los cell-tabs, el conector de alimentación de 12V (desde el Cincon DC-DC), el cable morado del Sensor Hall y el cable verde del contactor entran por arriba de la BMS.</li>',
-          '</ul>',
+        '<div id="sec-def-hv" class="info-card">',
+          '<h4>⚡ Definición y Conexionado: Componentes de Alta Tensión (HV)</h4>',
+          '<div style="font-size:0.74rem;color:var(--text-muted);margin-bottom:8px;">Haz clic en cualquier tarjeta o en la lista de la izquierda para enfocar el componente y ver todas sus conexiones detalladas:</div>',
+          hvCardsHtml,
         '</div>',
-        '<div id="sec-imd" class="info-card">',
-          '<h4>🛡️ 3. Conexionado Real Completo del IMD (Isometer)</h4>',
-          '<ul class="conn-list">',
-            '<li><strong>HV+ y HV- (2 Cables Naranjas):</strong> Conectados al positivo de alta tensión (entrada contactor) y al negativo general del pack (`HV-` en el módulo trasero M3).</li>',
-            '<li><strong>Tierra de Chasis `KE` (Verde Lima), Alimentación `12V` y Señal `IMD OK` (Violeta):</strong> Mide el aislamiento respecto al chasis y envía la línea violeta de estado hacia la HVD/ECU.</li>',
-          '</ul>',
-        '</div>',
-        '<div id="sec-aim" class="info-card">',
-          '<h4>🏁 4. Mazo del AiM Pegado a la Cara Interior del Chasis</h4>',
-          '<ul class="conn-list">',
-            '<li><strong>Protegido por Dentro de la Viga del Chasis:</strong> Los 3 cables del AiM (`+12V` Rojo, `-GND` Cian y `CAN` Amarillo) corren pegados a la cara interna de la viga izquierda del chasis y suben sobre la bandeja del colín sin perforarla.</li>',
-          '</ul>',
-        '</div>',
-        '<div id="sec-lv" class="info-card">',
-          '<h4>📟 5. Subchasis (Colín) Sin Perforaciones + Etiquetas Explícitas (+ / -)</h4>',
-          '<ul class="conn-list">',
-            '<li><strong>Colores de Alto Contraste:</strong> Rojo Puro (`+12V`), Azul Cian (`-GND`), Amarillo (`CAN Bus`) y Violeta (`Estado IMD OK` / `Sensor Hall`).</li>',
-          '</ul>',
+        '<div id="sec-def-lv" class="info-card">',
+          '<h4>🔌 Definición y Conexionado: Componentes de Baja Tensión (LV)</h4>',
+          lvCardsHtml,
         '</div>'
       ].join('');
     }
@@ -1267,10 +1332,10 @@
           '<div class="insp-title">' + comp.name + '</div>',
           '<div class="insp-subtitle">' + comp.subtitle + '</div>',
           extraActionBtn,
-          '<div class="info-card"><h4>📍 Ubicación Exacta en la Moto</h4><div style="font-size:0.81rem;line-height:1.45;">' + comp.location + '</div></div>',
-          '<div class="info-card"><h4>📊 Especificaciones Técnicas</h4><div class="spec-grid">' + specsHtml + '</div></div>',
-          '<div class="info-card"><h4>🔌 Conexionado y Recorrido</h4><ul class="conn-list">' + connHtml + '</ul></div>',
-          '<div class="info-card"><h4>💡 Detalle de Montaje</h4><div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">' + comp.notes + '</div></div>'
+          '<div class="info-card"><h4>📖 ¿Qué es y cuál es su función? (Definición)</h4><div class="def-text">' + comp.definition + '</div></div>',
+          '<div class="info-card"><h4>🔗 Cómo está conectado con los demás componentes</h4><ul class="conn-list">' + connHtml + '</ul></div>',
+          '<div class="info-card"><h4>📍 Ubicación y Resumen Clave</h4><div style="font-size:0.80rem;line-height:1.45;margin-bottom:10px;color:var(--text-muted);">' + comp.location + '</div><div class="spec-grid">' + specsHtml + '</div></div>',
+          '<div class="info-card"><h4>💡 Nota de Ingeniería</h4><div style="font-size:0.79rem;color:var(--text-muted);line-height:1.45;">' + comp.notes + '</div></div>'
         ].join('');
       }
 
@@ -3376,11 +3441,11 @@
       var flowParticles = [];
 
       var HV_ORANGE        = 0xff5500;
-      var LV_POS_RED       = 0xff1e00; // Rojo puro brillante (+12V)
-      var LV_NEG_CYAN      = 0x00d2ff; // Azul cian brillante (-GND)
-      var LV_IMD_PURPLE    = 0x9333ea; // Púrpura/Violeta intenso (Estado IMD OK y Señal Sensor Hall)
-      var LV_CAN_YELLOW    = 0xfacc15; // Amarillo vivo (CAN Bus)
-      var GND_CHASSIS_LIME = 0x84cc16; // Verde lima (Tierra Chasis KE)
+      var LV_POS_RED       = 0xff1e00;
+      var LV_NEG_CYAN      = 0x00d2ff;
+      var LV_IMD_PURPLE    = 0x9333ea;
+      var LV_CAN_YELLOW    = 0xfacc15;
+      var GND_CHASSIS_LIME = 0x84cc16;
 
       function createWire(points, colorHex, radius, sysType, isDcdcControlled) {
         var curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.10);
@@ -3412,9 +3477,7 @@
         });
       }
 
-      // ----------------------------------------------------------------------
       // A) LOS 5 CABLES DE ALTA TENSIÓN PRINCIPALES DENTRO DE LA CAJA
-      // ----------------------------------------------------------------------
       createWire([
         boxToWorld(-0.222, 0.056, 0.115),
         boxToWorld( 0.054, 0.056, 0.115)
@@ -3442,9 +3505,7 @@
         boxToWorld(0.295, 0.115, -0.150)
       ], HV_ORANGE, 0.0095, 'HV', false);
 
-      // ----------------------------------------------------------------------
       // B) LOS 4 CABLES DEL VMP (1: BAT+ Antes Fusible | 2: FUSE+ Antes Contactor | 3: TS+ Después Contactor | 4: HV- Negativo General M3)
-      // ----------------------------------------------------------------------
       createWire([
         boxToWorld(-0.210, 0.157, -0.214),
         boxToWorld(-0.218, 0.095, -0.165),
@@ -3511,11 +3572,7 @@
         boxToWorld(-0.048, 0.168, -0.208)
       ], LV_NEG_CYAN, 0.0032, 'LV', true);
 
-      // ----------------------------------------------------------------------
       // C) PARED IZQUIERDA: LOS 4 CABLES DEL INTERRUPTOR EXTERIOR, EL CINCON DC-DC Y LA ALIMENTACIÓN DE 12V A LA BMS ORION 2
-      // ----------------------------------------------------------------------
-      // Cable 1 Interruptor (Entrada Positiva HV+ In Antes del Fusible):
-      // CORREGIDO DEFINITIVAMENTE: Va siempre por encima del escalón (y = 0.072 -> 0.115) y cruza en x = -0.220 (detrás de la rejilla diagonal), quedando 100% dentro de la caja.
       createWire([
         boxToWorld(-0.224, 0.056, -0.112),
         boxToWorld(-0.220, 0.072, -0.085),
@@ -3524,7 +3581,6 @@
         boxToWorld(-0.214, 0.158,  0.205)
       ], HV_ORANGE, 0.0042, 'HV', false);
 
-      // Cable 2 Interruptor (Entrada Negativa General HV- In desde M3):
       createWire([
         boxToWorld( 0.215, 0.056, 0.122),
         boxToWorld( 0.180, 0.072, 0.195),
@@ -3532,21 +3588,18 @@
         boxToWorld(-0.214, 0.122, 0.205)
       ], HV_ORANGE, 0.0042, 'HV', false);
 
-      // Cable 3 Interruptor (Salida Positiva Conmutada -> Pin +Vin superior del Cincon DC-DC)
       createWire([
         boxToWorld(-0.186, 0.158, 0.208),
         boxToWorld(-0.140, 0.158, 0.210),
         boxToWorld(-0.096, 0.158, 0.210)
       ], HV_ORANGE, 0.0044, 'HV', true);
 
-      // Cable 4 Interruptor (Salida Negativa Conmutada -> Pin -Vin inferior del Cincon DC-DC)
       createWire([
         boxToWorld(-0.186, 0.122, 0.208),
         boxToWorld(-0.140, 0.122, 0.210),
         boxToWorld(-0.096, 0.122, 0.210)
       ], HV_ORANGE, 0.0044, 'HV', true);
 
-      // Salida Regulada 12V del Cincon DC-DC hacia el Conector Circular LV Trasero (para el PDM)
       createWire([
         boxToWorld(0.056, 0.158, 0.210),
         boxToWorld(0.335, 0.158, 0.210),
@@ -3561,7 +3614,6 @@
         boxToWorld(0.355, 0.060, 0.008)
       ], LV_NEG_CYAN, 0.0046, 'LV', true);
 
-      // Alimentación 12V de la BMS Orion 2 desde el Cincon DC-DC (+12V Rojo y -GND Cian), también guiada con margen interior respecto a la rejilla
       createWire([
         boxToWorld( 0.056, 0.150, 0.206),
         boxToWorld(-0.215, 0.095, 0.165),
@@ -3576,9 +3628,7 @@
         boxToWorld(-0.433, 0.092, 0.098)
       ], LV_NEG_CYAN, 0.0038, 'LV', true);
 
-      // ----------------------------------------------------------------------
       // D) LLEGADA EXTERIOR DESDE CONECTOR CIRCULAR TRASERO A LA CAJA DE PCBs (PDM y HVD) SOBRE EL COLÍN
-      // ----------------------------------------------------------------------
       createWire([
         boxToWorld(0.405, 0.070, -0.008),
         new THREE.Vector3(0.39, 1.08, -0.062),
@@ -3600,9 +3650,7 @@
         new THREE.Vector3(0.745, 1.205, -0.055)
       ], LV_IMD_PURPLE, 0.0044, 'LV', false);
 
-      // ----------------------------------------------------------------------
       // E) MAZO DE LA PANTALLA AiM MYCHRON 5S (+12V ROJO, -GND CIAN Y CAN AMARILLO) POR CARA INTERIOR DEL CHASIS
-      // ----------------------------------------------------------------------
       createWire([
         new THREE.Vector3(-0.880, 1.540, 0.026),
         new THREE.Vector3(-0.840, 1.380, 0.145),
@@ -3639,9 +3687,7 @@
         new THREE.Vector3( 0.860, 1.255,  0.045)
       ], LV_CAN_YELLOW, 0.0042, 'LV', false);
 
-      // ----------------------------------------------------------------------
       // F) CABLES EXTERIORES DE POTENCIA HV (AMPHENOL -> GRAPAS CHASIS -> INVERSOR) Y FASES MOTOR
-      // ----------------------------------------------------------------------
       createWire([
         boxToWorld(0.42, 0.105, -0.150),
         new THREE.Vector3(0.32, 0.92, -0.148),
